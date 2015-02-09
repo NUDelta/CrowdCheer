@@ -104,6 +104,8 @@
 		E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRunViewController.h; sourceTree = "<group>"; };
 		E2CA51801A892F7000C2BB03 /* NewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRunViewController.m; sourceTree = "<group>"; };
 		E2CA51821A89537200C2BB03 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = DeltaLab_CrowdCheer.mobileprovision; sourceTree = "<group>"; };
+		E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CrowdCheer.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,9 +113,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2CA51771A8928B000C2BB03 /* HealthKit.framework in Frameworks */,
 				E2CA517B1A8928C800C2BB03 /* CoreLocation.framework in Frameworks */,
 				E2CA51791A8928BF00C2BB03 /* CoreFoundation.framework in Frameworks */,
-				E2CA51771A8928B000C2BB03 /* HealthKit.framework in Frameworks */,
 				E2CA51751A8928AA00C2BB03 /* GLKit.framework in Frameworks */,
 				E2CA511C1A886C4C00C2BB03 /* Foundation.framework in Frameworks */,
 				E2CA511A1A886C4600C2BB03 /* UIKit.framework in Frameworks */,
@@ -136,6 +138,7 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
+				E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */,
 				E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */,
 				E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */,
 				E2CA51761A8928B000C2BB03 /* HealthKit.framework */,
@@ -164,6 +167,7 @@
 		E2CA50E01A88677A00C2BB03 /* CrowdCheer */ = {
 			isa = PBXGroup;
 			children = (
+				E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */,
 				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
 				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
@@ -284,6 +288,12 @@
 				TargetAttributes = {
 					E2CA50DD1A88677A00C2BB03 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = W4E2C6X642;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					E2CA50FC1A88677A00C2BB03 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -480,9 +490,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -491,9 +503,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Northwestern University";
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
