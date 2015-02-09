@@ -108,6 +108,9 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="startPressed:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="ngR-Bg-hmt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ay5-rc-SSD">
                                 <rect key="frame" x="223" y="403" width="153" height="59"/>
@@ -116,12 +119,21 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="stopPressed:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="OZg-6Q-ahI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.082352943720000002" green="0.070588238540000001" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="Zgp-fq-yDy"/>
                     <connections>
+                        <outlet property="distLabel" destination="4FK-Vx-3FF" id="Nbr-jg-y6D"/>
+                        <outlet property="paceLabel" destination="BiV-ig-TSI" id="Ge3-Pa-gcg"/>
+                        <outlet property="promptLabel" destination="5ys-9B-VtI" id="Etv-Vh-NoX"/>
+                        <outlet property="startButton" destination="CQP-0x-xzO" id="ZDm-2B-M64"/>
+                        <outlet property="stopButton" destination="ay5-rc-SSD" id="Djc-fj-eq8"/>
+                        <outlet property="timeLabel" destination="EJM-VI-Z8j" id="vxm-XF-lG8"/>
                         <segue destination="Ah7-4n-0Wa" kind="push" identifier="RunDetails" id="FAI-ZQ-JYW"/>
                     </connections>
                 </viewController>
@@ -173,6 +185,13 @@
                         <color key="backgroundColor" red="0.082352943720000002" green="0.070588238540000001" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Run Details" id="cra-N8-TIN"/>
+                    <connections>
+                        <outlet property="dateLabel" destination="Hhr-32-9oX" id="mBN-Ge-68M"/>
+                        <outlet property="distanceLabel" destination="Jzd-Ok-Ga0" id="EyI-0t-oxB"/>
+                        <outlet property="mapView" destination="biY-dU-7bQ" id="tuy-g1-3Lm"/>
+                        <outlet property="paceLabel" destination="Px8-tz-qMI" id="OdK-6l-3iu"/>
+                        <outlet property="timeLabel" destination="Utr-Px-Zn2" id="i5u-HU-LDF"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1343" y="64"/>
