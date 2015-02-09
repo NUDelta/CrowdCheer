@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B793FEB7-7A9D-4E85-AF88-C825F38EC5E7</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CrowdCheer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E090EDADE212DEFD9DDE3A9A6E6A90770905AF87</key>
+		<string>https://github.com/NUDelta/CrowdCheer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CrowdCheer.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E090EDADE212DEFD9DDE3A9A6E6A90770905AF87</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/NUDelta/CrowdCheer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E090EDADE212DEFD9DDE3A9A6E6A90770905AF87</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E090EDADE212DEFD9DDE3A9A6E6A90770905AF87</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CrowdCheer</string>
+		</dict>
+	</array>
+</dict>
+</plist>
