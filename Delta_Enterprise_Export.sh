@@ -3,4 +3,5 @@
 
 xcodebuild clean -project CrowdCheer -configuration Release -alltargets
 xcodebuild archive -project CrowdCheer.xcodeproj -scheme CrowdCheer -archivePath CrowdCheer.xcarchive
-xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath CrowdCheer -exportFormat ipa -exportProvisioningProfile "DeltaLab CrowdCheer"
+xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath CrowdCheer2 -exportFormat ipa -exportProvisioningProfile "DeltaLab CrowdCheer"
+mv -i CrowdCheer2.ipa  CrowdCheer.ipa

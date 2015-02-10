@@ -2,11 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>application-identifier</key>
-	<string>823S57WQK3.edu.northwestern.delta.CrowdCheer</string>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>823S57WQK3.edu.northwestern.delta.CrowdCheer</string>
-	</array>
+	<key>com.apple.developer.healthkit</key>
+	<true/>
 </dict>
 </plist>
