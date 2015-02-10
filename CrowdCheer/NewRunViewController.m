@@ -29,6 +29,7 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
+@property (nonatomic, weak) IBOutlet UILabel *targetLabel;
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 @property (nonatomic, weak) IBOutlet UIButton *stopButton;
 
