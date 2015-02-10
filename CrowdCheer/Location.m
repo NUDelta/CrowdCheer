@@ -7,6 +7,7 @@
 //
 
 #import "Location.h"
+#import "Run.h"
 
 
 @implementation Location

@@ -139,6 +139,7 @@ static NSString * const detailSegueName = @"RunDetails";
     // Movement threshold for new events.
     self.locationManager.distanceFilter = 10; // meters
     
+    [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager startUpdatingLocation];
 }
 
