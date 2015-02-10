@@ -45,6 +45,7 @@
 		E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51801A892F7000C2BB03 /* NewRunViewController.m */; };
 		E2CA51831A89537200C2BB03 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51821A89537200C2BB03 /* icon.png */; };
 		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
+		E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,8 @@
 		E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CrowdCheer.entitlements; sourceTree = "<group>"; };
 		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathController.h; sourceTree = "<group>"; };
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathController.m; sourceTree = "<group>"; };
+		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
+		E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +180,8 @@
 				E2CA50E61A88677A00C2BB03 /* AppDelegate.m */,
 				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
 				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
+				E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */,
+				E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */,
 				E2CA50F11A88677A00C2BB03 /* Main.storyboard */,
 				E2CA50F41A88677A00C2BB03 /* Images.xcassets */,
 				E2CA50F61A88677A00C2BB03 /* LaunchScreen.xib */,
@@ -372,6 +377,7 @@
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
 				E2CA51121A886BE900C2BB03 /* Run.m in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
+				E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */,
 				E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E2CA510F1A886BE900C2BB03 /* Location.m in Sources */,
