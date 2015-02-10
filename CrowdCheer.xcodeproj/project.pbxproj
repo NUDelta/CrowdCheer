@@ -44,6 +44,7 @@
 		E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA517D1A892E8000C2BB03 /* HomeViewController.m */; };
 		E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51801A892F7000C2BB03 /* NewRunViewController.m */; };
 		E2CA51831A89537200C2BB03 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51821A89537200C2BB03 /* icon.png */; };
+		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		E2CA51821A89537200C2BB03 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = DeltaLab_CrowdCheer.mobileprovision; sourceTree = "<group>"; };
 		E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CrowdCheer.entitlements; sourceTree = "<group>"; };
+		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathController.h; sourceTree = "<group>"; };
+		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,8 @@
 				E2CA510E1A886BE900C2BB03 /* Location.m */,
 				E2CA50E11A88677A00C2BB03 /* Supporting Files */,
 				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
+				E2CA51861A89D51100C2BB03 /* MathController.h */,
+				E2CA51871A89D51100C2BB03 /* MathController.m */,
 				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
 			);
 			path = CrowdCheer;
@@ -290,6 +295,9 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = W4E2C6X642;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 1;
 							};
@@ -363,6 +371,7 @@
 			files = (
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
 				E2CA51121A886BE900C2BB03 /* Run.m in Sources */,
+				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E2CA510F1A886BE900C2BB03 /* Location.m in Sources */,
