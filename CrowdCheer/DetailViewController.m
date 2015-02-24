@@ -21,6 +21,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
 
+
 @end
 
 @implementation DetailViewController

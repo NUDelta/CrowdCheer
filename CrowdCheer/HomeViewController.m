@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "NewRunViewController.h"
+#import <Parse/Parse.h>
 
 
 @interface HomeViewController ()
@@ -18,7 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {

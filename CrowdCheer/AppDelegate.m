@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "HomeViewController.h"
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -18,11 +19,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //Parse Setup
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf"
+                  clientKey:@"gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
     // Override point for customization after application launch.
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     HomeViewController *controller = (HomeViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
     return YES;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
