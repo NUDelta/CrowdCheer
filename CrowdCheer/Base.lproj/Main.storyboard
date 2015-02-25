@@ -12,7 +12,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="uDh-vD-uKF" kind="relationship" relationship="rootViewController" id="HUj-Lr-d5K"/>
+                        <segue destination="bu8-Nc-PHu" kind="relationship" relationship="rootViewController" id="YCi-a3-tOq"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
@@ -95,16 +95,16 @@
             </objects>
             <point key="canvasLocation" x="205.5" y="655.5"/>
         </scene>
-        <!--Default Settings View Controller-->
+        <!--View Controller-->
         <scene sceneID="Ndf-c1-sWN">
             <objects>
-                <viewController id="uDh-vD-uKF" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
+                <viewController id="uDh-vD-uKF" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EAz-pW-Eby"/>
                         <viewControllerLayoutGuide type="bottom" id="2he-7X-ULa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="blk-JG-yrS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to CrowdCheer!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWk-AA-uSt">
@@ -158,18 +158,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="jVo-wd-WPc"/>
-                    <connections>
-                        <segue destination="bu8-Nc-PHu" kind="push" id="hlt-6e-iwb"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1222" y="209"/>
+            <point key="canvasLocation" x="-1227" y="-124"/>
         </scene>
         <!--Login-->
         <scene sceneID="84m-de-lis">
             <objects>
-                <viewController title="Login" id="bu8-Nc-PHu" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController title="Login" id="bu8-Nc-PHu" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qKG-E7-6gP"/>
                         <viewControllerLayoutGuide type="bottom" id="3yH-WO-efh"/>

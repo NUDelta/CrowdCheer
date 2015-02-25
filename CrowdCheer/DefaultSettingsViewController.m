@@ -9,7 +9,7 @@
 #import "DefaultSettingsViewController.h"
 #import "MySignUpViewController.h"
 #import "AppDelegate.h"
-#import "HomeViewController.h"
+#import "NewRunViewController.h"
 
 @interface DefaultSettingsViewController ()
 //Login page - login with existing acct or create an acct
@@ -112,8 +112,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController *nextController = [segue destinationViewController];
-    if ([nextController isKindOfClass:[HomeViewController class]]) {
-        ((HomeViewController *) nextController).managedObjectContext = self.managedObjectContext;
+    if ([nextController isKindOfClass:[NewRunViewController class]]) {
+        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
     }
 }
 
