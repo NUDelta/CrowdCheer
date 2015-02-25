@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+
 @interface DefaultSettingsViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end

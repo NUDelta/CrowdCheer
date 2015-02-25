@@ -12,7 +12,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="bu8-Nc-PHu" kind="relationship" relationship="rootViewController" id="yGh-ov-sGf"/>
+                        <segue destination="uDh-vD-uKF" kind="relationship" relationship="rootViewController" id="HUj-Lr-d5K"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
@@ -50,6 +50,15 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="R3j-cS-pfJ">
+                                <rect key="frame" x="73" y="154" width="169" height="150"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Let's Run!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMA-Aq-RmQ">
+                                <rect key="frame" x="11" y="87" width="299" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -86,16 +95,16 @@
             </objects>
             <point key="canvasLocation" x="205.5" y="655.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Default Settings View Controller-->
         <scene sceneID="Ndf-c1-sWN">
             <objects>
-                <viewController id="uDh-vD-uKF" sceneMemberID="viewController">
+                <viewController id="uDh-vD-uKF" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EAz-pW-Eby"/>
                         <viewControllerLayoutGuide type="bottom" id="2he-7X-ULa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="blk-JG-yrS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to CrowdCheer!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWk-AA-uSt">
@@ -149,10 +158,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="jVo-wd-WPc"/>
+                    <connections>
+                        <segue destination="bu8-Nc-PHu" kind="push" id="hlt-6e-iwb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1175" y="23"/>
+            <point key="canvasLocation" x="-1222" y="209"/>
         </scene>
         <!--Login-->
         <scene sceneID="84m-de-lis">

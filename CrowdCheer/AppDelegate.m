@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "HomeViewController.h"
+#import "DefaultSettingsViewController.h"
 #import <Parse/Parse.h>
 
 @interface AppDelegate ()

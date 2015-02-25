@@ -9,6 +9,7 @@
 #import "DefaultSettingsViewController.h"
 #import "MySignUpViewController.h"
 #import "AppDelegate.h"
+#import "HomeViewController.h"
 
 @interface DefaultSettingsViewController ()
 //Login page - login with existing acct or create an acct
@@ -106,6 +107,14 @@
 // Sent to the delegate when the sign up screen is dismissed.
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
     NSLog(@"User dismissed the signUpViewController");
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *nextController = [segue destinationViewController];
+    if ([nextController isKindOfClass:[HomeViewController class]]) {
+        ((HomeViewController *) nextController).managedObjectContext = self.managedObjectContext;
+    }
 }
 
 /*
