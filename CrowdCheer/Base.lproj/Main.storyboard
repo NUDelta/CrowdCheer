@@ -183,6 +183,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="runnerRole:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="wcx-ga-BZB"/>
                                     <segue destination="Pwj-he-eYY" kind="push" id="lEn-Mu-kd0"/>
                                 </connections>
                             </button>
@@ -203,13 +204,25 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="cheererRole:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="5h3-DU-gAi"/>
                                     <segue destination="k4c-zS-2ko" kind="push" id="CRP-uc-0bH"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wnQ-4q-VVM"/>
+                    <navigationItem key="navigationItem" id="wnQ-4q-VVM">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="YeM-6O-yyE">
+                            <connections>
+                                <action selector="logOutButton:" destination="bu8-Nc-PHu" id="gv9-Vf-b3u"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cheererRole" destination="8az-j4-Xt5" id="0Rw-jX-Srb"/>
+                        <outlet property="logOutButton" destination="YeM-6O-yyE" id="iiW-ik-kSM"/>
+                        <outlet property="runnerRole" destination="LcS-tK-kQk" id="hYI-I5-gtP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

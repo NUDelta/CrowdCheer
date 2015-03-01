@@ -13,6 +13,9 @@
 
 @interface DefaultSettingsViewController ()
 //Login page - login with existing acct or create an acct
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *logOutButton;
+@property (nonatomic, weak) IBOutlet UIButton *runnerRole;
+@property (nonatomic, weak) IBOutlet UIButton *cheererRole;
 
 @end
 
@@ -44,6 +47,10 @@
         [self presentViewController:logInViewController animated:YES completion:NULL];
         
     }
+}
+
+- (IBAction)logOutButton:(id)sender {
+    [PFUser logOut];
 }
 
 - (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password
@@ -107,6 +114,31 @@
 // Sent to the delegate when the sign up screen is dismissed.
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
     NSLog(@"User dismissed the signUpViewController");
+}
+
+
+- (IBAction)runnerRole:(id)sender {
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"role"] = @"runner";
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)cheererRole:(id)sender {
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"role"] = @"cheerer";
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
