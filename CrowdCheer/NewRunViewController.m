@@ -123,7 +123,9 @@ static NSString * const detailSegueName = @"RunDetails";
 {
     PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
     runnerLocation[@"time"] = [[NSDate alloc] init];
-    runnerLocation[@"location"] = (PFGeoPoint *)geoPointWithLocation:(CLLocation *)self.locations.lastObject;
+    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
+    runnerLocation[@"location"] = loc;
+    [runnerLocation saveInBackground];
     self.seconds++;
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
