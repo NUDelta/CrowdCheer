@@ -12,6 +12,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MathController.h"
 #import "Location.h"
+#import <Parse/Parse.h>
+#import <Parse/PFGeoPoint.h>
 
 static NSString * const detailSegueName = @"RunDetails";
 
@@ -119,6 +121,9 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)eachSecond
 {
+    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
+    runnerLocation[@"time"] = [[NSDate alloc] init];
+    runnerLocation[@"location"] = (PFGeoPoint *)geoPointWithLocation:(CLLocation *)self.locations.lastObject;
     self.seconds++;
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
