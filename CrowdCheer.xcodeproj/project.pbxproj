@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DBBE231AA53C22002926A3 /* MotivatorViewController.m */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
 		E2AD20161A9A97E500B1BEFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */; };
@@ -75,6 +76,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52DBBE221AA53C22002926A3 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = ../MotivatorViewController.h; sourceTree = "<group>"; };
+		52DBBE231AA53C22002926A3 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = ../MotivatorViewController.m; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -243,6 +246,8 @@
 		E2CA50E01A88677A00C2BB03 /* CrowdCheer */ = {
 			isa = PBXGroup;
 			children = (
+				52DBBE221AA53C22002926A3 /* MotivatorViewController.h */,
+				52DBBE231AA53C22002926A3 /* MotivatorViewController.m */,
 				E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */,
 				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
 				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
@@ -460,6 +465,7 @@
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
+				52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

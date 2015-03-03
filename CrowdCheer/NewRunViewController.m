@@ -121,11 +121,16 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)eachSecond
 {
-    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
-    runnerLocation[@"time"] = [[NSDate alloc] init];
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
-    runnerLocation[@"location"] = loc;
+    PFUser *thisUser = [PFUser currentUser];
+    
+    PFObject *runnerLocation = [PFObject objectWithClassName:@"CheerLocation"];
+    [runnerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
+    [runnerLocation setObject:loc forKey:@"location"];
+    [runnerLocation setObject:thisUser forKey:@"user"];
+    
     [runnerLocation saveInBackground];
+    
     self.seconds++;
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
