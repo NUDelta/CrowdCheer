@@ -23,6 +23,7 @@ static NSString * const detailSegueName = @"RunDetails";
 
 @property int seconds;
 @property float distance;
+@property NSString *pace;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *timer;
@@ -124,17 +125,22 @@ static NSString * const detailSegueName = @"RunDetails";
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
     PFUser *thisUser = [PFUser currentUser];
     
-    PFObject *runnerLocation = [PFObject objectWithClassName:@"CheerLocation"];
+    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
     [runnerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
+    
+    //add pace as key
+    self.pace = [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds];
+    
     [runnerLocation setObject:loc forKey:@"location"];
     [runnerLocation setObject:thisUser forKey:@"user"];
+    [runnerLocation setObject:self.pace forKey:@"pace"];
     
     [runnerLocation saveInBackground];
     
     self.seconds++;
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
-    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
+    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  self.pace];
 }
 
 - (void)startLocationUpdates
