@@ -49,7 +49,7 @@
 {
     //query for runners nearby
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinMiles:.2];
+    [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinMiles:.1];
     NSArray *placeObjects = [query findObjects];
     
     //take first nearby runner
