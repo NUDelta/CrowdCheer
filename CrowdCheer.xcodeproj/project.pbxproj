@@ -25,6 +25,7 @@
 		E2ADB5D91A9D0A72007EC795 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D81A9D0A72007EC795 /* Social.framework */; };
 		E2ADB5E11A9E613D007EC795 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E01A9E613D007EC795 /* ParseUI.framework */; };
 		E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E61A9E6808007EC795 /* Parse.framework */; };
+		E2ADB5EA1AA8DD46007EC795 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */; };
 		E2CA50E41A88677A00C2BB03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E31A88677A00C2BB03 /* main.m */; };
 		E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E61A88677A00C2BB03 /* AppDelegate.m */; };
 		E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E81A88677A00C2BB03 /* CrowdCheer.xcdatamodeld */; };
@@ -99,6 +100,8 @@
 		E2ADB5D81A9D0A72007EC795 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E2ADB5E01A9E613D007EC795 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		E2ADB5E61A9E6808007EC795 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		E2ADB5E81AA8DD46007EC795 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = ../CommonalityViewController.h; sourceTree = "<group>"; };
+		E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonalityViewController.m; path = ../CommonalityViewController.m; sourceTree = "<group>"; };
 		E2CA50DE1A88677A00C2BB03 /* CrowdCheer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrowdCheer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA50E21A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CA50E31A88677A00C2BB03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 		E2CA50E01A88677A00C2BB03 /* CrowdCheer */ = {
 			isa = PBXGroup;
 			children = (
+				E2ADB5E81AA8DD46007EC795 /* CommonalityViewController.h */,
+				E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */,
 				CFA3550C1AA6639E00A63C19 /* RelationshipViewController.h */,
 				CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */,
 				52DBBE221AA53C22002926A3 /* MotivatorViewController.h */,
@@ -470,6 +475,7 @@
 				E2CA510F1A886BE900C2BB03 /* Location.m in Sources */,
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
+				E2ADB5EA1AA8DD46007EC795 /* CommonalityViewController.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
 				52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */,
 			);
