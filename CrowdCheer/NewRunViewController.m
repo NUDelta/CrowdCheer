@@ -134,7 +134,7 @@ static NSString * const detailSegueName = @"RunDetails";
     [runnerLocation setObject:loc forKey:@"location"];
     [runnerLocation setObject:thisUser forKey:@"user"];
     [runnerLocation setObject:self.pace forKey:@"pace"];
-    
+    [runnerLocation setObject:self.seconds forKey:@"runtime"];
     [runnerLocation saveInBackground];
     
     self.seconds++;
