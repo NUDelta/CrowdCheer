@@ -131,14 +131,13 @@ static NSString * const detailSegueName = @"RunDetails";
     //add pace as key
     self.pace = [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds];
     NSNumber *runTime = [NSNumber numberWithInt:self.seconds];
-    //runnerLocation[@"distance"] = self.distance;
     NSNumber *distance = [NSNumber numberWithFloat:self.distance];
     [runnerLocation setObject:loc forKey:@"location"];
     [runnerLocation setObject:thisUser forKey:@"user"];
     [runnerLocation setObject:self.pace forKey:@"pace"];
     [runnerLocation setObject:distance forKey:@"distance"];
     [runnerLocation setObject:runTime forKey:@"runTime"]; //runnerLocation[@"runtime"]
-    //[runnerLocation setObject:runTime forKey:@"runtime"];
+    
     [runnerLocation saveInBackground];
     
     self.seconds++;
