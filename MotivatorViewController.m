@@ -52,11 +52,14 @@
     [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinMiles:.2];
     NSArray *placeObjects = [query findObjects];
     
-    // determine heading of all nearby runners
-    
+    //take first nearby runner
+    PFUser *runnerToCheer = placeObjects.firstObject[@"user"];
+    NSString *runnerName = runnerToCheer[@"username"];
+    NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
     // query for runner cheerer similarity
+    UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:@"Someone needs a cheer!" message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
     
-    
+    [cheerAlert show];
     
     //if runner is nearby and new distance is less than old distance
     // notify cheerer
