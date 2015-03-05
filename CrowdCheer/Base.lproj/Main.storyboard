@@ -12,7 +12,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="bu8-Nc-PHu" kind="relationship" relationship="rootViewController" id="Moa-iE-wNK"/>
+                        <segue destination="uDh-vD-uKF" kind="relationship" relationship="rootViewController" id="LiY-1S-JFM"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
@@ -133,13 +133,13 @@
         <!--Commonality A-->
         <scene sceneID="Ndf-c1-sWN">
             <objects>
-                <viewController title="Commonality A" id="uDh-vD-uKF" customClass="CommonalityViewController" sceneMemberID="viewController">
+                <viewController title="Commonality A" id="uDh-vD-uKF" customClass="HomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EAz-pW-Eby"/>
                         <viewControllerLayoutGuide type="bottom" id="2he-7X-ULa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="blk-JG-yrS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-pn-L7b">
@@ -155,6 +155,9 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="bu8-Nc-PHu" kind="push" id="PDx-Mn-H7I"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
                                 <rect key="frame" x="72" y="177" width="232" height="30"/>
