@@ -17,7 +17,6 @@
 		E2AD20191A9A97E500B1BEFE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20111A9A97E400B1BEFE /* MobileCoreServices.framework */; };
 		E2AD201A1A9A97E500B1BEFE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */; };
 		E2AD201B1A9A97E500B1BEFE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20131A9A97E400B1BEFE /* Security.framework */; };
-		E2AD201C1A9A97E500B1BEFE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20141A9A97E400B1BEFE /* StoreKit.framework */; };
 		E2AD201D1A9A97E500B1BEFE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */; };
 		E2ADB5D21A9D08FC007EC795 /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */; };
 		E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */; };
@@ -90,7 +89,6 @@
 		E2AD20111A9A97E400B1BEFE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E2AD20131A9A97E400B1BEFE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E2AD20141A9A97E400B1BEFE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSettingsViewController.h; sourceTree = "<group>"; };
 		E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSettingsViewController.m; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 				E2AD20191A9A97E500B1BEFE /* MobileCoreServices.framework in Frameworks */,
 				E2AD201A1A9A97E500B1BEFE /* QuartzCore.framework in Frameworks */,
 				E2AD201B1A9A97E500B1BEFE /* Security.framework in Frameworks */,
-				E2AD201C1A9A97E500B1BEFE /* StoreKit.framework in Frameworks */,
 				E2AD201D1A9A97E500B1BEFE /* SystemConfiguration.framework in Frameworks */,
 				E2CA51161A886C3800C2BB03 /* CoreGraphics.framework in Frameworks */,
 				E2CA517B1A8928C800C2BB03 /* CoreLocation.framework in Frameworks */,
@@ -211,7 +208,6 @@
 				E2AD20111A9A97E400B1BEFE /* MobileCoreServices.framework */,
 				E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */,
 				E2AD20131A9A97E400B1BEFE /* Security.framework */,
-				E2AD20141A9A97E400B1BEFE /* StoreKit.framework */,
 				E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */,
 				E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */,
 				E2AD20081A9A972C00B1BEFE /* Bolts.framework */,
@@ -394,6 +390,9 @@
 							};
 							com.apple.HealthKit = {
 								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
 							};
 						};
 					};

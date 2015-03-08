@@ -52,6 +52,10 @@
     [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinMiles:.1];
     NSArray *placeObjects = [query findObjects];
     
+    for (NSString *item in placeObjects) {
+        NSLog(@"%@", item);
+    }
+    
     //take first nearby runner
     PFUser *runnerToCheer = placeObjects.firstObject[@"user"];
     NSString *runnerName = runnerToCheer[@"username"];
