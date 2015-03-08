@@ -194,7 +194,7 @@
         <!--Login-->
         <scene sceneID="84m-de-lis">
             <objects>
-                <viewController title="Login" id="bu8-Nc-PHu" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
+                <viewController title="Login" id="bu8-Nc-PHu" customClass="RoleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qKG-E7-6gP"/>
                         <viewControllerLayoutGuide type="bottom" id="3yH-WO-efh"/>
@@ -247,9 +247,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cheererRole" destination="8az-j4-Xt5" id="0Rw-jX-Srb"/>
-                        <outlet property="logOutButton" destination="YeM-6O-yyE" id="iiW-ik-kSM"/>
-                        <outlet property="runnerRole" destination="LcS-tK-kQk" id="hYI-I5-gtP"/>
+                        <outlet property="cheererRole" destination="8az-j4-Xt5" id="bWh-RR-gkE"/>
+                        <outlet property="logOutButton" destination="YeM-6O-yyE" id="gRg-gn-jpA"/>
+                        <outlet property="runnerRole" destination="LcS-tK-kQk" id="7kk-R0-ig3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
