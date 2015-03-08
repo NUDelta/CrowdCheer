@@ -47,9 +47,10 @@
 
 - (void)checkForRunners
 {
+    NSLog(@"Checking for runners...");
     //query for runners nearby
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinMiles:.1];
+    [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinKilometers:.2];
     NSArray *placeObjects = [query findObjects];
     
     for (NSString *item in placeObjects) {
