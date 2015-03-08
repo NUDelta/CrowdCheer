@@ -18,6 +18,7 @@
 
 @interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>
 
+@property (nonatomic, strong) Run *run;
 
 @property int seconds;
 @property float distance;
@@ -26,7 +27,13 @@
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic, weak) IBOutlet UILabel *goalPace;
+@property (nonatomic, weak) IBOutlet UILabel *promptLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *distLabel;
+@property (nonatomic, weak) IBOutlet UILabel *paceLabel;
+@property (nonatomic, weak) IBOutlet UILabel *targetLabel;
+@property (nonatomic, weak) IBOutlet UIButton *startButton;
+@property (nonatomic, weak) IBOutlet UIButton *stopButton;
 
 @end
 

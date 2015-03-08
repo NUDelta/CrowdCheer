@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 
+static NSString * const detailSegueName = @"RelationshipView";
+
+
 @interface MotivatorViewController () <CLLocationManagerDelegate>
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) CLLocationManager *locationManager;
