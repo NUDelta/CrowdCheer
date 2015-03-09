@@ -38,6 +38,8 @@
 
 - (void)configureView
 {
+    //need to retrieve data from Parse here
+    
     self.distanceLabel.text = [MathController stringifyDistance:self.run.distance.floatValue];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -48,7 +50,7 @@
     
     self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue overTime:self.run.duration.intValue]];
     
-    [self loadMap];
+//    [self loadMap];
 }
 
 - (void)viewDidLoad
@@ -116,33 +118,33 @@
     return [MKPolyline polylineWithCoordinates:coords count:self.run.locations.count];
 }
 
-- (void)loadMap
-{
-    if (self.run.locations.count > 0) {
-        
-        self.mapView.hidden = NO;
+//- (void)loadMap
+//{
+  //  if (self.run.locations.count > 0) {
+
+    //    self.mapView.hidden = NO;
         
         // set the map bounds
-        [self.mapView setRegion:[self mapRegion]];
+      //  [self.mapView setRegion:[self mapRegion]];
         
         // make the line(s!) on the map
-        NSArray *colorSegmentArray = [MathController colorSegmentsForLocations:self.run.locations.array];
-        [self.mapView addOverlays:colorSegmentArray];
+        //NSArray *colorSegmentArray = [MathController colorSegmentsForLocations:self.run.locations.array];
+        //[self.mapView addOverlays:colorSegmentArray];
         
-    } else {
+   // } else {
         
         // no locations were found!
-        self.mapView.hidden = YES;
+     //   self.mapView.hidden = YES;
         
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:@"Sorry, this run has no locations saved."
-                                  delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
+       // UIAlertView *alertView = [[UIAlertView alloc]
+         //                         initWithTitle:@"Error"
+           //                       message:@"Sorry, this run has no locations saved."
+             //                     delegate:nil
+               //                   cancelButtonTitle:@"OK"
+                 //                 otherButtonTitles:nil];
+       // [alertView show];
+    //}
+//}
 
 
 
