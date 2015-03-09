@@ -617,7 +617,7 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -639,7 +639,7 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
