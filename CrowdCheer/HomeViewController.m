@@ -26,13 +26,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    UIViewController *nextController = [segue destinationViewController];
-    if ([nextController isKindOfClass:[NewRunViewController class]]) {
-        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+  //  UIViewController *nextController = [segue destinationViewController];
+    //if ([nextController isKindOfClass:[NewRunViewController class]]) {
+      //  ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
+    //}
+//}
 
 /*
 #pragma mark - Navigation

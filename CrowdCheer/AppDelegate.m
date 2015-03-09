@@ -33,7 +33,7 @@
     
     // Override point for customization after application launch.
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    HomeViewController *controller = (HomeViewController *)navigationController.topViewController;
+    CommonalityViewController *controller = (CommonalityViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
     return YES;
     

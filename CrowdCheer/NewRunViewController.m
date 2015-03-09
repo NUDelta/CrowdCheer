@@ -32,9 +32,11 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
-@property (nonatomic, weak) IBOutlet UILabel *targetLabel;
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 @property (nonatomic, weak) IBOutlet UIButton *stopButton;
+@property (weak, nonatomic) IBOutlet UITextField *targetPace;
+@property (weak, nonatomic) IBOutlet UITextField *raceTimeGoal;
+@property (weak, nonatomic) IBOutlet UITextField *bibNumber;
 
 @end
 
@@ -68,6 +70,21 @@ static NSString * const detailSegueName = @"RunDetails";
 
 -(IBAction)startPressed:(id)sender
 {
+    //save profile info to Parse
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"targetPace"] = self.targetPace.text;
+    currentUser[@"raceTimeGoal"] = self.raceTimeGoal.text;
+    currentUser[@"bibNumber"] = self.bibNumber.text;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+
+    
+    
     // hide the start UI
     self.startButton.hidden = YES;
     self.promptLabel.hidden = YES;
@@ -88,27 +105,30 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (IBAction)stopPressed:(id)sender
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
-                                                    cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Save", @"Discard", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    [self.locationManager stopUpdatingLocation];
+   // [self saveRun];
+    
+   // UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
+     //                                               cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+       //                                             otherButtonTitles:@"Save", @"Discard", nil];
+    //actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    //[actionSheet showInView:self.view];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self.locationManager stopUpdatingLocation];
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+  //  [self.locationManager stopUpdatingLocation];
     
     // save
-    if (buttonIndex == 0) {
-        [self saveRun]; ///< ADD THIS LINE
-        [self performSegueWithIdentifier:detailSegueName sender:nil];
+    //if (buttonIndex == 0) {
+      //  [self saveRun]; ///< ADD THIS LINE
+        //[self performSegueWithIdentifier:detailSegueName sender:nil];
         
         // discard
-    } else if (buttonIndex == 1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
+    //} else if (buttonIndex == 1) {
+      //  [self.navigationController popToRootViewControllerAnimated:YES];
+   // }
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
