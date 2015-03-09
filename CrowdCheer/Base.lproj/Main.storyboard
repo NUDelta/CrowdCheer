@@ -296,7 +296,7 @@
                     <navigationItem key="navigationItem" title="Update Profile" id="Q67-Rg-tOB">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="84d-1T-F46">
                             <connections>
-                                <segue destination="bu8-Nc-PHu" kind="push" id="QgZ-iK-wNv"/>
+                                <segue destination="zyQ-R0-ReG" kind="push" id="mfI-tk-haR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -540,6 +540,186 @@
             </objects>
             <point key="canvasLocation" x="1371" y="-285"/>
         </scene>
+        <!--Commonality B-->
+        <scene sceneID="0In-eP-U7c">
+            <objects>
+                <viewController title="Commonality B" id="zyQ-R0-ReG" customClass="CommonalityViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yea-pz-3SS"/>
+                        <viewControllerLayoutGuide type="bottom" id="B9X-FX-sID"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CJv-VR-gBT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-rE-Wka">
+                                <rect key="frame" x="16" y="91" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="CUBS" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cubs:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="vI7-OF-GFX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftn-Hx-pMx">
+                                <rect key="frame" x="16" y="176" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="NIKE" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nike:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="ByO-op-Zbb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KyS-jU-TNt">
+                                <rect key="frame" x="16" y="263" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="COFFEE" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="coffee:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="6Ih-vv-KCn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H4V-yd-Rxj">
+                                <rect key="frame" x="16" y="437" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="HOT" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="hot:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="lbs-Nv-PHK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5b-6b-PPA">
+                                <rect key="frame" x="191" y="91" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="SOX" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sox:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="4k9-cS-gbc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRH-gE-Ahg">
+                                <rect key="frame" x="191" y="176" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="REEBOK" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reebok:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="bE0-cw-jxW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kfB-Kz-sd9">
+                                <rect key="frame" x="191" y="263" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="TEA" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tea:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="Qvv-mA-8Ya"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNt-CD-GSV">
+                                <rect key="frame" x="191" y="351" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="CATS" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cats:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="WBo-HW-fvf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8O-WV-S6c">
+                                <rect key="frame" x="191" y="437" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="COLD" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cold:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="xPg-Ib-6My"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbZ-9O-8sh">
+                                <rect key="frame" x="132" y="91" width="56" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0A1-5p-j1q">
+                                <rect key="frame" x="132" y="176" width="56" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lo4-3A-fZh">
+                                <rect key="frame" x="132" y="263" width="56" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvr-AE-jjw">
+                                <rect key="frame" x="132" y="351" width="56" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXh-RG-vxv">
+                                <rect key="frame" x="132" y="437" width="56" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYS-sS-wjQ">
+                                <rect key="frame" x="16" y="351" width="113" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="DOGS" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dogs:" destination="zyQ-R0-ReG" eventType="touchUpInside" id="3kT-eb-StR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Update Profile" id="sTO-86-IrN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="dev-gr-ga9">
+                            <connections>
+                                <segue destination="bu8-Nc-PHu" kind="push" id="r5f-pD-WWm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cats" destination="kNt-CD-GSV" id="isD-lE-Wlh"/>
+                        <outlet property="coffee" destination="KyS-jU-TNt" id="bH0-iw-sLV"/>
+                        <outlet property="cold" destination="f8O-WV-S6c" id="uZf-jJ-mrx"/>
+                        <outlet property="cubs" destination="W4z-rE-Wka" id="G2o-UW-Yib"/>
+                        <outlet property="dogs" destination="bYS-sS-wjQ" id="lgu-HS-lSL"/>
+                        <outlet property="hot" destination="H4V-yd-Rxj" id="fhh-9a-xxS"/>
+                        <outlet property="nike" destination="ftn-Hx-pMx" id="4bR-Q9-ppG"/>
+                        <outlet property="reebok" destination="KRH-gE-Ahg" id="5U7-XO-hK0"/>
+                        <outlet property="sox" destination="h5b-6b-PPA" id="3MZ-yv-DrM"/>
+                        <outlet property="tea" destination="kfB-Kz-sd9" id="pmx-Au-95s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iru-NH-jsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-659" y="-453"/>
+        </scene>
     </scenes>
     <resources>
         <image name="blue-btn.png" width="472" height="152"/>
@@ -553,6 +733,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QgZ-iK-wNv"/>
+        <segue reference="r5f-pD-WWm"/>
     </inferredMetricsTieBreakers>
 </document>

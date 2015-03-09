@@ -27,6 +27,18 @@
 @property (weak, nonatomic) IBOutlet UITextField *birthMonth;
 @property (weak, nonatomic) IBOutlet UITextField *birthDay;
 
+@property (nonatomic, weak) IBOutlet UIButton *cubs;
+@property (nonatomic, weak) IBOutlet UIButton *sox;
+@property (nonatomic, weak) IBOutlet UIButton *nike;
+@property (nonatomic, weak) IBOutlet UIButton *reebok;
+@property (nonatomic, weak) IBOutlet UIButton *coffee;
+@property (nonatomic, weak) IBOutlet UIButton *tea;
+@property (nonatomic, weak) IBOutlet UIButton *dogs;
+@property (nonatomic, weak) IBOutlet UIButton *cats;
+@property (nonatomic, weak) IBOutlet UIButton *hot;
+@property (nonatomic, weak) IBOutlet UIButton *cold;
+
+
 @end
 
 @implementation CommonalityViewController
@@ -43,18 +55,6 @@
     [self attachPickerToTextField:self.birthMonth :self.monthPicker];
     [self attachPickerToTextField:self.birthDay :self.dayPicker];
     
-    
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        
-        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                              message:@"Device has no camera"
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles: nil];
-        
-        [myAlertView show];
-        
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,12 +70,25 @@
 
 - (IBAction)takePhoto:(UIButton *)sender {
     
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                              message:@"Device has no camera."
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles: nil];
+        
+        [myAlertView show];
+        
+    }
+    
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     [self presentViewController:picker animated:YES completion:NULL];
+    
     
 }
 
@@ -181,6 +194,146 @@
         }
     }];
     
+}
+
+- (IBAction)cubs:(id)sender {
+    [_cubs setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_sox setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_one"] = @1;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)sox:(id)sender {
+    [_sox setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_cubs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_one"] = @0;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)nike:(id)sender {
+    [_nike setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_reebok setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_two"] = @1;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)reebok:(id)sender {
+    [_reebok setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_nike setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_two"] = @0;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)coffee:(id)sender {
+    [_coffee setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_tea setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_three"] = @1;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)tea:(id)sender {
+    [_tea setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_coffee setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_three"] = @0;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)dogs:(id)sender {
+    [_dogs setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_cats setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_four"] = @1;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)cats:(id)sender {
+    [_cats setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_dogs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_four"] = @0;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)hot:(id)sender {
+    [_hot setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_cold setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_five"] = @1;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (IBAction)cold:(id)sender {
+    [_cold setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+    [_hot setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"q_five"] = @0;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
 }
 
 
