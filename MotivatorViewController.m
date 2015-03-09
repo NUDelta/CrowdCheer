@@ -80,7 +80,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
                     // query for runner cheerer similarity
                     UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:@"Someone needs a cheer!" message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
-                    //[self.timer invalidate];
+                    [self.timer invalidate];
                     [cheerAlert show];
                     
                 });
@@ -145,8 +145,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 {
     for (CLLocation *newLocation in locations) {
         if (newLocation.horizontalAccuracy < 20) {
-            self.latLabel = @"Lat : %i", newLocation.coordinate.latitude;
-            self.lonLabel = @"Lon : %i" , newLocation.coordinate.longitude;
+            self.latLabel.text = [NSString stringWithFormat:@"Lat : %f", newLocation.coordinate.latitude];
+            self.lonLabel.text = [NSString stringWithFormat:@"Lon : %f" , newLocation.coordinate.longitude];
             [self.locations addObject:newLocation];
         }
     }
