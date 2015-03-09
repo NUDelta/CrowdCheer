@@ -12,12 +12,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="uDh-vD-uKF" kind="relationship" relationship="rootViewController" id="LiY-1S-JFM"/>
+                        <segue destination="L71-Vj-LVi" kind="relationship" relationship="rootViewController" id="kwG-sl-5st"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1759" y="260"/>
+            <point key="canvasLocation" x="-2097" y="260"/>
         </scene>
         <!--Runner-->
         <scene sceneID="CzK-37-icO">
@@ -146,10 +146,64 @@
             </objects>
             <point key="canvasLocation" x="708" y="655"/>
         </scene>
+        <!--Default Settings View Controller-->
+        <scene sceneID="7pQ-Wi-f0p">
+            <objects>
+                <viewController id="L71-Vj-LVi" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yCE-35-tdy"/>
+                        <viewControllerLayoutGuide type="bottom" id="v7R-eF-4YV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="I0X-0g-IXh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kum-lu-meG">
+                                <rect key="frame" x="73" y="305" width="174" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="Update Profile" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="runnerRole:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="qcX-pF-2Hb"/>
+                                    <segue destination="uDh-vD-uKF" kind="push" id="MzU-oZ-bm3"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to CrowdCheer!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ym-X9-2DB">
+                                <rect key="frame" x="11" y="75" width="299" height="51"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="RqB-og-iKb">
+                                <rect key="frame" x="76" y="124" width="169" height="150"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXr-4U-mqf">
+                                <rect key="frame" x="73" y="386" width="174" height="55"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
+                                <state key="normal" title="Continue" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cheererRole:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="A6W-25-BSE"/>
+                                    <segue destination="bu8-Nc-PHu" kind="push" id="zEf-St-sZP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aq8-jG-3vT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mgE-F3-egD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1634" y="260"/>
+        </scene>
         <!--Commonality A-->
         <scene sceneID="Ndf-c1-sWN">
             <objects>
-                <viewController title="Commonality A" id="uDh-vD-uKF" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController title="Commonality A" id="uDh-vD-uKF" customClass="CommonalityViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EAz-pW-Eby"/>
                         <viewControllerLayoutGuide type="bottom" id="2he-7X-ULa"/>
@@ -159,11 +213,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-pn-L7b">
-                                <rect key="frame" x="16" y="166" width="72" height="51"/>
+                                <rect key="frame" x="16" y="72" width="72" height="51"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+<<<<<<< Updated upstream
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcI-a6-sId">
                                 <rect key="frame" x="90" y="449" width="141" height="55"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
@@ -175,37 +230,87 @@
                                     <segue destination="bu8-Nc-PHu" kind="push" id="PDx-Mn-H7I"/>
                                 </connections>
                             </button>
+=======
+>>>>>>> Stashed changes
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
-                                <rect key="frame" x="72" y="177" width="232" height="30"/>
+                                <rect key="frame" x="72" y="83" width="232" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="std-bz-ZAG">
-                                <rect key="frame" x="16" y="269" width="288" height="162"/>
-                                <date key="date" timeIntervalSinceReferenceDate="-31557409.794960022">
-                                    <!--2000-01-01 18:03:10 +0000-->
-                                </date>
-                            </datePicker>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please answer a few questions so we match up Cheerers and Runners." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5M-YJ-uej">
-                                <rect key="frame" x="35" y="82" width="260" height="91"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Birthday:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEs-Wl-9ek">
-                                <rect key="frame" x="16" y="225" width="72" height="51"/>
+                                <rect key="frame" x="16" y="121" width="72" height="51"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="month" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDA-Jw-UAf">
+                                <rect key="frame" x="92" y="132" width="148" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="day" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CDU-DZ-Hog">
+                                <rect key="frame" x="248" y="132" width="56" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wiE-xL-7Kf">
+                                <rect key="frame" x="94" y="475" width="144" height="29"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                <state key="normal" title="New Photo" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takePhoto:" destination="uDh-vD-uKF" eventType="touchUpInside" id="ksb-zr-KWp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A1h-uz-pWL">
+                                <rect key="frame" x="94" y="439" width="144" height="28"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                <state key="normal" title="Upload Photo" backgroundImage="blue-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPhoto:" destination="uDh-vD-uKF" eventType="touchUpInside" id="yoI-ap-YfV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ww6-5V-zk0">
+                                <rect key="frame" x="248" y="479" width="22" height="22"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="infoButton:" destination="uDh-vD-uKF" eventType="touchUpInside" id="0TU-xV-5xU"/>
+                                </connections>
+                            </button>
+                            <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vBD-cI-dt0">
+                                <rect key="frame" x="40" y="180" width="240" height="251"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="jVo-wd-WPc"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Update Profile" id="Q67-Rg-tOB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="84d-1T-F46">
+                            <connections>
+                                <segue destination="bu8-Nc-PHu" kind="push" id="QgZ-iK-wNv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="birthDay" destination="CDU-DZ-Hog" id="qhm-ze-rvo"/>
+                        <outlet property="birthMonth" destination="HDA-Jw-UAf" id="TOE-OT-AJJ"/>
+                        <outlet property="imageView" destination="vBD-cI-dt0" id="nGn-ff-wEz"/>
+                        <outlet property="infoButton" destination="Ww6-5V-zk0" id="cse-xM-W03"/>
+                        <outlet property="name" destination="OOr-um-zFI" id="Okd-6y-YWr"/>
+                        <outlet property="takePhoto" destination="wiE-xL-7Kf" id="Nf6-xF-NhR"/>
+                        <outlet property="uploadPhoto" destination="A1h-uz-pWL" id="wIc-kg-g3l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1194" y="260"/>
+            <point key="canvasLocation" x="-1161" y="-453"/>
         </scene>
         <!--Login-->
         <scene sceneID="84m-de-lis">
@@ -222,7 +327,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LcS-tK-kQk">
                                 <rect key="frame" x="73" y="307" width="174" height="51"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="22"/>
-                                <state key="normal" title="I'm a runner" backgroundImage="green-btn.png">
+                                <state key="normal" title="I'm a runner" backgroundImage="blue-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -255,13 +360,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wnQ-4q-VVM">
-                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="YeM-6O-yyE">
+                    <toolbarItems>
+                        <barButtonItem title="Log Out" id="YeM-6O-yyE">
                             <connections>
                                 <action selector="logOutButton:" destination="bu8-Nc-PHu" id="gv9-Vf-b3u"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Select Role" id="Djp-9Q-hcR"/>
                     <connections>
                         <outlet property="cheererRole" destination="8az-j4-Xt5" id="bWh-RR-gkE"/>
                         <outlet property="logOutButton" destination="YeM-6O-yyE" id="gRg-gn-jpA"/>
@@ -285,7 +391,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ay5-rc-SSD">
-                                <rect key="frame" x="84" y="329" width="153" height="59"/>
+                                <rect key="frame" x="84" y="281" width="153" height="59"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
                                 <state key="normal" title="STOP" backgroundImage="red-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -295,31 +401,19 @@
                                     <action selector="stopPressed:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="OZg-6Q-ahI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ready to begin?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ys-9B-VtI">
-                                <rect key="frame" x="59" y="77" width="204" height="42"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Target Pace:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bqy-H8-EPw">
-                                <rect key="frame" x="30" y="149" width="101" height="24"/>
+                                <rect key="frame" x="30" y="114" width="101" height="24"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="min/mi" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5wc-bk-uBX">
-                                <rect key="frame" x="172" y="143" width="119" height="30"/>
+                                <rect key="frame" x="172" y="108" width="119" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4FK-Vx-3FF">
-                                <rect key="frame" x="16" y="413" width="349" height="21"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJM-VI-Z8j">
-                                <rect key="frame" x="16" y="442" width="349" height="21"/>
+                                <rect key="frame" x="16" y="387" width="349" height="23"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -331,7 +425,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQP-0x-xzO">
-                                <rect key="frame" x="84" y="329" width="153" height="59"/>
+                                <rect key="frame" x="84" y="281" width="153" height="59"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
                                 <state key="normal" title="START" backgroundImage="green-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -342,12 +436,29 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="hh:mm" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jgf-T8-NSd">
-                                <rect key="frame" x="172" y="186" width="119" height="30"/>
+                                <rect key="frame" x="172" y="151" width="119" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Race Time Goal:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HEv-sS-NPI">
-                                <rect key="frame" x="29" y="192" width="126" height="24"/>
+                                <rect key="frame" x="29" y="157" width="126" height="24"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bib #:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgP-Ef-HXq">
+                                <rect key="frame" x="30" y="202" width="101" height="24"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44f-Gk-kvz">
+                                <rect key="frame" x="172" y="199" width="119" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJM-VI-Z8j">
+                                <rect key="frame" x="16" y="429" width="349" height="21"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -355,11 +466,10 @@
                         </subviews>
                         <color key="backgroundColor" red="0.082352943720000002" green="0.070588238540000001" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Zgp-fq-yDy"/>
+                    <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
                     <connections>
                         <outlet property="distLabel" destination="4FK-Vx-3FF" id="Nbr-jg-y6D"/>
                         <outlet property="paceLabel" destination="BiV-ig-TSI" id="Ge3-Pa-gcg"/>
-                        <outlet property="promptLabel" destination="5ys-9B-VtI" id="Etv-Vh-NoX"/>
                         <outlet property="startButton" destination="CQP-0x-xzO" id="ZDm-2B-M64"/>
                         <outlet property="stopButton" destination="ay5-rc-SSD" id="Djc-fj-eq8"/>
                         <outlet property="timeLabel" destination="EJM-VI-Z8j" id="vxm-XF-lG8"/>
@@ -437,4 +547,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="QgZ-iK-wNv"/>
+    </inferredMetricsTieBreakers>
 </document>
