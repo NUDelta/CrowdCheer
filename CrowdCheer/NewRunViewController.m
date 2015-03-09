@@ -104,27 +104,30 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (IBAction)stopPressed:(id)sender
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
-                                                    cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Save", @"Discard", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    [self.locationManager stopUpdatingLocation];
+   // [self saveRun];
+    
+   // UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
+     //                                               cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+       //                                             otherButtonTitles:@"Save", @"Discard", nil];
+    //actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    //[actionSheet showInView:self.view];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self.locationManager stopUpdatingLocation];
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+  //  [self.locationManager stopUpdatingLocation];
     
     // save
-    if (buttonIndex == 0) {
-        [self saveRun]; ///< ADD THIS LINE
-        [self performSegueWithIdentifier:detailSegueName sender:nil];
+    //if (buttonIndex == 0) {
+      //  [self saveRun]; ///< ADD THIS LINE
+        //[self performSegueWithIdentifier:detailSegueName sender:nil];
         
         // discard
-    } else if (buttonIndex == 1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
+    //} else if (buttonIndex == 1) {
+      //  [self.navigationController popToRootViewControllerAnimated:YES];
+   // }
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
