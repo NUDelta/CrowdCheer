@@ -13,7 +13,7 @@
 static NSString * const detailSegueName = @"RelationshipView";
 
 
-@interface MotivatorViewController () <CLLocationManagerDelegate>
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
@@ -24,6 +24,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"MotivatorViewController.viewDidLoad()");
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
@@ -36,6 +37,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)eachSecond
 {
+    NSLog(@"eachSecond()...");
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
     PFUser *thisUser = [PFUser currentUser];
     
@@ -51,8 +53,11 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)checkForRunners
 {
     NSLog(@"Checking for runners...");
-    //query for runners nearby
+    
+    
+    //First check for runners who have updated information recently
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
+    //then check for those runners who have updated recently and are "nearby"
     [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinKilometers:.2];
     NSArray *placeObjects = [query findObjects];
     

@@ -44,6 +44,7 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"NewRunViewController.viewDidLoad()");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,7 +55,7 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    NSLog(@"NewRunViewController.viewWillAppear()");
     self.startButton.hidden = NO;
     self.promptLabel.hidden = NO;
     
@@ -122,6 +123,7 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)eachSecond
 {
+    NSLog(@"NewRunViewController.eachSecond()");
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
     PFUser *thisUser = [PFUser currentUser];
     
