@@ -32,9 +32,11 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
-@property (nonatomic, weak) IBOutlet UILabel *targetLabel;
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 @property (nonatomic, weak) IBOutlet UIButton *stopButton;
+@property (weak, nonatomic) IBOutlet UITextField *targetPace;
+@property (weak, nonatomic) IBOutlet UITextField *raceTimeGoal;
+@property (weak, nonatomic) IBOutlet UITextField *bibNumber;
 
 @end
 
@@ -67,6 +69,21 @@ static NSString * const detailSegueName = @"RunDetails";
 
 -(IBAction)startPressed:(id)sender
 {
+    //save profile info to Parse
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"targetPace"] = self.targetPace.text;
+    currentUser[@"raceTimeGoal"] = self.raceTimeGoal.text;
+    currentUser[@"bibNumber"] = self.bibNumber.text;
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+
+    
+    
     // hide the start UI
     self.startButton.hidden = YES;
     self.promptLabel.hidden = YES;
