@@ -63,6 +63,11 @@
     [self saveContext];
 }
 
+
+#pragma mark - Background networking
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+    NSLog(@"Checking for new runners");
+}
 #pragma mark - Core Data stack
 
 @synthesize managedObjectContext = _managedObjectContext;

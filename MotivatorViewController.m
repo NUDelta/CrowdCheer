@@ -13,10 +13,14 @@
 static NSString * const detailSegueName = @"RelationshipView";
 
 
-@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>{
+    dispatch_queue_t checkQueue;
+}
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
+@property (weak, nonatomic) IBOutlet UILabel *lonLabel;
+@property (weak, nonatomic) IBOutlet UILabel *latLabel;
 @end
 
 @implementation MotivatorViewController
@@ -47,7 +51,12 @@ static NSString * const detailSegueName = @"RelationshipView";
     [cheerLocation setObject:thisUser forKey:@"user"];
     
     [cheerLocation saveInBackground];
-    [self checkForRunners];
+    if (!checkQueue){
+        checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
+    }
+    
+    dispatch_async(checkQueue,^{[self checkForRunners];});
+    
 }
 
 - (void)checkForRunners
@@ -59,12 +68,45 @@ static NSString * const detailSegueName = @"RelationshipView";
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
     //then check for those runners who have updated recently and are "nearby"
     [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinKilometers:.2];
-    NSArray *placeObjects = [query findObjects];
     
-    for (NSString *item in placeObjects) {
-        NSLog(@"%@", item);
-    }
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            unsigned long numRunners = (unsigned long)objects.count;
+            NSLog(@"Successfully retrieved %lu runners.", numRunners);
+            if (numRunners > 0){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *runnerName = @"MeatMan";
+                    NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
+                    // query for runner cheerer similarity
+                    UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:@"Someone needs a cheer!" message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+                    //[self.timer invalidate];
+                    [cheerAlert show];
+                    
+                });
+            }
+            
+            /**
+            NSLog(@"Successfully retrieved %d scores.", objects.count);
+            // Do something with the found objects
+            for (PFObject *object in objects) {
+                NSLog(@"%@", object.objectId);
+                PFUser *runnerToCheer = object[@"user"];
+                NSString *runnerName = runnerToCheer[@"username"];
+                NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
+                NSLog(runnerName);
+            }
+             */
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
     
+    //NSArray *placeObjects = [query findObjects];
+    
+    
+    /**
     //take first nearby runner
     PFUser *runnerToCheer = placeObjects.firstObject[@"user"];
     NSString *runnerName = runnerToCheer[@"username"];
@@ -76,6 +118,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //if runner is nearby and new distance is less than old distance
     // notify cheerer
+    */
 }
 
 - (void)startLocationUpdates
@@ -102,7 +145,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 {
     for (CLLocation *newLocation in locations) {
         if (newLocation.horizontalAccuracy < 20) {
-            
+            self.latLabel = @"Lat : %i", newLocation.coordinate.latitude;
+            self.lonLabel = @"Lon : %i" , newLocation.coordinate.longitude;
             [self.locations addObject:newLocation];
         }
     }
