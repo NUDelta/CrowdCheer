@@ -6,14 +6,27 @@
 //  Copyright (c) 2015 Delta Lab. All rights reserved.
 //
 
+
 #import "DetailViewController.h"
 #import <MapKit/MapKit.h>
 #import "MathController.h"
 #import "Run.h"
 #import "Location.h"
 #import "MulticolorPolylineSegment.h"
+#import "NewRunViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import <Parse/Parse.h>
+#import <Parse/PFGeoPoint.h>
 
 @interface DetailViewController () <MKMapViewDelegate>
+
+@property float distance;
+@property float distanceTotal;
+@property int timeTotal;
+
+@property int seconds;
+@property NSString *pace;
+
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic, weak) IBOutlet UILabel *distanceLabel;
@@ -38,9 +51,43 @@
 
 - (void)configureView
 {
+    self.distanceTotal = 0;
+    self.timeTotal = 0;
+
     //need to retrieve data from Parse here
+    PFUser *currentUser = [PFUser currentUser];
     
-    self.distanceLabel.text = [MathController stringifyDistance:self.run.distance.floatValue];
+    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
+    [query whereKey:@"user" equalTo: currentUser];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %d scores.", objects.count);
+            // Do something with the found objects
+            
+            for (PFObject *object in objects) {
+                NSLog(@"%@", object.objectId);
+                
+                float totalDist = [[object objectForKey:@"distance"] floatValue];
+                int totalTime = [[object objectForKey:@"runTime"] intValue];
+                
+                if(totalDist > self.distanceTotal){
+                    self.distanceTotal = totalDist;
+                }
+                
+                if(totalTime > self.timeTotal){
+                    self.timeTotal = totalTime;
+                }
+            
+                
+            }
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    self.distanceLabel.text = [MathController stringifyDistance:self.distanceTotal];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
@@ -48,7 +95,7 @@
     
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
     
-    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue overTime:self.run.duration.intValue]];
+    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.distanceTotal overTime:self.timeTotal]];
     
 //    [self loadMap];
 }
