@@ -93,7 +93,7 @@
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     self.dateLabel.text = [formatter stringFromDate:self.run.timestamp];
     
-    self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
+    self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.timeTotal usingLongFormat:YES]];
     
     self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.distanceTotal overTime:self.timeTotal]];
     
