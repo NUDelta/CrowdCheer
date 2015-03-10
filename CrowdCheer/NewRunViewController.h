@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewRunViewController : UIViewController
+@interface NewRunViewController : UIViewController <UITextFieldDelegate> 
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+-(IBAction)removeKeyboard;
+
 
 @end
