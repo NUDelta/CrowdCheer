@@ -55,6 +55,7 @@
     self.timeTotal = 0;
 
     //need to retrieve data from Parse here
+    /*
     PFUser *currentUser = [PFUser currentUser];
     
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
@@ -86,6 +87,7 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+    */
     
     self.distanceLabel.text = [MathController stringifyDistance:self.distanceTotal];
     

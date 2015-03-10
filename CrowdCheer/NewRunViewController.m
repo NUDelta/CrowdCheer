@@ -28,6 +28,9 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *timer;
 
+
+@property (nonatomic, weak) IBOutlet UILabel *instructionLabel;
+
 @property (nonatomic, weak) IBOutlet UILabel *promptLabel;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
@@ -109,6 +112,11 @@ static NSString * const detailSegueName = @"RunDetails";
 - (IBAction)stopPressed:(id)sender
 {
     [self.locationManager stopUpdatingLocation];
+    
+    // hide the instructions UI
+    self.instructionLabel.hidden = YES;
+    
+    
    // [self saveRun];
     
    // UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
