@@ -511,13 +511,21 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Congrats! You did it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wg6-Md-rAZ">
+                                <rect key="frame" x="54" y="73" width="219" height="66"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="25"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.082352943720000002" green="0.070588238540000001" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
                     <connections>
+                        <outlet property="congratsLabel" destination="Wg6-Md-rAZ" id="3iU-Hf-zGy"/>
                         <outlet property="distLabel" destination="4FK-Vx-3FF" id="Nbr-jg-y6D"/>
-                        <outlet property="instructionLabel" destination="hpS-gm-tSq" id="tmh-FP-Nmj"/>
+                        <outlet property="instruction1Label" destination="hpS-gm-tSq" id="y2d-ei-vYJ"/>
+                        <outlet property="instruction2Label" destination="Nfz-tM-E6b" id="trB-Ae-CTC"/>
                         <outlet property="paceLabel" destination="BiV-ig-TSI" id="Ge3-Pa-gcg"/>
                         <outlet property="startButton" destination="CQP-0x-xzO" id="ZDm-2B-M64"/>
                         <outlet property="stopButton" destination="ay5-rc-SSD" id="Djc-fj-eq8"/>
