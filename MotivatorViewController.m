@@ -91,8 +91,14 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
 
-            UIImage *profilePic = user[@"profilePic"];
-            self.imageView.image = profilePic;
+            PFFile *userImageFile = user[@"profilePic"];
+            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *profilePic = [UIImage imageWithData:imageData];
+                    self.imageView.image = profilePic;
+                }
+            }];
+            
             _nameLabel = user[@"name"];
             _bibLabel = user[@"bibNumber"];
             _commonalityLabel = @"display commonality here";
