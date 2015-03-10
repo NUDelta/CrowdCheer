@@ -28,6 +28,14 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *timer;
 
+
+@property (nonatomic, weak) IBOutlet UILabel *instruction1Label;
+@property (nonatomic, weak) IBOutlet UILabel *instruction2Label;
+@property (nonatomic, weak) IBOutlet UILabel *congratsLabel;
+
+
+
+
 @property (nonatomic, weak) IBOutlet UILabel *promptLabel;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
@@ -67,6 +75,8 @@ static NSString * const detailSegueName = @"RunDetails";
     self.distLabel.hidden = YES;
     self.paceLabel.hidden = YES;
     self.stopButton.hidden = YES;
+    self.congratsLabel.hidden = YES;
+
 }
 
 -(IBAction)prepPressed:(id)sender
@@ -91,6 +101,8 @@ static NSString * const detailSegueName = @"RunDetails";
     // hide the start UI
     self.startButton.hidden = YES;
     self.promptLabel.hidden = YES;
+    self.congratsLabel.hidden = YES;
+
     
     // show the running UI
     self.timeLabel.hidden = NO;
@@ -108,7 +120,21 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (IBAction)stopPressed:(id)sender
 {
+    //
     [self.locationManager stopUpdatingLocation];
+    [self.timer invalidate];
+
+    
+    // hide the instructions UI
+    self.instruction1Label.hidden = YES;
+    self.instruction2Label.hidden = YES;
+
+    // show the congrats label UI
+    self.congratsLabel.hidden = NO;
+
+
+    
+    
    // [self saveRun];
     
    // UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self

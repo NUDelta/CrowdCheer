@@ -89,6 +89,10 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+            _nameLabel = user[@"name"];
+            _bibLabel = user[@"bibNumber"];
+            _commonalityLabel = @"display commonality here";
+            
             [self.timer invalidate];
             [cheerAlert show];
         }
