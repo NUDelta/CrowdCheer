@@ -32,6 +32,7 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
+@property (nonatomic, weak) IBOutlet UIButton *prepButton;
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 @property (nonatomic, weak) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UITextField *targetPace;
@@ -68,7 +69,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.stopButton.hidden = YES;
 }
 
--(IBAction)startPressed:(id)sender
+-(IBAction)prepPressed:(id)sender
 {
     //save profile info to Parse
     PFUser *currentUser = [PFUser currentUser];
@@ -82,8 +83,10 @@ static NSString * const detailSegueName = @"RunDetails";
             // There was a problem, check error.description
         }
     }];
+}
 
-    
+-(IBAction)startPressed:(id)sender
+{
     
     // hide the start UI
     self.startButton.hidden = YES;
