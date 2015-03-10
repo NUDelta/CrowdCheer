@@ -19,6 +19,7 @@
 		E2AD201A1A9A97E500B1BEFE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */; };
 		E2AD201B1A9A97E500B1BEFE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20131A9A97E400B1BEFE /* Security.framework */; };
 		E2AD201D1A9A97E500B1BEFE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */; };
+		E2AD357D1AAF5613002E352A /* profileDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AD357C1AAF5613002E352A /* profileDefault.png */; };
 		E2ADB5D21A9D08FC007EC795 /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */; };
 		E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */; };
 		E2ADB5D71A9D0A63007EC795 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D61A9D0A63007EC795 /* Accounts.framework */; };
@@ -93,6 +94,7 @@
 		E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E2AD20131A9A97E400B1BEFE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E2AD357C1AAF5613002E352A /* profileDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileDefault.png; sourceTree = "<group>"; };
 		E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSettingsViewController.h; sourceTree = "<group>"; };
 		E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSettingsViewController.m; sourceTree = "<group>"; };
 		E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySignUpViewController.h; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2AD357C1AAF5613002E352A /* profileDefault.png */,
 				E2CA51821A89537200C2BB03 /* icon.png */,
 				E2CA51201A89219900C2BB03 /* atmosphere.jpg */,
 				E2CA51211A89219900C2BB03 /* badges.txt */,
@@ -442,6 +445,7 @@
 				E2CA51571A89219900C2BB03 /* green-btn.png in Resources */,
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
 				E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */,
+				E2AD357D1AAF5613002E352A /* profileDefault.png in Resources */,
 				E2CA515A1A89219900C2BB03 /* Icon-Settings.png in Resources */,
 				E2CA51831A89537200C2BB03 /* icon.png in Resources */,
 				E2CA516E1A89219900C2BB03 /* success.wav in Resources */,
