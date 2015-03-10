@@ -145,8 +145,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Runner's Pace: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXU-yH-dhJ">
-                                <rect key="frame" x="16" y="78" width="122" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This runner:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXU-yH-dhJ">
+                                <rect key="frame" x="16" y="444" width="122" height="21"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -156,7 +156,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="uvw-bd-VJJ"/>
                     <connections>
-                        <outlet property="goalLabel" destination="HXU-yH-dhJ" id="31O-oc-MSe"/>
+                        <outlet property="commonalityLabel" destination="HXU-yH-dhJ" id="wP8-HI-BTp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wel-m0-3iI" userLabel="First Responder" sceneMemberID="firstResponder"/>

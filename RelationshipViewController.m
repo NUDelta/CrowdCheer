@@ -20,20 +20,12 @@
 
 @property (nonatomic, strong) Run *run;
 
-@property int seconds;
-@property float distance;
-@property NSString *pace;
+
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
-@property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic, weak) IBOutlet UILabel *promptLabel;
-@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
-@property (nonatomic, weak) IBOutlet UILabel *distLabel;
-@property (nonatomic, weak) IBOutlet UILabel *goalLabel;
-@property (nonatomic, weak) IBOutlet UILabel *targetLabel;
-@property (nonatomic, weak) IBOutlet UIButton *startButton;
-@property (nonatomic, weak) IBOutlet UIButton *stopButton;
+
+@property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
 
 @end
 
@@ -53,7 +45,7 @@
     [super viewWillAppear:animated];
     NSLog(@"RelationshipViewController.viewWillAppear()");
 
-    self.goalLabel.hidden = NO;
+    self.commonalityLabel.hidden = NO;
 }
 
 @end
