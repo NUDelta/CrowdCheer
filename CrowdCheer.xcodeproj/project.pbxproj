@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DBBE231AA53C22002926A3 /* MotivatorViewController.m */; };
+		CF36BBCA1AAFBA160021CE6E /* light-blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36BBC91AAFBA160021CE6E /* light-blue-btn.png */; };
 		CFA3550E1AA6639E00A63C19 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */; };
 		E271C2011AACF91D009D8F4D /* RoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E271C2001AACF91D009D8F4D /* RoleViewController.m */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
@@ -81,6 +82,7 @@
 /* Begin PBXFileReference section */
 		52DBBE221AA53C22002926A3 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = ../MotivatorViewController.h; sourceTree = "<group>"; };
 		52DBBE231AA53C22002926A3 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = ../MotivatorViewController.m; sourceTree = "<group>"; };
+		CF36BBC91AAFBA160021CE6E /* light-blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-blue-btn.png"; sourceTree = "<group>"; };
 		CFA3550C1AA6639E00A63C19 /* RelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RelationshipViewController.h; path = ../RelationshipViewController.h; sourceTree = "<group>"; };
 		CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RelationshipViewController.m; path = ../RelationshipViewController.m; sourceTree = "<group>"; };
 		E271C1FF1AACF91D009D8F4D /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleViewController.h; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				E2CA51251A89219900C2BB03 /* Default-568h@2x.png */,
 				E2CA512C1A89219900C2BB03 /* green-btn.png */,
 				E2CA512E1A89219900C2BB03 /* Icon-App.png */,
+				CF36BBC91AAFBA160021CE6E /* light-blue-btn.png */,
 				E2CA512F1A89219900C2BB03 /* Icon-Settings.png */,
 				E2CA51301A89219900C2BB03 /* Icon-Spotlight.png */,
 				E2CA51311A89219900C2BB03 /* info@2x.png */,
@@ -442,6 +445,7 @@
 				E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */,
 				E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */,
 				E2CA515B1A89219900C2BB03 /* Icon-Spotlight.png in Resources */,
+				CF36BBCA1AAFBA160021CE6E /* light-blue-btn.png in Resources */,
 				E2CA51571A89219900C2BB03 /* green-btn.png in Resources */,
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
 				E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */,
