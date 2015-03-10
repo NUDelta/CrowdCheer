@@ -106,7 +106,10 @@ static NSString * const detailSegueName = @"RelationshipView";
             
             [self.timer invalidate];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [cheerAlert show];
+                //[cheerAlert show];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alertMess"
+                                                                    object:nil
+                                                                  userInfo:nil];
             });
         }
     }
