@@ -25,8 +25,6 @@
 @property (nonatomic, strong) NSMutableArray *locations;
 
 
-@property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
-
 @end
 
 

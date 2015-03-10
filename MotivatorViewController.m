@@ -21,6 +21,11 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
+
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *bibLabel;
+@property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
+
 @end
 
 @implementation MotivatorViewController
@@ -92,7 +97,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             for (PFObject *object in objects) {
                 NSLog(@"%@", object.objectId);
                 PFUser *runnerToCheer = object[@"user"];
-                NSString *runnerName = runnerToCheer[@"username"];
+                NSString *runnerName = runnerToCheer[@"name"];
                 NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
                 NSLog(runnerName);
             }
