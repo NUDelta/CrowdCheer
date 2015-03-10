@@ -26,6 +26,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;
 @property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
 
+@property (weak, nonatomic) PFUser *runnerToCheer;
 @end
 
 @implementation MotivatorViewController
@@ -70,60 +71,28 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     
     //First check for runners who have updated information recently
-    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    //then check for those runners who have updated recently and are "nearby"
-    [query whereKey:@"location" nearGeoPoint:[PFGeoPoint geoPointWithLocation:self.locations.lastObject]withinKilometers:.2];
+    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+    [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
+    NSArray *possibleNearbyRunners = [timeQuery findObjects];
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            unsigned long numRunners = (unsigned long)objects.count;
-            NSLog(@"Successfully retrieved %lu runners.", numRunners);
-            if (numRunners > 0){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *runnerName = @"MeatMan";
-                    NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-                    // query for runner cheerer similarity
-                    UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:@"Someone needs a cheer!" message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
-                    [self.timer invalidate];
-                    [cheerAlert show];
-                    
-                });
-            }
-            
-            /**
-            NSLog(@"Successfully retrieved %d scores.", objects.count);
-            // Do something with the found objects
-            for (PFObject *object in objects) {
-                NSLog(@"%@", object.objectId);
-                PFUser *runnerToCheer = object[@"user"];
-                NSString *runnerName = runnerToCheer[@"name"];
-                NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-                NSLog(runnerName);
-            }
-             */
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    //get locations for all these possibly nearby runners and check distance
+    for (PFObject *possible in possibleNearbyRunners) {
+        PFGeoPoint *point = [possible objectForKey:@"location"];
+
+        CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+        CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
+        if (dist < 200){
+            PFObject *user = possible[@"user"];
+            [user fetchIfNeeded];
+            NSString *runnerName = user[@"name"];
+            NSLog(@"%@", possible.objectId);
+            NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
+            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+            [self.timer invalidate];
+            [cheerAlert show];
         }
-    }];
-    
-    //NSArray *placeObjects = [query findObjects];
-    
-    
-    /**
-    //take first nearby runner
-    PFUser *runnerToCheer = placeObjects.firstObject[@"user"];
-    NSString *runnerName = runnerToCheer[@"username"];
-    NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-    // query for runner cheerer similarity
-    UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:@"Someone needs a cheer!" message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
-    
-    [cheerAlert show];
-    
-    //if runner is nearby and new distance is less than old distance
-    // notify cheerer
-    */
+    }
 }
 
 - (void)startLocationUpdates
