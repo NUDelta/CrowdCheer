@@ -139,6 +139,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.birthMonth resignFirstResponder];
     [self.birthDay resignFirstResponder];
+    [self.name resignFirstResponder];
     
 }
 
