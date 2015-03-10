@@ -22,6 +22,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;
 @property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
@@ -89,6 +90,9 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+
+            UIImage *profilePic = user[@"profilePic"];
+            self.imageView.image = profilePic;
             _nameLabel = user[@"name"];
             _bibLabel = user[@"bibNumber"];
             _commonalityLabel = @"display commonality here";
