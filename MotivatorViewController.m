@@ -142,6 +142,12 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
     }
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.timer invalidate];
+}
+
 /*
 #pragma mark - Navigation
 
