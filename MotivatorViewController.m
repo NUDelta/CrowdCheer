@@ -100,9 +100,12 @@ static NSString * const detailSegueName = @"RelationshipView";
                 }
             }];
             
-            _nameLabel = user[@"name"];
-            _bibLabel = user[@"bibNumber"];
-            _commonalityLabel = @"display commonality here";
+            NSString *name = user[@"name"];
+            NSString *bibNumber = user[@"bibNumber"];
+            NSString *commonality = user[@"display commonality here"];
+            _nameLabel = name;
+            _bibLabel = bibNumber;
+            _commonalityLabel = commonality;
             
             [self.timer invalidate];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -145,6 +148,12 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
     }
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.timer invalidate];
+}
+
 /*
 #pragma mark - Navigation
 
