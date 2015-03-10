@@ -74,6 +74,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
+    [timeQuery orderByAscending:@"updatedAt"];
     NSArray *possibleNearbyRunners = [timeQuery findObjects];
     
     //get locations for all these possibly nearby runners and check distance
@@ -89,12 +90,14 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
-            _nameLabel = user[@"name"];
-            _bibLabel = user[@"bibNumber"];
-            _commonalityLabel = @"display commonality here";
+            _nameLabel.text = user[@"name"];
+            _bibLabel.text = user[@"bibNumber"];
+            _commonalityLabel.text = @"display commonality here";
             
             [self.timer invalidate];
-            [cheerAlert show];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cheerAlert show];
+            });
         }
     }
 }
