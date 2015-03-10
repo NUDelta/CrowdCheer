@@ -67,6 +67,8 @@ static NSString * const detailSegueName = @"RunDetails";
 {
     [super viewWillAppear:animated];
     NSLog(@"NewRunViewController.viewWillAppear()");
+    [self.view endEditing:YES];
+
     self.startButton.hidden = NO;
     self.promptLabel.hidden = NO;
     
@@ -195,6 +197,13 @@ static NSString * const detailSegueName = @"RunDetails";
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
     self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  self.pace];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.targetPace resignFirstResponder];
+    [self.raceTimeGoal resignFirstResponder];
+    [self.bibNumber resignFirstResponder];
+
 }
 
 - (void)startLocationUpdates

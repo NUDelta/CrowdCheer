@@ -214,6 +214,7 @@
                     <connections>
                         <outlet property="bibLabel" destination="XFK-h3-faf" id="UhF-mh-mI1"/>
                         <outlet property="commonalityLabel" destination="HXU-yH-dhJ" id="wP8-HI-BTp"/>
+                        <outlet property="imageView" destination="KON-Pg-R0p" id="U7Y-tT-KEp"/>
                         <outlet property="nameLabel" destination="aB8-qd-LPF" id="5EB-QJ-Y6e"/>
                     </connections>
                 </viewController>

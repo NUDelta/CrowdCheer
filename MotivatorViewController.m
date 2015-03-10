@@ -22,6 +22,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;
 @property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
