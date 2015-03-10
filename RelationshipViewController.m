@@ -43,7 +43,7 @@
     [super viewWillAppear:animated];
     NSLog(@"RelationshipViewController.viewWillAppear()");
 
-    self.commonalityLabel.hidden = NO;
+//    self.commonalityLabel.hidden = NO;
 }
 
 @end

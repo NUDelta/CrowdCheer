@@ -20,8 +20,12 @@
     
 //    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inShape_background.png"]];
 //    [self.view addSubview:backgroundView];
+//    self.signUpView.logo = [UIImage imageNamed:@"helper.png"];
     
-    //self.signUpView.logo = [UIImage imageNamed:@"helper.png"];
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    UIImageView *logoView = [[UIImageView alloc] initWithImage:@"icon.png"];
+//    self.signUpView.logo = [UIImage imageNamed:@"icon.png"];
+    
     
     [self.signUpView.signUpButton setTitle:@"" forState:UIControlStateNormal];
     [self.signUpView.signUpButton setTitle:@"" forState:UIControlStateHighlighted];
