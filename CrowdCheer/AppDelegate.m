@@ -22,7 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //Parse Setup
-//    [Parse enableLocalDatastore];
+    //    [Parse enableLocalDatastore];
     
     // Initialize Parse.
     [Parse setApplicationId:@"QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf"
@@ -39,12 +39,15 @@
     // Handle launching from a notification
     UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     /**
-    if (notification) {
-        [self showAlarm:notification.alertBody];
-        NSLog(@"AppDelegate didFinishLaunchingWithOptions");
-        application.applicationIconBadgeNumber = 0;
-    }
-    */
+     if (notification) {
+     [self showAlarm:notification.alertBody];
+     NSLog(@"AppDelegate didFinishLaunchingWithOptions");
+     application.applicationIconBadgeNumber = 0;
+     }
+     */
+    
+    //This code here will listen for notifications sent from
+    // MotivatorViewController.m checkForRunners
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showAlarm:)
                                                  name:@"DataUpdated"
@@ -64,44 +67,29 @@
 }
 
 - (void)showAlarm:(NSNotification *)notification {
+    // showAlarm gets called from notification that is registered in didFinishLaunchingWithOptions at the top of this class
+    // this code was borrowed from http://www.appcoda.com/ios-programming-local-notification-tutorial/
     NSLog(@"[AppleDelegate showAlarm] called");
+    
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    localNotification.alertBody = @"Runner Name is approaching!";
+    localNotification.alertBody = @"Your alert message";
+    localNotification.alertAction = @"AlertButtonCaption";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    /*
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alarm"
-                                                        message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil, nil];
-     */
-    //[alertView show];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
-         
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     NSLog(@"didReceiveLocalNotification()");
-    UIApplicationState state = [application applicationState];
-    if (state == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time to Cheer"
-                                                  message:notification.alertBody
-                                                  delegate:self cancelButtonTitle:@"Cheer!"
-                                                  otherButtonTitles:nil];
-        [alert show];
-    }
-            
-    // Request to reload table view data
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
-            
-    // Set icon badge number to zero
-    application.applicationIconBadgeNumber = 0;
+    //Instantiate new viewcontroller here and segue
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -143,7 +131,7 @@
     }
     
     NSLog(@"Background fetch completed...");
-
+    
 }
 
 
