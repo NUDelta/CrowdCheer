@@ -67,7 +67,7 @@ p {
 }
 
 a {
-    color: #ff831c;
+    color: #ffffff;
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -92,7 +92,7 @@ introPanel1, #introPanel2, #introPanel3, #introPanel4, #introPanel5 {
 
 .intro{
     vertical-align: middle;
-    background: url(../intro-bg.jpg) no-repeat center scroll;
+    background: url(../CrowdCheer/resources/intro-bg.jpg) no-repeat center scroll;
     background-color: #47D1D1;
     text-align: center;
     -webkit-background-size: cover;
