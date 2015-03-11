@@ -61,6 +61,7 @@
 }
 
 - (void)showAlarm:(NSNotification *)notification {
+    NSLog(@"[AppleDelegate showAlarm] called");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alarm"
                                                         message:nil
                                                        delegate:nil
