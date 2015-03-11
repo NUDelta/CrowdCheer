@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DBBE231AA53C22002926A3 /* MotivatorViewController.m */; };
-		CFA3550E1AA6639E00A63C19 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */; };
 		CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */; };
+		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
+		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
+		E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */; };
 		E271C2011AACF91D009D8F4D /* RoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E271C2001AACF91D009D8F4D /* RoleViewController.m */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
@@ -27,7 +28,6 @@
 		E2ADB5D91A9D0A72007EC795 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D81A9D0A72007EC795 /* Social.framework */; };
 		E2ADB5E11A9E613D007EC795 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E01A9E613D007EC795 /* ParseUI.framework */; };
 		E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E61A9E6808007EC795 /* Parse.framework */; };
-		E2ADB5EA1AA8DD46007EC795 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */; };
 		E2CA50E41A88677A00C2BB03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E31A88677A00C2BB03 /* main.m */; };
 		E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E61A88677A00C2BB03 /* AppDelegate.m */; };
 		E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E81A88677A00C2BB03 /* CrowdCheer.xcdatamodeld */; };
@@ -80,13 +80,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		52DBBE221AA53C22002926A3 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = ../MotivatorViewController.h; sourceTree = "<group>"; };
-		52DBBE231AA53C22002926A3 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = ../MotivatorViewController.m; sourceTree = "<group>"; };
-		CFA3550C1AA6639E00A63C19 /* RelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RelationshipViewController.h; path = ../RelationshipViewController.h; sourceTree = "<group>"; };
-		CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RelationshipViewController.m; path = ../RelationshipViewController.m; sourceTree = "<group>"; };
 		CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-blue-btn.png"; sourceTree = "<group>"; };
-		E271C1FF1AACF91D009D8F4D /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleViewController.h; sourceTree = "<group>"; };
-		E271C2001AACF91D009D8F4D /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleViewController.m; sourceTree = "<group>"; };
+		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
+		E25A11A61AB10248003FFA73 /* CommonalityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonalityViewController.m; path = CrowdCheer/CommonalityViewController.m; sourceTree = "<group>"; };
+		E25A11A71AB10248003FFA73 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = CrowdCheer/MotivatorViewController.h; sourceTree = "<group>"; };
+		E25A11A81AB10248003FFA73 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = CrowdCheer/MotivatorViewController.m; sourceTree = "<group>"; };
+		E25A11A91AB10248003FFA73 /* RelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RelationshipViewController.h; path = CrowdCheer/RelationshipViewController.h; sourceTree = "<group>"; };
+		E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RelationshipViewController.m; path = CrowdCheer/RelationshipViewController.m; sourceTree = "<group>"; };
+		E271C1FF1AACF91D009D8F4D /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoleViewController.h; path = CrowdCheer/RoleViewController.h; sourceTree = "<group>"; };
+		E271C2001AACF91D009D8F4D /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoleViewController.m; path = CrowdCheer/RoleViewController.m; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -97,34 +99,32 @@
 		E2AD20131A9A97E400B1BEFE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E2AD357C1AAF5613002E352A /* profileDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileDefault.png; sourceTree = "<group>"; };
-		E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSettingsViewController.h; sourceTree = "<group>"; };
-		E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSettingsViewController.m; sourceTree = "<group>"; };
-		E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySignUpViewController.h; sourceTree = "<group>"; };
-		E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySignUpViewController.m; sourceTree = "<group>"; };
+		E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultSettingsViewController.h; path = CrowdCheer/DefaultSettingsViewController.h; sourceTree = "<group>"; };
+		E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultSettingsViewController.m; path = CrowdCheer/DefaultSettingsViewController.m; sourceTree = "<group>"; };
+		E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MySignUpViewController.h; path = CrowdCheer/MySignUpViewController.h; sourceTree = "<group>"; };
+		E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MySignUpViewController.m; path = CrowdCheer/MySignUpViewController.m; sourceTree = "<group>"; };
 		E2ADB5D61A9D0A63007EC795 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E2ADB5D81A9D0A72007EC795 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E2ADB5E01A9E613D007EC795 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		E2ADB5E61A9E6808007EC795 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		E2ADB5E81AA8DD46007EC795 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = ../CommonalityViewController.h; sourceTree = "<group>"; };
-		E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonalityViewController.m; path = ../CommonalityViewController.m; sourceTree = "<group>"; };
 		E2CA50DE1A88677A00C2BB03 /* CrowdCheer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrowdCheer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA50E21A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CA50E31A88677A00C2BB03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E2CA50E51A88677A00C2BB03 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E2CA50E61A88677A00C2BB03 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E2CA50E51A88677A00C2BB03 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CrowdCheer/AppDelegate.h; sourceTree = "<group>"; };
+		E2CA50E61A88677A00C2BB03 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
 		E2CA50E91A88677A00C2BB03 /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
-		E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = CrowdCheer/DetailViewController.h; sourceTree = "<group>"; };
+		E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = CrowdCheer/DetailViewController.m; sourceTree = "<group>"; };
 		E2CA50F21A88677A00C2BB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2CA50F41A88677A00C2BB03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E2CA50F71A88677A00C2BB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E2CA50FD1A88677A00C2BB03 /* CrowdCheerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrowdCheerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA51021A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CA51031A88677A00C2BB03 /* CrowdCheerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrowdCheerTests.m; sourceTree = "<group>"; };
-		E2CA510D1A886BE900C2BB03 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		E2CA510E1A886BE900C2BB03 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		E2CA51101A886BE900C2BB03 /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Run.h; sourceTree = "<group>"; };
-		E2CA51111A886BE900C2BB03 /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
+		E2CA510D1A886BE900C2BB03 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Location.h; path = CrowdCheer/Location.h; sourceTree = "<group>"; };
+		E2CA510E1A886BE900C2BB03 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Location.m; path = CrowdCheer/Location.m; sourceTree = "<group>"; };
+		E2CA51101A886BE900C2BB03 /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Run.h; path = CrowdCheer/Run.h; sourceTree = "<group>"; };
+		E2CA51111A886BE900C2BB03 /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Run.m; path = CrowdCheer/Run.m; sourceTree = "<group>"; };
 		E2CA51131A886C1D00C2BB03 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E2CA51151A886C3800C2BB03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E2CA51171A886C3E00C2BB03 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -149,17 +149,17 @@
 		E2CA51761A8928B000C2BB03 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		E2CA517C1A892E8000C2BB03 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		E2CA517D1A892E8000C2BB03 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
-		E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRunViewController.h; sourceTree = "<group>"; };
-		E2CA51801A892F7000C2BB03 /* NewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRunViewController.m; sourceTree = "<group>"; };
+		E2CA517C1A892E8000C2BB03 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = CrowdCheer/HomeViewController.h; sourceTree = "<group>"; };
+		E2CA517D1A892E8000C2BB03 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = CrowdCheer/HomeViewController.m; sourceTree = "<group>"; };
+		E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewRunViewController.h; path = CrowdCheer/NewRunViewController.h; sourceTree = "<group>"; };
+		E2CA51801A892F7000C2BB03 /* NewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewRunViewController.m; path = CrowdCheer/NewRunViewController.m; sourceTree = "<group>"; };
 		E2CA51821A89537200C2BB03 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = DeltaLab_CrowdCheer.mobileprovision; sourceTree = "<group>"; };
 		E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CrowdCheer.entitlements; sourceTree = "<group>"; };
-		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathController.h; sourceTree = "<group>"; };
-		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathController.m; sourceTree = "<group>"; };
-		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
-		E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
+		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathController.h; path = CrowdCheer/MathController.h; sourceTree = "<group>"; };
+		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
+		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MulticolorPolylineSegment.h; path = CrowdCheer/MulticolorPolylineSegment.h; sourceTree = "<group>"; };
+		E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MulticolorPolylineSegment.m; path = CrowdCheer/MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +234,34 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
+				E2CA51861A89D51100C2BB03 /* MathController.h */,
+				E2CA51871A89D51100C2BB03 /* MathController.m */,
+				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
+				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
+				E271C1FF1AACF91D009D8F4D /* RoleViewController.h */,
+				E271C2001AACF91D009D8F4D /* RoleViewController.m */,
+				E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */,
+				E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */,
+				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
+				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
+				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
+				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
+				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
+				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
+				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
+				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
+				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
+				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
+				E2CA50E61A88677A00C2BB03 /* AppDelegate.m */,
+				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
+				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
+				E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */,
+				E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */,
+				E2CA51101A886BE900C2BB03 /* Run.h */,
+				E2CA51111A886BE900C2BB03 /* Run.m */,
+				E2CA510D1A886BE900C2BB03 /* Location.h */,
+				E2CA510E1A886BE900C2BB03 /* Location.m */,
 				E2AD20071A9A96B400B1BEFE /* Frameworks */,
 				E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */,
 				E2CA511D1A89219900C2BB03 /* Resources */,
@@ -255,40 +283,12 @@
 		E2CA50E01A88677A00C2BB03 /* CrowdCheer */ = {
 			isa = PBXGroup;
 			children = (
-				E2ADB5E81AA8DD46007EC795 /* CommonalityViewController.h */,
-				E2ADB5E91AA8DD46007EC795 /* CommonalityViewController.m */,
-				CFA3550C1AA6639E00A63C19 /* RelationshipViewController.h */,
-				CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */,
-				52DBBE221AA53C22002926A3 /* MotivatorViewController.h */,
-				52DBBE231AA53C22002926A3 /* MotivatorViewController.m */,
 				E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */,
-				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
-				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
-				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
-				E2CA50E61A88677A00C2BB03 /* AppDelegate.m */,
-				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
-				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
-				E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */,
-				E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */,
 				E2CA50F11A88677A00C2BB03 /* Main.storyboard */,
 				E2CA50F41A88677A00C2BB03 /* Images.xcassets */,
 				E2CA50F61A88677A00C2BB03 /* LaunchScreen.xib */,
 				E2CA50E81A88677A00C2BB03 /* CrowdCheer.xcdatamodeld */,
-				E2CA51101A886BE900C2BB03 /* Run.h */,
-				E2CA51111A886BE900C2BB03 /* Run.m */,
-				E2CA510D1A886BE900C2BB03 /* Location.h */,
-				E2CA510E1A886BE900C2BB03 /* Location.m */,
 				E2CA50E11A88677A00C2BB03 /* Supporting Files */,
-				E2CA51861A89D51100C2BB03 /* MathController.h */,
-				E2CA51871A89D51100C2BB03 /* MathController.m */,
-				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
-				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
-				E271C1FF1AACF91D009D8F4D /* RoleViewController.h */,
-				E271C2001AACF91D009D8F4D /* RoleViewController.m */,
-				E2ADB5D01A9D08FC007EC795 /* DefaultSettingsViewController.h */,
-				E2ADB5D11A9D08FC007EC795 /* DefaultSettingsViewController.m */,
-				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
-				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
 			);
 			path = CrowdCheer;
 			sourceTree = "<group>";
@@ -477,20 +477,20 @@
 			files = (
 				E271C2011AACF91D009D8F4D /* RoleViewController.m in Sources */,
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
+				E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */,
 				E2CA51121A886BE900C2BB03 /* Run.m in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */,
 				E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */,
+				E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */,
+				E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
-				CFA3550E1AA6639E00A63C19 /* RelationshipViewController.m in Sources */,
 				E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */,
 				E2ADB5D21A9D08FC007EC795 /* DefaultSettingsViewController.m in Sources */,
 				E2CA510F1A886BE900C2BB03 /* Location.m in Sources */,
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
-				E2ADB5EA1AA8DD46007EC795 /* CommonalityViewController.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
-				52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

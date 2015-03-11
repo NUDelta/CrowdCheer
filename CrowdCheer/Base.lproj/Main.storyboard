@@ -421,7 +421,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="month" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDA-Jw-UAf">
-                                <rect key="frame" x="90" y="182" width="116" height="30"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -541,7 +540,7 @@
         <!--Login-->
         <scene sceneID="84m-de-lis">
             <objects>
-                <viewController title="Login" id="bu8-Nc-PHu" customClass="RoleViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="roleViewController" title="Login" id="bu8-Nc-PHu" customClass="RoleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qKG-E7-6gP"/>
                         <viewControllerLayoutGuide type="bottom" id="3yH-WO-efh"/>
