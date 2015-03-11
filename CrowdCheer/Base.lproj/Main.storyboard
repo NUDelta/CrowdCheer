@@ -79,7 +79,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ycJ-K0-LWB">
-                                <rect key="frame" x="83" y="432" width="155" height="56"/>
+                                <rect key="frame" x="98" y="426" width="124" height="41"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="22"/>
                                 <state key="normal" title="Go warm up!" backgroundImage="green-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -95,7 +95,7 @@
                         <constraints>
                             <constraint firstItem="Imy-0O-9zL" firstAttribute="trailing" secondItem="rvA-sk-Rky" secondAttribute="trailing" id="3p8-nX-OBC"/>
                             <constraint firstItem="R3j-cS-pfJ" firstAttribute="leading" secondItem="0QU-e6-HVJ" secondAttribute="leadingMargin" constant="60" id="8YF-0T-EZL"/>
-                            <constraint firstItem="u1E-Eo-ThP" firstAttribute="width" secondItem="ycJ-K0-LWB" secondAttribute="height" multiplier="16:7" id="9ZO-Ye-EUP"/>
+                            <constraint firstItem="u1E-Eo-ThP" firstAttribute="width" secondItem="ycJ-K0-LWB" secondAttribute="height" multiplier="16:7" constant="34.285714285714292" id="9ZO-Ye-EUP"/>
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="leading" secondItem="rvA-sk-Rky" secondAttribute="trailing" constant="41" id="ABh-52-6GK"/>
                             <constraint firstItem="4ia-J6-QT4" firstAttribute="bottom" secondItem="xyS-zm-45G" secondAttribute="bottom" id="BbX-El-JJO"/>
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="trailing" secondItem="4ia-J6-QT4" secondAttribute="trailing" id="Bwb-Qi-jUF"/>
@@ -117,12 +117,12 @@
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="leading" secondItem="4ia-J6-QT4" secondAttribute="leading" id="h3r-1S-6TC"/>
                             <constraint firstItem="4ia-J6-QT4" firstAttribute="top" secondItem="u1E-Eo-ThP" secondAttribute="bottom" constant="13" id="hTu-KW-j6L"/>
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="bottom" secondItem="rvA-sk-Rky" secondAttribute="bottom" id="kbd-g3-yio"/>
-                            <constraint firstItem="ycJ-K0-LWB" firstAttribute="leading" secondItem="0QU-e6-HVJ" secondAttribute="leadingMargin" constant="67" id="lnm-ne-Hya"/>
+                            <constraint firstItem="ycJ-K0-LWB" firstAttribute="leading" secondItem="0QU-e6-HVJ" secondAttribute="leadingMargin" constant="82" id="lnm-ne-Hya"/>
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="width" secondItem="R3j-cS-pfJ" secondAttribute="height" multiplier="64:75" id="muO-Tp-mJP"/>
                             <constraint firstItem="rvA-sk-Rky" firstAttribute="leading" secondItem="Imy-0O-9zL" secondAttribute="leading" id="pBF-4j-6Gx"/>
                             <constraint firstItem="u1E-Eo-ThP" firstAttribute="width" secondItem="HaP-VK-aXq" secondAttribute="height" multiplier="32:11" id="ro6-6G-tzZ"/>
                             <constraint firstItem="0Fn-gF-q2G" firstAttribute="centerY" secondItem="Imy-0O-9zL" secondAttribute="centerY" id="tWY-oA-uAF"/>
-                            <constraint firstItem="ycJ-K0-LWB" firstAttribute="top" secondItem="0Fn-gF-q2G" secondAttribute="bottom" constant="14" id="v0U-2m-rNh"/>
+                            <constraint firstItem="ycJ-K0-LWB" firstAttribute="top" secondItem="0Fn-gF-q2G" secondAttribute="bottom" constant="8" id="v0U-2m-rNh"/>
                             <constraint firstItem="HaP-VK-aXq" firstAttribute="leading" secondItem="0QU-e6-HVJ" secondAttribute="leadingMargin" constant="36" id="wkN-0U-Cdc"/>
                             <constraint firstItem="R3j-cS-pfJ" firstAttribute="centerX" secondItem="ycJ-K0-LWB" secondAttribute="centerX" id="wnJ-34-ujS"/>
                             <constraint firstItem="rvA-sk-Rky" firstAttribute="leading" secondItem="0QU-e6-HVJ" secondAttribute="leadingMargin" constant="10" id="yr1-Lc-z4q"/>
