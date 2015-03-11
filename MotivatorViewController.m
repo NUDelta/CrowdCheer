@@ -38,13 +38,35 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"MotivatorViewController.viewDidLoad()");
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
+
     [self startLocationUpdates];
+    
+    
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)scheduleNotification {
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    UILocalNotification *notif = [[UILocalNotification alloc] init];
+    
+    notif.timeZone = [NSTimeZone defaultTimeZone];
+    
+    notif.alertBody = @"Body";
+    notif.alertAction = @"AlertButtonCaption";
+    notif.soundName = UILocalNotificationDefaultSoundName;
+    notif.applicationIconBadgeNumber = 1;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+}
+
 
 - (void)eachSecond
 {
@@ -90,7 +112,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *runnerName = user[@"name"];
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+            //UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
 
             PFFile *userImageFile = user[@"profilePic"];
             [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -106,13 +128,16 @@ static NSString * const detailSegueName = @"RelationshipView";
             _nameLabel = name;
             _bibLabel = bibNumber;
             _commonalityLabel = commonality;
-            
+            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", commonality, @"common", nil];
             [self.timer invalidate];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //[cheerAlert show];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"alertMess"
-                                                                    object:nil
-                                                                  userInfo:nil];
+                //[[NSNotificationCenter defaultCenter] postNotificationName:@"alertMess"
+                //                                                    object:nil
+                //                                                  userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
+                                                                    object:self
+                                                                    userInfo:nil];
             });
         }
     }
