@@ -30,6 +30,7 @@ h2 {
     letter-spacing: 1px;
     opacity: 1.0;
     color: #FFF;
+    text-shadow: 2px 0 0 #000000;
 }
 
 h5 {
@@ -92,7 +93,7 @@ introPanel1, #introPanel2, #introPanel3, #introPanel4, #introPanel5 {
 
 .intro{
     vertical-align: middle;
-    background: url(../CrowdCheer/resources/intro-bg.jpg) no-repeat center scroll;
+    background: url(http://dl.dropboxusercontent.com/s/knlbh7y4ybwv4j0/intro-bg.jpg) no-repeat center scroll filter(blur);
     background-color: #47D1D1;
     text-align: center;
     -webkit-background-size: cover;
