@@ -755,12 +755,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="If you had to pick one..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zw9-Qt-Rrc">
-                                <rect key="frame" x="78" y="28" width="181" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -772,7 +766,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Update Profile" id="sTO-86-IrN"/>
+                    <navigationItem key="navigationItem" title="Take Your Pick" id="sTO-86-IrN"/>
                     <connections>
                         <outlet property="cats" destination="kNt-CD-GSV" id="isD-lE-Wlh"/>
                         <outlet property="coffee" destination="KyS-jU-TNt" id="bH0-iw-sLV"/>
