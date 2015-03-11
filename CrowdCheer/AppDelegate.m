@@ -67,7 +67,7 @@
     NSLog(@"[AppleDelegate showAlarm] called");
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    localNotification.alertBody = @"Your alert message";
+    localNotification.alertBody = @"Runner Name is approaching!";
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     /*
@@ -90,9 +90,9 @@
     NSLog(@"didReceiveLocalNotification()");
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time to Cheer"
                                                   message:notification.alertBody
-                                                  delegate:self cancelButtonTitle:@"OK"
+                                                  delegate:self cancelButtonTitle:@"Cheer!"
                                                   otherButtonTitles:nil];
         [alert show];
     }
