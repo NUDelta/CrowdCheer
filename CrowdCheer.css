@@ -93,7 +93,7 @@ introPanel1, #introPanel2, #introPanel3, #introPanel4, #introPanel5 {
 
 .intro{
     vertical-align: middle;
-    background: url(http://dl.dropboxusercontent.com/s/knlbh7y4ybwv4j0/intro-bg.jpg) no-repeat center scroll filter(blur);
+    background: url(http://dl.dropboxusercontent.com/s/knlbh7y4ybwv4j0/intro-bg.jpg) no-repeat center scroll;
     background-color: #47D1D1;
     text-align: center;
     -webkit-background-size: cover;
@@ -109,6 +109,8 @@ introPanel1, #introPanel2, #introPanel3, #introPanel4, #introPanel5 {
 .intro-text {
     font-size: 18px;
     color: white;
+    text-shadow: 2px 0 0 #000000;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .btn-circle {
