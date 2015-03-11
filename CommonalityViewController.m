@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scroll;
+
 @property (nonatomic, weak) IBOutlet UIButton *takePhoto;
 @property (nonatomic, weak) IBOutlet UIButton *uploadPhoto;
 @property (nonatomic, weak) IBOutlet UIButton *infoButton;
@@ -45,6 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.scroll.delegate = self;
     
     self.monthArray  = [[NSArray alloc] initWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
     self.dayArray  = [[NSArray alloc] initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", nil];

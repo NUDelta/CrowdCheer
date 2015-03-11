@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface CommonalityViewController : UIViewController <UIAlertViewDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface CommonalityViewController : UIViewController <UIAlertViewDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
