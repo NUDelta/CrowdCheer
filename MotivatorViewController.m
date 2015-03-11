@@ -103,9 +103,10 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *name = user[@"name"];
             NSString *bibNumber = user[@"bibNumber"];
             NSString *commonality = user[@"display commonality here"];
-            _nameLabel = name;
-            _bibLabel = bibNumber;
-            _commonalityLabel = commonality;
+            NSLog(name);
+            _nameLabel.text = name;
+            _bibLabel.text = bibNumber;
+            _commonalityLabel.text = commonality;
             
             [self.timer invalidate];
             dispatch_async(dispatch_get_main_queue(), ^{
