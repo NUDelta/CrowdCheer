@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52A4C8D31AB0AA1500ADB6CC /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A4C8D21AB0AA1500ADB6CC /* RelationshipViewController.m */; };
 		52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DBBE231AA53C22002926A3 /* MotivatorViewController.m */; };
 		CF36BBCA1AAFBA160021CE6E /* light-blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36BBC91AAFBA160021CE6E /* light-blue-btn.png */; };
 		CFA3550E1AA6639E00A63C19 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3550D1AA6639E00A63C19 /* RelationshipViewController.m */; };
@@ -80,6 +81,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52A4C8D11AB0AA1500ADB6CC /* RelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationshipViewController.h; sourceTree = "<group>"; };
+		52A4C8D21AB0AA1500ADB6CC /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipViewController.m; sourceTree = "<group>"; };
 		52DBBE221AA53C22002926A3 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = ../MotivatorViewController.h; sourceTree = "<group>"; };
 		52DBBE231AA53C22002926A3 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = ../MotivatorViewController.m; sourceTree = "<group>"; };
 		CF36BBC91AAFBA160021CE6E /* light-blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-blue-btn.png"; sourceTree = "<group>"; };
@@ -271,6 +274,8 @@
 				E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */,
 				E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */,
 				E2CA50F11A88677A00C2BB03 /* Main.storyboard */,
+				52A4C8D11AB0AA1500ADB6CC /* RelationshipViewController.h */,
+				52A4C8D21AB0AA1500ADB6CC /* RelationshipViewController.m */,
 				E2CA50F41A88677A00C2BB03 /* Images.xcassets */,
 				E2CA50F61A88677A00C2BB03 /* LaunchScreen.xib */,
 				E2CA50E81A88677A00C2BB03 /* CrowdCheer.xcdatamodeld */,
@@ -489,6 +494,7 @@
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E2ADB5EA1AA8DD46007EC795 /* CommonalityViewController.m in Sources */,
+				52A4C8D31AB0AA1500ADB6CC /* RelationshipViewController.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
 				52DBBE241AA53C22002926A3 /* MotivatorViewController.m in Sources */,
 			);

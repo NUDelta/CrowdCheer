@@ -36,14 +36,11 @@ static NSString * const detailSegueName = @"RelationshipView";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"MotivatorViewController.viewDidLoad()");
+    
+    //this is what initializes the timer and gets it started
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
-
     [self startLocationUpdates];
-    
-    
-    
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,9 +80,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     if (!checkQueue){
         checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
     }
-    
     dispatch_async(checkQueue,^{[self checkForRunners];});
-    
 }
 
 - (void)checkForRunners
@@ -112,7 +107,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *runnerName = user[@"name"];
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-            //UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
 
             PFFile *userImageFile = user[@"profilePic"];
             [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -132,18 +127,33 @@ static NSString * const detailSegueName = @"RelationshipView";
             _commonalityLabel.text = commonality;
             NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", commonality, @"common", nil];
             [self.timer invalidate];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //[cheerAlert show];
-                //[[NSNotificationCenter defaultCenter] postNotificationName:@"alertMess"
-                //                                                    object:nil
-                //                                                  userInfo:nil];
+            
+            //quick way to save for RelationshipViewController to use
+            PFObject *currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
+            [currentRunnerToCheer setObject:user forKey:@"runner"];
+            [currentRunnerToCheer saveInBackground];
+            
+            UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+            {
+                // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
+                // userInfo can include the dictionary above called runnerDict
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                     object:self
-                                                                    userInfo:nil];
-            });
+                                                                  userInfo:runnerDict];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                        NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
+                        [cheerAlert show];
+                    
+                });
+            }
         }
     }
 }
+
+
 
 - (void)startLocationUpdates
 {

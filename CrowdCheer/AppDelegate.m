@@ -45,6 +45,9 @@
         application.applicationIconBadgeNumber = 0;
     }
     */
+    
+    //This code here will listen for notifications sent from
+    // MotivatorViewController.m checkForRunners
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showAlarm:)
                                                  name:@"DataUpdated"
@@ -64,20 +67,17 @@
 }
 
 - (void)showAlarm:(NSNotification *)notification {
+    // showAlarm gets called from notification that is registered in didFinishLaunchingWithOptions at the top of this class
+    // this code was borrowed from http://www.appcoda.com/ios-programming-local-notification-tutorial/
     NSLog(@"[AppleDelegate showAlarm] called");
+    
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
     localNotification.alertBody = @"Your alert message";
+    localNotification.alertAction = @"AlertButtonCaption";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    /*
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alarm"
-                                                        message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil, nil];
-     */
-    //[alertView show];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -88,20 +88,8 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     NSLog(@"didReceiveLocalNotification()");
-    UIApplicationState state = [application applicationState];
-    if (state == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
-                                                  message:notification.alertBody
-                                                  delegate:self cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alert show];
-    }
-            
-    // Request to reload table view data
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
-            
-    // Set icon badge number to zero
-    application.applicationIconBadgeNumber = 0;
+    //Instantiate new viewcontroller here and segue
+   
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
