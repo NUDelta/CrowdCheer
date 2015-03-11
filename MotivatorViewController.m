@@ -22,11 +22,6 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *bibLabel;
-@property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
-
 @property (weak, nonatomic) PFUser *runnerToCheer;
 @end
 
@@ -109,23 +104,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
-            PFFile *userImageFile = user[@"profilePic"];
-            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                if (!error) {
-                    UIImage *profilePic = [UIImage imageWithData:imageData];
-                    self.imageView.image = profilePic;
-                }
-            }];
-            
-            NSString *name = user[@"name"];
-            NSString *bibNumber = user[@"bibNumber"];
-            NSString *commonality = user[@"display commonality here"];
-            NSLog(name);
-            
-            _nameLabel.text = name;
-            _bibLabel.text = bibNumber;
-            _commonalityLabel.text = commonality;
-            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", commonality, @"common", nil];
+            //NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", commonality, @"common", nil];
             [self.timer invalidate];
             
             //quick way to save for RelationshipViewController to use
@@ -140,7 +119,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 // userInfo can include the dictionary above called runnerDict
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                     object:self
-                                                                  userInfo:runnerDict];
+                                                                  userInfo:nil];
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
