@@ -32,9 +32,12 @@
      setMinimumBackgroundFetchInterval:
      UIApplicationBackgroundFetchIntervalMinimum];
     
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
     // Override point for customization after application launch.
     // Handle launching from a notification
-    //UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     /**
     if (notification) {
         [self showAlarm:notification.alertBody];
@@ -62,12 +65,19 @@
 
 - (void)showAlarm:(NSNotification *)notification {
     NSLog(@"[AppleDelegate showAlarm] called");
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    localNotification.alertBody = @"Your alert message";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    /*
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alarm"
                                                         message:nil
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];
-    [alertView show];
+     */
+    //[alertView show];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
