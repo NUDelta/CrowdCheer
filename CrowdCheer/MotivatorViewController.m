@@ -13,7 +13,9 @@
 static NSString * const detailSegueName = @"RelationshipView";
 
 
-@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>{
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
+
+{
     dispatch_queue_t checkQueue;
 }
 @property (nonatomic, strong) NSTimer *timer;
@@ -107,7 +109,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"Runner Object ID is %@", runnerObjID);
                                      
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
             NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:runnerObjID, @"user", nil];
             NSLog(@"MVC dictionary is %@", runnerDict);
@@ -130,7 +132,6 @@ static NSString * const detailSegueName = @"RelationshipView";
             
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
                     [cheerAlert show];
                     
@@ -140,6 +141,20 @@ static NSString * const detailSegueName = @"RelationshipView";
     }
 }
 
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    NSLog(@"button clicked!!!!");
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    NSLog(@"%d", buttonIndex);
+    if ([buttonTitle isEqualToString:@"Cheer!"]) {
+        NSLog(@"the button is equal to cheer");
+        
+        [self performSegueWithIdentifier:@"relationshipSegue" sender:self];
+        
+    }
+}
 
 
 - (void)startLocationUpdates
