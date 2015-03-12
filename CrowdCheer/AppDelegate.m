@@ -99,17 +99,19 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         //instantiate all associated VCs
         
-        DefaultSettingsViewController *dsvc = (DefaultSettingsViewController *)[sb instantiateInitialViewControllerWithIdentifier:@"defaultSettingsViewController"];
-        RoleViewController *rvc = (RoleViewController *)[sb instantiateInitialViewController:@"roleViewController"];
+        DefaultSettingsViewController *dsvc = (DefaultSettingsViewController *)[sb instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
+        RoleViewController *rvc = (RoleViewController *)[sb instantiateViewControllerWithIdentifier:@"roleViewController"];
         MotivatorViewController *mvc = (MotivatorViewController *)[sb instantiateViewControllerWithIdentifier:@"motivatorViewController"];
         RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
         
         //HelperMapViewController *hmvc = (HelperMapViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperMapViewController"];
        // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
+        
         for(NSString *key in notification.userInfo){
             NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);
             rsvc.objectId = [notification.userInfo objectForKey:key];
         }
+        
         UINavigationController *nav = (UINavigationController *)[[(UITabBarController *)self.window.rootViewController viewControllers] objectAtIndex:0];
         nav.viewControllers = [NSArray arrayWithObjects:mvc,rsvc, nil];
         [nav popToViewController:rsvc animated:YES];

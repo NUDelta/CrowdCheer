@@ -88,7 +88,7 @@
 		E25A11A91AB10248003FFA73 /* RelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RelationshipViewController.h; path = CrowdCheer/RelationshipViewController.h; sourceTree = "<group>"; };
 		E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RelationshipViewController.m; path = CrowdCheer/RelationshipViewController.m; sourceTree = "<group>"; };
 		E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultSettingsViewController.h; path = CrowdCheer/DefaultSettingsViewController.h; sourceTree = "<group>"; };
-		E25A11B51AB1CDBC003FFA73 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultSettingsViewController.m; path = CrowdCheer/DefaultSettingsViewController.m; sourceTree = "<group>"; };
+		E25A11B51AB1CDBC003FFA73 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultSettingsViewController.m; path = /Users/cambo/Documents/crowd_cheer/crowd_cheer_git/CrowdCheer/CrowdCheer/DefaultSettingsViewController.m; sourceTree = "<absolute>"; };
 		E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoleViewController.h; path = CrowdCheer/RoleViewController.h; sourceTree = "<group>"; };
 		E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoleViewController.m; path = CrowdCheer/RoleViewController.m; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -205,27 +205,9 @@
 		E25A11BB1AB1CE66003FFA73 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
-				E25A11B51AB1CDBC003FFA73 /* DefaultSettingsViewController.m */,
-				E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */,
-				E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */,
-				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
-				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
-				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
-				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
-				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
-				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
-				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
-				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
-				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
-				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
-				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
-				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
-				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
-				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
 			);
 			name = ViewControllers;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		E2AD20071A9A96B400B1BEFE /* Frameworks */ = {
 			isa = PBXGroup;
@@ -259,6 +241,24 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
+				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
+				E25A11B51AB1CDBC003FFA73 /* DefaultSettingsViewController.m */,
+				E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */,
+				E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */,
+				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
+				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
+				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
+				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
+				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
+				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
+				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
+				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
+				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
+				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
+				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
+				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
+				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
 				E2CA51861A89D51100C2BB03 /* MathController.h */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
