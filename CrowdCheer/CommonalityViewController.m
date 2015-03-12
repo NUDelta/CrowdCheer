@@ -202,7 +202,7 @@
 
 - (IBAction)cubs:(id)sender {
     [_cubs setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_sox setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_sox setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_one"] = @1;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -216,7 +216,7 @@
 
 - (IBAction)sox:(id)sender {
     [_sox setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_cubs setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_cubs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_one"] = @0;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -258,7 +258,7 @@
 
 - (IBAction)coffee:(id)sender {
     [_coffee setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_tea setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_tea setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_three"] = @1;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -272,7 +272,7 @@
 
 - (IBAction)tea:(id)sender {
     [_tea setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_coffee setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_coffee setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_three"] = @0;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -314,7 +314,7 @@
 
 - (IBAction)hot:(id)sender {
     [_hot setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_cold setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_cold setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_five"] = @1;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -328,7 +328,7 @@
 
 - (IBAction)cold:(id)sender {
     [_cold setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    [_hot setBackgroundImage:[UIImage imageNamed:@"light-blue-btn.png"] forState:UIControlStateNormal];
+    [_hot setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"q_five"] = @0;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
