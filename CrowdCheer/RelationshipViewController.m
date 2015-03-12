@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
-    NSString *userObjectID = [self.userInfo objectForKey:@"objectId"];
+    NSString *userObjectID = [self.userInfo objectForKey:@"user"];
     NSLog(@"User ID passed to RVC is %@""", userObjectID);
     PFQuery *query = [PFUser query];
     PFUser *user = (PFUser *)[query getObjectWithId:userObjectID];
@@ -64,9 +64,9 @@
         NSString *commonality = user[@"display commonality here"];
         NSLog(name);
         
-        _nameLabel.text = name;
-        _bibLabel.text = bibNumber;
-        _commonalityLabel.text = commonality;
+        _nameLabel.text = (@"%@!", name);
+        _bibLabel.text = (@" Bib #: %@", bibNumber);
+        _commonalityLabel.text = (@"You are both %@!", commonality);
     }
     
     

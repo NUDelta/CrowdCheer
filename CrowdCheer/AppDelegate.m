@@ -109,7 +109,7 @@
        // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
         
         rsvc.userInfo = notification.userInfo;
-        NSLog(@"dictionary is %@", rsvc.userInfo);
+        NSLog(@"appDel dictionary is %@", rsvc.userInfo);
         /*
         for(NSString *key in notification.userInfo){
             NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);

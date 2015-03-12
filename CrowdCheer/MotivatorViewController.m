@@ -99,14 +99,17 @@ static NSString * const detailSegueName = @"RelationshipView";
         if (dist < 200){
             NSLog(@"Found a runner!");
             PFUser *user = possible[@"user"];
+            NSLog(@"Runner we found is %@", user.objectId);
             [user fetchIfNeeded];
             NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
             NSLog(runnerName);
-            NSLog(@"%@", possible.objectId);
+            NSString *runnerObjID = user.objectId;
+            NSLog(@"Runner Object ID is %@", runnerObjID);
+                                     
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
-            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:possible.objectId, @"user", nil]; //changed to user here
+            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:runnerObjID, @"user", nil];
             NSLog(@"MVC dictionary is %@", runnerDict);
             
             [self.timer invalidate];
