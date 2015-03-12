@@ -115,7 +115,7 @@
         }
         */
         UINavigationController *nav = (UINavigationController *)[[(UITabBarController *)self.window.rootViewController viewControllers] objectAtIndex:0];
-        nav.viewControllers = [NSArray arrayWithObjects:mvc,rsvc, nil];
+        nav.viewControllers = [NSArray arrayWithObjects:dsvc,rvc,mvc,rsvc, nil];
         [nav popToViewController:rsvc animated:YES];
     }
     
