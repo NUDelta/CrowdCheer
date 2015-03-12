@@ -94,8 +94,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     for (PFObject *possible in possibleNearbyRunners) {
         PFGeoPoint *point = [possible objectForKey:@"location"];
         
-        point.latitude = 42.067114;
-        point.longitude = -87.680552;
         CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
         CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
         if (dist < 200){
