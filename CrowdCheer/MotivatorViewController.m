@@ -97,9 +97,11 @@ static NSString * const detailSegueName = @"RelationshipView";
         CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
         CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
         if (dist < 200){
-            PFObject *user = possible[@"user"];
+            NSLog(@"Found a runner!");
+            PFUser *user = possible[@"user"];
             [user fetchIfNeeded];
-            NSString *runnerName = user[@"name"];
+            NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
+            NSLog(runnerName);
             NSLog(@"%@", possible.objectId);
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
