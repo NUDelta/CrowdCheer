@@ -114,7 +114,7 @@
             rsvc.objectId = [notification.userInfo objectForKey:key];
         }
         */
-        UINavigationController *nav = [(UINavigationController *)self.window.rootViewController viewControllers];
+        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
         nav.viewControllers = [NSArray arrayWithObjects:dsvc,rvc,mvc,rsvc, nil];
         [nav popToViewController:rsvc animated:YES];
     }
