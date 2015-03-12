@@ -106,7 +106,9 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
-            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:possible.objectId, @"objectId", nil];
+            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:possible.objectId, @"user", nil]; //changed to user here
+            NSLog(@"MVC dictionary is %@", runnerDict);
+            
             [self.timer invalidate];
             
             //quick way to save for RelationshipViewController to use
@@ -171,6 +173,20 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.timer invalidate];
+}
+
+- (void)showAlarm:(NSNotification *)notification {
+    // showAlarm gets called from notification that is registered in didFinishLaunchingWithOptions at the top of this class
+    // this code was borrowed from http://www.appcoda.com/ios-programming-local-notification-tutorial/
+    NSLog(@"[AppleDelegate showAlarm] called");
+    
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    localNotification.alertBody = @"Your alert message";
+    localNotification.alertAction = @"AlertButtonCaption";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 /*

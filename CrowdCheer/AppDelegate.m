@@ -75,6 +75,7 @@
     NSLog(@"[AppleDelegate showAlarm] called");
     
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.userInfo = notification.userInfo;
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
     localNotification.alertBody = @"Your alert message";
     localNotification.alertAction = @"AlertButtonCaption";
@@ -108,6 +109,7 @@
        // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
         
         rsvc.userInfo = notification.userInfo;
+        NSLog(@"dictionary is %@", rsvc.userInfo);
         /*
         for(NSString *key in notification.userInfo){
             NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);
