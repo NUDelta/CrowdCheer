@@ -90,7 +90,7 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    NSLog(@"didReceiveLocalNotification()");
+    NSLog(@"didReceiveLocalNotification");
     //Instantiate new viewcontroller here and segue
     if (application.applicationState == UIApplicationStateInactive) {
         [[UIApplication sharedApplication] cancelLocalNotification:notification];

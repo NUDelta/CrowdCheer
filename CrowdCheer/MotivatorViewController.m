@@ -122,6 +122,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                     object:self
                                                                   userInfo:runnerDict];
+            
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
