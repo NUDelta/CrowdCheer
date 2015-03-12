@@ -104,7 +104,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:nil cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
-            //NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", commonality, @"common", nil];
+            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:possible.objectId, @"objectId", nil];
             [self.timer invalidate];
             
             //quick way to save for RelationshipViewController to use
@@ -119,7 +119,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 // userInfo can include the dictionary above called runnerDict
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                     object:self
-                                                                  userInfo:nil];
+                                                                  userInfo:runnerDict];
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     

@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSMutableArray *locations;
 
 
+
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;

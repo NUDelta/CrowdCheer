@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RelationshipViewController : UIViewController
-
+@property (nonatomic, strong) NSDictionary *userInfo;
 @end

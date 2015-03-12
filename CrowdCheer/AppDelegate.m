@@ -107,11 +107,13 @@
         //HelperMapViewController *hmvc = (HelperMapViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperMapViewController"];
        // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
         
+        rsvc.userInfo = notification.userInfo;
+        /*
         for(NSString *key in notification.userInfo){
             NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);
             rsvc.objectId = [notification.userInfo objectForKey:key];
         }
-        
+        */
         UINavigationController *nav = (UINavigationController *)[[(UITabBarController *)self.window.rootViewController viewControllers] objectAtIndex:0];
         nav.viewControllers = [NSArray arrayWithObjects:mvc,rsvc, nil];
         [nav popToViewController:rsvc animated:YES];
