@@ -42,6 +42,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *cold;
 
 
+
+
 @end
 
 @implementation CommonalityViewController
@@ -58,6 +60,9 @@
     
     [self attachPickerToTextField:self.birthMonth :self.monthPicker];
     [self attachPickerToTextField:self.birthDay :self.dayPicker];
+    
+    [_cubs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_sox setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     
 }
 
