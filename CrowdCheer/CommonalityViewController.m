@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroll;
 
+
 @property (nonatomic, weak) IBOutlet UIButton *takePhoto;
 @property (nonatomic, weak) IBOutlet UIButton *uploadPhoto;
 @property (nonatomic, weak) IBOutlet UIButton *infoButton;

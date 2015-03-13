@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -529,6 +529,7 @@
                         <outlet property="imageView" destination="vBD-cI-dt0" id="nGn-ff-wEz"/>
                         <outlet property="infoButton" destination="Ww6-5V-zk0" id="cse-xM-W03"/>
                         <outlet property="name" destination="OOr-um-zFI" id="Okd-6y-YWr"/>
+                        <outlet property="saveButtonA" destination="84d-1T-F46" id="QBw-yO-FxV"/>
                         <outlet property="takePhoto" destination="wiE-xL-7Kf" id="Nf6-xF-NhR"/>
                         <outlet property="uploadPhoto" destination="A1h-uz-pWL" id="wIc-kg-g3l"/>
                     </connections>
@@ -1102,6 +1103,7 @@
                         <outlet property="hot" destination="H4V-yd-Rxj" id="fhh-9a-xxS"/>
                         <outlet property="nike" destination="ftn-Hx-pMx" id="4bR-Q9-ppG"/>
                         <outlet property="reebok" destination="KRH-gE-Ahg" id="5U7-XO-hK0"/>
+                        <outlet property="saveButtonB" destination="dev-gr-ga9" id="iPq-Us-jJO"/>
                         <outlet property="sox" destination="h5b-6b-PPA" id="3MZ-yv-DrM"/>
                         <outlet property="tea" destination="kfB-Kz-sd9" id="pmx-Au-95s"/>
                     </connections>

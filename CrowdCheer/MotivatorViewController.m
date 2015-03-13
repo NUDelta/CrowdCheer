@@ -7,6 +7,7 @@
 //
 
 #import "MotivatorViewController.h"
+#import "RelationshipViewController.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 
@@ -205,6 +206,22 @@ static NSString * const detailSegueName = @"RelationshipView";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"========here here ======");
+    // Get the new view controller using [segue destinationViewController].
+    //    if ([sender isKindOfClass:[UITableViewCell class]]) {
+    //    self.myIndexPath = [self.tableView indexPathForCell:sender];
+    if([segue.identifier isEqualToString:@"relationshipSegue"]) {
+        if([segue.destinationViewController isKindOfClass:[RelationshipViewController class]]) {
+            NSLog(@"================Segueing===============");
+            RelationshipViewController *rvc = [segue destinationViewController];
+//            rvc.request = self.requests[self.myIndexPath.row];
+//            NSLog(@"here is the object ID: %@",[self.requests[self.myIndexPath.row] valueForKeyPath:@"objectId"]);
+        }
+    }
+    //    }
 }
 
 /*
