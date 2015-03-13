@@ -244,24 +244,27 @@ introPanel1, #introPanel2, #introPanel3, #introPanel4, #introPanel5 {
 }
 
 .btn-info {
-    border: 1px solid #a60000;
+    border: 1px solid #4747DA;
     outline: 0;
     color: #ffffff;
-    background-color: #a60000;
+    background-color: #4747DA;
     opacity: 0.5;
 }
 
 .btn-info:hover,
 .btn-info:focus {
-    border: 1px solid #a60000;
+    border: 1px solid #4747DA;
     outline: 0;
     color: #ffffff;
-    background-color: #a60000;
+    background-color: #4747DA;
     opacity: 1.0;
 }
 
 #btnInfo {
     color: #ffffff;
+    padding: 25px;
+    font-size: 26px;
+    vertical-align: middle;
 }
 
 .btn-huge {
