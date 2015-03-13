@@ -42,6 +42,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     [self startLocationUpdates];
     
     self.viewPrimerButton.hidden = YES;
+    self.latLabel.hidden = YES;
+    self.lonLabel.hidden = YES;
+
 }
 
 - (void)didReceiveMemoryWarning {
