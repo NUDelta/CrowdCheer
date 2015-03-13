@@ -64,9 +64,9 @@
             NSString *commonality = user[@"display commonality here"];
             NSLog(name);
             
-            _nameLabel.text = (@"%@!", name);
-            _bibLabel.text = (@" Bib #: %@", bibNumber);
-            _commonalityLabel.text = (@"You are both %@!", commonality);
+            self.nameLabel.text = [NSString stringWithFormat:@"%@!", name];
+            self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
+            self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
         }
     } else {
         //if alert
@@ -92,9 +92,9 @@
             NSString *commonality = user[@"display commonality here"];
             NSLog(name);
             
-            _nameLabel.text = (@"%@!", name);
-            _bibLabel.text = (@" Bib #: %@", bibNumber);
-            _commonalityLabel.text = (@"You are both %@!", commonality);
+            self.nameLabel.text = [NSString stringWithFormat:@"%@!", name];
+            self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
+            self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
         }
     }
 }

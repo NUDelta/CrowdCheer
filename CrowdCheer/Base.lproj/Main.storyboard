@@ -216,6 +216,7 @@
                     <connections>
                         <outlet property="LonLabel" destination="6Wf-mS-8HP" id="RfU-EP-Tsi"/>
                         <outlet property="latLabel" destination="5el-OF-8oL" id="85C-dI-re5"/>
+                        <outlet property="viewPrimerButton" destination="Ciz-Zo-JxJ" id="wUl-cz-nh8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rOy-5l-ZPh" userLabel="First Responder" sceneMemberID="firstResponder"/>

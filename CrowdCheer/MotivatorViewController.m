@@ -25,6 +25,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 @property (strong, nonatomic) NSString *runnerObjId;
+@property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
 @property (weak, nonatomic) PFUser *runnerToCheer;
 @end
@@ -39,6 +40,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
+    
+    self.viewPrimerButton.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
