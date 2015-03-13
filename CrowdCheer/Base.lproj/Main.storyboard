@@ -647,6 +647,9 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ay5-rc-SSD">
                                 <rect key="frame" x="84" y="281" width="153" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="3hB-9N-YAN"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
                                 <state key="normal" title="STOP" backgroundImage="red-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -658,18 +661,27 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4FK-Vx-3FF">
                                 <rect key="frame" x="16" y="387" width="349" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="CIH-kv-Cwn"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Pace:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BiV-ig-TSI">
                                 <rect key="frame" x="16" y="471" width="343" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Vy6-hY-slQ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJM-VI-Z8j">
                                 <rect key="frame" x="16" y="429" width="349" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="ZCs-p9-noz"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -685,18 +697,6 @@
                                     <action selector="startPressed:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="ngR-Bg-hmt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hit START when you're ready to begin the race." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpS-gm-tSq">
-                                <rect key="frame" x="54" y="65" width="213" height="92"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Then you can put your phone away and hit STOP when you're done!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nfz-tM-E6b">
-                                <rect key="frame" x="52" y="159" width="216" height="84"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Congrats! You did it!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wg6-Md-rAZ">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="G6A-rt-ZIj"/>
@@ -705,40 +705,39 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hit START when you're ready to begin the race. Then you can put your phone away until you're done!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpS-gm-tSq">
+                                <rect key="frame" x="24" y="68" width="273" height="158"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.082352943720000002" green="0.070588238540000001" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="leading" secondItem="EJM-VI-Z8j" secondAttribute="leading" id="147-Eu-cun"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="trailing" secondItem="EJM-VI-Z8j" secondAttribute="trailing" id="1si-u5-T96"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="leading" secondItem="CQP-0x-xzO" secondAttribute="leading" id="63P-0s-XcY"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="centerX" secondItem="UWT-8N-XTP" secondAttribute="centerX" id="69B-dH-bTb"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="top" secondItem="Nfz-tM-E6b" secondAttribute="bottom" constant="38" id="9WG-3h-Etf"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="baseline" secondItem="CQP-0x-xzO" secondAttribute="firstBaseline" id="Ann-Ke-mn1"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="top" secondItem="4FK-Vx-3FF" secondAttribute="bottom" constant="19" id="Ed9-qf-Rav"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="CQP-0x-xzO" secondAttribute="height" multiplier="349:59" id="FAF-WZ-10g"/>
-                            <constraint firstItem="Nfz-tM-E6b" firstAttribute="leading" secondItem="Wg6-Md-rAZ" secondAttribute="leading" id="GCe-dO-Ra4"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="4FK-Vx-3FF" secondAttribute="height" multiplier="349:23" id="IJF-8O-qWI"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="baseline" secondItem="ay5-rc-SSD" secondAttribute="firstBaseline" id="LBf-vd-Pve"/>
-                            <constraint firstItem="Nfz-tM-E6b" firstAttribute="top" secondItem="hpS-gm-tSq" secondAttribute="bottom" constant="2" id="LM6-UE-c3N"/>
-                            <constraint firstItem="Nfz-tM-E6b" firstAttribute="centerX" secondItem="hpS-gm-tSq" secondAttribute="centerX" id="P5t-M8-csf"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="top" secondItem="ay5-rc-SSD" secondAttribute="top" id="2Bl-Li-das"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BiV-ig-TSI" secondAttribute="trailing" constant="-55" id="3Nl-eD-U1q"/>
+                            <constraint firstItem="ay5-rc-SSD" firstAttribute="centerX" secondItem="hpS-gm-tSq" secondAttribute="centerX" id="7vu-IS-DHy"/>
+                            <constraint firstItem="hpS-gm-tSq" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="8" id="AB3-gT-bvF"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" id="BUo-Ey-r5w"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="leading" secondItem="4FK-Vx-3FF" secondAttribute="leading" id="C3R-SM-OmI"/>
+                            <constraint firstItem="hpS-gm-tSq" firstAttribute="top" secondItem="Cnx-KJ-Bew" secondAttribute="bottom" constant="48" id="CSh-hB-b1o"/>
+                            <constraint firstItem="ay5-rc-SSD" firstAttribute="baseline" secondItem="CQP-0x-xzO" secondAttribute="firstBaseline" id="DR1-Af-ZqX"/>
+                            <constraint firstItem="BiV-ig-TSI" firstAttribute="top" secondItem="EJM-VI-Z8j" secondAttribute="bottom" constant="21" id="Gfc-Rf-PAx"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="baseline" secondItem="ay5-rc-SSD" secondAttribute="firstBaseline" id="N3V-ad-vIW"/>
                             <constraint firstItem="Wg6-Md-rAZ" firstAttribute="top" secondItem="Cnx-KJ-Bew" secondAttribute="bottom" constant="96" id="TEH-R3-nah"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BiV-ig-TSI" secondAttribute="trailing" constant="-55" id="X7P-l1-Nic"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="Nfz-tM-E6b" secondAttribute="height" multiplier="349:84" id="YAt-vG-QFZ"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="68" id="Zsh-Ll-OQO"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="top" secondItem="EJM-VI-Z8j" secondAttribute="bottom" constant="21" id="aIK-oZ-eyh"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="hpS-gm-tSq" secondAttribute="height" multiplier="349:92" id="bkj-Pn-L3e"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="BiV-ig-TSI" secondAttribute="height" multiplier="349:24" id="edp-fw-i2b"/>
-                            <constraint firstItem="hpS-gm-tSq" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="38" id="fiD-wE-fnq"/>
-                            <constraint firstItem="hNl-2s-6JH" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="73" id="jtg-Ax-jAZ"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="leading" secondItem="BiV-ig-TSI" secondAttribute="leading" id="Uqs-AU-l8A"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="top" secondItem="hpS-gm-tSq" secondAttribute="bottom" constant="55" id="dPm-84-BQh"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="top" secondItem="CQP-0x-xzO" secondAttribute="bottom" constant="47" id="gHs-qh-Kmc"/>
+                            <constraint firstItem="hNl-2s-6JH" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="73" id="hpf-lO-zl1"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="trailing" secondItem="EJM-VI-Z8j" secondAttribute="trailing" id="iTX-Fb-lXd"/>
                             <constraint firstItem="Wg6-Md-rAZ" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="36" id="l3f-QF-7FX"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" id="qWe-wV-mHP"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="top" secondItem="ay5-rc-SSD" secondAttribute="bottom" constant="47" id="s7q-Gf-P0K"/>
+                            <constraint firstItem="ay5-rc-SSD" firstAttribute="trailing" secondItem="CQP-0x-xzO" secondAttribute="trailing" id="mFM-8e-lxu"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="leading" secondItem="ay5-rc-SSD" secondAttribute="leading" id="o8G-ia-zdL"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="68" id="r6g-cI-MEe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Wg6-Md-rAZ" secondAttribute="trailing" constant="33" id="sE6-Nv-Myx"/>
-                            <constraint firstItem="hpS-gm-tSq" firstAttribute="top" secondItem="Cnx-KJ-Bew" secondAttribute="bottom" constant="45" id="tbU-tl-rgZ"/>
-                            <constraint firstItem="Nfz-tM-E6b" firstAttribute="centerX" secondItem="ay5-rc-SSD" secondAttribute="centerX" id="w5r-m4-sYe"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="width" secondItem="ay5-rc-SSD" secondAttribute="height" multiplier="349:59" id="wYs-7S-b27"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="trailing" secondItem="ay5-rc-SSD" secondAttribute="trailing" id="xeD-lf-mne"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="leading" secondItem="EJM-VI-Z8j" secondAttribute="leading" id="ymn-uE-6c2"/>
+                            <constraint firstItem="hpS-gm-tSq" firstAttribute="centerX" secondItem="UWT-8N-XTP" secondAttribute="centerX" id="vKE-7z-TIX"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="top" secondItem="4FK-Vx-3FF" secondAttribute="bottom" constant="19" id="ytY-eH-S9W"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4FK-Vx-3FF" secondAttribute="trailing" constant="-61" id="zc2-RB-gHd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
@@ -746,7 +745,6 @@
                         <outlet property="congratsLabel" destination="Wg6-Md-rAZ" id="3iU-Hf-zGy"/>
                         <outlet property="distLabel" destination="4FK-Vx-3FF" id="Nbr-jg-y6D"/>
                         <outlet property="instruction1Label" destination="hpS-gm-tSq" id="y2d-ei-vYJ"/>
-                        <outlet property="instruction2Label" destination="Nfz-tM-E6b" id="trB-Ae-CTC"/>
                         <outlet property="paceLabel" destination="BiV-ig-TSI" id="Ge3-Pa-gcg"/>
                         <outlet property="startButton" destination="CQP-0x-xzO" id="ZDm-2B-M64"/>
                         <outlet property="stopButton" destination="ay5-rc-SSD" id="Djc-fj-eq8"/>
