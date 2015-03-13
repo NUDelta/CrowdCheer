@@ -221,6 +221,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"================Segueing===============");
             RelationshipViewController *rvc = [segue destinationViewController];
             rvc.runnerObjId = self.runnerObjId; //sets the property declared in RelationshipViewController.h
+            rvc.fromAlert = YES;
             NSLog(@"here is the object ID: %@",self.runnerObjId);
         }
     }

@@ -39,37 +39,64 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
-    NSString *userObjectID = [self.userInfo objectForKey:@"user"];
-    NSLog(@"User ID passed to RVC is %@""", self.runnerObjId);
-    PFQuery *query = [PFUser query];
-    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId];
-    NSLog(@"User passed to RVC is %@", user);
-    
-    
-    if(!user) {
-        NSLog(@"ERROR: No user object passed.");
+    //if local notif
+    if (!self.fromAlert) {
+        NSString *userObjectID = [self.userInfo objectForKey:@"user"];
+        NSLog(@"User ID passed to RVC is %@""", userObjectID);
+        PFQuery *query = [PFUser query];
+        PFUser *user = (PFUser *)[query getObjectWithId:userObjectID];
+        NSLog(@"User passed to RVC is %@", user);
+        //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
+        if(!user) {
+            NSLog(@"ERROR: No user object passed.");
+        }
+        else {
+            PFFile *userImageFile = user[@"profilePic"];
+            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *profilePic = [UIImage imageWithData:imageData];
+                    self.imageView.image = profilePic;
+                }
+            }];
+            
+            NSString *name = user[@"name"];
+            NSString *bibNumber = user[@"bibNumber"];
+            NSString *commonality = user[@"display commonality here"];
+            NSLog(name);
+            
+            _nameLabel.text = (@"%@!", name);
+            _bibLabel.text = (@" Bib #: %@", bibNumber);
+            _commonalityLabel.text = (@"You are both %@!", commonality);
+        }
+    } else {
+        //if alert
+        NSString *userObjectID = [self.userInfo objectForKey:@"user"];
+        NSLog(@"User ID passed to RVC is %@""", self.runnerObjId);
+        PFQuery *query = [PFUser query];
+        PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId];
+        NSLog(@"User passed to RVC is %@", user);
+        //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
+        if(!user) {
+            NSLog(@"ERROR: No user object passed.");
+        } else {
+            PFFile *userImageFile = user[@"profilePic"];
+            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *profilePic = [UIImage imageWithData:imageData];
+                    self.imageView.image = profilePic;
+                }
+            }];
+            
+            NSString *name = user[@"name"];
+            NSString *bibNumber = user[@"bibNumber"];
+            NSString *commonality = user[@"display commonality here"];
+            NSLog(name);
+            
+            _nameLabel.text = (@"%@!", name);
+            _bibLabel.text = (@" Bib #: %@", bibNumber);
+            _commonalityLabel.text = (@"You are both %@!", commonality);
+        }
     }
-    else {
-        PFFile *userImageFile = user[@"profilePic"];
-        [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-            if (!error) {
-                UIImage *profilePic = [UIImage imageWithData:imageData];
-                self.imageView.image = profilePic;
-            }
-        }];
-        
-        NSString *name = user[@"name"];
-        NSString *bibNumber = user[@"bibNumber"];
-        NSString *commonality = user[@"display commonality here"];
-        NSLog(name);
-        
-        _nameLabel.text = (@"%@!", name);
-        _bibLabel.text = (@" Bib #: %@", bibNumber);
-        _commonalityLabel.text = (@"You are both %@!", commonality);
-    }
-    
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
