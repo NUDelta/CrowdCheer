@@ -235,7 +235,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEO-Ni-lju">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEO-Ni-lju">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -273,6 +273,7 @@
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="top" secondItem="kxX-5j-1w3" secondAttribute="bottom" constant="25" id="68U-uo-y8X"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="width" secondItem="HXU-yH-dhJ" secondAttribute="height" multiplier="288:59" id="AF0-6N-ZPp"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="leading" secondItem="aB8-qd-LPF" secondAttribute="leading" id="Gk6-q7-ySD"/>
+                            <constraint firstItem="zEO-Ni-lju" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leading" id="Ieg-CF-Iqx"/>
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="centerX" secondItem="WGe-B6-hvj" secondAttribute="centerX" id="Ivb-s1-eVx"/>
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" constant="47" id="K7J-N2-hyB"/>
                             <constraint firstItem="aB8-qd-LPF" firstAttribute="leading" secondItem="XFK-h3-faf" secondAttribute="leading" id="Oqg-Hw-i37"/>
@@ -282,6 +283,7 @@
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="top" secondItem="KON-Pg-R0p" secondAttribute="bottom" constant="18" id="Ubb-jf-Tbq"/>
                             <constraint firstItem="HXU-yH-dhJ" firstAttribute="trailing" secondItem="XFK-h3-faf" secondAttribute="trailing" id="ZWg-zY-dqI"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="trailing" secondItem="aB8-qd-LPF" secondAttribute="trailing" id="a4P-6r-Jys"/>
+                            <constraint firstItem="zEO-Ni-lju" firstAttribute="top" secondItem="1JY-Hp-G2k" secondAttribute="top" id="bdH-m9-YGT"/>
                             <constraint firstItem="aB8-qd-LPF" firstAttribute="top" secondItem="KON-Pg-R0p" secondAttribute="bottom" constant="45" id="hB6-Ep-jIt"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="width" secondItem="aB8-qd-LPF" secondAttribute="height" multiplier="288:35" id="hxI-iY-vg3"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" id="isP-m7-cb6"/>

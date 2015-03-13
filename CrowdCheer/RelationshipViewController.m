@@ -59,6 +59,7 @@
                 }
             }];
             
+            
             NSString *name = user[@"name"];
             NSString *bibNumber = user[@"bibNumber"];
             NSString *commonality = user[@"display commonality here"];
@@ -67,6 +68,16 @@
             self.nameLabel.text = [NSString stringWithFormat:@"%@!", name];
             self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
             self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
+            
+            PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+            startCheering[@"runnerMotivated"] = user.objectId;
+            [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    // The object has been saved.
+                } else {
+                    // There was a problem, check error.description
+                }
+            }];
         }
     } else {
         //if alert
@@ -95,9 +106,21 @@
             self.nameLabel.text = [NSString stringWithFormat:@"%@!", name];
             self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
             self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
-        }
+            
+            PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+            startCheering[@"runnerMotivated"] = user.objectId;
+            [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    // The object has been saved.
+                } else {
+                    // There was a problem, check error.description
+                }
+            }];        }
     }
 }
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
