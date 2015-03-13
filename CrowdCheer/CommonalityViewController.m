@@ -9,7 +9,7 @@
 #import "CommonalityViewController.h"
 #import "NewRunViewController.h"
 
-@interface CommonalityViewController ()
+@interface CommonalityViewController () <UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -42,6 +42,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *cold;
 
 
+@property (nonatomic, weak) IBOutlet UIBarItem *saveButton;
+
 
 
 @end
@@ -63,6 +65,35 @@
     
     [_cubs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     [_sox setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_nike setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_reebok setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_coffee setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_tea setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_dogs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_cats setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_hot setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    [_cold setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
+    
+    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"All Fields Required"
+                                                     message:@"We'll need this information so cheerers can recognize and cheer for runners. Your info is securely stored on our servers."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles: nil];
+    [alert show];
+    
+    if ([[PFUser currentUser] objectForKey:@"name"]== nil){
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"birthMonth"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"birthDay"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"profilePic"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    
     
 }
 

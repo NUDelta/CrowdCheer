@@ -357,7 +357,7 @@
                                     <constraint firstAttribute="height" constant="48" id="XcT-pN-Rc5"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="22"/>
-                                <state key="normal" title="2. Get ready for the race!" backgroundImage="blue-btn.png">
+                                <state key="normal" title="2. Get ready for race day!" backgroundImage="blue-btn.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -385,6 +385,7 @@
                     <navigationItem key="navigationItem" id="aq8-jG-3vT"/>
                     <connections>
                         <outlet property="profile" destination="Kum-lu-meG" id="ibT-a7-Bxu"/>
+                        <outlet property="raceDay" destination="dXr-4U-mqf" id="9Rh-DR-Rej"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mgE-F3-egD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -532,6 +533,7 @@
                         <outlet property="imageView" destination="vBD-cI-dt0" id="nGn-ff-wEz"/>
                         <outlet property="infoButton" destination="Ww6-5V-zk0" id="cse-xM-W03"/>
                         <outlet property="name" destination="OOr-um-zFI" id="Okd-6y-YWr"/>
+                        <outlet property="saveButton" destination="84d-1T-F46" id="Xbf-6a-HcT"/>
                         <outlet property="takePhoto" destination="wiE-xL-7Kf" id="Nf6-xF-NhR"/>
                         <outlet property="uploadPhoto" destination="A1h-uz-pWL" id="wIc-kg-g3l"/>
                     </connections>

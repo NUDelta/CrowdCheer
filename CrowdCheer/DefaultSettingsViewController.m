@@ -14,6 +14,7 @@
 @interface DefaultSettingsViewController ()
 
 @property (nonatomic, weak) IBOutlet UIButton *profile;
+@property (nonatomic, weak) IBOutlet UIButton *raceDay;
 
 @end
 
@@ -44,6 +45,9 @@
         logInViewController.signUpController = signUpViewController;
         [self presentViewController:logInViewController animated:YES completion:NULL];
         
+    }
+    else if (([[PFUser currentUser] objectForKey:@"name"])==nil) {
+        self.raceDay.hidden = YES;
     }
 }
 
@@ -113,15 +117,6 @@
 
 - (IBAction)profile:(id)sender {
     [_profile setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
-    PFUser *currentUser = [PFUser currentUser];
-    currentUser[@"q_four"] = @1;
-    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            // The object has been saved.
-        } else {
-            // There was a problem, check error.description
-        }
-    }];
 }
 
 
