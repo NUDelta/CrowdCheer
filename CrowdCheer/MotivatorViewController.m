@@ -24,7 +24,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
-@property (weak, nonatomic) NSString *runnerObjId;
+@property (strong, nonatomic) NSString *runnerObjId;
 
 @property (weak, nonatomic) PFUser *runnerToCheer;
 @end
@@ -35,7 +35,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"MotivatorViewController.viewDidLoad()");
-    
     //this is what initializes the timer and gets it started
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
@@ -107,7 +106,8 @@ static NSString * const detailSegueName = @"RelationshipView";
             [user fetchIfNeeded];
             NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
             NSLog(runnerName);
-            NSString *runnerObjId = user;
+            NSString *runnerObjId = [user valueForKeyPath:@"objectId"];
+            self.runnerObjId = runnerObjId;
             NSLog(@"Runner Object ID is %@", self.runnerObjId);
                                      
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
@@ -136,8 +136,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
                     [cheerAlert show];
-                    self.runnerObjId = runnerObjId;
-                    NSLog(@"%@ in main thread", runnerObjId);
+//                    self.runnerObjId = runnerObjId;
+//                    NSLog(@"%@ in main thread", runnerObjId);
                     
                 });
             }
