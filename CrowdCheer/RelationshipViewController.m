@@ -41,9 +41,9 @@
     [super viewDidLoad];
     //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
     NSString *userObjectID = [self.userInfo objectForKey:@"user"];
-    NSLog(@"User ID passed to RVC is %@""", userObjectID);
+    NSLog(@"User ID passed to RVC is %@""", self.runnerObjId);
     PFQuery *query = [PFUser query];
-    PFUser *user = (PFUser *)[query getObjectWithId:userObjectID];
+    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId];
     NSLog(@"User passed to RVC is %@", user);
     
     

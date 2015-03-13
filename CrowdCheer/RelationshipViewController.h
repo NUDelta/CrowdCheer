@@ -10,4 +10,5 @@
 
 @interface RelationshipViewController : UIViewController
 @property (nonatomic, strong) NSDictionary *userInfo;
+@property (nonatomic, strong) NSString *runnerObjId;
 @end

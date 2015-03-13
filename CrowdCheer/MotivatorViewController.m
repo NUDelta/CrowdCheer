@@ -24,6 +24,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
+@property (weak, nonatomic) NSString *runnerObjId;
 
 @property (weak, nonatomic) PFUser *runnerToCheer;
 @end
@@ -106,13 +107,13 @@ static NSString * const detailSegueName = @"RelationshipView";
             [user fetchIfNeeded];
             NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
             NSLog(runnerName);
-            NSString *runnerObjID = user.objectId;
-            NSLog(@"Runner Object ID is %@", runnerObjID);
+            NSString *runnerObjId = user;
+            NSLog(@"Runner Object ID is %@", self.runnerObjId);
                                      
             NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             
-            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:runnerObjID, @"user", nil];
+            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
             NSLog(@"MVC dictionary is %@", runnerDict);
             
             [self.timer invalidate];
@@ -130,11 +131,13 @@ static NSString * const detailSegueName = @"RelationshipView";
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                     object:self
                                                                   userInfo:runnerDict];
-            
+                NSLog(@"%@ in backgorund thread", self.runnerObjId);
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
                     [cheerAlert show];
+                    self.runnerObjId = runnerObjId;
+                    NSLog(@"%@ in main thread", runnerObjId);
                     
                 });
             }
@@ -217,8 +220,8 @@ static NSString * const detailSegueName = @"RelationshipView";
         if([segue.destinationViewController isKindOfClass:[RelationshipViewController class]]) {
             NSLog(@"================Segueing===============");
             RelationshipViewController *rvc = [segue destinationViewController];
-//            rvc.request = self.requests[self.myIndexPath.row];
-//            NSLog(@"here is the object ID: %@",[self.requests[self.myIndexPath.row] valueForKeyPath:@"objectId"]);
+            rvc.runnerObjId = self.runnerObjId; //sets the property declared in RelationshipViewController.h
+            NSLog(@"here is the object ID: %@",self.runnerObjId);
         }
     }
     //    }
