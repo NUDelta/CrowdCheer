@@ -67,6 +67,10 @@
 		E2CA51831A89537200C2BB03 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51821A89537200C2BB03 /* icon.png */; };
 		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
 		E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */; };
+		E2E652EA1AB2B97400561710 /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E61AB2B97400561710 /* icon_120.png */; };
+		E2E652EB1AB2B97400561710 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E71AB2B97400561710 /* icon_58.png */; };
+		E2E652EC1AB2B97400561710 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E81AB2B97400561710 /* icon_80.png */; };
+		E2E652ED1AB2B97400561710 /* icon_87.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E91AB2B97400561710 /* icon_87.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +164,10 @@
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
 		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MulticolorPolylineSegment.h; path = CrowdCheer/MulticolorPolylineSegment.h; sourceTree = "<group>"; };
 		E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MulticolorPolylineSegment.m; path = CrowdCheer/MulticolorPolylineSegment.m; sourceTree = "<group>"; };
+		E2E652E61AB2B97400561710 /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
+		E2E652E71AB2B97400561710 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
+		E2E652E81AB2B97400561710 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
+		E2E652E91AB2B97400561710 /* icon_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_87.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +338,7 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2E652E51AB2B97400561710 /* non transparent icons */,
 				E2AD357C1AAF5613002E352A /* profileDefault.png */,
 				E2CA51821A89537200C2BB03 /* icon.png */,
 				E2CA51201A89219900C2BB03 /* atmosphere.jpg */,
@@ -351,6 +360,17 @@
 			);
 			name = Resources;
 			path = resources;
+			sourceTree = "<group>";
+		};
+		E2E652E51AB2B97400561710 /* non transparent icons */ = {
+			isa = PBXGroup;
+			children = (
+				E2E652E61AB2B97400561710 /* icon_120.png */,
+				E2E652E71AB2B97400561710 /* icon_58.png */,
+				E2E652E81AB2B97400561710 /* icon_80.png */,
+				E2E652E91AB2B97400561710 /* icon_87.png */,
+			);
+			path = "non transparent icons";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -451,11 +471,13 @@
 				E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */,
 				E2CA514C1A89219900C2BB03 /* badges.txt in Resources */,
 				E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */,
+				E2E652EA1AB2B97400561710 /* icon_120.png in Resources */,
 				E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */,
 				E2CA515B1A89219900C2BB03 /* Icon-Spotlight.png in Resources */,
 				CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */,
 				E2CA51571A89219900C2BB03 /* green-btn.png in Resources */,
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
+				E2E652ED1AB2B97400561710 /* icon_87.png in Resources */,
 				E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */,
 				E2AD357D1AAF5613002E352A /* profileDefault.png in Resources */,
 				E2CA515A1A89219900C2BB03 /* Icon-Settings.png in Resources */,
@@ -466,6 +488,8 @@
 				E2CA516D1A89219900C2BB03 /* spaceship-silver.png in Resources */,
 				E2CA51591A89219900C2BB03 /* Icon-App.png in Resources */,
 				E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */,
+				E2E652EC1AB2B97400561710 /* icon_80.png in Resources */,
+				E2E652EB1AB2B97400561710 /* icon_58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
