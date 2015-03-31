@@ -147,6 +147,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     
                 });
             }
+            break;
         }
     }
 }
