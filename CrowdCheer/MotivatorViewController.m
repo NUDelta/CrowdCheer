@@ -28,6 +28,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
 @property (weak, nonatomic) PFUser *runnerToCheer;
+@property (weak, nonatomic) PFUser *thisUser;
 @end
 
 @implementation MotivatorViewController
@@ -40,7 +41,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
-    
+    self.thisUser = [PFUser currentUser];
     self.viewPrimerButton.hidden = YES;
     self.latLabel.hidden = YES;
     self.lonLabel.hidden = YES;
@@ -72,18 +73,9 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)eachSecond
 {
     NSLog(@"eachSecond()...");
-    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
-    PFUser *thisUser = [PFUser currentUser];
     
-    PFObject *cheerLocation = [PFObject objectWithClassName:@"CheerLocation"];
-    [cheerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
-    [cheerLocation setObject:loc forKey:@"location"];
-    [cheerLocation setObject:thisUser forKey:@"user"];
     
-    [cheerLocation saveInBackground];
-    if (!checkQueue){
-        checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
-    }
+
     dispatch_async(checkQueue,^{[self checkForRunners];});
 }
 
@@ -190,13 +182,22 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray *)locations
 {
-    for (CLLocation *newLocation in locations) {
-        if (newLocation.horizontalAccuracy < 20) {
-            self.latLabel.text = [NSString stringWithFormat:@"Lat : %f", newLocation.coordinate.latitude];
-            self.lonLabel.text = [NSString stringWithFormat:@"Lon : %f" , newLocation.coordinate.longitude];
-            [self.locations addObject:newLocation];
-        }
+    CLLocation *newLocation = [locations lastObject];
+    
+    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:newLocation];
+
+    PFObject *cheerLocation = [PFObject objectWithClassName:@"CheerLocation"];
+    [cheerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
+    [cheerLocation setObject:loc forKey:@"location"];
+    [cheerLocation setObject:self.thisUser forKey:@"user"];
+    
+    [cheerLocation saveInBackground];
+    /**
+    if (!checkQueue){
+        checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
     }
+     */
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
