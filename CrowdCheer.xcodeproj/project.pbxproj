@@ -46,20 +46,13 @@
 		E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51201A89219900C2BB03 /* atmosphere.jpg */; };
 		E2CA514C1A89219900C2BB03 /* badges.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51211A89219900C2BB03 /* badges.txt */; };
 		E2CA514D1A89219900C2BB03 /* blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51221A89219900C2BB03 /* blue-btn.png */; };
-		E2CA51501A89219900C2BB03 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51251A89219900C2BB03 /* Default-568h@2x.png */; };
 		E2CA51571A89219900C2BB03 /* green-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA512C1A89219900C2BB03 /* green-btn.png */; };
-		E2CA51591A89219900C2BB03 /* Icon-App.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA512E1A89219900C2BB03 /* Icon-App.png */; };
-		E2CA515A1A89219900C2BB03 /* Icon-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA512F1A89219900C2BB03 /* Icon-Settings.png */; };
-		E2CA515B1A89219900C2BB03 /* Icon-Spotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51301A89219900C2BB03 /* Icon-Spotlight.png */; };
 		E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51311A89219900C2BB03 /* info@2x.png */; };
 		E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51321A89219900C2BB03 /* interstellar_space.jpg */; };
 		E2CA51611A89219900C2BB03 /* mapPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51361A89219900C2BB03 /* mapPin@2x.png */; };
 		E2CA51691A89219900C2BB03 /* red-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA513E1A89219900C2BB03 /* red-btn.png */; };
-		E2CA516C1A89219900C2BB03 /* spaceship-gold.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51411A89219900C2BB03 /* spaceship-gold.png */; };
-		E2CA516D1A89219900C2BB03 /* spaceship-silver.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51421A89219900C2BB03 /* spaceship-silver.png */; };
 		E2CA516E1A89219900C2BB03 /* success.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51431A89219900C2BB03 /* success.wav */; };
 		E2CA51751A8928AA00C2BB03 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA51741A8928AA00C2BB03 /* GLKit.framework */; };
-		E2CA51771A8928B000C2BB03 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA51761A8928B000C2BB03 /* HealthKit.framework */; };
 		E2CA51791A8928BF00C2BB03 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */; };
 		E2CA517B1A8928C800C2BB03 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */; };
 		E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA517D1A892E8000C2BB03 /* HomeViewController.m */; };
@@ -137,20 +130,13 @@
 		E2CA51201A89219900C2BB03 /* atmosphere.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = atmosphere.jpg; sourceTree = "<group>"; };
 		E2CA51211A89219900C2BB03 /* badges.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badges.txt; sourceTree = "<group>"; };
 		E2CA51221A89219900C2BB03 /* blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue-btn.png"; sourceTree = "<group>"; };
-		E2CA51251A89219900C2BB03 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E2CA512C1A89219900C2BB03 /* green-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-btn.png"; sourceTree = "<group>"; };
-		E2CA512E1A89219900C2BB03 /* Icon-App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App.png"; sourceTree = "<group>"; };
-		E2CA512F1A89219900C2BB03 /* Icon-Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Settings.png"; sourceTree = "<group>"; };
-		E2CA51301A89219900C2BB03 /* Icon-Spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight.png"; sourceTree = "<group>"; };
 		E2CA51311A89219900C2BB03 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		E2CA51321A89219900C2BB03 /* interstellar_space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = interstellar_space.jpg; sourceTree = "<group>"; };
 		E2CA51361A89219900C2BB03 /* mapPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapPin@2x.png"; sourceTree = "<group>"; };
 		E2CA513E1A89219900C2BB03 /* red-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-btn.png"; sourceTree = "<group>"; };
-		E2CA51411A89219900C2BB03 /* spaceship-gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceship-gold.png"; sourceTree = "<group>"; };
-		E2CA51421A89219900C2BB03 /* spaceship-silver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceship-silver.png"; sourceTree = "<group>"; };
 		E2CA51431A89219900C2BB03 /* success.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = success.wav; sourceTree = "<group>"; };
 		E2CA51741A8928AA00C2BB03 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		E2CA51761A8928B000C2BB03 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E2CA517C1A892E8000C2BB03 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = CrowdCheer/HomeViewController.h; sourceTree = "<group>"; };
@@ -187,7 +173,6 @@
 				E2CA51161A886C3800C2BB03 /* CoreGraphics.framework in Frameworks */,
 				E2CA517B1A8928C800C2BB03 /* CoreLocation.framework in Frameworks */,
 				E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */,
-				E2CA51771A8928B000C2BB03 /* HealthKit.framework in Frameworks */,
 				E2CA51791A8928BF00C2BB03 /* CoreFoundation.framework in Frameworks */,
 				E2CA51751A8928AA00C2BB03 /* GLKit.framework in Frameworks */,
 				E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */,
@@ -210,13 +195,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E25A11BB1AB1CE66003FFA73 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ViewControllers;
-			sourceTree = SOURCE_ROOT;
-		};
 		E2AD20071A9A96B400B1BEFE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +218,6 @@
 				E2CA51131A886C1D00C2BB03 /* MapKit.framework */,
 				E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */,
 				E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */,
-				E2CA51761A8928B000C2BB03 /* HealthKit.framework */,
 				E2CA51741A8928AA00C2BB03 /* GLKit.framework */,
 			);
 			name = Frameworks;
@@ -277,7 +254,6 @@
 				E2CA51111A886BE900C2BB03 /* Run.m */,
 				E2CA510D1A886BE900C2BB03 /* Location.h */,
 				E2CA510E1A886BE900C2BB03 /* Location.m */,
-				E25A11BB1AB1CE66003FFA73 /* ViewControllers */,
 				E2AD20071A9A96B400B1BEFE /* Frameworks */,
 				E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */,
 				E2CA511D1A89219900C2BB03 /* Resources */,
@@ -345,17 +321,11 @@
 				E2CA51211A89219900C2BB03 /* badges.txt */,
 				E2CA51221A89219900C2BB03 /* blue-btn.png */,
 				CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */,
-				E2CA51251A89219900C2BB03 /* Default-568h@2x.png */,
 				E2CA512C1A89219900C2BB03 /* green-btn.png */,
-				E2CA512E1A89219900C2BB03 /* Icon-App.png */,
-				E2CA512F1A89219900C2BB03 /* Icon-Settings.png */,
-				E2CA51301A89219900C2BB03 /* Icon-Spotlight.png */,
 				E2CA51311A89219900C2BB03 /* info@2x.png */,
 				E2CA51321A89219900C2BB03 /* interstellar_space.jpg */,
 				E2CA51361A89219900C2BB03 /* mapPin@2x.png */,
 				E2CA513E1A89219900C2BB03 /* red-btn.png */,
-				E2CA51411A89219900C2BB03 /* spaceship-gold.png */,
-				E2CA51421A89219900C2BB03 /* spaceship-silver.png */,
 				E2CA51431A89219900C2BB03 /* success.wav */,
 			);
 			name = Resources;
@@ -465,7 +435,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2CA51501A89219900C2BB03 /* Default-568h@2x.png in Resources */,
 				E2CA514D1A89219900C2BB03 /* blue-btn.png in Resources */,
 				E2CA51691A89219900C2BB03 /* red-btn.png in Resources */,
 				E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */,
@@ -473,20 +442,15 @@
 				E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */,
 				E2E652EA1AB2B97400561710 /* icon_120.png in Resources */,
 				E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */,
-				E2CA515B1A89219900C2BB03 /* Icon-Spotlight.png in Resources */,
 				CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */,
 				E2CA51571A89219900C2BB03 /* green-btn.png in Resources */,
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
 				E2E652ED1AB2B97400561710 /* icon_87.png in Resources */,
 				E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */,
 				E2AD357D1AAF5613002E352A /* profileDefault.png in Resources */,
-				E2CA515A1A89219900C2BB03 /* Icon-Settings.png in Resources */,
 				E2CA51831A89537200C2BB03 /* icon.png in Resources */,
 				E2CA516E1A89219900C2BB03 /* success.wav in Resources */,
 				E2CA51611A89219900C2BB03 /* mapPin@2x.png in Resources */,
-				E2CA516C1A89219900C2BB03 /* spaceship-gold.png in Resources */,
-				E2CA516D1A89219900C2BB03 /* spaceship-silver.png in Resources */,
-				E2CA51591A89219900C2BB03 /* Icon-App.png in Resources */,
 				E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */,
 				E2E652EC1AB2B97400561710 /* icon_80.png in Resources */,
 				E2E652EB1AB2B97400561710 /* icon_58.png in Resources */,
@@ -655,7 +619,7 @@
 					"Lab/General/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
@@ -678,7 +642,7 @@
 					"Lab/General/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
