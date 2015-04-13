@@ -79,21 +79,8 @@
                                                     delegate:self
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles: nil];
+    self.saveButton.enabled = NO;
     [alert show];
-    
-    if ([[PFUser currentUser] objectForKey:@"name"]== nil){
-        self.saveButton.enabled = NO;
-    }
-    else if ([[PFUser currentUser] objectForKey:@"birthMonth"]==nil) {
-        self.saveButton.enabled = NO;
-    }
-    else if ([[PFUser currentUser] objectForKey:@"birthDay"]==nil) {
-        self.saveButton.enabled = NO;
-    }
-    else if ([[PFUser currentUser] objectForKey:@"profilePic"]==nil) {
-        self.saveButton.enabled = NO;
-    }
-    
     
 }
 
@@ -162,6 +149,13 @@
         }
     }];
     
+    if ([[PFUser currentUser] objectForKey:@"profilePic"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    else {
+        self.saveButton.enabled = YES;
+    }
+    
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
@@ -229,11 +223,21 @@
     currentUser[@"name"] = self.name.text;
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            // The object has been saved.
+            NSLog(@"name and birthday saved!");
         } else {
-            // There was a problem, check error.description
+            NSLog(@"name and birthday not saved =(");
         }
     }];
+    
+    if ([[PFUser currentUser] objectForKey:@"name"]== nil){
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"birthMonth"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"birthDay"]==nil) {
+        self.saveButton.enabled = NO;
+    }
     
 }
 
