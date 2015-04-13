@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -141,6 +141,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gau-40-1Eu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-816" y="260"/>
+        </scene>
+        <!--Cheerer Start View Controller-->
+        <scene sceneID="qOn-C6-Dzt">
+            <objects>
+                <viewController storyboardIdentifier="cheererStartViewController" id="osf-Qg-taj" customClass="CheererStartViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aIn-zR-C2k"/>
+                        <viewControllerLayoutGuide type="bottom" id="voh-4P-ukS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qWX-3l-uSq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hit START when the race is about to begin, and we'll find runners you can cheer for!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPm-ek-Qwc">
+                                <rect key="frame" x="37" y="78" width="246" height="158"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ejv-eH-a17">
+                                <rect key="frame" x="84" y="244" width="153" height="59"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
+                                <state key="normal" title="START" backgroundImage="green-btn.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startPressed:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="H1x-dS-HEh"/>
+                                    <segue destination="k4c-zS-2ko" kind="push" id="sOO-ph-3qk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="O2o-c1-ARg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A06-H8-pc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1245" y="970"/>
         </scene>
         <!--Cheerer-->
         <scene sceneID="P7a-eQ-Jgc">
@@ -522,7 +561,7 @@
                         <barButtonItem systemItem="flexibleSpace" id="isG-fp-Q2y"/>
                         <barButtonItem systemItem="save" id="84d-1T-F46">
                             <connections>
-                                <segue destination="zyQ-R0-ReG" kind="push" id="mfI-tk-haR"/>
+                                <segue destination="L71-Vj-LVi" kind="push" id="ZEN-cS-AM9"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -598,7 +637,7 @@
                                 </state>
                                 <connections>
                                     <action selector="cheererRole:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="5h3-DU-gAi"/>
-                                    <segue destination="k4c-zS-2ko" kind="push" id="CRP-uc-0bH"/>
+                                    <segue destination="osf-Qg-taj" kind="push" id="QzC-fa-c3Z"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1089,11 +1128,7 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem systemItem="flexibleSpace" id="sbY-9V-Zuz"/>
-                        <barButtonItem systemItem="save" id="dev-gr-ga9">
-                            <connections>
-                                <segue destination="L71-Vj-LVi" kind="push" id="j55-jz-ad9"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="save" id="dev-gr-ga9"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Take Your Pick" id="sTO-86-IrN"/>
                     <connections>
@@ -1127,6 +1162,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="j55-jz-ad9"/>
+        <segue reference="ZEN-cS-AM9"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */; };
+		E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E245B6E71ADC544700432C61 /* CheererStartViewController.m */; };
 		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
 		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
 		E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */; };
@@ -78,6 +79,8 @@
 
 /* Begin PBXFileReference section */
 		CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-blue-btn.png"; sourceTree = "<group>"; };
+		E245B6E61ADC544700432C61 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/CheererStartViewController.h; sourceTree = "<group>"; };
+		E245B6E71ADC544700432C61 /* CheererStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheererStartViewController.m; path = CrowdCheer/CheererStartViewController.m; sourceTree = "<group>"; };
 		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
 		E25A11A61AB10248003FFA73 /* CommonalityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonalityViewController.m; path = CrowdCheer/CommonalityViewController.m; sourceTree = "<group>"; };
 		E25A11A71AB10248003FFA73 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = CrowdCheer/MotivatorViewController.h; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
+				E245B6E61ADC544700432C61 /* CheererStartViewController.h */,
+				E245B6E71ADC544700432C61 /* CheererStartViewController.m */,
 				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
 				E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */,
 				E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */,
@@ -475,6 +480,7 @@
 				E25A11BA1AB1CDF2003FFA73 /* RoleViewController.m in Sources */,
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
 				E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */,
+				E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */,
 				E2CA51121A886BE900C2BB03 /* Run.m in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */,

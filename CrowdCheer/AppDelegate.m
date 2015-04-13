@@ -11,6 +11,7 @@
 #import "HomeViewController.h"
 #import "DefaultSettingsViewController.h"
 #import "RoleViewController.h"
+#import "CheererStartViewController.h"
 #import "MotivatorViewController.h"
 #import "RelationshipViewController.h"
 #import "CommonalityViewController.h"
@@ -102,6 +103,7 @@
         
         DefaultSettingsViewController *dsvc = (DefaultSettingsViewController *)[sb instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
         RoleViewController *rvc = (RoleViewController *)[sb instantiateViewControllerWithIdentifier:@"roleViewController"];
+        CheererStartViewController *csvc = (CheererStartViewController *)[sb instantiateViewControllerWithIdentifier:@"cheererStartViewController"];
         MotivatorViewController *mvc = (MotivatorViewController *)[sb instantiateViewControllerWithIdentifier:@"motivatorViewController"];
         RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
         
@@ -117,7 +119,7 @@
         }
         */
         UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-        nav.viewControllers = [NSArray arrayWithObjects:dsvc,rvc,mvc,rsvc, nil];
+        nav.viewControllers = [NSArray arrayWithObjects:dsvc,csvc,rvc,mvc,rsvc, nil];
         [nav popToViewController:rsvc animated:YES];
     }
     
