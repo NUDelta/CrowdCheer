@@ -13,6 +13,7 @@
 
 @interface DefaultSettingsViewController ()
 
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *logOutButton;
 @property (nonatomic, weak) IBOutlet UIButton *profile;
 @property (nonatomic, weak) IBOutlet UIButton *raceDay;
 
@@ -23,6 +24,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (IBAction)logOutButton:(id)sender {
+    [PFUser logOut];
 }
 
 - (void)didReceiveMemoryWarning {

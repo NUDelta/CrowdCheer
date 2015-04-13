@@ -345,7 +345,7 @@
             </objects>
             <point key="canvasLocation" x="-356" y="970"/>
         </scene>
-        <!--Default Settings View Controller-->
+        <!--Getting Started-->
         <scene sceneID="7pQ-Wi-f0p">
             <objects>
                 <viewController storyboardIdentifier="defaultSettingsViewController" id="L71-Vj-LVi" customClass="DefaultSettingsViewController" sceneMemberID="viewController">
@@ -421,8 +421,15 @@
                             <constraint firstItem="Kum-lu-meG" firstAttribute="trailing" secondItem="dXr-4U-mqf" secondAttribute="trailing" id="yA5-cA-X98"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="aq8-jG-3vT"/>
+                    <navigationItem key="navigationItem" title="Getting Started" id="aq8-jG-3vT">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="yGs-Ym-XyP">
+                            <connections>
+                                <action selector="logOutButton:" destination="L71-Vj-LVi" id="1ni-xp-iVr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="logOutButton" destination="yGs-Ym-XyP" id="OaR-HM-GWo"/>
                         <outlet property="profile" destination="Kum-lu-meG" id="ibT-a7-Bxu"/>
                         <outlet property="raceDay" destination="dXr-4U-mqf" id="9Rh-DR-Rej"/>
                     </connections>
