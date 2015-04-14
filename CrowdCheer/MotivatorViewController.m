@@ -93,7 +93,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                 
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
-                if (dist < 200){
+                int radius = 10;
+                if (dist < radius){
                     NSLog(@"Found a runner!");
                     PFUser *user = possible[@"user"];
                     NSLog(@"Runner we found is %@", user.objectId);
@@ -134,6 +135,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                         //                    NSLog(@"%@ in main thread", runnerObjId);
                         
                     }
+                    //if there is a runner within the radius, break and do not notify again
                     break;
                 }
             }
@@ -260,6 +262,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     [cheerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
     [cheerLocation setObject:loc forKey:@"location"];
     [cheerLocation setObject:self.thisUser forKey:@"user"];
+    NSLog(@"CheerLocation is %@", loc);
     
     [cheerLocation saveInBackground];
     /**
