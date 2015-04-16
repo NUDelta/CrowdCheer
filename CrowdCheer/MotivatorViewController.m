@@ -19,7 +19,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 {
     dispatch_queue_t checkQueue;
 }
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *isCheckingRunners;
+@property (nonatomic, strong) NSTimer *didRunnerExit;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
@@ -27,7 +28,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
-@property (weak, nonatomic) PFUser *runnerToCheer;
+@property (weak, nonatomic) PFUser *currentRunnerToCheer;
 @property (weak, nonatomic) PFUser *thisUser;
 @end
 
@@ -38,7 +39,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     // Do any additional setup after loading the view.
     NSLog(@"MotivatorViewController.viewDidLoad()");
     //this is what initializes the timer and gets it started
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
     self.thisUser = [PFUser currentUser];
@@ -111,12 +112,14 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
                     NSLog(@"MVC dictionary is %@", runnerDict);
                     
-                    [self.timer invalidate];
+                    [self.isCheckingRunners invalidate];
+                    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+                                                                         selector:@selector(eachSecond) userInfo:nil repeats:YES];
                     
                     //quick way to save for RelationshipViewController to use
-                    PFObject *currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
-                    [currentRunnerToCheer setObject:user forKey:@"runner"];
-                    [currentRunnerToCheer saveInBackground];
+                    self.currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
+                    [self.currentRunnerToCheer setObject:user forKey:@"runner"];
+                    [self.currentRunnerToCheer saveInBackground];
                     
                     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
                     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
@@ -146,75 +149,101 @@ static NSString * const detailSegueName = @"RelationshipView";
     }];
     
 
-    
-
     //dispatch_async(checkQueue,^{[self checkForRunners];});
 }
 
-- (void)checkForRunners
-{
-    NSLog(@"Checking for runners...");
+- (void)checkRunnerLocation {
+    //get runner to cheerer id
+    //query parse for distance
     
-    
-    //First check for runners who have updated information recently
-    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
-    [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
-    [timeQuery orderByAscending:@"updatedAt"];
-    NSArray *possibleNearbyRunners = [timeQuery findObjects];
-    
-    //get locations for all these possibly nearby runners and check distance
-    for (PFObject *possible in possibleNearbyRunners) {
-        PFGeoPoint *point = [possible objectForKey:@"location"];
-        
-        CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
-        CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
-        if (dist < 200){
-            NSLog(@"Found a runner!");
-            PFUser *user = possible[@"user"];
-            NSLog(@"Runner we found is %@", user.objectId);
-            [user fetchIfNeeded];
-            NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
-            NSLog(runnerName);
-            NSString *runnerObjId = [user valueForKeyPath:@"objectId"];
-            self.runnerObjId = runnerObjId;
-            NSLog(@"Runner Object ID is %@", self.runnerObjId);
-                                     
-            NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
-            
-            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
-            NSLog(@"MVC dictionary is %@", runnerDict);
-            
-            [self.timer invalidate];
-            
-            //quick way to save for RelationshipViewController to use
-            PFObject *currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
-            [currentRunnerToCheer setObject:user forKey:@"runner"];
-            [currentRunnerToCheer saveInBackground];
-            
-            UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-            {
-                // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
-                // userInfo can include the dictionary above called runnerDict
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
-                                                                    object:self
-                                                                  userInfo:runnerDict];
-                NSLog(@"%@ in backgorund thread", self.runnerObjId);
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
-                    [cheerAlert show];
-//                    self.runnerObjId = runnerObjId;
-//                    NSLog(@"%@ in main thread", runnerObjId);
-                    
-                });
+    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
+    [query orderByAscending:@"updatedAt"];
+    [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            // Do something with the found objects
+            for (PFObject *object in objects) {
+                NSLog(@"%@", object.objectId);
             }
-            break;
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
-    }
+    }];
+    
+    PFGeoPoint *point = [self. objectForKey:@"location"];
+    
+    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
+    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
+
+    
 }
+
+//- (void)checkForRunners
+//{
+//    NSLog(@"Checking for runners...");
+//    
+//    
+//    //First check for runners who have updated information recently
+//    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+//    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+//    [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
+//    [timeQuery orderByAscending:@"updatedAt"];
+//    NSArray *possibleNearbyRunners = [timeQuery findObjects];
+//    
+//    //get locations for all these possibly nearby runners and check distance
+//    for (PFObject *possible in possibleNearbyRunners) {
+//        PFGeoPoint *point = [possible objectForKey:@"location"];
+//        
+//        CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
+//        CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
+//        if (dist < 200){
+//            NSLog(@"Found a runner!");
+//            PFUser *user = possible[@"user"];
+//            NSLog(@"Runner we found is %@", user.objectId);
+//            [user fetchIfNeeded];
+//            NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
+//            NSLog(runnerName);
+//            NSString *runnerObjId = [user valueForKeyPath:@"objectId"];
+//            self.runnerObjId = runnerObjId;
+//            NSLog(@"Runner Object ID is %@", self.runnerObjId);
+//                                     
+//            NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
+//            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
+//            
+//            NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
+//            NSLog(@"MVC dictionary is %@", runnerDict);
+//            
+//            [self.isCheckingRunners invalidate];
+//            
+//            //quick way to save for RelationshipViewController to use
+//            PFObject *currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
+//            [currentRunnerToCheer setObject:user forKey:@"runner"];
+//            [currentRunnerToCheer saveInBackground];
+//            
+//            UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+//            {
+//                // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
+//                // userInfo can include the dictionary above called runnerDict
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
+//                                                                    object:self
+//                                                                  userInfo:runnerDict];
+//                NSLog(@"%@ in backgorund thread", self.runnerObjId);
+//            } else {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
+//                    [cheerAlert show];
+////                    self.runnerObjId = runnerObjId;
+////                    NSLog(@"%@ in main thread", runnerObjId);
+//                    
+//                });
+//            }
+//            break;
+//        }
+//    }
+//}
 
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     NSLog(@"button clicked!!!!");
@@ -276,7 +305,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)viewWillDisappear:(BOOL)animated
 {
     //[super viewWillDisappear:<#animated#>];
-    [self.timer invalidate];
+    [self.isCheckingRunners invalidate];
 }
 
 - (void)showAlarm:(NSNotification *)notification {
