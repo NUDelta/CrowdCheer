@@ -28,6 +28,8 @@
 
 - (IBAction)logOutButton:(id)sender {
     [PFUser logOut];
+    [self viewDidLoad];
+    [self viewDidAppear:YES];
 }
 
 - (void)didReceiveMemoryWarning {

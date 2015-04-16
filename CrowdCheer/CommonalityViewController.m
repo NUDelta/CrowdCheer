@@ -100,8 +100,8 @@
 //                                                    delegate:self
 //                                           cancelButtonTitle:@"OK"
 //                                           otherButtonTitles: nil];
-//    self.saveButton.enabled = NO;
 //    [alert show];
+    self.saveButton.enabled = NO;
     
 }
 

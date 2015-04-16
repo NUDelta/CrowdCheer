@@ -7,6 +7,7 @@
 //
 
 #import "RoleViewController.h"
+#import "DefaultSettingsViewController.h"
 
 @interface RoleViewController ()
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *logOutButton;
@@ -29,6 +30,10 @@
 
 - (IBAction)logOutButton:(id)sender {
     [PFUser logOut];
+    
+    //instantiate VC
+    UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)runnerRole:(id)sender {

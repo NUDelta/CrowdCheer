@@ -71,6 +71,20 @@ static NSString * const detailSegueName = @"RunDetails";
     self.targetPace.text = targetPace;
     self.raceTimeGoal.text = raceTimeGoal;
     self.bibNumber.text = bibNumber;
+    
+    
+    if ([user objectForKey:@"targetPace"]== nil){
+        self.prepButton.enabled = NO;
+    }
+    else if ([user objectForKey:@"raceTimeGoal"]==nil) {
+        self.prepButton.enabled = NO;
+    }
+    else if ([user objectForKey:@"bibNumber"]==nil) {
+        self.prepButton.enabled = NO;
+    }
+    else {
+        self.prepButton.enabled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
