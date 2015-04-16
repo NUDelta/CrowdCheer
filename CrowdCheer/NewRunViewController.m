@@ -40,9 +40,11 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
-@property (nonatomic, weak) IBOutlet UIButton *prepButton;
+
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 @property (nonatomic, weak) IBOutlet UIButton *stopButton;
+
+@property (nonatomic, weak) IBOutlet UIButton *prepButton;
 @property (weak, nonatomic) IBOutlet UITextField *targetPace;
 @property (weak, nonatomic) IBOutlet UITextField *raceTimeGoal;
 @property (weak, nonatomic) IBOutlet UITextField *bibNumber;
@@ -56,6 +58,19 @@ static NSString * const detailSegueName = @"RunDetails";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"NewRunViewController.viewDidLoad()");
+    
+    
+    //If any profile data is saved, display it
+    
+    PFUser *user = [PFUser currentUser];
+    
+    NSString *targetPace = user[@"targetPace"];
+    NSString *raceTimeGoal = user[@"raceTimeGoal"];
+    NSString *bibNumber = user[@"bibNumber"];
+    
+    self.targetPace.text = targetPace;
+    self.raceTimeGoal.text = raceTimeGoal;
+    self.bibNumber.text = bibNumber;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,6 +93,8 @@ static NSString * const detailSegueName = @"RunDetails";
     self.paceLabel.hidden = YES;
     self.stopButton.hidden = YES;
     self.congratsLabel.hidden = YES;
+    
+    
 
 }
 

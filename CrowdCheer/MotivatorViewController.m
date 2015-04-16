@@ -93,7 +93,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
-                int radius = 10;
+                int radius = 200;
                 if (dist < radius){
                     NSLog(@"Found a runner!");
                     PFUser *user = possible[@"user"];

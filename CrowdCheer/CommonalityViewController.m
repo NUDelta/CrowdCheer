@@ -54,6 +54,27 @@
     [super viewDidLoad];
 //    self.scroll.delegate = self;
     
+    //Load existing profile info if any
+    PFUser *user = [PFUser currentUser];
+    
+    NSString *birthMonth = user[@"birthMonth"];
+    NSString *birthDay = user[@"birthDay"];
+    NSString *name = user[@"name"];
+    
+    self.birthMonth.text = birthMonth;
+    self.birthDay.text = birthDay;
+    self.name.text = name;
+    
+    PFFile *userImageFile = user[@"profilePic"];
+    [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+            UIImage *profilePic = [UIImage imageWithData:imageData];
+            self.imageView.image = profilePic;
+        }
+    }];
+    
+    
+    
     self.monthArray  = [[NSArray alloc] initWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
     self.dayArray  = [[NSArray alloc] initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", nil];
     
@@ -74,13 +95,13 @@
     [_hot setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     [_cold setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
     
-    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"All Fields Required"
-                                                     message:@"We'll need this information so cheerers can recognize and cheer for runners. Your info is securely stored on our servers."
-                                                    delegate:self
-                                           cancelButtonTitle:@"OK"
-                                           otherButtonTitles: nil];
-    self.saveButton.enabled = NO;
-    [alert show];
+//    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"All Fields Required"
+//                                                     message:@"We'll need this information so cheerers can recognize and cheer for runners. Your info is securely stored on our servers."
+//                                                    delegate:self
+//                                           cancelButtonTitle:@"OK"
+//                                           otherButtonTitles: nil];
+//    self.saveButton.enabled = NO;
+//    [alert show];
     
 }
 
