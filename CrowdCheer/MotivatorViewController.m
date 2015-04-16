@@ -113,15 +113,19 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSLog(@"MVC dictionary is %@", runnerDict);
                     
                     [self.isCheckingRunners invalidate];
+                    NSLog(@"invalidated isCheckingRunners");
                     self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                                          selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
+                    NSLog(@"starting didRunnerExit");
                     
                     //quick way to save for RelationshipViewController to use
                     self.currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
                     [self.currentRunnerToCheer setObject:user forKey:@"runner"];
                     [self.currentRunnerToCheer saveInBackground];
+                    NSLog(self.currentRunnerToCheer);
                     
                     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+                    NSLog(@"%@", state);
                     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
                     {
                         // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
@@ -157,14 +161,21 @@ static NSString * const detailSegueName = @"RelationshipView";
     //query parse for distance
     
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    [query orderByAscending:@"updatedAt"];
+    [query orderByDescending: @"updatedAt"];
+    //convert user key to string instead of pointer
     [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
+    
+    
+    NSLog(self.currentRunnerToCheer);
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
             // Do something with the found objects
             
             PFGeoPoint *point = [objects.firstObject objectForKey:@"location"];
+            NSLog(objects.firstObject);
+            NSLog(objects);
             CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
             CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
         } else {
@@ -288,6 +299,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"CheerLocation is %@", loc);
     
     [cheerLocation saveInBackground];
+    NSLog(@"do I get to this point?");
     /**
     if (!checkQueue){
         checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
@@ -298,7 +310,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    //[super viewWillDisappear:<#animated#>];
+    //[super viewWillDisappear:];
     [self.isCheckingRunners invalidate];
 }
 
