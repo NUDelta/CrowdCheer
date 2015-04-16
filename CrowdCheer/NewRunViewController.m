@@ -71,7 +71,10 @@ static NSString * const detailSegueName = @"RunDetails";
     self.targetPace.text = targetPace;
     self.raceTimeGoal.text = raceTimeGoal;
     self.bibNumber.text = bibNumber;
-    
+
+    [self.targetPace addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.raceTimeGoal addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.bibNumber addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     if ([user objectForKey:@"targetPace"]== nil){
         self.prepButton.enabled = NO;
@@ -112,13 +115,21 @@ static NSString * const detailSegueName = @"RunDetails";
 
 }
 
--(IBAction)prepPressed:(id)sender
-{
+-(void)textFieldDidChange :(UITextField *)textField{
     //save profile info to Parse
     PFUser *currentUser = [PFUser currentUser];
-    currentUser[@"targetPace"] = self.targetPace.text;
-    currentUser[@"raceTimeGoal"] = self.raceTimeGoal.text;
-    currentUser[@"bibNumber"] = self.bibNumber.text;
+    if (textField == self.targetPace){
+        currentUser[@"targetPace"] = self.targetPace.text;
+    }
+    
+    else if (textField == self.raceTimeGoal){
+        currentUser[@"raceTimeGoal"] = self.raceTimeGoal.text;
+    }
+    
+    else if (textField == self.bibNumber){
+        currentUser[@"bibNumber"] = self.bibNumber.text;
+    }
+    
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             // The object has been saved.
@@ -126,6 +137,34 @@ static NSString * const detailSegueName = @"RunDetails";
             // There was a problem, check error.description
         }
     }];
+    
+    if (([currentUser objectForKey:@"targetPace"]== nil) ||
+        ([currentUser objectForKey:@"raceTimeGoal"]==nil) ||
+        ([currentUser objectForKey:@"bibNumber"]==nil) )
+    {
+        self.prepButton.enabled = NO;
+    }
+    else {
+        self.prepButton.enabled = YES;
+    }
+}
+
+
+
+-(IBAction)prepPressed:(id)sender
+{
+
+//    PFUser *currentUser = [PFUser currentUser];
+//    currentUser[@"targetPace"] = self.targetPace.text;
+//    currentUser[@"raceTimeGoal"] = self.raceTimeGoal.text;
+//    currentUser[@"bibNumber"] = self.bibNumber.text;
+//    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            // The object has been saved.
+//        } else {
+//            // There was a problem, check error.description
+//        }
+//    }];
 }
 
 -(IBAction)startPressed:(id)sender
