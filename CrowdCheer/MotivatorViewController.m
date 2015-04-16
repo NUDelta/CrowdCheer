@@ -114,7 +114,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     
                     [self.isCheckingRunners invalidate];
                     self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                                         selector:@selector(eachSecond) userInfo:nil repeats:YES];
+                                                                         selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
                     
                     //quick way to save for RelationshipViewController to use
                     self.currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
@@ -163,21 +163,15 @@ static NSString * const detailSegueName = @"RelationshipView";
         if (!error) {
             // The find succeeded.
             // Do something with the found objects
-            for (PFObject *object in objects) {
-                NSLog(@"%@", object.objectId);
-            }
+            
+            PFGeoPoint *point = [objects.firstObject objectForKey:@"location"];
+            CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
+            CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    
-    PFGeoPoint *point = [self. objectForKey:@"location"];
-    
-    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
-    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations.lastObject]; //in meters
-
-    
 }
 
 //- (void)checkForRunners
