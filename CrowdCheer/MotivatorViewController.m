@@ -80,6 +80,12 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     
     //First check for runners who have updated information recently
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    
+    NSLog(@"active = %d",UIApplicationStateActive);
+    NSLog(@"inactive = %d",UIApplicationStateInactive);
+    NSLog(@"background = %d",UIApplicationStateBackground);
+    NSLog(@"application state outside background is %d", state);
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
@@ -112,20 +118,16 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
                     NSLog(@"MVC dictionary is %@", runnerDict);
                     
-                    [self.isCheckingRunners invalidate];
-                    NSLog(@"invalidated isCheckingRunners");
-                    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                                         selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
-                    NSLog(@"starting didRunnerExit");
                     
                     //quick way to save for RelationshipViewController to use
                     self.currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
                     [self.currentRunnerToCheer setObject:user forKey:@"runner"];
+                    NSLog(@"user is %@", user);
                     [self.currentRunnerToCheer saveInBackground];
-                    NSLog(self.currentRunnerToCheer);
+                    NSLog(@"currentRunnerToCheer is %@", self.currentRunnerToCheer);
                     
-                    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-                    NSLog(@"%@", state);
+                    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+                    NSLog(@"application state inside background is %d", state);
                     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
                     {
                         // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
@@ -143,7 +145,13 @@ static NSString * const detailSegueName = @"RelationshipView";
                         
                     }
                     //if there is a runner within the radius, break and do not notify again
+                    [self.isCheckingRunners invalidate];
+                    
                     break;
+                    NSLog(@"invalidated isCheckingRunners");
+                    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+                                                                        selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
+                    NSLog(@"starting didRunnerExit");
                 }
             }
         } else {
@@ -163,6 +171,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
     [query orderByDescending: @"updatedAt"];
     //convert user key to string instead of pointer
+//    [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
     [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
     
     
