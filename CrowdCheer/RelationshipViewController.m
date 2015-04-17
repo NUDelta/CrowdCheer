@@ -70,7 +70,8 @@
             self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
             
             PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-            startCheering[@"runnerMotivated"] = user.objectId;
+            startCheering[@"runnerMotivated"] = user;
+            startCheering[@"cheerer"] = [PFUser currentUser];
             [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     // The object has been saved.
@@ -108,7 +109,8 @@
             self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
             
             PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-            startCheering[@"runnerMotivated"] = user.objectId;
+            startCheering[@"runnerMotivated"] = user;
+            startCheering[@"cheerer"] = [PFUser currentUser];
             [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     // The object has been saved.
