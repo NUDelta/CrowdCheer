@@ -28,8 +28,11 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
-@property (weak, nonatomic) PFUser *currentRunnerToCheer;
+//@property (weak, nonatomic) PFUser *currentRunnerToCheer;
+//@property (weak, nonatomic) PFObject *currentRunnerToCheer;
 @property (weak, nonatomic) PFUser *thisUser;
+@property (weak, nonatomic) PFUser *runner;
+
 @end
 
 @implementation MotivatorViewController
@@ -103,12 +106,12 @@ static NSString * const detailSegueName = @"RelationshipView";
                 int radius = 200;
                 if (dist < radius){
                     NSLog(@"Found a runner!");
-                    PFUser *user = possible[@"user"];
-                    NSLog(@"Runner we found is %@", user.objectId);
-                    [user fetchIfNeeded];
-                    NSString *runnerName = [NSString stringWithFormat:@"%@",[user objectForKey:@"name"]];
+                    self.runner = possible[@"user"];
+                    NSLog(@"Runner we found is %@", self.runner.objectId);
+                    [self.runner fetchIfNeeded];
+                    NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
                     NSLog(runnerName);
-                    NSString *runnerObjId = [user valueForKeyPath:@"objectId"];
+                    NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
                     self.runnerObjId = runnerObjId;
                     NSLog(@"Runner Object ID is %@", self.runnerObjId);
                     
@@ -120,11 +123,12 @@ static NSString * const detailSegueName = @"RelationshipView";
                     
                     
                     //quick way to save for RelationshipViewController to use
-                    self.currentRunnerToCheer = [PFObject objectWithClassName:@"currentRunnerToCheer"];
-                    [self.currentRunnerToCheer setObject:user forKey:@"runner"];
-                    NSLog(@"user is %@", user);
-                    [self.currentRunnerToCheer saveInBackground];
-                    NSLog(@"currentRunnerToCheer is %@", self.currentRunnerToCheer);
+                    PFObject *cheererNotification = [PFObject objectWithClassName:@"cheererWasNotified"];
+                    [cheererNotification setObject:self.runner forKey:@"runner"];
+                    [cheererNotification setObject:self.thisUser forKey:@"cheerer"];
+                    NSLog(@"user is %@", self.runner);
+                    [cheererNotification saveInBackground];
+                    NSLog(@"cheererNotification is %@", cheererNotification);
                     
                     UIApplicationState state = [UIApplication sharedApplication].applicationState;
                     NSLog(@"application state inside background is %d", state);
@@ -138,26 +142,30 @@ static NSString * const detailSegueName = @"RelationshipView";
                         NSLog(@"%@ in backgorund thread", self.runnerObjId);
                     } else {
                         
-                        NSLog(@"MotivatorViewController was loaded when runner trigger occurred");
+                        NSLog(@"about to display cheerAlert");
                         [cheerAlert show];
                         //                    self.runnerObjId = runnerObjId;
                         //                    NSLog(@"%@ in main thread", runnerObjId);
                         
                     }
                     //if there is a runner within the radius, break and do not notify again
-                    [self.isCheckingRunners invalidate];
                     
-                    break;
+
+                    [self.isCheckingRunners invalidate];
                     NSLog(@"invalidated isCheckingRunners");
-                    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                                        selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
-                    NSLog(@"starting didRunnerExit");
+                    break;
+                    
                 }
             }
+            
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
+        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+                                                            selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
+        NSLog(@"starting didRunnerExit");
+
     }];
     
 
@@ -167,15 +175,19 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)checkRunnerLocation {
     //get runner to cheerer id
     //query parse for distance
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    [query orderByDescending: @"updatedAt"];
+    if (self.runner == nil) {
+        NSLog(@"runner is nil");
+    }
+    else {
+    PFQuery *query = [PFQuery queryWithClassName:@"User"];
+    [query whereKey:@"objectId" equalTo:self.runner];
+
+//    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
+//    [query orderByDescending: @"updatedAt"];
     //convert user key to string instead of pointer
 //    [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
-    [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
+//    [query whereKey:@"user" equalTo:self.currentRunnerToCheer];
     
-    
-    NSLog(self.currentRunnerToCheer);
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -192,6 +204,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+    }
 }
 
 //- (void)checkForRunners
@@ -308,7 +321,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"CheerLocation is %@", loc);
     
     [cheerLocation saveInBackground];
-    NSLog(@"do I get to this point?");
     /**
     if (!checkQueue){
         checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
