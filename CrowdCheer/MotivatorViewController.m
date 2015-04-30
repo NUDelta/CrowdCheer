@@ -97,11 +97,17 @@ static NSString * const detailSegueName = @"RelationshipView";
 
             //get locations for all these possibly nearby runners and check distance
             for (PFObject *possible in possibleNearbyRunners) {
+                //getting location for a runner object
                 PFGeoPoint *point = [possible objectForKey:@"location"];
+                //converting location to CLLocation
+                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+                NSLog(@"possible's runnerLoc is storing: %@", runnerLoc);
                 
-                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
+                NSLog(@"self.locations is storing: %@", self.locations);
+                NSLog(@"possible's dist is storing: %f", dist);
                 if (dist < self.radius){
+                    NSLog(@"runner entered radius");
                     //NSLog(@"a runner's dist < radius");
                     NSLog(@"RunnerLocation.objid == %@", possible.objectId);
                     PFUser *runner = possible[@"user"];
