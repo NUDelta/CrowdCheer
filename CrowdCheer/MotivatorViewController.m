@@ -315,7 +315,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)viewWillDisappear:(BOOL)animated
 {
     //[super viewWillDisappear:];
-//    [self.isCheckingRunners invalidate];
+    [self.isCheckingRunners invalidate];
 }
 
 - (void)showAlarm:(NSNotification *)notification {
