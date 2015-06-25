@@ -10,6 +10,7 @@
 #import "RelationshipViewController.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
+#import <AudioToolbox/AudioServices.h>
 
 static NSString * const detailSegueName = @"RelationshipView";
 
@@ -176,11 +177,13 @@ static NSString * const detailSegueName = @"RelationshipView";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                 object:self
                                                               userInfo:runnerDict];
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             NSLog(@" notifying about %@ from background", self.runnerObjId);
         } else {
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             NSLog(@"about to display cheerAlert");
             [cheerAlert show];
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             //                    self.runnerObjId = runnerObjId;
             //                    NSLog(@"%@ in main thread", runnerObjId);
             
@@ -297,11 +300,11 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.locations = newLocation;
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:newLocation];
 
-    PFObject *cheerLocation = [PFObject objectWithClassName:@"CheerLocation"];
+    PFObject *cheerLocation = [PFObject objectWithClassName:@"CheererLocation"];
     [cheerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
     [cheerLocation setObject:loc forKey:@"location"];
     [cheerLocation setObject:self.thisUser forKey:@"user"];
-    NSLog(@"CheerLocation is %@", loc);
+    NSLog(@"CheererLocation is %@", loc);
     
     [cheerLocation saveInBackground];
     /**
