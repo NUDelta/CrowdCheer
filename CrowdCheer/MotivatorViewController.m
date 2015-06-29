@@ -52,16 +52,16 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"MotivatorViewController.viewDidLoad()");
     //this is what initializes the timer and gets it started
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                selector:@selector(eachSecond) userInfo:nil repeats:YES];
-//    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-//                                                        selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
+                                                            selector:@selector(eachSecond) userInfo:nil repeats:YES];
+    //    self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+    //                                                        selector:@selector(checkRunnerLocation) userInfo:nil repeats:YES];
     [self startLocationUpdates];
     self.thisUser = [PFUser currentUser];
     self.viewPrimerButton.hidden = YES;
     self.latLabel.hidden = NO;
     self.lonLabel.hidden = NO;
     self.distLabel.hidden = NO;
-
+    
 }
 
 
@@ -96,7 +96,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //First check for runners who have updated information recently
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
-
+    
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];
@@ -104,7 +104,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *possibleNearbyRunners, NSError *error) {
         if (!error) {
             // The find succeeded. The first 100 objects are available in objects
-
+            
             //get locations for all these possibly nearby runners and check distance
             for (PFObject *possible in possibleNearbyRunners) {
                 //getting location for a runner object
@@ -126,7 +126,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     //buzz every 2 seconds
                     [self.hapticTimer invalidate]; //invalidate prev haptic timer
                     self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
-                                                                            selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
                     NSLog(@"runner entered mid radius");
                     NSLog(@"RunnerLocation.objid == %@", possible.objectId);
                     PFUser *runner = possible[@"user"];
@@ -135,7 +135,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self foundRunner:runner];
                     });
-
+                    
                 }
                 else if (dist <= self.radiusInner) {
                     //runner entered 10ft radius
@@ -161,7 +161,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
     }]; //end of find objects in background with block
     //checking if we found runner
-
+    
     
 };
 
@@ -170,15 +170,15 @@ static NSString * const detailSegueName = @"RelationshipView";
     if (runner != nil) {
         NSLog(@"runner = %@", runner);
         
-//        [runner fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//            if(!error) {
-//                NSLog(@"runner we fetched is %@", self.runner);
-//                
-//            }
-//            else {
-//                NSLog(@"ERR: could not fetch");
-//            }
-//        }]; // fetching runner in background is done
+        //        [runner fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        //            if(!error) {
+        //                NSLog(@"runner we fetched is %@", self.runner);
+        //
+        //            }
+        //            else {
+        //                NSLog(@"ERR: could not fetch");
+        //            }
+        //        }]; // fetching runner in background is done
         self.runner = runner;
         //stopping first timer to check runners, starting timer for did runner exit
         NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
@@ -187,7 +187,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         //NSLog(@"Runner Object ID is %@", self.runnerObjId);
         
         NSString *alertMess =  [runnerName stringByAppendingFormat:@" needs your help!"];
-
+        
         
         NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", nil];
         //NSLog(@"MVC dictionary is %@", runnerDict);
@@ -224,7 +224,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         
         
         [self.isCheckingRunners invalidate];
-
+        
         NSLog(@"invalidated isCheckingRunners");
         
         //                    self.didRunnerExit.fire;
@@ -233,7 +233,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         //[self performSelectorOnMainThread:@selector(createTimer) withObject:nil waitUntilDone:YES];
         self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                             selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
-
+        
     } else {
         NSLog(@"Runner was nil");
     }
@@ -251,42 +251,42 @@ static NSString * const detailSegueName = @"RelationshipView";
         
     }
     else {
-     NSLog(@"runner found, name is %@", self.runner.username);
-    //PFQuery *query = [PFQuery queryWithClassName:@"User"];
-   // [query whereKey:@"objectId" equalTo:runner];
-
-    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-    [query orderByDescending: @"updatedAt"];
-    //convert user key to string instead of pointer
-    [query whereKey:@"user" equalTo:self.runner];
-    
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            // Do something with the found objects
-            NSString *objId = [objects.firstObject valueForKeyPath:@"objectId"];
-
-            NSLog(@"findingRunner objId == %@", objId);
-            PFGeoPoint *point = [objects.firstObject valueForKeyPath:@"location"];
-            //NSLog(@"%@", objects.firstObject);
-            //NSLog(objects);
-            CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
-            NSLog(@"Lat : %f", point.latitude);
-            NSLog(@"Lon : %f", point.longitude);
-            if ( (point.latitude != 0) && (point.longitude != 0)){
-                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
-                NSLog(@"dist : %f", dist);
-                if (dist > self.radiusOuter){
-                    NSLog(@"runner is gone!");
-                    [self.hapticTimer invalidate];
+        NSLog(@"runner found, name is %@", self.runner.username);
+        //PFQuery *query = [PFQuery queryWithClassName:@"User"];
+        // [query whereKey:@"objectId" equalTo:runner];
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
+        [query orderByDescending: @"updatedAt"];
+        //convert user key to string instead of pointer
+        [query whereKey:@"user" equalTo:self.runner];
+        
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                // Do something with the found objects
+                NSString *objId = [objects.firstObject valueForKeyPath:@"objectId"];
+                
+                NSLog(@"findingRunner objId == %@", objId);
+                PFGeoPoint *point = [objects.firstObject valueForKeyPath:@"location"];
+                //NSLog(@"%@", objects.firstObject);
+                //NSLog(objects);
+                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
+                NSLog(@"Lat : %f", point.latitude);
+                NSLog(@"Lon : %f", point.longitude);
+                if ( (point.latitude != 0) && (point.longitude != 0)){
+                    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
+                    NSLog(@"dist : %f", dist);
+                    if (dist > self.radiusOuter){
+                        NSLog(@"runner is gone!");
+                        [self.hapticTimer invalidate];
+                    }
                 }
+            } else {
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
+        }];
     }
 }
 
@@ -337,7 +337,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     CLLocation *newLocation = [locations lastObject];
     self.locations = newLocation;
     PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:newLocation];
-
+    
     PFObject *cheerLocation = [PFObject objectWithClassName:@"CheererLocation"];
     [cheerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
     [cheerLocation setObject:loc forKey:@"location"];
@@ -346,11 +346,11 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     [cheerLocation saveInBackground];
     /**
-    if (!checkQueue){
-        checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
-    }
+     if (!checkQueue){
+     checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
+     }
      */
-
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
