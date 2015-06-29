@@ -34,6 +34,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property int radiusInner;
 @property int radiusMid;
 @property int radiusOuter;
+@property int radiusNotify;
 
 @property (weak, nonatomic) PFUser *thisUser;
 @property (weak, nonatomic) PFUser *runner;
@@ -46,7 +47,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     [super viewDidLoad];
     self.radiusInner = 10;
     self.radiusMid = 50;
-    self.radiusOuter = 200;
+    self.radiusOuter = 100;
+    self.radiusNotify = 150;
+    
     
     // Do any additional setup after loading the view.
     NSLog(@"MotivatorViewController.viewDidLoad()");
@@ -121,13 +124,10 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
                 NSLog(@"inner radius: %d; mid radius: %d; outer radius: %d", self.radiusInner, self.radiusMid, self.radiusOuter);
-                if ((self.radiusInner < dist) && (dist <= self.radiusMid)){
-                    //runner entered 50ft radius
-                    //buzz every 5 seconds
-                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
-                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                    NSLog(@"runner entered mid radius");
+                
+                if ((self.radiusOuter < dist) && (dist <= self.radiusNotify)) {
+                    //runner entered 150ft radius
+                    //notify cheerer
                     NSLog(@"RunnerLocation.objid == %@", possible.objectId);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
@@ -135,23 +135,33 @@ static NSString * const detailSegueName = @"RelationshipView";
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self foundRunner:runner];
                     });
-                    
                 }
+                
+                
+                else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
+                    //runner entered 100ft radius
+                    //buzz every 7 second
+                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(7.0) target:self
+                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                }
+                
+                else if ((self.radiusInner < dist) && (dist <= self.radiusMid)){
+                    //runner entered 50ft radius
+                    //buzz every 3 seconds
+                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
+                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                }
+                
                 else if (dist <= self.radiusInner) {
                     //runner entered 10ft radius
-                    //buzz every 2 seconds
+                    //buzz every 0.5 seconds
                     [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 }
-                else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
-                    //runner entered 200ft radius
-                    //buzz every 10 second
-                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(10.0) target:self
-                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                    
-                }
+                
                 break; //exiting for loop
             }
             
@@ -279,6 +289,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSLog(@"dist : %f", dist);
                     if (dist > self.radiusOuter){
                         NSLog(@"runner is gone!");
+                        [self.didRunnerExit invalidate];
                         [self.hapticTimer invalidate];
                     }
                 }
