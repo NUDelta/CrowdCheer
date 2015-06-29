@@ -123,9 +123,9 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"inner radius: %d; mid radius: %d; outer radius: %d", self.radiusInner, self.radiusMid, self.radiusOuter);
                 if ((self.radiusInner < dist) && (dist <= self.radiusMid)){
                     //runner entered 50ft radius
-                    //buzz every 2 seconds
+                    //buzz every 5 seconds
                     [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                     NSLog(@"runner entered mid radius");
                     NSLog(@"RunnerLocation.objid == %@", possible.objectId);
@@ -139,16 +139,16 @@ static NSString * const detailSegueName = @"RelationshipView";
                 }
                 else if (dist <= self.radiusInner) {
                     //runner entered 10ft radius
-                    //buzz every 0.5 seconds
+                    //buzz every 2 seconds
                     [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 }
                 else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
                     //runner entered 200ft radius
-                    //buzz every 5 second
+                    //buzz every 10 second
                     [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(10.0) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                     
                 }
