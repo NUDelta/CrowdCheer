@@ -227,6 +227,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dist (ft):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4nh-pR-pgq">
+                                <rect key="frame" x="16" y="138" width="288" height="21"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -254,7 +260,9 @@
                     <navigationItem key="navigationItem" id="MwJ-Ur-1qQ"/>
                     <connections>
                         <outlet property="LonLabel" destination="6Wf-mS-8HP" id="RfU-EP-Tsi"/>
+                        <outlet property="distLabel" destination="4nh-pR-pgq" id="57w-7n-fbd"/>
                         <outlet property="latLabel" destination="5el-OF-8oL" id="85C-dI-re5"/>
+                        <outlet property="lonLabel" destination="6Wf-mS-8HP" id="wcJ-Q2-IUG"/>
                         <outlet property="viewPrimerButton" destination="Ciz-Zo-JxJ" id="wUl-cz-nh8"/>
                     </connections>
                 </viewController>
@@ -477,7 +485,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
-                                <rect key="frame" x="90" y="137" width="221" height="36.5"/>
+                                <rect key="frame" x="90" y="137" width="221" height="37"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>

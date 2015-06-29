@@ -22,13 +22,18 @@ static NSString * const detailSegueName = @"RelationshipView";
 }
 @property (nonatomic, strong) NSTimer *isCheckingRunners;
 @property (nonatomic, strong) NSTimer *didRunnerExit;
+@property (nonatomic, strong) NSTimer *hapticTimer;
+
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
+@property (weak, nonatomic) IBOutlet UILabel *distLabel;
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
-@property int radius;
+@property int radiusInner;
+@property int radiusMid;
+@property int radiusOuter;
 
 @property (weak, nonatomic) PFUser *thisUser;
 @property (weak, nonatomic) PFUser *runner;
@@ -39,7 +44,10 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.radius = 200;
+    self.radiusInner = 10;
+    self.radiusMid = 50;
+    self.radiusOuter = 200;
+    
     // Do any additional setup after loading the view.
     NSLog(@"MotivatorViewController.viewDidLoad()");
     //this is what initializes the timer and gets it started
@@ -50,8 +58,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     [self startLocationUpdates];
     self.thisUser = [PFUser currentUser];
     self.viewPrimerButton.hidden = YES;
-    self.latLabel.hidden = YES;
-    self.lonLabel.hidden = YES;
+    self.latLabel.hidden = NO;
+    self.lonLabel.hidden = NO;
+    self.distLabel.hidden = NO;
 
 }
 
@@ -107,19 +116,43 @@ static NSString * const detailSegueName = @"RelationshipView";
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 NSLog(@"self.locations is storing: %@", self.locations);
                 NSLog(@"possible's dist is storing: %f", dist);
-                if (dist < self.radius){
-                    NSLog(@"runner entered radius");
-                    //NSLog(@"a runner's dist < radius");
+                self.distLabel.text = [NSString stringWithFormat:@"Dist(ft): %f", dist];
+                self.latLabel.text = [NSString stringWithFormat:@"Lat: %f", point.latitude];
+                self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
+                NSLog(@"updated dist label to: %f", dist);
+                NSLog(@"inner radius: %d; mid radius: %d; outer radius: %d", self.radiusInner, self.radiusMid, self.radiusOuter);
+                if ((self.radiusInner < dist) && (dist <= self.radiusMid)){
+                    //runner entered 50ft radius
+                    //buzz every 2 seconds
+                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+                                                                            selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                    NSLog(@"runner entered mid radius");
                     NSLog(@"RunnerLocation.objid == %@", possible.objectId);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
-//                    NSLog(@"Runner we found is %@", self.runner.objectId);
                     NSLog(@"eachSecond : runner found is %@", runner.objectId);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self foundRunner:runner];
                     });
-                    break; //exiting for loop
+
                 }
+                else if (dist <= self.radiusInner) {
+                    //runner entered 10ft radius
+                    //buzz every 0.5 seconds
+                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                }
+                else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
+                    //runner entered 200ft radius
+                    //buzz every 5 second
+                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                                      selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                    
+                }
+                break; //exiting for loop
             }
             
         } else {
@@ -177,13 +210,12 @@ static NSString * const detailSegueName = @"RelationshipView";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
                                                                 object:self
                                                               userInfo:runnerDict];
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            
             NSLog(@" notifying about %@ from background", self.runnerObjId);
         } else {
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"Cheer!" otherButtonTitles:nil, nil];
             NSLog(@"about to display cheerAlert");
             [cheerAlert show];
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             //                    self.runnerObjId = runnerObjId;
             //                    NSLog(@"%@ in main thread", runnerObjId);
             
@@ -192,6 +224,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         
         
         [self.isCheckingRunners invalidate];
+
         NSLog(@"invalidated isCheckingRunners");
         
         //                    self.didRunnerExit.fire;
@@ -244,9 +277,9 @@ static NSString * const detailSegueName = @"RelationshipView";
             if ( (point.latitude != 0) && (point.longitude != 0)){
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 NSLog(@"dist : %f", dist);
-                if (dist > self.radius){
+                if (dist > self.radiusOuter){
                     NSLog(@"runner is gone!");
-                    
+                    [self.hapticTimer invalidate];
                 }
             }
         } else {
@@ -255,6 +288,10 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
     }];
     }
+}
+
+- (void)setVibrations{
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 
@@ -290,6 +327,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.locationManager.distanceFilter = 10; // meters
     
     [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager requestAlwaysAuthorization];
     [self.locationManager startUpdatingLocation];
 }
 

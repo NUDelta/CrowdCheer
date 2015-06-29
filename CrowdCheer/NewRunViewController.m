@@ -292,6 +292,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.locationManager.distanceFilter = 10; // meters
     
     [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager requestAlwaysAuthorization];
     [self.locationManager startUpdatingLocation];
 }
 
@@ -299,14 +300,15 @@ static NSString * const detailSegueName = @"RunDetails";
      didUpdateLocations:(NSArray *)locations
 {
     for (CLLocation *newLocation in locations) {
-        if (newLocation.horizontalAccuracy < 20) {
-            
-            // update distance
+        if (newLocation.horizontalAccuracy < 0) return;
+        
+        else if (newLocation.horizontalAccuracy < 20) {
             if (self.locations.count > 0) {
                 self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
             }
-            
+        
             [self.locations addObject:newLocation];
+    
         }
     }
 }
