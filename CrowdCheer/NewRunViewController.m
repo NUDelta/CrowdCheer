@@ -302,7 +302,7 @@ static NSString * const detailSegueName = @"RunDetails";
     for (CLLocation *newLocation in locations) {
         if (newLocation.horizontalAccuracy < 0) return;
         
-        else if (newLocation.horizontalAccuracy < 20) {
+        else if (newLocation.horizontalAccuracy < 300) {
             if (self.locations.count > 0) {
                 self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
             }
