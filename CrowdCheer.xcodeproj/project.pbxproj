@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */; };
 		E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E245B6E71ADC544700432C61 /* CheererStartViewController.m */; };
 		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
 		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
@@ -78,7 +77,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-blue-btn.png"; sourceTree = "<group>"; };
 		E245B6E61ADC544700432C61 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/CheererStartViewController.h; sourceTree = "<group>"; };
 		E245B6E71ADC544700432C61 /* CheererStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheererStartViewController.m; path = CrowdCheer/CheererStartViewController.m; sourceTree = "<group>"; };
 		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
@@ -148,7 +146,6 @@
 		E2CA51801A892F7000C2BB03 /* NewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewRunViewController.m; path = CrowdCheer/NewRunViewController.m; sourceTree = "<group>"; };
 		E2CA51821A89537200C2BB03 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = DeltaLab_CrowdCheer.mobileprovision; sourceTree = "<group>"; };
-		E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CrowdCheer.entitlements; sourceTree = "<group>"; };
 		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathController.h; path = CrowdCheer/MathController.h; sourceTree = "<group>"; };
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
 		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MulticolorPolylineSegment.h; path = CrowdCheer/MulticolorPolylineSegment.h; sourceTree = "<group>"; };
@@ -280,7 +277,6 @@
 		E2CA50E01A88677A00C2BB03 /* CrowdCheer */ = {
 			isa = PBXGroup;
 			children = (
-				E2CA51851A896C3000C2BB03 /* CrowdCheer.entitlements */,
 				E2CA50F11A88677A00C2BB03 /* Main.storyboard */,
 				E2CA50F41A88677A00C2BB03 /* Images.xcassets */,
 				E2CA50F61A88677A00C2BB03 /* LaunchScreen.xib */,
@@ -325,7 +321,6 @@
 				E2CA51201A89219900C2BB03 /* atmosphere.jpg */,
 				E2CA51211A89219900C2BB03 /* badges.txt */,
 				E2CA51221A89219900C2BB03 /* blue-btn.png */,
-				CFFCCC581AB09D3A0096FD39 /* light-blue-btn.png */,
 				E2CA512C1A89219900C2BB03 /* green-btn.png */,
 				E2CA51311A89219900C2BB03 /* info@2x.png */,
 				E2CA51321A89219900C2BB03 /* interstellar_space.jpg */,
@@ -447,7 +442,6 @@
 				E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */,
 				E2E652EA1AB2B97400561710 /* icon_120.png in Resources */,
 				E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */,
-				CFFCCC591AB09D3A0096FD39 /* light-blue-btn.png in Resources */,
 				E2CA51571A89219900C2BB03 /* green-btn.png in Resources */,
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
 				E2E652ED1AB2B97400561710 /* icon_87.png in Resources */,
@@ -628,7 +622,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
+				PROVISIONING_PROFILE = "c632466e-c966-4265-9f65-dfe3dc56a36c";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -651,7 +645,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
+				PROVISIONING_PROFILE = "c632466e-c966-4265-9f65-dfe3dc56a36c";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -45,10 +45,10 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.radiusInner = 10;
-    self.radiusMid = 50;
-    self.radiusOuter = 100;
-    self.radiusNotify = 150;
+    self.radiusInner = 10; //15
+    self.radiusMid = 20;//50
+    self.radiusOuter = 30;//100
+    self.radiusNotify = 100;//150
     
     
     // Do any additional setup after loading the view.
@@ -114,21 +114,18 @@ static NSString * const detailSegueName = @"RelationshipView";
                 PFGeoPoint *point = [possible objectForKey:@"location"];
                 //converting location to CLLocation
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-                NSLog(@"possible's runnerLoc is storing: %@", runnerLoc);
-                
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
-                NSLog(@"self.locations is storing: %@", self.locations);
-                NSLog(@"possible's dist is storing: %f", dist);
+                NSLog(@"possible's dist: %f", dist);
                 self.distLabel.text = [NSString stringWithFormat:@"Dist(ft): %f", dist];
                 self.latLabel.text = [NSString stringWithFormat:@"Lat: %f", point.latitude];
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
-                NSLog(@"inner radius: %d; mid radius: %d; outer radius: %d", self.radiusInner, self.radiusMid, self.radiusOuter);
                 
+                dist = 10;
+                NSLog(@"radius is: %f", dist);
                 if ((self.radiusOuter < dist) && (dist <= self.radiusNotify)) {
                     //runner entered 150ft radius
                     //notify cheerer
-                    NSLog(@"RunnerLocation.objid == %@", possible.objectId);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     NSLog(@"eachSecond : runner found is %@", runner.objectId);
@@ -139,26 +136,25 @@ static NSString * const detailSegueName = @"RelationshipView";
                 
                 
                 else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
-                    //runner entered 100ft radius
+                    NSLog(@"runner entered 100ft radius");
                     //buzz every 7 second
-                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(7.0) target:self
+                   // [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 }
                 
                 else if ((self.radiusInner < dist) && (dist <= self.radiusMid)){
-                    //runner entered 50ft radius
+                    NSLog(@"runner entered 50ft radius");
                     //buzz every 3 seconds
-                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
+                //    [self.hapticTimer invalidate]; //invalidate prev haptic timer
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 }
                 
                 else if (dist <= self.radiusInner) {
-                    //runner entered 10ft radius
+                    NSLog(@"runner entered 15ft radius");
                     //buzz every 0.5 seconds
-                    [self.hapticTimer invalidate]; //invalidate prev haptic timer
-                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                    self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.2) target:self
                                                                       selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 }
                 
@@ -303,6 +299,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)setVibrations{
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    NSLog(@"vibrate");
 }
 
 
