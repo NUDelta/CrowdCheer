@@ -120,8 +120,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.latLabel.text = [NSString stringWithFormat:@"Lat: %f", point.latitude];
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
-                
-                dist = 10;
                 NSLog(@"radius is: %f", dist);
                 if ((self.radiusOuter < dist) && (dist <= self.radiusNotify)) {
                     //runner entered 150ft radius
