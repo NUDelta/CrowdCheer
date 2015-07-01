@@ -45,9 +45,9 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.radiusInner = 10; //15
-    self.radiusMid = 20;//50
-    self.radiusOuter = 30;//100
+    self.radiusInner = 15; //15
+    self.radiusMid = 30;//50
+    self.radiusOuter = 60;//100
     self.radiusNotify = 100;//150
     
     
