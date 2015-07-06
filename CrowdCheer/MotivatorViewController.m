@@ -12,6 +12,8 @@
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 #import <AudioToolbox/AudioServices.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <EstimoteSDK/EstimoteSDK.h>
 
 static NSString * const detailSegueName = @"RelationshipView";
 
@@ -26,6 +28,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, strong) NSTimer *hapticTimer;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) CLLocation *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
@@ -66,6 +69,17 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.lonLabel.hidden = NO;
     self.distLabel.hidden = NO;
     
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    
+    // create sample region object (you can additionally pass major / minor values)
+    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                     major:23554
+                                                                identifier:@"EstimoteSampleRegion"];
+    
+    // start looking for Estimote beacons in region
+    // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
+    [self.beaconManager startRangingBeaconsInRegion:region];
 }
 
 
@@ -299,6 +313,40 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)setVibrations{
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     NSLog(@"vibrate");
+}
+
+
+-(void)beaconManager:(ESTBeaconManager *)manager
+     didRangeBeacons:(NSArray *)beacons
+            inRegion:(CLBeaconRegion *)region
+{
+    if([beacons count] > 0)
+    {
+        // beacon array is sorted based on distance
+        // closest beacon is the first one
+        CLBeacon* closestBeacon = [beacons objectAtIndex:0];
+        
+        // calculate and set new y position
+        //  switch (closestBeacon.ibeacon.proximity)
+        switch (closestBeacon.proximity)
+        {
+            case CLProximityUnknown:
+                self.distLabel.text = @"Unknown region";
+                break;
+            case CLProximityImmediate:
+                self.distLabel.text = @"Immediate region";
+                break;
+            case CLProximityNear:
+                self.distLabel.text = @"Near region";
+                break;
+            case CLProximityFar:
+                self.distLabel.text = @"Far region";
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 
