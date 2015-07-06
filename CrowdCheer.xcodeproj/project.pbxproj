@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F70F522581F4D2823391BC8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B02C0ADC9A925398130FD734 /* libPods.a */; };
 		E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E245B6E71ADC544700432C61 /* CheererStartViewController.m */; };
 		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
 		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
@@ -26,7 +27,6 @@
 		E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */; };
 		E2ADB5D71A9D0A63007EC795 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D61A9D0A63007EC795 /* Accounts.framework */; };
 		E2ADB5D91A9D0A72007EC795 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D81A9D0A72007EC795 /* Social.framework */; };
-		E2ADB5E11A9E613D007EC795 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E01A9E613D007EC795 /* ParseUI.framework */; };
 		E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E61A9E6808007EC795 /* Parse.framework */; };
 		E2CA50E41A88677A00C2BB03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E31A88677A00C2BB03 /* main.m */; };
 		E2CA50E71A88677A00C2BB03 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E61A88677A00C2BB03 /* AppDelegate.m */; };
@@ -77,6 +77,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B02C0ADC9A925398130FD734 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E245B6E61ADC544700432C61 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/CheererStartViewController.h; sourceTree = "<group>"; };
 		E245B6E71ADC544700432C61 /* CheererStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheererStartViewController.m; path = CrowdCheer/CheererStartViewController.m; sourceTree = "<group>"; };
 		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
@@ -103,7 +106,6 @@
 		E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MySignUpViewController.m; path = CrowdCheer/MySignUpViewController.m; sourceTree = "<group>"; };
 		E2ADB5D61A9D0A63007EC795 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E2ADB5D81A9D0A72007EC795 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		E2ADB5E01A9E613D007EC795 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		E2ADB5E61A9E6808007EC795 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E2CA50DE1A88677A00C2BB03 /* CrowdCheer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrowdCheer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA50E21A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,8 +182,8 @@
 				E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */,
 				E2CA511A1A886C4600C2BB03 /* UIKit.framework in Frameworks */,
 				E2CA51181A886C3E00C2BB03 /* CoreData.framework in Frameworks */,
-				E2ADB5E11A9E613D007EC795 /* ParseUI.framework in Frameworks */,
 				E2CA51141A886C1D00C2BB03 /* MapKit.framework in Frameworks */,
+				5F70F522581F4D2823391BC8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,11 +197,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D8FEAA639501C75D3CF23DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */,
+				13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E2AD20071A9A96B400B1BEFE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E2ADB5E61A9E6808007EC795 /* Parse.framework */,
-				E2ADB5E01A9E613D007EC795 /* ParseUI.framework */,
 				E2ADB5D81A9D0A72007EC795 /* Social.framework */,
 				E2ADB5D61A9D0A63007EC795 /* Accounts.framework */,
 				E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */,
@@ -219,6 +229,7 @@
 				E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */,
 				E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */,
 				E2CA51741A8928AA00C2BB03 /* GLKit.framework */,
+				B02C0ADC9A925398130FD734 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -262,6 +273,7 @@
 				E2CA50E01A88677A00C2BB03 /* CrowdCheer */,
 				E2CA51001A88677A00C2BB03 /* CrowdCheerTests */,
 				E2CA50DF1A88677A00C2BB03 /* Products */,
+				3D8FEAA639501C75D3CF23DB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -350,9 +362,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2CA51071A88677A00C2BB03 /* Build configuration list for PBXNativeTarget "CrowdCheer" */;
 			buildPhases = (
+				8C5C01844D1EC24B7BF83287 /* Check Pods Manifest.lock */,
 				E2CA50DA1A88677A00C2BB03 /* Sources */,
 				E2CA50DB1A88677A00C2BB03 /* Frameworks */,
 				E2CA50DC1A88677A00C2BB03 /* Resources */,
+				60582DC9965F2C1FC713E259 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -464,6 +478,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		60582DC9965F2C1FC713E259 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C5C01844D1EC24B7BF83287 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2CA50DA1A88677A00C2BB03 /* Sources */ = {
@@ -606,6 +653,7 @@
 		};
 		E2CA51081A88677A00C2BB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
@@ -629,6 +677,7 @@
 		};
 		E2CA51091A88677A00C2BB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
