@@ -33,6 +33,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 @property int radiusInner;
@@ -331,16 +332,22 @@ static NSString * const detailSegueName = @"RelationshipView";
         switch (closestBeacon.proximity)
         {
             case CLProximityUnknown:
-                self.distLabel.text = @"Unknown region";
+                self.rangeLabel.text = @"Runner is out of beacon range!";
                 break;
             case CLProximityImmediate:
-                self.distLabel.text = @"Immediate region";
+                self.rangeLabel.text = @"Runner is HERE! (0-8'')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityNear:
-                self.distLabel.text = @"Near region";
+                self.rangeLabel.text = @"Runner is NEAR (8'' - 6.5')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityFar:
-                self.distLabel.text = @"Far region";
+                self.rangeLabel.text = @"Runner is FAR (6.5-230')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
                 
             default:
