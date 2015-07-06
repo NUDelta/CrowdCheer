@@ -3,6 +3,7 @@
 //  CrowdCheer
 //
 //  Created by Scott Cambo on 3/2/15.
+//  Modified by Leesha Maliakal
 //  Copyright (c) 2015 Delta Lab. All rights reserved.
 //
 
