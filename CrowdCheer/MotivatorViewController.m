@@ -18,7 +18,7 @@
 static NSString * const detailSegueName = @"RelationshipView";
 
 
-@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, ESTBeaconManagerDelegate>
 
 {
     dispatch_queue_t checkQueue;
@@ -43,6 +43,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 @property (weak, nonatomic) PFUser *thisUser;
 @property (weak, nonatomic) PFUser *runner;
+@property (weak, nonatomic) NSUUID *uuid;
 
 @end
 
@@ -70,16 +71,21 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.lonLabel.hidden = NO;
     self.distLabel.hidden = NO;
     
+    self.uuid = [[NSUUID alloc]initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
     
     // create sample region object (you can additionally pass major / minor values)
+//    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid
+//                                                                     major:17784
+//                                                                identifier:@"EstimoteSampleRegion"];
     CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                     major:23554
-                                                                identifier:@"EstimoteSampleRegion"];
+                                                                           identifier:@"EstimoteSampleRegion"];
     
     // start looking for Estimote beacons in region
     // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
+    [self.beaconManager requestWhenInUseAuthorization];
+    [self.beaconManager startMonitoringForRegion:region];
     [self.beaconManager startRangingBeaconsInRegion:region];
 }
 
@@ -111,6 +117,24 @@ static NSString * const detailSegueName = @"RelationshipView";
 {
     NSLog(@"eachSecond()...");
     NSLog(@"Checking for runners...");
+    
+//    self.uuid = [[NSUUID alloc]initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
+//    self.beaconManager = [[ESTBeaconManager alloc] init];
+//    self.beaconManager.delegate = self;
+//    
+    // create sample region object (you can additionally pass major / minor values)
+//    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid
+//                                                                     major:17784
+//                                                                identifier:@"EstimoteSampleRegion"];
+//    
+//    // start looking for Estimote beacons in region
+//    // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
+//    [self.beaconManager requestWhenInUseAuthorization];
+//    [self.beaconManager startMonitoringForRegion:region];
+//    [self.beaconManager startRangingBeaconsInRegion:region];
+    
+    
+    
     //__block PFUser *runnerLocal;
     
     //First check for runners who have updated information recently
@@ -321,6 +345,7 @@ static NSString * const detailSegueName = @"RelationshipView";
      didRangeBeacons:(NSArray *)beacons
             inRegion:(CLBeaconRegion *)region
 {
+    NSLog(@"beacon count: %lu", (unsigned long)beacons.count);
     if([beacons count] > 0)
     {
         // beacon array is sorted based on distance
