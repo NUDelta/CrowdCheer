@@ -369,7 +369,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DE4-rr-oXw">
-                                <rect key="frame" x="12" y="38" width="296" height="307"/>
+                                <rect key="frame" x="12" y="38" width="296" height="199"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bib #" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFK-h3-faf">
                                 <rect key="frame" x="145" y="446" width="175" height="35"/>
@@ -381,23 +381,37 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Proximity:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIb-rG-eMt">
+                                <rect key="frame" x="16" y="285" width="288" height="76"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="HXU-yH-dhJ" secondAttribute="bottom" constant="-6" id="1b2-Cx-p5b"/>
                             <constraint firstItem="WGe-B6-hvj" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="40" id="4Jf-by-HfR"/>
+                            <constraint firstAttribute="centerX" secondItem="CIb-rG-eMt" secondAttribute="centerX" id="76a-tO-QwC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aB8-qd-LPF" secondAttribute="trailing" constant="-18" id="7lu-ap-rIp"/>
                             <constraint firstItem="A35-56-Ef9" firstAttribute="top" secondItem="XFK-h3-faf" secondAttribute="bottom" constant="43" id="93u-6s-okO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WGe-B6-hvj" secondAttribute="trailing" constant="-11" id="CjJ-Wv-WQK"/>
+                            <constraint firstItem="XFK-h3-faf" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="129" id="D3J-2n-gUd"/>
                             <constraint firstItem="aB8-qd-LPF" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="70" id="Drk-fq-6DY"/>
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="27" id="ElW-3p-yKS"/>
                             <constraint firstItem="zEO-Ni-lju" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leading" id="I7c-lG-6iW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HXU-yH-dhJ" secondAttribute="trailing" constant="-9" id="IWa-cv-slM"/>
+                            <constraint firstItem="KON-Pg-R0p" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="55" id="OMB-D0-Zqs"/>
                             <constraint firstItem="DE4-rr-oXw" firstAttribute="centerX" secondItem="1JY-Hp-G2k" secondAttribute="centerX" id="Pz9-ZD-JaR"/>
+                            <constraint firstItem="aB8-qd-LPF" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="98" id="Rft-vE-mh7"/>
+                            <constraint firstAttribute="centerY" secondItem="CIb-rG-eMt" secondAttribute="centerY" constant="-37.5" id="SxB-42-tur"/>
+                            <constraint firstItem="CIb-rG-eMt" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="48" id="TBG-4c-JZg"/>
+                            <constraint firstItem="HXU-yH-dhJ" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="153" id="YGo-ME-2fJ"/>
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="bottom" secondItem="A35-56-Ef9" secondAttribute="top" id="cvf-7L-1pU"/>
                             <constraint firstItem="KON-Pg-R0p" firstAttribute="leading" secondItem="zEO-Ni-lju" secondAttribute="leading" id="h18-2a-JWI"/>
                             <constraint firstItem="zEO-Ni-lju" firstAttribute="top" secondItem="1JY-Hp-G2k" secondAttribute="top" id="hGU-Ua-51r"/>
                             <constraint firstAttribute="trailing" secondItem="XFK-h3-faf" secondAttribute="trailing" id="jBN-Tg-inv"/>
+                            <constraint firstItem="WGe-B6-hvj" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="68" id="jY8-pg-yPC"/>
                             <constraint firstItem="DE4-rr-oXw" firstAttribute="top" secondItem="1JY-Hp-G2k" secondAttribute="topMargin" constant="38" id="k35-0m-tnw"/>
                             <constraint firstItem="HXU-yH-dhJ" firstAttribute="top" secondItem="aB8-qd-LPF" secondAttribute="bottom" constant="20" id="wrZ-Lv-Ldj"/>
                             <constraint firstItem="DE4-rr-oXw" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" constant="-4" id="yTX-9l-MqB"/>
@@ -411,6 +425,7 @@
                         <outlet property="commonalityLabel" destination="HXU-yH-dhJ" id="wP8-HI-BTp"/>
                         <outlet property="imageView" destination="KON-Pg-R0p" id="U7Y-tT-KEp"/>
                         <outlet property="nameLabel" destination="aB8-qd-LPF" id="5EB-QJ-Y6e"/>
+                        <outlet property="rangeLabel" destination="CIb-rG-eMt" id="Rww-HH-lGF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wel-m0-3iI" userLabel="First Responder" sceneMemberID="firstResponder"/>

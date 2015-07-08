@@ -38,8 +38,6 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
-@property int major;
-@property int minor;
 @property int radius1;
 @property int radius2;
 @property int radius3;
@@ -47,11 +45,13 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property int radius5;
 @property int radius6;
 @property int radius7;
+@property int major;
+@property int minor;
 
-@property int radiusInner;
-@property int radiusMid;
-@property int radiusOuter;
-@property int radiusNotify;
+//@property int radiusInner;
+//@property int radiusMid;
+//@property int radiusOuter;
+//@property int radiusNotify;
 
 @property (weak, nonatomic) PFUser *thisUser;
 @property (weak, nonatomic) PFUser *runner;
@@ -143,20 +143,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)eachSecond
 {
-    NSLog(@"eachSecond()...");
-
-    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                     major:17784
-                                                                identifier:@"EstimoteSampleRegion"];
-    
-    // start looking for Estimote beacons in region
-    // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
-    
-    //location
-    [self.beaconManager requestWhenInUseAuthorization];
-    [self.beaconManager startMonitoringForRegion:region];
-    [self.beaconManager startRangingBeaconsInRegion:region];
-    
+    NSLog(@"eachSecond()...");    
     
     //First check for runners who have updated information recently
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
@@ -167,9 +154,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     [timeQuery orderByAscending:@"updatedAt"];
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *possibleNearbyRunners, NSError *error) {
         if (!error) {
-            // The find succeeded. The first 100 objects are available in objects
-            
-            //get locations for all these possibly nearby runners and check distance
+            // The find succeeded. The first 100 objects are available
+            //loop through all these possibly nearby runners and check distance
             for (PFObject *possible in possibleNearbyRunners) {
                 NSLog(@"Looping through runners...");
                 //getting location for a runner object
@@ -184,7 +170,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-                
                 if ((dist <= self.radius7) && (dist > self.radius6)) {
                     //between radius 6 and 7
                     //notify
@@ -239,8 +224,39 @@ static NSString * const detailSegueName = @"RelationshipView";
                 }
                 else if ((dist <= self.radius3) && (dist > self.radius2)) {
                     //between radius 2 and 3
-                    //notify with primer
+                    //search for runner's beacon
+                    //if found, notify with primer, switch to beacons in RVC
                     NSLog(@"Entered %d m", self.radius3);
+                    
+                    NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
+                    if (runnerBeacon == @"Mint 1") {
+                        self.major = 17784;
+                        self.minor = 47397;
+                    }
+                    else if (runnerBeacon == @"Ice 1") {
+                        self.major = 51579;
+                        self.minor = 48731;
+                    }
+                    else if (runnerBeacon == @"CrowdCheer B") {
+                        self.major = 28548;
+                        self.minor = 7152;
+                    }
+                    else {
+                        //do nothing
+                    }
+                    
+                    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                                     major:self.major
+                                                                                     minor:self.minor
+                                                                                identifier:@"EstimoteSampleRegion"];
+                    
+                    // start looking for Estimote beacons in region
+                    // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
+                    [self.beaconManager requestWhenInUseAuthorization];
+                    [self.beaconManager startMonitoringForRegion:region];
+                    [self.beaconManager startRangingBeaconsInRegion:region];
+                    
+                    //notify with primer
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     NSLog(@"sending primer for runner %@", runner.objectId);
@@ -248,16 +264,16 @@ static NSString * const detailSegueName = @"RelationshipView";
                         [self foundRunner:runner];
                     });
                 }
-                else if ((dist <= self.radius2) && (dist > self.radius1)) {
-                    //betweem radius 1 and 2
-                    //beacon & primer
-                    NSLog(@"Entered %d m", self.radius2);
-                }
-                else if (dist <= self.radius1) {
-                    //inside radius 1
-                    //beacon & primer
-                    NSLog(@"Entered %d m", self.radius1);
-                }
+//                else if ((dist <= self.radius2) && (dist > self.radius1)) {
+//                    //betweem radius 1 and 2
+//                    //beacon & primer
+//                    NSLog(@"Entered %d m", self.radius2);
+//                }
+//                else if (dist <= self.radius1) {
+//                    //inside radius 1
+//                    //beacon & primer
+//                    NSLog(@"Entered %d m", self.radius1);
+//                }
                 else {
                      //outside range
                     NSLog(@"Out of range");
@@ -453,8 +469,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                 if ( (point.latitude != 0) && (point.longitude != 0)){
                     CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                     NSLog(@"dist : %f", dist);
-                    if (dist > self.radiusOuter){
-                        NSLog(@"runner is gone!");
+                    if (dist > self.radius2){
+                        NSLog(@"runner exited %f!", self.radius2);
                         [self.didRunnerExit invalidate];
                         [self.hapticTimer invalidate];
                     }
@@ -487,30 +503,30 @@ static NSString * const detailSegueName = @"RelationshipView";
         
         // calculate and set new y position
         //  switch (closestBeacon.ibeacon.proximity)
-        switch (closestBeacon.proximity)
-        {
-            case CLProximityUnknown:
-                self.rangeLabel.text = @"Runner is out of beacon range!";
-                break;
-            case CLProximityImmediate:
-                self.rangeLabel.text = @"Runner is HERE! (0-8'')";
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-            case CLProximityNear:
-                self.rangeLabel.text = @"Runner is NEAR (8'' - 6.5')";
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-            case CLProximityFar:
-                self.rangeLabel.text = @"Runner is FAR (6.5-230')";
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-                
-            default:
-                break;
-        }
+//        switch (closestBeacon.proximity)
+//        {
+//            case CLProximityUnknown:
+//                self.rangeLabel.text = @"Runner is out of beacon range!";
+//                break;
+//            case CLProximityImmediate:
+//                self.rangeLabel.text = @"Runner is HERE! (0-8'')";
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                break;
+//            case CLProximityNear:
+//                self.rangeLabel.text = @"Runner is NEAR (8'' - 6.5')";
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                break;
+//            case CLProximityFar:
+//                self.rangeLabel.text = @"Runner is FAR (6.5-230')";
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                break;
+//                
+//            default:
+//                break;
+//        }
     }
 }
 //
