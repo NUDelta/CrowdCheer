@@ -29,6 +29,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
+@property (nonatomic, strong) ESTUtilityManager *utilityManager;
 @property (nonatomic, strong) CLLocation *locations;
 @property (weak, nonatomic) IBOutlet UILabel *lonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
@@ -71,22 +72,34 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.lonLabel.hidden = NO;
     self.distLabel.hidden = NO;
     
-    self.uuid = [[NSUUID alloc]initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
+//    self.uuid = [[NSUUID alloc]initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
+   
+    //location
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
+    
+    //bluetooth
+    self.utilityManager = [[ESTUtilityManager alloc] init];
+    self.utilityManager.delegate = self;
     
     // create sample region object (you can additionally pass major / minor values)
 //    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid
 //                                                                     major:17784
 //                                                                identifier:@"EstimoteSampleRegion"];
     CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                            major:17784
                                                                            identifier:@"EstimoteSampleRegion"];
     
     // start looking for Estimote beacons in region
     // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
+
+    //location
     [self.beaconManager requestWhenInUseAuthorization];
     [self.beaconManager startMonitoringForRegion:region];
     [self.beaconManager startRangingBeaconsInRegion:region];
+    
+    //bluetooth
+    [self.utilityManager startEstimoteBeaconDiscovery];
 }
 
 
@@ -116,7 +129,6 @@ static NSString * const detailSegueName = @"RelationshipView";
 - (void)eachSecond
 {
     NSLog(@"eachSecond()...");
-    NSLog(@"Checking for runners...");
     
 //    self.uuid = [[NSUUID alloc]initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
 //    self.beaconManager = [[ESTBeaconManager alloc] init];
@@ -150,6 +162,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             
             //get locations for all these possibly nearby runners and check distance
             for (PFObject *possible in possibleNearbyRunners) {
+                NSLog(@"Looping through runners...");
                 //getting location for a runner object
                 PFGeoPoint *point = [possible objectForKey:@"location"];
                 //converting location to CLLocation
@@ -171,7 +184,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                         [self foundRunner:runner];
                     });
                 }
-                
                 
                 else if ((self.radiusMid < dist) && (dist <= self.radiusOuter)) {
                     NSLog(@"runner entered 100ft radius");
@@ -205,8 +217,6 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
     }]; //end of find objects in background with block
     //checking if we found runner
-    
-    
 };
 
 -(void) foundRunner:(PFUser*)runner{
@@ -341,6 +351,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 }
 
 
+//location
 -(void)beaconManager:(ESTBeaconManager *)manager
      didRangeBeacons:(NSArray *)beacons
             inRegion:(CLBeaconRegion *)region
@@ -355,6 +366,41 @@ static NSString * const detailSegueName = @"RelationshipView";
         // calculate and set new y position
         //  switch (closestBeacon.ibeacon.proximity)
         switch (closestBeacon.proximity)
+        {
+            case CLProximityUnknown:
+                self.rangeLabel.text = @"Runner is out of beacon range!";
+                break;
+            case CLProximityImmediate:
+                self.rangeLabel.text = @"Runner is HERE! (0-8'')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                break;
+            case CLProximityNear:
+                self.rangeLabel.text = @"Runner is NEAR (8'' - 6.5')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2.0) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                break;
+            case CLProximityFar:
+                self.rangeLabel.text = @"Runner is FAR (6.5-230')";
+                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+//bluetooth
+- (void)utilityManager:(ESTUtilityManager *)manager
+    didDiscoverBeacons:(NSArray *)beacons
+{
+    if (beacons.count > 0)
+    {
+        ESTBluetoothBeacon *closestBeacon = [beacons objectAtIndex:0];
+        
+        switch (closestBeacon.rssi)
         {
             case CLProximityUnknown:
                 self.rangeLabel.text = @"Runner is out of beacon range!";
