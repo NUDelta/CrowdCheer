@@ -52,15 +52,15 @@
     
    // NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.userInfo objectForKey:@"beacon"]];
     NSString *runnerBeacon = user[@"beacon"];
-    if (runnerBeacon == @"Mint 1") {
+    if ([runnerBeacon isEqualToString:@"Mint 1"]) {
         self.major = 17784;
         self.minor = 47397;
     }
-    else if (runnerBeacon == @"Ice 1") {
+    else if ([runnerBeacon isEqualToString:@"Ice 1"]) {
         self.major = 51579;
         self.minor = 48731;
     }
-    else if (runnerBeacon == @"CrowdCheer B") {
+    else if ([runnerBeacon isEqualToString:@"CrowdCheer B"]) {
         self.major = 28548;
         self.minor = 7152;
     }
