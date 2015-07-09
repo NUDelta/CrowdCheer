@@ -148,7 +148,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                     self.rangeLabel.text = [NSString stringWithFormat:@"Runner is %f meters away", dist];
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
-                    NSLog(@"sending primer for runner %@", runner.objectId);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runner :dist];
                     });
@@ -168,16 +167,19 @@ static NSString * const detailSegueName = @"RelationshipView";
     //checking if we found runner
 };
 
-- (void)trackEachSecond:(PFUser*)runner {
+- (void)trackEachSecond:(NSTimer*)timer {
     NSLog(@"trackEachSecond()...");
+    
+    PFUser *runnerTracked = [timer userInfo];
     
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     //Find any recent location updates from our runner
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
-    [timeQuery whereKey:@"user" equalTo:runner];
+    [timeQuery whereKey:@"user" equalTo:runnerTracked];
     [timeQuery orderByDescending:@"updatedAt"]; //or ascending?
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
+        NSLog(@"Runner's loc array: %@", runnerLocations);
         if (!error) {
             // The find succeeded. The first 100 objects are available
             //loop through all these possibly nearby runners and check distance
@@ -194,6 +196,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
+                dist = 350.00;
                 if ((dist <= self.radius6) && (dist > self.radius5)) {
                     //between radius 5 and 6
                     //notify
@@ -203,7 +206,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 //                    PFUser *runner = runnerLocEntry[@"user"];
 //                    [runner fetchIfNeeded];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runner :dist];
+                        [self.isTrackingRunner invalidate];
+                        [self runnerApproaching:runnerTracked :dist];
                     });
                 }
                 else if ((dist <= self.radius5) && (dist > self.radius4)) {
@@ -215,7 +219,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 //                    PFUser *runner = runnerLocEntry[@"user"];
 //                    [runner fetchIfNeeded];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runner :dist];
+                        [self.isTrackingRunner invalidate];
+                        [self runnerApproaching:runnerTracked :dist];
                     });
                 }
                 else if ((dist <= self.radius4) && (dist > self.radius3)) {
@@ -227,7 +232,8 @@ static NSString * const detailSegueName = @"RelationshipView";
 //                    PFUser *runner = runnerLocEntry[@"user"];
 //                    [runner fetchIfNeeded];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runner :dist];
+                        [self.isTrackingRunner invalidate];
+                        [self runnerApproaching:runnerTracked :dist];
                     });
                 }
                 else if ((dist <= self.radius3) && (dist > self.radius2)) {
@@ -329,7 +335,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         } else {
             UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             NSLog(@"about to display cheerAlert");
-            [cheerAlert show];
+            [cheerAlert show]; //alert not displaying, but it does call this line when app state is active
             //                    self.runnerObjId = runnerObjId;
             //                    NSLog(@"%@ in main thread", runnerObjId);
             
@@ -337,7 +343,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         [self.isCheckingRunners invalidate];
         NSLog(@"invalidated isCheckingRunners, starting isTrackingRunner");
         self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                               selector:@selector(trackEachSecond:runner:) userInfo:nil repeats:YES]; //figure out how to pass runner arg
+                                                               selector:@selector(trackEachSecond:) userInfo:runner repeats:YES];
         
         
     } else {
