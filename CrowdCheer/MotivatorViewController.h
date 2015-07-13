@@ -12,5 +12,6 @@
 @interface MotivatorViewController : UIViewController
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSString *runnerState;
 //@property (weak, nonatomic) PFUser *runner;
 @end
