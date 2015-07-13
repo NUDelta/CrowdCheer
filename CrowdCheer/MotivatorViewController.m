@@ -313,8 +313,9 @@ static NSString * const detailSegueName = @"RelationshipView";
         self.runnerObjId = runnerObjId;
         
         int dist = (int)distance;
+        NSString* distString = [NSString stringWithFormat:@"%d", dist];
         NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %dm away!", dist];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"approaching", @"runnerStatus", nil];
+        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"approaching", @"runnerStatus", runnerName, @"name", distString, @"distance", nil];
         
         UIApplicationState state = [UIApplication sharedApplication].applicationState;
         NSLog(@"application state is %d", state);
@@ -368,7 +369,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         self.runnerObjId = runnerObjId;
         
         NSString *alertMess =  [runnerName stringByAppendingFormat:@" is coming, get ready to cheer!"];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", nil];
+        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", nil];
         
         //saving parse data for when cheerer receives notification and for which runner
         PFObject *cheererNotification = [PFObject objectWithClassName:@"cheererWasNotified"];

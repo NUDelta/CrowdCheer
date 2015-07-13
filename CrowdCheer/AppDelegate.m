@@ -79,8 +79,21 @@
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.userInfo = notification.userInfo;
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    localNotification.alertBody = @"Your alert message";
-    localNotification.alertAction = @"AlertButtonCaption";
+    
+    for(NSString *key in notification.userInfo){
+        NSString *dictKey = [notification.userInfo objectForKey:key];
+        NSString *name = [notification.userInfo objectForKey:@"name"];
+        NSString *dist = [notification.userInfo objectForKey:@"distance"];
+        NSLog(@"notification userInfo: %@", dictKey);
+        if ([dictKey isEqualToString:@"approaching"]) {
+            localNotification.alertBody = [name stringByAppendingFormat:@" is %@m away!", dist];
+            localNotification.alertAction = @"OK";
+        }
+        else if ([dictKey isEqualToString:@"here"]) {
+            localNotification.alertBody = [name stringByAppendingFormat:@" is %@m away, get ready to cheer!", dist];
+            localNotification.alertAction = @"Cheer!";
+        }
+    }
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
@@ -103,7 +116,6 @@
         for(NSString *key in notification.userInfo){
             NSString *dictKey = [notification.userInfo objectForKey:key];
             NSLog(@"notification userInfo: %@", dictKey);
-            dictKey = @"here";
             if ([dictKey isEqualToString:@"approaching"]) {
                 NSLog(@"Runner status: approaching");
             }
