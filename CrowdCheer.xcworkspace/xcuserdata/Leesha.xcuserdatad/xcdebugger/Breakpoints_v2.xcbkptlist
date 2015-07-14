@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "458494273.895325"
+            timestampString = "458593169.286615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-findEachSecond"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "-trackEachSecond:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,76 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "458517133.836929"
+            timestampString = "458593087.020038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "-runnerApproaching::"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "-trackEachSecond:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CrowdCheer/AppDelegate.m"
-            timestampString = "458496589.608556"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-showAlarm:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CrowdCheer/AppDelegate.m"
-            timestampString = "458517398.869291"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-application:didReceiveLocalNotification:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CrowdCheer/AppDelegate.m"
-            timestampString = "458517398.869291"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-showAlarm:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "458517133.836929"
+            timestampString = "458593157.039604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "-runnerApproaching::"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "-trackEachSecond:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
