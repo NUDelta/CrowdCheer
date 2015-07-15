@@ -671,12 +671,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/Users/Leesha/Dropbox/EECS/399/crowdfound,
-					/Users/Leesha/Dropbox/EECS/Delta,
-					"Lab/General/parse-library-1.6.3",
-					/Users/Leesha/Dropbox/EECS/Delta,
-					Lab/CrowdCheer/Estimote,
-					iOS,
-					SDK/EstimoteSDK,
+					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/General/parse-library-1.6.3",
+					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/CrowdCheer/Estimote\\iOS\\SDK/EstimoteSDK",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -699,12 +695,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/Users/Leesha/Dropbox/EECS/399/crowdfound,
-					/Users/Leesha/Dropbox/EECS/Delta,
-					"Lab/General/parse-library-1.6.3",
-					/Users/Leesha/Dropbox/EECS/Delta,
-					Lab/CrowdCheer/Estimote,
-					iOS,
-					SDK/EstimoteSDK,
+					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/General/parse-library-1.6.3",
+					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/CrowdCheer/Estimote\\iOS\\SDK/EstimoteSDK",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
