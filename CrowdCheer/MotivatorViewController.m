@@ -83,9 +83,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //For debugging purposes:
     self.viewPrimerButton.hidden = YES;
-    self.latLabel.hidden = NO;
-    self.lonLabel.hidden = NO;
-    self.distLabel.hidden = NO;
+    self.latLabel.hidden = YES;
+    self.lonLabel.hidden = YES;
+    self.distLabel.hidden = YES;
     
 }
 
@@ -138,7 +138,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 175.00;
+//                dist = 65.00;
                 if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
