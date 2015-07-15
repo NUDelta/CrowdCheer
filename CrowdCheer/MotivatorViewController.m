@@ -60,13 +60,13 @@ static NSString * const detailSegueName = @"RelationshipView";
     [super viewDidLoad];
     
     //radius in meters, smaller index = closer to runner
-    self.radius1 = 10;
-    self.radius2 = 50;
-    self.radius3 = 100;
-    self.radius4 = 200;
-    self.radius5 = 300;
-    self.radius6 = 400;
-    self.radius7 = 500;
+    self.radius1 = 10; //10
+    self.radius2 = 20; //50
+    self.radius3 = 30;//100
+    self.radius4 = 40;//200
+    self.radius5 = 50;//300
+    self.radius6 = 60;//400
+    self.radius7 = 70;//500
     
     
     // Do any additional setup after loading the view.
@@ -138,7 +138,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-                dist = 450.00;
+//                dist = 175.00;
                 if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
@@ -186,6 +186,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             //loop through all these possibly nearby runners and check distance
             for (PFObject *runnerLocEntry in runnerLocations) {
                 NSLog(@"Looping through runner's locations...");
+                NSLog(@"runnerLocEntry: %@", runnerLocEntry);
                 //getting location for a runner object
                 PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
                 //converting location to CLLocation
@@ -197,52 +198,18 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
-                if ((dist <= radiusOuter) && (dist > radiusInner)) {
-                    //between radius 5 and 6
-                    //notify
-                    //UI update
-                    NSLog(@"Entered %d m", radiusOuter);
-                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runnerTracked :dist];
-                    });
-                }
-//                else if ((dist <= self.radius5) && (dist > self.radius4)) {
-//                    //between radius 4 and 5
-//                    //notify
-//                    //UI update
-//                    NSLog(@"Entered %d m", self.radius5);
-//                    self.rangeLabel.text = [NSString stringWithFormat:@"Runner is %f meters away", dist];
-////                    PFUser *runner = runnerLocEntry[@"user"];
-////                    [runner fetchIfNeeded];
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                       // [self.isTrackingRunner45 invalidate];
-//                        [self runnerApproaching:runnerTracked :dist];
-//                    });
-//                }
-//                else if ((dist <= self.radius4) && (dist > self.radius3)) {
-//                    //between radius 3 and 4
-//                    //notify
-//                    //UI update
-//                    NSLog(@"Entered %d m", self.radius4);
-//                    self.rangeLabel.text = [NSString stringWithFormat:@"Runner is %f meters away", dist];
-////                    PFUser *runner = runnerLocEntry[@"user"];
-////                    [runner fetchIfNeeded];
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                    //    [self.isTrackingRunner34 invalidate];
-//                        [self runnerApproaching:runnerTracked :dist];
-//                    });
-//                }
-                else if ((dist <= self.radius3) && (dist > self.radius2)) {
+//                dist = 60.00;
+                
+                if ((dist <= self.radius3) && (dist > self.radius2)) { //should this only track between radii 3 and 2, or between 3 and 0?
                     //between radius 2 and 3
                     //search for runner's beacon
                     //if found, notify with primer, switch to beacons in RVC
                     NSLog(@"Inside %d m", self.radius3);
                     
-                    self.runner = runnerLocEntry[@"user"];
+                    self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
                     [self.runner fetchIfNeeded];
                     NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
-                    NSLog(runnerBeacon); //returning null
+                    NSLog(runnerBeacon);
                     if ([runnerBeacon isEqualToString:@"Mint 1"]) {
                         self.major = 17784;
                         self.minor = 47397;
@@ -270,26 +237,25 @@ static NSString * const detailSegueName = @"RelationshipView";
                     [self.beaconManager startMonitoringForRegion:region];
                     [self.beaconManager startRangingBeaconsInRegion:region];
                     
-//                    //notify with primer
-//                    NSLog(@"sending primer for runner %@", self.runner.objectId);
-//                    NSLog(@"self.runner inside if statement is: %@",self.runner);
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        [self foundRunner:self.runner];
-//                    });
+                    //                    //notify with primer
+                    //                    NSLog(@"sending primer for runner %@", self.runner.objectId);
+                    //                    NSLog(@"self.runner inside if statement is: %@",self.runner);
+                    //                    dispatch_async(dispatch_get_main_queue(), ^{
+                    //                        [self foundRunner:self.runner];
+                    //                    });
                 }
-                //                else if ((dist <= self.radius2) && (dist > self.radius1)) {
-                //                    //betweem radius 1 and 2
-                //                    //beacon & primer
-                //                    NSLog(@"Entered %d m", self.radius2);
-                //                }
-                //                else if (dist <= self.radius1) {
-                //                    //inside radius 1
-                //                    //beacon & primer
-                //                    NSLog(@"Entered %d m", self.radius1);
-                //                }
+                else if ((dist <= radiusOuter) && (dist > radiusInner)) { //not updating when we cross into different radii
+                    //notify
+                    //UI update
+                    NSLog(@"Entered %f m", radiusOuter);
+                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self runnerApproaching:runnerTracked :dist];
+                    });
+                }
                 else {
                     //outside range
-                    NSLog(@"Out of range");
+                    NSLog(@"Out of range"); //gets stuck here when distance isn't within the now incorrect inner/outer radius
                 }
                 
                 break; //exiting for loop
@@ -345,8 +311,8 @@ static NSString * const detailSegueName = @"RelationshipView";
         //setting inner/outer radius for isTrackingRunner based on current distance
         NSNumber *radiusOuter;
         NSNumber *radiusInner;
-        dist = 350.00;
-        if ((dist <= self.radius6) && (dist > self.radius5)) {
+//        dist = 80.00;
+        if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
             radiusOuter = [NSNumber numberWithInt:self.radius6];
             radiusInner = [NSNumber numberWithInt:self.radius5];
         }
@@ -358,15 +324,28 @@ static NSString * const detailSegueName = @"RelationshipView";
             radiusOuter = [NSNumber numberWithInt:self.radius4];
             radiusInner = [NSNumber numberWithInt:self.radius3];
         }
+        else if ((dist <= self.radius3) && (dist > self.radius2)) {
+            radiusOuter = [NSNumber numberWithInt:self.radius3];
+            radiusInner = [NSNumber numberWithInt:self.radius2];
+        }
+        else if ((dist <= self.radius2) && (dist > self.radius1)) {
+            radiusOuter = [NSNumber numberWithInt:self.radius2];
+            radiusInner = [NSNumber numberWithInt:self.radius1];
+        }
+        else if (dist <= self.radius1) {
+            radiusOuter = [NSNumber numberWithInt:self.radius1];
+            radiusInner = [NSNumber numberWithInt:0];
+        }
         else {
             radiusOuter = [NSNumber numberWithInt:self.radius7];
             radiusInner = [NSNumber numberWithInt:self.radius6];
         }
+       
         
-        NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"radiusInner", runner, @"runner", nil];
+        NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"ra diusInner", runner, @"runner", nil];
         [self.isTrackingRunner invalidate];
-        NSLog(@"starting isTrackingRunner ");
-        self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+        NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
+        self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
                                                                selector:@selector(trackEachSecond:) userInfo:trackESArgs repeats:YES];
         
     }
@@ -426,10 +405,10 @@ static NSString * const detailSegueName = @"RelationshipView";
             
         }
         
-//        [self.isCheckingRunners invalidate];
-//        NSLog(@"invalidated isCheckingRunners");
-        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
+        [self.isTrackingRunner invalidate];
+        NSLog(@"invalidated isTrackingRunner");
+//        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+//                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
         
     } else {
         NSLog(@"Runner was nil");
@@ -505,14 +484,13 @@ static NSString * const detailSegueName = @"RelationshipView";
         // closest beacon is the first one
         CLBeacon* closestBeacon = [beacons objectAtIndex:0];
         //notify with primer
-        //PFUser *runner = runnerLocEntry[@"user"];
-        //[runner fetchIfNeeded];
-        NSLog(@"sending primer for runner %@", self.runner.objectId);
-        NSLog(@"self.runner inside if statement is: %@",self.runner);
+        PFQuery *query = [PFUser query];
+        PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
+        NSLog(@"sending primer for runner %@", runner);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self foundRunner:self.runner];
+            [self foundRunner:runner];
         });
-        [self.isTrackingRunner invalidate];
+//        [self.isTrackingRunner invalidate];
     }
 }
 

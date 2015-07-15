@@ -68,6 +68,9 @@
         //do nothing
     }
     
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    
     CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
                                                                      major:self.major
                                                                      minor:self.minor
