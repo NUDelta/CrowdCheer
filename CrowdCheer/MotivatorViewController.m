@@ -83,8 +83,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //For debugging purposes:
     self.viewPrimerButton.hidden = YES;
-    self.latLabel.hidden = YES;
-    self.lonLabel.hidden = YES;
+    self.latLabel.hidden = NO;
+    self.lonLabel.hidden = NO;
     self.distLabel.hidden = NO;
     
 }
@@ -353,7 +353,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"radiusInner", runner, @"runner", nil];
         [self.isTrackingRunner invalidate];
         NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
-        self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
+        self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:([interval doubleValue]) target:self
                                                                selector:@selector(trackEachSecond:) userInfo:trackESArgs repeats:YES];
         
     }
