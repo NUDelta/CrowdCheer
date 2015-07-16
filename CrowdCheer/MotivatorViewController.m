@@ -61,12 +61,12 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //radius in meters, smaller index = closer to runner
     self.radius1 = 10; //10
-    self.radius2 = 20; //50
-    self.radius3 = 30;//100
-    self.radius4 = 40;//200
-    self.radius5 = 50;//300
-    self.radius6 = 60;//400
-    self.radius7 = 70;//500
+    self.radius2 = 50; //50
+    self.radius3 = 100;//100
+    self.radius4 = 200;//200
+    self.radius5 = 300;//300
+    self.radius6 = 400;//400
+    self.radius7 = 500;//500
     
     
     // Do any additional setup after loading the view.
@@ -85,7 +85,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.viewPrimerButton.hidden = YES;
     self.latLabel.hidden = YES;
     self.lonLabel.hidden = YES;
-    self.distLabel.hidden = YES;
+    self.distLabel.hidden = NO;
     
 }
 
@@ -138,7 +138,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 65.00;
+    //            dist = 450.00;
                 if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
@@ -198,7 +198,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 60.00;
+//                dist = 390.00;
                 
                 if ((dist <= self.radius3) && (dist > self.radius2)) { //should this only track between radii 3 and 2, or between 3 and 0?
                     //between radius 2 and 3
@@ -308,41 +308,49 @@ static NSString * const detailSegueName = @"RelationshipView";
         [self.isCheckingRunners invalidate];
         NSLog(@"invalidated isCheckingRunners");
         
-        //setting inner/outer radius for isTrackingRunner based on current distance
+        //setting inner/outer radius and corresponding interval for isTrackingRunner based on current distance
         NSNumber *radiusOuter;
         NSNumber *radiusInner;
-//        dist = 80.00;
+        NSNumber *interval;
+//        dist = 390.00;
         if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
             radiusOuter = [NSNumber numberWithInt:self.radius6];
             radiusInner = [NSNumber numberWithInt:self.radius5];
+            interval = [NSNumber numberWithDouble:15.0];
         }
         else if ((dist <= self.radius5) && (dist > self.radius4)) {
             radiusOuter = [NSNumber numberWithInt:self.radius5];
             radiusInner = [NSNumber numberWithInt:self.radius4];
+            interval = [NSNumber numberWithDouble:10.0];
         }
         else if ((dist <= self.radius4) && (dist > self.radius3)) {
             radiusOuter = [NSNumber numberWithInt:self.radius4];
             radiusInner = [NSNumber numberWithInt:self.radius3];
+            interval = [NSNumber numberWithDouble:5.0];
         }
         else if ((dist <= self.radius3) && (dist > self.radius2)) {
             radiusOuter = [NSNumber numberWithInt:self.radius3];
             radiusInner = [NSNumber numberWithInt:self.radius2];
+            interval = [NSNumber numberWithDouble:1.0];
         }
         else if ((dist <= self.radius2) && (dist > self.radius1)) {
             radiusOuter = [NSNumber numberWithInt:self.radius2];
             radiusInner = [NSNumber numberWithInt:self.radius1];
+            interval = [NSNumber numberWithDouble:1.0];
         }
         else if (dist <= self.radius1) {
             radiusOuter = [NSNumber numberWithInt:self.radius1];
             radiusInner = [NSNumber numberWithInt:0];
+            interval = [NSNumber numberWithDouble:1.0];
         }
         else {
             radiusOuter = [NSNumber numberWithInt:self.radius7];
             radiusInner = [NSNumber numberWithInt:self.radius6];
+            interval = [NSNumber numberWithDouble:20.0];
         }
        
         
-        NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"ra diusInner", runner, @"runner", nil];
+        NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"radiusInner", runner, @"runner", nil];
         [self.isTrackingRunner invalidate];
         NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
         self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
