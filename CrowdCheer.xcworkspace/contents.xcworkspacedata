@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Ford.gpx">
+   </FileRef>
+   <FileRef
       location = "group:CrowdCheer.xcodeproj">
    </FileRef>
    <FileRef

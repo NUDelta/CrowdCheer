@@ -199,13 +199,46 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
 //                dist = 390.00;
+                NSNumber *radiusO;
+                NSNumber *radiusI;
+                
+                if ((dist <= self.radius6) && (dist > self.radius5)) {
+                    radiusO = [NSNumber numberWithInt:self.radius6];
+                    radiusI = [NSNumber numberWithInt:self.radius5];
+                }
+                else if ((dist <= self.radius5) && (dist > self.radius4)) {
+                    radiusO = [NSNumber numberWithInt:self.radius5];
+                    radiusI = [NSNumber numberWithInt:self.radius4];
+                }
+                else if ((dist <= self.radius4) && (dist > self.radius3)) {
+                    radiusO = [NSNumber numberWithInt:self.radius4];
+                    radiusI = [NSNumber numberWithInt:self.radius3];
+                }
+                else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
+                    radiusO = [NSNumber numberWithInt:self.radius3];
+                    radiusI = [NSNumber numberWithInt:self.radius2];
+                }
+                else if ((dist <= self.radius2) && (dist > self.radius1)) {
+                    radiusO = [NSNumber numberWithInt:self.radius2];
+                    radiusI = [NSNumber numberWithInt:self.radius1];
+                }
+                else if (dist <= self.radius1) {
+                    radiusO = [NSNumber numberWithInt:self.radius1];
+                    radiusI = [NSNumber numberWithInt:0];
+                }
+                else if ((dist <= self.radius7) && (dist > self.radius6)) {
+                    radiusO = [NSNumber numberWithInt:self.radius7];
+                    radiusI = [NSNumber numberWithInt:self.radius6];
+                }
                 
                 if ((dist <= self.radius3) && (dist > self.radius2)) { //should this only track between radii 3 and 2, or between 3 and 0?
+                    radiusO = [NSNumber numberWithInt:self.radius3];
+                    radiusI = [NSNumber numberWithInt:self.radius2];
                     //between radius 2 and 3
                     //search for runner's beacon
                     //if found, notify with primer, switch to beacons in RVC
                     NSLog(@"Inside %d m", self.radius3);
-                    
+                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
                     self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
                     [self.runner fetchIfNeeded];
                     NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
@@ -236,18 +269,13 @@ static NSString * const detailSegueName = @"RelationshipView";
                     [self.beaconManager requestWhenInUseAuthorization];
                     [self.beaconManager startMonitoringForRegion:region];
                     [self.beaconManager startRangingBeaconsInRegion:region];
-                    
-                    //                    //notify with primer
-                    //                    NSLog(@"sending primer for runner %@", self.runner.objectId);
-                    //                    NSLog(@"self.runner inside if statement is: %@",self.runner);
-                    //                    dispatch_async(dispatch_get_main_queue(), ^{
-                    //                        [self foundRunner:self.runner];
-                    //                    });
                 }
-                else if ((dist <= radiusOuter) && (dist > radiusInner)) { //not updating when we cross into different radii
+
+                
+                else if ((dist <= [radiusO doubleValue]) && (dist > [radiusI doubleValue])) { //not updating when we cross into different radii
                     //notify
                     //UI update
-                    NSLog(@"Entered %f m", radiusOuter);
+                    NSLog(@"Entered %@ m", radiusO);
                     self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runnerTracked :dist];
@@ -316,37 +344,37 @@ static NSString * const detailSegueName = @"RelationshipView";
         if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
             radiusOuter = [NSNumber numberWithInt:self.radius6];
             radiusInner = [NSNumber numberWithInt:self.radius5];
-            interval = [NSNumber numberWithDouble:15.0];
+            interval = [NSNumber numberWithDouble:10.0]; //10
         }
         else if ((dist <= self.radius5) && (dist > self.radius4)) {
             radiusOuter = [NSNumber numberWithInt:self.radius5];
             radiusInner = [NSNumber numberWithInt:self.radius4];
-            interval = [NSNumber numberWithDouble:10.0];
+            interval = [NSNumber numberWithDouble:5.0]; //5
         }
         else if ((dist <= self.radius4) && (dist > self.radius3)) {
             radiusOuter = [NSNumber numberWithInt:self.radius4];
             radiusInner = [NSNumber numberWithInt:self.radius3];
-            interval = [NSNumber numberWithDouble:5.0];
+            interval = [NSNumber numberWithDouble:3.0]; //3
         }
-        else if ((dist <= self.radius3) && (dist > self.radius2)) {
+        else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
             radiusOuter = [NSNumber numberWithInt:self.radius3];
             radiusInner = [NSNumber numberWithInt:self.radius2];
-            interval = [NSNumber numberWithDouble:1.0];
+            interval = [NSNumber numberWithDouble:1.0]; //1
         }
         else if ((dist <= self.radius2) && (dist > self.radius1)) {
             radiusOuter = [NSNumber numberWithInt:self.radius2];
             radiusInner = [NSNumber numberWithInt:self.radius1];
-            interval = [NSNumber numberWithDouble:1.0];
+            interval = [NSNumber numberWithDouble:1.0]; //1
         }
         else if (dist <= self.radius1) {
             radiusOuter = [NSNumber numberWithInt:self.radius1];
             radiusInner = [NSNumber numberWithInt:0];
-            interval = [NSNumber numberWithDouble:1.0];
+            interval = [NSNumber numberWithDouble:1.0]; //1
         }
-        else {
+        else if ((dist <= self.radius7) && (dist > self.radius6)) {
             radiusOuter = [NSNumber numberWithInt:self.radius7];
             radiusInner = [NSNumber numberWithInt:self.radius6];
-            interval = [NSNumber numberWithDouble:20.0];
+            interval = [NSNumber numberWithDouble:15.0]; //15
         }
        
         
