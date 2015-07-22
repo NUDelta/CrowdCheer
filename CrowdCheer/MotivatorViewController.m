@@ -344,37 +344,37 @@ static NSString * const detailSegueName = @"RelationshipView";
         if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
             radiusOuter = [NSNumber numberWithInt:self.radius6];
             radiusInner = [NSNumber numberWithInt:self.radius5];
-            interval = [NSNumber numberWithDouble:10.0]; //10
+            interval = [NSNumber numberWithDouble:30.0]; //10
         }
         else if ((dist <= self.radius5) && (dist > self.radius4)) {
             radiusOuter = [NSNumber numberWithInt:self.radius5];
             radiusInner = [NSNumber numberWithInt:self.radius4];
-            interval = [NSNumber numberWithDouble:5.0]; //5
+            interval = [NSNumber numberWithDouble:30.0]; //5
         }
         else if ((dist <= self.radius4) && (dist > self.radius3)) {
             radiusOuter = [NSNumber numberWithInt:self.radius4];
             radiusInner = [NSNumber numberWithInt:self.radius3];
-            interval = [NSNumber numberWithDouble:3.0]; //3
+            interval = [NSNumber numberWithDouble:30.0]; //3
         }
         else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
             radiusOuter = [NSNumber numberWithInt:self.radius3];
             radiusInner = [NSNumber numberWithInt:self.radius2];
-            interval = [NSNumber numberWithDouble:1.0]; //1
+            interval = [NSNumber numberWithDouble:3.0]; //5 or 3
         }
         else if ((dist <= self.radius2) && (dist > self.radius1)) {
             radiusOuter = [NSNumber numberWithInt:self.radius2];
             radiusInner = [NSNumber numberWithInt:self.radius1];
-            interval = [NSNumber numberWithDouble:1.0]; //1
+            interval = [NSNumber numberWithDouble:2.0]; //1
         }
         else if (dist <= self.radius1) {
             radiusOuter = [NSNumber numberWithInt:self.radius1];
             radiusInner = [NSNumber numberWithInt:0];
-            interval = [NSNumber numberWithDouble:1.0]; //1
+            interval = [NSNumber numberWithDouble:0.5]; //1
         }
         else if ((dist <= self.radius7) && (dist > self.radius6)) {
             radiusOuter = [NSNumber numberWithInt:self.radius7];
             radiusInner = [NSNumber numberWithInt:self.radius6];
-            interval = [NSNumber numberWithDouble:15.0]; //15
+            interval = [NSNumber numberWithDouble:30.0]; //15
         }
        
         
