@@ -90,6 +90,8 @@
             localNotification.alertAction = @"OK";
         }
         else if ([dictKey isEqualToString:@"here"]) {
+            NSLog(@"dist: %@", dist);
+            NSLog(@"dictionary: %@", notification.userInfo);
             localNotification.alertBody = [name stringByAppendingFormat:@" is %@m away, get ready to cheer!", dist];
             localNotification.alertAction = @"Cheer!";
         }

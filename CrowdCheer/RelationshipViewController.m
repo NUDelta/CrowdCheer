@@ -210,16 +210,19 @@
                 break;
             case CLProximityImmediate:
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+                [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityNear:
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+                [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityFar:
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
+                [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;

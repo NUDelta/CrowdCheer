@@ -138,7 +138,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-    //            dist = 450.00;
+                dist = 450.00;
                 if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
@@ -198,7 +198,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
                 NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 390.00;
+                dist = 75.00;
                 NSNumber *radiusO;
                 NSNumber *radiusI;
                 
@@ -312,7 +312,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         int dist = (int)distance;
         NSString* distString = [NSString stringWithFormat:@"%d", dist];
         NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %dm away!", dist];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"approaching", @"runnerStatus", runnerName, @"name", distString, @"distance", nil];
+        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", runnerName, @"name", distString, @"distance", @"approaching", @"runnerStatus", nil];
         NSLog(@"runnerDict: %@", runnerDict);
         
         UIApplicationState state = [UIApplication sharedApplication].applicationState;
@@ -340,7 +340,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSNumber *radiusOuter;
         NSNumber *radiusInner;
         NSNumber *interval;
-//        dist = 390.00;
+        dist = 75.00;
         if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
             radiusOuter = [NSNumber numberWithInt:self.radius6];
             radiusInner = [NSNumber numberWithInt:self.radius5];
@@ -411,7 +411,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         self.runnerObjId = runnerObjId;
         
         NSString *alertMess =  [runnerName stringByAppendingFormat:@" is coming, get ready to cheer!"];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", nil];
+        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", @"hihi", @"distance", nil]; //need distance here
         
         //saving parse data for when cheerer receives notification and for which runner
         PFObject *cheererNotification = [PFObject objectWithClassName:@"cheererWasNotified"];
@@ -519,6 +519,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         // beacon array is sorted based on distance
         // closest beacon is the first one
         CLBeacon* closestBeacon = [beacons objectAtIndex:0];
+//        NSString *distance=[NSString stringWithFormat:@"%@", closestBeacon.distance;
         //notify with primer
         PFQuery *query = [PFUser query];
         PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
