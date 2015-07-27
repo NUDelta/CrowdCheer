@@ -18,12 +18,12 @@
 			<string>Applications/CrowdCheer.app/AppIcon40x40@2x.png</string>
 		</array>
 		<key>SigningIdentity</key>
-		<string>iPhone Developer: Leesha Maliakal (2467455D5Y)</string>
+		<string>iPhone Distribution: Northwestern University</string>
 	</dict>
 	<key>ArchiveVersion</key>
 	<integer>2</integer>
 	<key>CreationDate</key>
-	<date>2015-07-23T14:22:46Z</date>
+	<date>2015-07-27T15:25:36Z</date>
 	<key>Name</key>
 	<string>CrowdCheer</string>
 	<key>SchemeName</key>
