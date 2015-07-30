@@ -109,7 +109,7 @@
     
     CLLocationCoordinate2D coordinate = [location coordinate];
     
-    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 200, 200);
     
     [self.mapView setShowsUserLocation:YES];
     

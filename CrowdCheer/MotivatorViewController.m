@@ -86,20 +86,16 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.cheerer = [PFUser currentUser];
     
     //For debugging purposes:
-    self.viewPrimerButton.hidden = NO;
+    self.viewPrimerButton.hidden = YES;
     self.latLabel.hidden = YES;
     self.lonLabel.hidden = YES;
     self.distLabel.hidden = YES;
     
     
     //setting up mapview
-    
     CLLocation *location = [self.locationManager location];
-    
     CLLocationCoordinate2D coordinate = [location coordinate];
-    
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
-    
     [self.mapView setShowsUserLocation:YES];
     
 }
@@ -188,6 +184,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSInteger radiusInner = [[trackESArgs objectForKey:@"radiusInner"] integerValue];
     NSLog(@"radiusouter: %ld radiusinner: %ld", (long)radiusOuter, (long)radiusInner);
     
+    CLLocation *location = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [location coordinate];
     
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     //Find any recent location updates from our runner
@@ -211,7 +209,10 @@ static NSString * const detailSegueName = @"RelationshipView";
                 [runnerPath addObject:runnerLoc];
                 //draw array of CLLocations on map
                 [self.mapView addAnnotations:runnerPath];
-                [self drawLine:runnerPath];
+//                [self drawLine:runnerPath];
+                MKPolyline *polyline = [MKPolyline polylineWithCoordinates:(__bridge CLLocationCoordinate2D *)(runnerPath) count:runnerPath.count];
+                [self.mapView addOverlay:polyline];
+                self.polyline = polyline;
                 
                 //calculate distance
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
@@ -228,18 +229,26 @@ static NSString * const detailSegueName = @"RelationshipView";
                 if ((dist <= self.radius6) && (dist > self.radius5)) {
                     radiusO = [NSNumber numberWithInt:self.radius6];
                     radiusI = [NSNumber numberWithInt:self.radius5];
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius7+100, self.radius7+100);
+                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius5) && (dist > self.radius4)) {
                     radiusO = [NSNumber numberWithInt:self.radius5];
                     radiusI = [NSNumber numberWithInt:self.radius4];
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6+100, self.radius6+100);
+                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius4) && (dist > self.radius3)) {
                     radiusO = [NSNumber numberWithInt:self.radius4];
                     radiusI = [NSNumber numberWithInt:self.radius3];
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5+100, self.radius5+100);
+                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
                     radiusO = [NSNumber numberWithInt:self.radius3];
                     radiusI = [NSNumber numberWithInt:self.radius2];
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4+100, self.radius4+100);
+                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius2) && (dist > self.radius1)) {
                     radiusO = [NSNumber numberWithInt:self.radius2];
@@ -572,27 +581,28 @@ static NSString * const detailSegueName = @"RelationshipView";
     }
 }
 
-- (void)drawLine: (NSMutableArray*) coordinates {
-    
-    // remove polyline if one exists
-    [self.mapView removeOverlay:self.polyline];
-    
-    // create a polyline with all cooridnates
-    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:(__bridge CLLocationCoordinate2D *)(coordinates) count:coordinates.count];
-    [self.mapView addOverlay:polyline];
-    self.polyline = polyline;
-    
-    // create an MKPolylineView and add it to the map view
-    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
-    self.lineView.strokeColor = [UIColor redColor];
-    self.lineView.lineWidth = 5;
-    
-}
-
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-    
-    return self.lineView;
-}
+//- (void)drawLine: (NSMutableArray*) coordinates {
+//    
+//    // remove polyline if one exists
+//   // [self.mapView removeOverlay:self.polyline];
+//    
+//    // create a polyline with all cooridnates
+//    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:(__bridge CLLocationCoordinate2D *)(coordinates) count:coordinates.count];
+//    [self.mapView addOverlay:polyline];
+//    self.polyline = polyline;
+//    
+////    // create an MKPolylineView and add it to the map view
+////    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+////    self.lineView.strokeColor = [UIColor redColor];
+////    self.lineView.lineWidth = 5;
+////    
+//    
+//}
+//
+//- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+//    
+//    return self.lineView;
+//}
 
 - (void)startLocationUpdates
 {
