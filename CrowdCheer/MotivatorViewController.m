@@ -11,6 +11,7 @@
 #import "RelationshipViewController.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
+#import <MapKit/MapKit.h>
 #import <AudioToolbox/AudioServices.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <EstimoteSDK/EstimoteSDK.h>
@@ -35,6 +36,9 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (weak, nonatomic) IBOutlet UILabel *latLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic, retain) MKPolyline *polyline; //your line
+@property (nonatomic, retain) MKPolylineView *lineView; //overlay view
 @property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
 
@@ -82,10 +86,21 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.cheerer = [PFUser currentUser];
     
     //For debugging purposes:
-    self.viewPrimerButton.hidden = YES;
-    self.latLabel.hidden = NO;
-    self.lonLabel.hidden = NO;
-    self.distLabel.hidden = NO;
+    self.viewPrimerButton.hidden = NO;
+    self.latLabel.hidden = YES;
+    self.lonLabel.hidden = YES;
+    self.distLabel.hidden = YES;
+    
+    
+    //setting up mapview
+    
+    CLLocation *location = [self.locationManager location];
+    
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
+    
+    [self.mapView setShowsUserLocation:YES];
     
 }
 
@@ -184,6 +199,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         if (!error) {
             // The find succeeded. The first 100 objects are available
             //loop through all these possibly nearby runners and check distance
+            NSMutableArray *runnerPath = [NSMutableArray array];
             for (PFObject *runnerLocEntry in runnerLocations) {
                 NSLog(@"Looping through runner's locations...");
                 NSLog(@"runnerLocEntry: %@", runnerLocEntry);
@@ -191,6 +207,13 @@ static NSString * const detailSegueName = @"RelationshipView";
                 PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
                 //converting location to CLLocation
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+                //storing in location array
+                [runnerPath addObject:runnerLoc];
+                //draw array of CLLocations on map
+                [self.mapView addAnnotations:runnerPath];
+                [self drawLine:runnerPath];
+                
+                //calculate distance
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 NSLog(@"runnerLocEntry's dist: %f", dist);
                 self.distLabel.text = [NSString stringWithFormat:@"Dist(ft): %f", dist];
@@ -549,6 +572,27 @@ static NSString * const detailSegueName = @"RelationshipView";
     }
 }
 
+- (void)drawLine: (NSMutableArray*) coordinates {
+    
+    // remove polyline if one exists
+    [self.mapView removeOverlay:self.polyline];
+    
+    // create a polyline with all cooridnates
+    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:(__bridge CLLocationCoordinate2D *)(coordinates) count:coordinates.count];
+    [self.mapView addOverlay:polyline];
+    self.polyline = polyline;
+    
+    // create an MKPolylineView and add it to the map view
+    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+    self.lineView.strokeColor = [UIColor redColor];
+    self.lineView.lineWidth = 5;
+    
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    
+    return self.lineView;
+}
 
 - (void)startLocationUpdates
 {

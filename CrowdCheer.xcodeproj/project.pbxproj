@@ -11,6 +11,9 @@
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
 		E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23AEFB11B54239100FB6B78 /* AppDelegate.m */; };
+		E240F4741B692510008C9580 /* 3_cheer.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4711B692510008C9580 /* 3_cheer.png */; };
+		E240F4751B692510008C9580 /* 1_notify.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4721B692510008C9580 /* 1_notify.png */; };
+		E240F4761B692510008C9580 /* 2_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4731B692510008C9580 /* 2_watch.png */; };
 		E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E245B6E71ADC544700432C61 /* CheererStartViewController.m */; };
 		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
 		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
@@ -85,6 +88,9 @@
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E23AEFB11B54239100FB6B78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
+		E240F4711B692510008C9580 /* 3_cheer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3_cheer.png; sourceTree = "<group>"; };
+		E240F4721B692510008C9580 /* 1_notify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_notify.png; sourceTree = "<group>"; };
+		E240F4731B692510008C9580 /* 2_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_watch.png; sourceTree = "<group>"; };
 		E245B6E61ADC544700432C61 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/CheererStartViewController.h; sourceTree = "<group>"; };
 		E245B6E71ADC544700432C61 /* CheererStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheererStartViewController.m; path = CrowdCheer/CheererStartViewController.m; sourceTree = "<group>"; };
 		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
@@ -335,6 +341,9 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E240F4711B692510008C9580 /* 3_cheer.png */,
+				E240F4721B692510008C9580 /* 1_notify.png */,
+				E240F4731B692510008C9580 /* 2_watch.png */,
 				E2E652E51AB2B97400561710 /* non transparent icons */,
 				E2AD357C1AAF5613002E352A /* profileDefault.png */,
 				E2CA51821A89537200C2BB03 /* icon.png */,
@@ -458,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CA514D1A89219900C2BB03 /* blue-btn.png in Resources */,
+				E240F4741B692510008C9580 /* 3_cheer.png in Resources */,
 				E2CA51691A89219900C2BB03 /* red-btn.png in Resources */,
 				E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */,
 				E2CA514C1A89219900C2BB03 /* badges.txt in Resources */,
@@ -468,8 +478,10 @@
 				E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */,
 				E2E652ED1AB2B97400561710 /* icon_87.png in Resources */,
 				E2CA515D1A89219900C2BB03 /* interstellar_space.jpg in Resources */,
+				E240F4751B692510008C9580 /* 1_notify.png in Resources */,
 				E2AD357D1AAF5613002E352A /* profileDefault.png in Resources */,
 				E2CA51831A89537200C2BB03 /* icon.png in Resources */,
+				E240F4761B692510008C9580 /* 2_watch.png in Resources */,
 				E2CA516E1A89219900C2BB03 /* success.wav in Resources */,
 				E2CA51611A89219900C2BB03 /* mapPin@2x.png in Resources */,
 				E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */,
@@ -678,7 +690,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
+				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -702,7 +714,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "618ecec8-550f-4cd1-be01-3d44f2d24f9f";
+				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

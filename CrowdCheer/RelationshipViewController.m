@@ -13,6 +13,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MathController.h"
 #import "Location.h"
+#import <MapKit/MapKit.h>
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -36,6 +37,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;
 @property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
@@ -67,6 +69,49 @@
     else {
         //do nothing
     }
+    //setting up mapview
+    
+    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+    [timeQuery whereKey:@"user" equalTo:user];
+    [timeQuery orderByDescending:@"updatedAt"];
+    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
+        if (!error) {
+            // The find succeeded. The first 100 objects are available
+            // draw line through last 100 location objects
+            NSMutableArray *runnerPath = [NSMutableArray array];
+            for (PFObject *runnerLocEntry in runnerLocations) {
+                NSLog(@"runnerLocEntry: %@", runnerLocEntry);
+                //getting location for a runner object
+                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
+                //converting location to CLLocation
+                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+                //storing in location array
+                [runnerPath addObject:runnerLoc];
+                //draw array of CLLocations on map
+                [self.mapView addAnnotations:runnerPath];
+
+            }
+            
+        }
+        else {
+            NSLog(@"ERROR: No runner data found");
+        }
+    }];
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = kCLLocationAccuracyKilometer;
+    [self.locationManager startUpdatingLocation];
+    
+    CLLocation *location = [self.locationManager location];
+    
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
+    
+    [self.mapView setShowsUserLocation:YES];
     
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
