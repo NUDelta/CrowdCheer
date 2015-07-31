@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *name;
 @property (weak, nonatomic) IBOutlet UITextField *birthMonth;
 @property (weak, nonatomic) IBOutlet UITextField *birthDay;
+@property (weak, nonatomic) IBOutlet UILabel *birthdayLabel;
 
 @property (nonatomic, weak) IBOutlet UIButton *cubs;
 @property (nonatomic, weak) IBOutlet UIButton *sox;
@@ -73,7 +74,10 @@
         }
     }];
     
-    
+    self.uploadPhoto.hidden = YES;
+    self.birthDay.hidden = YES;
+    self.birthMonth.hidden = YES;
+    self.birthdayLabel.hidden = YES;
     
     self.monthArray  = [[NSArray alloc] initWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
     self.dayArray  = [[NSArray alloc] initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", nil];
@@ -111,7 +115,7 @@
 }
 
 - (IBAction)infoButton:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Photo" message:@"We recommend taking a race day photo so your cheerers can recognize you on the course!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Take Photo" message:@"Take a pic in your race day outfit so your cheerers can recognize you on the course!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
 }
 
