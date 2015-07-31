@@ -15,6 +15,7 @@
 		E240F4751B692510008C9580 /* 1_notify.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4721B692510008C9580 /* 1_notify.png */; };
 		E240F4761B692510008C9580 /* 2_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4731B692510008C9580 /* 2_watch.png */; };
 		E240F4781B6BBEB6008C9580 /* Ford.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E240F4771B6BBEB6008C9580 /* Ford.gpx */; };
+		E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */; };
 		E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E245B6E71ADC544700432C61 /* CheererStartViewController.m */; };
 		E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A61AB10248003FFA73 /* CommonalityViewController.m */; };
 		E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11A81AB10248003FFA73 /* MotivatorViewController.m */; };
@@ -93,6 +94,7 @@
 		E240F4721B692510008C9580 /* 1_notify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_notify.png; sourceTree = "<group>"; };
 		E240F4731B692510008C9580 /* 2_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_watch.png; sourceTree = "<group>"; };
 		E240F4771B6BBEB6008C9580 /* Ford.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ford.gpx; sourceTree = "<group>"; };
+		E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1438375376_wooman.png; sourceTree = "<group>"; };
 		E245B6E61ADC544700432C61 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/CheererStartViewController.h; sourceTree = "<group>"; };
 		E245B6E71ADC544700432C61 /* CheererStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheererStartViewController.m; path = CrowdCheer/CheererStartViewController.m; sourceTree = "<group>"; };
 		E25A11A51AB10248003FFA73 /* CommonalityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonalityViewController.h; path = CrowdCheer/CommonalityViewController.h; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */,
 				E240F4771B6BBEB6008C9580 /* Ford.gpx */,
 				E240F4711B692510008C9580 /* 3_cheer.png */,
 				E240F4721B692510008C9580 /* 1_notify.png */,
@@ -488,6 +491,7 @@
 				E240F4761B692510008C9580 /* 2_watch.png in Resources */,
 				E2CA516E1A89219900C2BB03 /* success.wav in Resources */,
 				E2CA51611A89219900C2BB03 /* mapPin@2x.png in Resources */,
+				E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */,
 				E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */,
 				E2E652EC1AB2B97400561710 /* icon_80.png in Resources */,
 				E2E652EB1AB2B97400561710 /* icon_58.png in Resources */,

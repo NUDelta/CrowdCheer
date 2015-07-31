@@ -40,7 +40,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, retain) MKPolyline *polyline; //your line
 @property (nonatomic, retain) MKPolylineView *lineView; //overlay view
 @property (strong, nonatomic) NSString *runnerObjId;
-@property (weak, nonatomic) IBOutlet UIButton *viewPrimerButton;
+@property (weak, nonatomic) IBOutlet UIButton *cheerButton;
 
 @property int radius1;
 @property int radius2;
@@ -86,7 +86,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.cheerer = [PFUser currentUser];
     
     //For debugging purposes:
-    self.viewPrimerButton.hidden = YES;
+    self.cheerButton.hidden = YES;
     self.latLabel.hidden = YES;
     self.lonLabel.hidden = YES;
     self.distLabel.hidden = YES;
@@ -154,7 +154,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
-                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runner objectForKey:@"name"], dist]; //UI update - Runner is x meters and y minutes away
+                    int distInt = (int)dist;
+                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runner objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runner :dist]; //notify
                     });
@@ -249,6 +250,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     radiusI = [NSNumber numberWithInt:self.radius2];
                     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4+100, self.radius4+100);
                     [self.mapView setShowsUserLocation:YES];
+                        self.cheerButton.hidden = NO;
                 }
                 else if ((dist <= self.radius2) && (dist > self.radius1)) {
                     radiusO = [NSNumber numberWithInt:self.radius2];
@@ -270,7 +272,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                     //search for runner's beacon
                     //if found, notify with primer, switch to beacons in RVC
                     NSLog(@"Inside %d m", self.radius3);
-                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
+                    int distInt = (int)dist;
+                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt];
                     self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
                     [self.runner fetchIfNeeded];
                     NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
@@ -308,7 +311,8 @@ static NSString * const detailSegueName = @"RelationshipView";
                     //notify
                     //UI update
                     NSLog(@"Entered %@ m", radiusO);
-                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %f meters away", [runnerTracked objectForKey:@"name"], dist];
+                    int distInt = (int)dist;
+                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runnerTracked :dist];
                     });

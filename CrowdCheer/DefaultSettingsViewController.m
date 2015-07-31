@@ -123,7 +123,7 @@
 
 
 - (IBAction)profile:(id)sender {
-    [_profile setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
+//    [_profile setBackgroundImage:[UIImage imageNamed:@"green-btn.png"] forState:UIControlStateNormal];
 }
 
 

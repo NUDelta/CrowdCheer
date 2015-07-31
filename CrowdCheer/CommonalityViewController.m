@@ -88,23 +88,6 @@
     [self attachPickerToTextField:self.birthMonth :self.monthPicker];
     [self attachPickerToTextField:self.birthDay :self.dayPicker];
     
-    [_cubs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_sox setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_nike setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_reebok setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_coffee setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_tea setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_dogs setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_cats setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_hot setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    [_cold setBackgroundImage:[UIImage imageNamed:@"blue-btn.png"] forState:UIControlStateNormal];
-    
-//    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"All Fields Required"
-//                                                     message:@"We'll need this information so cheerers can recognize and cheer for runners. Your info is securely stored on our servers."
-//                                                    delegate:self
-//                                           cancelButtonTitle:@"OK"
-//                                           otherButtonTitles: nil];
-//    [alert show];
     self.saveButton.enabled = NO;
     
 }
@@ -166,15 +149,20 @@
     PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
     PFUser *currentUser = [PFUser currentUser];
     currentUser[@"profilePic"] = imageFile;
+    currentUser[@"name"] = self.name.text;
+    
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            // The object has been saved.
+            NSLog(@"name and pic saved!");
         } else {
-            // There was a problem, check error.description
+            NSLog(@"name and pic not saved =(");
         }
     }];
     
     if ([[PFUser currentUser] objectForKey:@"profilePic"]==nil) {
+        self.saveButton.enabled = NO;
+    }
+    else if ([[PFUser currentUser] objectForKey:@"name"]== nil){
         self.saveButton.enabled = NO;
     }
     else {
@@ -257,12 +245,12 @@
     if ([[PFUser currentUser] objectForKey:@"name"]== nil){
         self.saveButton.enabled = NO;
     }
-    else if ([[PFUser currentUser] objectForKey:@"birthMonth"]==nil) {
-        self.saveButton.enabled = NO;
-    }
-    else if ([[PFUser currentUser] objectForKey:@"birthDay"]==nil) {
-        self.saveButton.enabled = NO;
-    }
+//    else if ([[PFUser currentUser] objectForKey:@"birthMonth"]==nil) {
+//        self.saveButton.enabled = NO;
+//    }
+//    else if ([[PFUser currentUser] objectForKey:@"birthDay"]==nil) {
+//        self.saveButton.enabled = NO;
+//    }
     
 }
 

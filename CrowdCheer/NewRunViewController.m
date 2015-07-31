@@ -263,6 +263,9 @@ static NSString * const detailSegueName = @"RunDetails";
 
     // show the congrats label UI
     self.congratsLabel.hidden = NO;
+    self.stopButton.hidden = YES;
+    
+    //load map of race here
 
 
     
