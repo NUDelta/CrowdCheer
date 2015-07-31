@@ -17,7 +17,7 @@
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>
+@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property (nonatomic, strong) Run *run;
 
@@ -48,6 +48,10 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (weak, nonatomic) IBOutlet UITextField *targetPace;
 @property (weak, nonatomic) IBOutlet UITextField *raceTimeGoal;
 @property (weak, nonatomic) IBOutlet UITextField *bibNumber;
+
+@property (strong, nonatomic) IBOutlet UIPickerView *beaconPicker;
+@property (strong, nonatomic) NSArray *beaconArray;
+@property (weak, nonatomic) IBOutlet UITextField *beaconName;
 
 @end
 
@@ -88,6 +92,11 @@ static NSString * const detailSegueName = @"RunDetails";
     else {
         self.prepButton.enabled = YES;
     }
+    
+    self.beaconArray  = [[NSArray alloc] initWithObjects:@"Mint 1", @"Ice 1", @"CrowdCheer B", nil];
+    self.beaconPicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
+    [self attachPickerToTextField:self.beaconName :self.beaconPicker];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,6 +122,57 @@ static NSString * const detailSegueName = @"RunDetails";
     
     
 
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if (pickerView == self.beaconPicker){
+        return self.beaconArray.count;
+    }
+    
+    return 0;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
+{
+    if (pickerView == self.beaconPicker){
+        return [self.beaconArray objectAtIndex:row];
+    }
+    
+    return @"???";
+    
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row   inComponent:(NSInteger)component
+{
+    PFUser *currentUser = [PFUser currentUser];
+    
+    if (pickerView == self.beaconPicker){
+        self.beaconName.text = [self.beaconArray objectAtIndex:row];
+        currentUser[@"beacon"] = self.beaconName.text;
+    }
+
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"beacon saved!");
+        } else {
+            NSLog(@"beacon not saved =(");
+        }
+    }];
+}
+
+- (void)attachPickerToTextField: (UITextField*) textField :(UIPickerView*) picker{
+    picker.delegate = self;
+    picker.dataSource = self;
+    
+    textField.delegate = self;
+    textField.inputView = picker;
+    
 }
 
 -(void)textFieldDidChange :(UITextField *)textField{
@@ -273,6 +333,7 @@ static NSString * const detailSegueName = @"RunDetails";
     [self.targetPace resignFirstResponder];
     [self.raceTimeGoal resignFirstResponder];
     [self.bibNumber resignFirstResponder];
+    [self.beaconName resignFirstResponder];
 
 }
 

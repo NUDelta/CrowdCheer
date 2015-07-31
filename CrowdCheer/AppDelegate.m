@@ -71,6 +71,7 @@
 }
 
 - (void)showAlarm:(NSNotification *)notification {
+    //displays notification
     // showAlarm gets called from notification that is registered in didFinishLaunchingWithOptions at the top of this class
     // this code was borrowed from http://www.appcoda.com/ios-programming-local-notification-tutorial/
     NSLog(@"[AppleDelegate showAlarm] called");
@@ -78,8 +79,23 @@
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.userInfo = notification.userInfo;
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    localNotification.alertBody = @"Your alert message";
-    localNotification.alertAction = @"AlertButtonCaption";
+    
+    for(NSString *key in notification.userInfo){
+        NSString *dictKey = [notification.userInfo objectForKey:key];
+        NSString *name = [notification.userInfo objectForKey:@"name"];
+        NSString *dist = [notification.userInfo objectForKey:@"distance"];
+        NSLog(@"notification userInfo: %@", dictKey);
+        if ([dictKey isEqualToString:@"approaching"]) {
+            localNotification.alertBody = [name stringByAppendingFormat:@" is %@m away!", dist];
+            localNotification.alertAction = @"OK";
+        }
+        else if ([dictKey isEqualToString:@"here"]) {
+            NSLog(@"dist: %@", dist);
+            NSLog(@"dictionary: %@", notification.userInfo);
+            localNotification.alertBody = [name stringByAppendingFormat:@" is %@m away, get ready to cheer!", dist];
+            localNotification.alertAction = @"Cheer!";
+        }
+    }
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
@@ -92,35 +108,48 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
+    //reacts to notification
     NSLog(@"didReceiveLocalNotification");
     //Instantiate new viewcontroller here and segue
     if (application.applicationState == UIApplicationStateInactive) {
         [[UIApplication sharedApplication] cancelLocalNotification:notification];
         
-        //    [application presentLocalNotificationNow:notification];
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        //instantiate all associated VCs
-        
-        DefaultSettingsViewController *dsvc = (DefaultSettingsViewController *)[sb instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
-        RoleViewController *rvc = (RoleViewController *)[sb instantiateViewControllerWithIdentifier:@"roleViewController"];
-        CheererStartViewController *csvc = (CheererStartViewController *)[sb instantiateViewControllerWithIdentifier:@"cheererStartViewController"];
-        MotivatorViewController *mvc = (MotivatorViewController *)[sb instantiateViewControllerWithIdentifier:@"motivatorViewController"];
-        RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
-        
-        //HelperMapViewController *hmvc = (HelperMapViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperMapViewController"];
-       // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
-        
-        rsvc.userInfo = notification.userInfo;
-        NSLog(@"appDel dictionary is %@", rsvc.userInfo);
-        /*
+        //if coming from primer, pop to MVC, else pop to RSVC
         for(NSString *key in notification.userInfo){
-            NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);
-            rsvc.objectId = [notification.userInfo objectForKey:key];
+            NSString *dictKey = [notification.userInfo objectForKey:key];
+            NSLog(@"notification userInfo: %@", dictKey);
+            if ([dictKey isEqualToString:@"approaching"]) {
+                NSLog(@"Runner status: approaching");
+            }
+            else if ([dictKey isEqualToString:@"here"]) {
+                //    [application presentLocalNotificationNow:notification];
+                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                //instantiate all associated VCs
+                
+                DefaultSettingsViewController *dsvc = (DefaultSettingsViewController *)[sb instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
+                RoleViewController *rvc = (RoleViewController *)[sb instantiateViewControllerWithIdentifier:@"roleViewController"];
+                CheererStartViewController *csvc = (CheererStartViewController *)[sb instantiateViewControllerWithIdentifier:@"cheererStartViewController"];
+                MotivatorViewController *mvc = (MotivatorViewController *)[sb instantiateViewControllerWithIdentifier:@"motivatorViewController"];
+                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
+                
+                //HelperMapViewController *hmvc = (HelperMapViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperMapViewController"];
+                // HelperDetailViewController *hdvc = (HelperDetailViewController *)[sb instantiateViewControllerWithIdentifier:@"HelperDetailViewController"];
+                
+                rsvc.userInfo = notification.userInfo;
+                NSLog(@"appDel dictionary is %@", rsvc.userInfo);
+                /*
+                 for(NSString *key in notification.userInfo){
+                 NSLog(@"notification userInfo: %@", [notification.userInfo objectForKey:key]);
+                 rsvc.objectId = [notification.userInfo objectForKey:key];
+                 }
+                 */
+                UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+                nav.viewControllers = [NSArray arrayWithObjects:dsvc,csvc,rvc,mvc,rsvc, nil];
+
+                
+                [nav popToViewController:rsvc animated:YES];
+            }
         }
-        */
-        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-        nav.viewControllers = [NSArray arrayWithObjects:dsvc,csvc,rvc,mvc,rsvc, nil];
-        [nav popToViewController:rsvc animated:YES];
     }
     
 }
