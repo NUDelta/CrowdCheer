@@ -92,11 +92,11 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.distLabel.hidden = YES;
     
     
-    //setting up mapview
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
-    [self.mapView setShowsUserLocation:YES];
+//    //setting up mapview
+//    CLLocation *location = [self.locationManager location];
+//    CLLocationCoordinate2D coordinate = [location coordinate];
+//    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
+//    [self.mapView setShowsUserLocation:YES];
     
 }
 
@@ -622,6 +622,12 @@ static NSString * const detailSegueName = @"RelationshipView";
     [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager requestAlwaysAuthorization];
     [self.locationManager startUpdatingLocation];
+    
+    //setting up mapview
+    CLLocation *location = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
+    [self.mapView setShowsUserLocation:YES];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
