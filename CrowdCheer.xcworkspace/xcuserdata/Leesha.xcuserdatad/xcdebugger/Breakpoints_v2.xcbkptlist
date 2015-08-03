@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "460083192.377798"
+            timestampString = "460309890.078238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
+            startingLineNumber = "429"
+            endingLineNumber = "429"
             landmarkName = "-runnerApproaching::"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "460083192.377798"
+            timestampString = "460309890.078238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
             landmarkName = "-beaconManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>

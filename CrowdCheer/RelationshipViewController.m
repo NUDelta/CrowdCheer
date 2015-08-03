@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSTimer *hapticTimer;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
+@property (nonatomic, strong) NSTimer *isUpdatingDistance;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property int major;
 @property int minor;
@@ -38,6 +39,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) NSMutableArray *runnerDist;
 
 @end
 
@@ -45,7 +47,7 @@
 @implementation RelationshipViewController
 
 - (void)viewDidLoad {
-    
+    //load runner info
     NSString *userObjectID = [self.userInfo objectForKey:@"user"];
     NSLog(@"User ID passed to RVC is %@""", userObjectID);
     PFQuery *query = [PFUser query];
@@ -70,34 +72,9 @@
         //do nothing
     }
     //setting up mapview
-    
-    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
-    [timeQuery whereKey:@"user" equalTo:user];
-    [timeQuery orderByDescending:@"updatedAt"];
-    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
-        if (!error) {
-            // The find succeeded. The first 100 objects are available
-            // draw line through last 100 location objects
-            NSMutableArray *runnerPath = [NSMutableArray array];
-            for (PFObject *runnerLocEntry in runnerLocations) {
-                NSLog(@"runnerLocEntry: %@", runnerLocEntry);
-                //getting location for a runner object
-                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
-                //converting location to CLLocation
-                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-                //storing in location array
-                [runnerPath addObject:runnerLoc];
-                //draw array of CLLocations on map
-                [self.mapView addAnnotations:runnerPath];
-
-            }
-            
-        }
-        else {
-            NSLog(@"ERROR: No runner data found");
-        }
-    }];
+    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:user, @"runner", nil];
+    self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -277,6 +254,81 @@
         }
     }
 }
+
+- (void) updateDistance:(NSTimer*)timer {
+    NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
+    PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
+    
+    CLLocation *location = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    //Find any recent location updates from our runner
+    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+    [timeQuery whereKey:@"user" equalTo:runnerTracked];
+    [timeQuery orderByDescending:@"updatedAt"];
+    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
+        if (!error) {
+            // The find succeeded. The first 100 objects are available
+            //loop through all these possibly nearby runners and check distance
+            NSMutableArray *runnerPath = [NSMutableArray array];
+            self.runnerDist = [NSMutableArray array];
+            for (PFObject *runnerLocEntry in runnerLocations) {
+                //getting location for a runner object
+                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
+                //converting location to CLLocation and CLLocationCoordinate2D
+                CLLocationCoordinate2D runnerCoor = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+                //storing in coordinate and location array
+                [runnerPath addObject: runnerLoc];
+                //calculate distance and store in distance array
+                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
+                [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
+                
+            }
+            
+            //Add drawing of route line
+            CLLocationCoordinate2D coordinates[[runnerPath count]];
+            
+            
+            for (CLLocation *loc in runnerPath)
+            {
+                int i = 0;
+                coordinates[i] = CLLocationCoordinate2DMake(loc.coordinate.latitude, loc.coordinate.longitude);
+                i++;
+            }
+            
+            MKPolyline *route = [MKPolyline polylineWithCoordinates: coordinates count:runnerPath.count];
+            [self.mapView addOverlay:route];
+            [self.mapView addAnnotations:runnerPath];
+            MKPolylineRenderer *pr = (MKPolylineRenderer *)[self.mapView rendererForOverlay:route];
+            //            [pr invalidatePath];
+            
+            
+            
+            //update distance label
+            double dist = [self.runnerDist.firstObject doubleValue];
+            int distInt = (int)dist;
+            NSLog(@"runnerDist array: %@", self.runnerDist);
+            //            NSLog(@"runnerPath array: %@", coordinates[0]);
+            self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+        }
+    }];
+    
+}
+
+- (MKPolylineRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineRenderer *pr = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+        pr.strokeColor = [UIColor blueColor];
+        pr.lineWidth = 5;
+        return pr;
+    }
+    
+    return nil;
+}
+
 
 
 @end
