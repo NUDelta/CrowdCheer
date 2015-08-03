@@ -10,6 +10,7 @@
 #import "DetailViewController.h"
 #import "Run.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 #import "MathController.h"
 #import "Location.h"
 #import <Parse/Parse.h>
@@ -17,7 +18,7 @@
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate, MKMapViewDelegate>
 
 @property (nonatomic, strong) Run *run;
 
@@ -52,6 +53,11 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (strong, nonatomic) IBOutlet UIPickerView *beaconPicker;
 @property (strong, nonatomic) NSArray *beaconArray;
 @property (weak, nonatomic) IBOutlet UITextField *beaconName;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic, readwrite) MKPolyline *polyline; //your line
+@property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
+@property (nonatomic, strong) NSMutableArray *runnerPath;
 
 @end
 
@@ -119,6 +125,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.paceLabel.hidden = YES;
     self.stopButton.hidden = YES;
     self.congratsLabel.hidden = YES;
+    self.mapView.hidden = YES;
     
     
 
@@ -245,6 +252,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.seconds = 0;
     self.distance = 0;
     self.locations = [NSMutableArray array];
+    self.runnerPath = [NSMutableArray array];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                 selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
@@ -252,44 +260,58 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (IBAction)stopPressed:(id)sender
 {
-    //
-    [self.locationManager stopUpdatingLocation];
-    [self.timer invalidate];
-
-    
     // hide the instructions UI
     self.instruction1Label.hidden = YES;
     self.instruction2Label.hidden = YES;
 
     // show the congrats label UI
     self.congratsLabel.hidden = NO;
-
-
+    self.stopButton.hidden = YES;
     
+    //load map of race here
+    self.mapView.hidden = NO;
+    CLLocation *location = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000);
+    [self.mapView setShowsUserLocation:YES];
+    [self drawLine];
     
-   // [self saveRun];
+    [self.locationManager stopUpdatingLocation];
+    [self.timer invalidate];
     
-   // UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self
-     //                                               cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-       //                                             otherButtonTitles:@"Save", @"Discard", nil];
-    //actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    //[actionSheet showInView:self.view];
 }
 
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-  //  [self.locationManager stopUpdatingLocation];
+- (void)drawLine {
     
-    // save
-    //if (buttonIndex == 0) {
-      //  [self saveRun]; ///< ADD THIS LINE
-        //[self performSegueWithIdentifier:detailSegueName sender:nil];
-        
-        // discard
-    //} else if (buttonIndex == 1) {
-      //  [self.navigationController popToRootViewControllerAnimated:YES];
-   // }
-//}
+    // remove polyline if one exists
+    //[self.mapView removeOverlay:self.polyline];
+    
+    // create an array of coordinates
+    NSLog(@"runnerPath %@", self.runnerPath);
+    CLLocationCoordinate2D coordinates[self.runnerPath.count];
+    int i = 0;
+    for (CLLocation *currentPin in self.runnerPath) {
+        coordinates[i] = currentPin.coordinate;
+        i++;
+    }
+    
+    // create a polyline with all cooridnates
+    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.runnerPath.count];
+    [self.mapView addOverlay:polyline];
+    self.polyline = polyline;
+     NSLog(@"polyline %@", self.polyline);
+    
+    // create an MKPolylineView and add it to the map view
+    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+    self.lineView.strokeColor = [UIColor blueColor];
+    self.lineView.lineWidth = 5;
+    
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    
+    return self.lineView;
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -327,6 +349,35 @@ static NSString * const detailSegueName = @"RunDetails";
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
     self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  self.pace];
+    
+    [self.runnerPath addObject: self.locationManager.location];
+    
+//    //Find any recent location updates from our runner
+//    PFUser *runner = [PFUser currentUser];
+//    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+//    [timeQuery whereKey:@"user" equalTo:runner];
+//    [timeQuery orderByDescending:@"updatedAt"];
+//    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
+//        if (!error) {
+//            // The find succeeded. The first 100 objects are available
+//            //loop through all these possibly nearby runners and check distance
+//            self.runnerPath = [NSMutableArray array];
+//            for (PFObject *runnerLocEntry in runnerLocations) {
+//                //getting location for a runner object
+//                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
+//                //converting location to CLLocation
+//                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+//                //storing in location array
+//                [self.runnerPath addObject: runnerLoc];
+//            }
+//            
+//            //Add drawing of route line
+//            [self.mapView removeAnnotations:self.mapView.annotations];
+//            [self.mapView setShowsUserLocation:YES];
+//            [self.mapView addAnnotation:self.runnerPath.firstObject];
+//            [self drawLine];
+//        }
+//    }];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -346,11 +397,12 @@ static NSString * const detailSegueName = @"RunDetails";
     }
     
     self.locationManager.delegate = self;
+    self.mapView.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.activityType = CLActivityTypeFitness;
     
     // Movement threshold for new events.
-    self.locationManager.distanceFilter = 10; // meters
+    self.locationManager.distanceFilter = 1; // meters
     
     [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager requestAlwaysAuthorization];
