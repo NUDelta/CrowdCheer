@@ -20,7 +20,7 @@
 #import <EstimoteSDK/EstimoteSDK.h>
 
 
-@interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, ESTBeaconManagerDelegate>
+@interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate>
 
 @property (nonatomic, strong) Run *run;
 

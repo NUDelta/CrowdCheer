@@ -18,7 +18,7 @@
 
 static NSString * const detailSegueName = @"RelationshipView";
 
-@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, ESTBeaconManagerDelegate >
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate>
 
 {
     dispatch_queue_t checkQueue;
@@ -92,13 +92,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.lonLabel.hidden = YES;
     self.distLabel.hidden = YES;
     
-    
-//    //setting up mapview
-//    CLLocation *location = [self.locationManager location];
-//    CLLocationCoordinate2D coordinate = [location coordinate];
-//    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
-//    [self.mapView setShowsUserLocation:YES];
-    
 }
 
 
@@ -150,13 +143,12 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 450.00;
                 if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     int distInt = (int)dist;
-//                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runner objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+//                    [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runner :dist]; //notify
                     });
@@ -210,18 +202,12 @@ static NSString * const detailSegueName = @"RelationshipView";
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
                 //storing in location array
                 [runnerPath addObject:runnerLoc];
-                //draw array of CLLocations on map
-//                [self.mapView addAnnotations:runnerPath];
                 
                 //calculate distance
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 NSLog(@"runnerLocEntry's dist: %f", dist);
-//                self.distLabel.text = [NSString stringWithFormat:@"Dist(ft): %f", dist];
-//                self.latLabel.text = [NSString stringWithFormat:@"Lat: %f", point.latitude];
-//                self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
 //                NSLog(@"updated dist label to: %f", dist);
                 //based on the distance between me and our possible runner, do the following:
-//                dist = 75.00;
                 NSNumber *radiusO;
                 NSNumber *radiusI;
                 
@@ -270,8 +256,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                     //search for runner's beacon
                     //if found, notify with primer, switch to beacons in RVC
                     NSLog(@"Inside %d m", self.radius3);
-                    int distInt = (int)dist;
-//                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt];
                     self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
                     [self.runner fetchIfNeeded];
                     NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
@@ -309,8 +293,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                     //notify
                     //UI update
                     NSLog(@"Entered %@ m", radiusO);
-                    int distInt = (int)dist;
-//                    self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runnerTracked :dist];
                     });
@@ -355,7 +337,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 //getting location for a runner object
                 PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
                 //converting location to CLLocation and CLLocationCoordinate2D
-                CLLocationCoordinate2D runnerCoor = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+//                CLLocationCoordinate2D runnerCoor = CLLocationCoordinate2DMake(point.latitude, point.longitude);
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
                 //storing in coordinate and location array
                 [runnerPath addObject: runnerLoc];
@@ -368,24 +350,21 @@ static NSString * const detailSegueName = @"RelationshipView";
             }
             
             //Add drawing of route line
-            [self.mapView removeAnnotations:runnerPath];
 //            [self.mapView setShowsUserLocation:YES];
             [self.mapView addAnnotations:runnerPath];
             
-//            CLLocationCoordinate2D coordinates[[runnerPath count]];
-//            
-//            
-//            for (CLLocation *loc in runnerPath)
-//            {
-//                int i = 0;
-//                coordinates[i] = CLLocationCoordinate2DMake(loc.coordinate.latitude, loc.coordinate.longitude);
-//                i++;
-//            }
-//            
-//            MKPolyline *route = [MKPolyline polylineWithCoordinates: coordinates count:runnerPath.count];
-//            [self.mapView addOverlay:route];
-//            MKPolylineRenderer *pr = (MKPolylineRenderer *)[self.mapView rendererForOverlay:route];
-//            [pr invalidatePath];
+            CLLocationCoordinate2D coordinates[[runnerPath count]];
+            for (CLLocation *loc in runnerPath)
+            {
+                int i = 0;
+                coordinates[i] = CLLocationCoordinate2DMake(loc.coordinate.latitude, loc.coordinate.longitude);
+                i++;
+            }
+            
+            MKPolyline *route = [MKPolyline polylineWithCoordinates: coordinates count:runnerPath.count];
+            [self.mapView addOverlay:route];
+            MKPolylineRenderer *pr = (MKPolylineRenderer *)[self.mapView rendererForOverlay:route];
+            [pr invalidatePath];
 
             
             
@@ -399,16 +378,16 @@ static NSString * const detailSegueName = @"RelationshipView";
     
 }
 
-//- (MKPolylineRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id<MKOverlay>)overlay {
-//    if ([overlay isKindOfClass:[MKPolyline class]]) {
-//        MKPolylineRenderer *pr = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
-//        pr.strokeColor = [UIColor blueColor];
-//        pr.lineWidth = 5;
-//        return pr;
-//    }
-//    
-//    return nil;
-//}
+- (MKPolylineRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineRenderer *pr = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+        pr.strokeColor = [UIColor blueColor];
+        pr.lineWidth = 5;
+        return pr;
+    }
+    
+    return nil;
+}
 
 //runnerApproaching()
 - (void) runnerApproaching:(PFUser*)runner :(const double)distance {
@@ -689,6 +668,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     CLLocationCoordinate2D coordinate = [location coordinate];
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
     [self.mapView setShowsUserLocation:YES];
+    [self.mapView setDelegate:self];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
