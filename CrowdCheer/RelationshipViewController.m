@@ -40,6 +40,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *runnerDist;
+@property (nonatomic, readwrite) MKPolyline *polyline; //your line
+@property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
+@property (nonatomic, strong) NSMutableArray *runnerPath;
+
 
 @end
 
@@ -228,22 +232,23 @@
         switch (closestBeacon.proximity)
         {
             case CLProximityUnknown:
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is out of range!",self.name];
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is out of range!",self.name];
+                [self.hapticTimer invalidate];
                 break;
             case CLProximityImmediate:
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
                 [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityNear:
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
                 [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
                 break;
             case CLProximityFar:
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
                 [self.hapticTimer invalidate];
                 self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
                                                                   selector:@selector(setVibrations) userInfo:nil repeats:YES];
@@ -255,6 +260,7 @@
     }
 }
 
+//updateDistance(runner)
 - (void) updateDistance:(NSTimer*)timer {
     NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
     PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
@@ -272,61 +278,64 @@
         if (!error) {
             // The find succeeded. The first 100 objects are available
             //loop through all these possibly nearby runners and check distance
-            NSMutableArray *runnerPath = [NSMutableArray array];
             self.runnerDist = [NSMutableArray array];
+            self.runnerPath = [NSMutableArray array];
             for (PFObject *runnerLocEntry in runnerLocations) {
                 //getting location for a runner object
                 PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
-                //converting location to CLLocation and CLLocationCoordinate2D
-                CLLocationCoordinate2D runnerCoor = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+                //converting location to CLLocation
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-                //storing in coordinate and location array
-                [runnerPath addObject: runnerLoc];
+                //storing in location array
+                [self.runnerPath addObject: runnerLoc];
                 //calculate distance and store in distance array
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                
+                if(self.runnerPath.count > 10) {
+                    break;
+                }
             }
             
             //Add drawing of route line
-            CLLocationCoordinate2D coordinates[[runnerPath count]];
-            
-            
-            for (CLLocation *loc in runnerPath)
-            {
-                int i = 0;
-                coordinates[i] = CLLocationCoordinate2DMake(loc.coordinate.latitude, loc.coordinate.longitude);
-                i++;
-            }
-            
-            MKPolyline *route = [MKPolyline polylineWithCoordinates: coordinates count:runnerPath.count];
-            [self.mapView addOverlay:route];
-            [self.mapView addAnnotations:runnerPath];
-            MKPolylineRenderer *pr = (MKPolylineRenderer *)[self.mapView rendererForOverlay:route];
-            //            [pr invalidatePath];
-            
-            
+            [self.mapView removeAnnotations:self.mapView.annotations];
+            [self.mapView setShowsUserLocation:YES];
+            [self drawLine];
+            [self.mapView addAnnotation:self.runnerPath.firstObject];
             
             //update distance label
             double dist = [self.runnerDist.firstObject doubleValue];
             int distInt = (int)dist;
             NSLog(@"runnerDist array: %@", self.runnerDist);
-            //            NSLog(@"runnerPath array: %@", coordinates[0]);
             self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
         }
     }];
     
 }
 
-- (MKPolylineRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id<MKOverlay>)overlay {
-    if ([overlay isKindOfClass:[MKPolyline class]]) {
-        MKPolylineRenderer *pr = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
-        pr.strokeColor = [UIColor blueColor];
-        pr.lineWidth = 5;
-        return pr;
+- (void)drawLine {
+    
+    // create an array of coordinates
+    CLLocationCoordinate2D coordinates[self.runnerPath.count];
+    int i = 0;
+    for (CLLocation *currentPin in self.runnerPath) {
+        coordinates[i] = currentPin.coordinate;
+        i++;
     }
     
-    return nil;
+    // create a polyline with all cooridnates
+    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.runnerPath.count];
+    [self.mapView addOverlay:polyline];
+    self.polyline = polyline;
+    
+    // create an MKPolylineView and add it to the map view
+    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+    self.lineView.strokeColor = [UIColor blueColor];
+    self.lineView.lineWidth = 3;
+    
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    
+    return self.lineView;
 }
 
 

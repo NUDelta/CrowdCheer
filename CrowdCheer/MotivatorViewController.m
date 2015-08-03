@@ -350,8 +350,9 @@ static NSString * const detailSegueName = @"RelationshipView";
             }
             
             //Add drawing of route line
-//            [self.mapView setShowsUserLocation:YES];
-//            [self.mapView addAnnotations:runnerPath];
+            [self.mapView removeAnnotations:self.mapView.annotations];
+            [self.mapView setShowsUserLocation:YES];
+            [self.mapView addAnnotation:self.runnerPath.firstObject];
             [self drawLine];
             
             
