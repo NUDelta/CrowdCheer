@@ -215,25 +215,25 @@ static NSString * const detailSegueName = @"RelationshipView";
                 if ((dist <= self.radius6) && (dist > self.radius5)) {
                     radiusO = [NSNumber numberWithInt:self.radius6];
                     radiusI = [NSNumber numberWithInt:self.radius5];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius7+100, self.radius7+100);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6*2.5, self.radius6*2.5);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius5) && (dist > self.radius4)) {
                     radiusO = [NSNumber numberWithInt:self.radius5];
                     radiusI = [NSNumber numberWithInt:self.radius4];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6+100, self.radius6+100);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5*2.5, self.radius5*2.5);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius4) && (dist > self.radius3)) {
                     radiusO = [NSNumber numberWithInt:self.radius4];
                     radiusI = [NSNumber numberWithInt:self.radius3];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5+100, self.radius5+100);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4*2.5, self.radius4*2.5);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
                     radiusO = [NSNumber numberWithInt:self.radius3];
                     radiusI = [NSNumber numberWithInt:self.radius2];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4+100, self.radius4+100);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius3*2.5, self.radius3*2.5);
 //                    [self.mapView setShowsUserLocation:YES];
                     
                 }
@@ -556,6 +556,21 @@ static NSString * const detailSegueName = @"RelationshipView";
     
 }
 
+-(IBAction)cheerPressed:(id)sender {
+    
+//    PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+//    NSLog(self.runner, [PFUser currentUser]);
+//    startCheering[@"runnerMotivated"] = self.runner; //runner is null here
+//    startCheering[@"cheerer"] = [PFUser currentUser];
+//    [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            NSLog(@"saved Cheering Time");
+//        } else {
+//            // There was a problem, check error.description
+//        }
+//    }];
+}
+
 - (void)checkRunnerLocation:(PFUser*)runner {
     //get runner to cheerer id
     //query parse for distance
@@ -673,7 +688,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     //setting up mapview
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
-    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius7*2.5, self.radius7*2.5);
     [self.mapView setShowsUserLocation:YES];
     [self.mapView setDelegate:self];
 }

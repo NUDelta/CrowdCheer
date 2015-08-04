@@ -284,6 +284,7 @@
                                     <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="cheerPressed:" destination="k4c-zS-2ko" eventType="touchUpInside" id="YVM-DE-zps"/>
                                     <segue destination="Nux-Z5-Fsr" kind="push" identifier="relationshipSegue" id="GCn-Rm-Lc1"/>
                                 </connections>
                             </button>
@@ -340,23 +341,23 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runner Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aB8-qd-LPF">
                                 <rect key="frame" x="120" y="415" width="202" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="Wfe-9d-n9j"/>
+                                    <constraint firstAttribute="height" constant="35" id="dLr-4q-bF1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="24"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="1438375376_wooman.png" translatesAutoresizingMaskIntoConstraints="NO" id="KON-Pg-R0p">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1438375376_wooman.png" translatesAutoresizingMaskIntoConstraints="NO" id="KON-Pg-R0p">
                                 <rect key="frame" x="7" y="372" width="139" height="152"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="146" id="2Ym-M9-Yw2"/>
+                                    <constraint firstAttribute="width" constant="139" id="eNR-jf-ajc"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheer for" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGe-B6-hvj">
                                 <rect key="frame" x="143" y="385" width="172" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="4vj-GC-QpI"/>
-                                    <constraint firstAttribute="width" constant="172" id="xzK-Fg-2PP"/>
+                                    <constraint firstAttribute="height" constant="31" id="GgO-AE-WXX"/>
+                                    <constraint firstAttribute="width" constant="172" id="w8b-Ok-aNG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="24"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -365,7 +366,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Commonality" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXU-yH-dhJ">
                                 <rect key="frame" x="130" y="470" width="183" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="183" id="yfb-jy-wxx"/>
+                                    <constraint firstAttribute="width" constant="183" id="LQo-VM-o1N"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -374,50 +375,50 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bib #" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFK-h3-faf">
                                 <rect key="frame" x="145" y="446" width="175" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="175" id="KPA-19-T6F"/>
-                                    <constraint firstAttribute="height" constant="35" id="kdi-te-ALB"/>
+                                    <constraint firstAttribute="width" constant="175" id="Wat-Pl-6Lr"/>
+                                    <constraint firstAttribute="height" constant="35" id="q7u-7L-szC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="24"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIb-rG-eMt">
-                                <rect key="frame" x="16" y="241" width="288" height="76"/>
+                                <rect key="frame" x="16" y="276" width="288" height="76"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="76" id="Z4h-RI-VMz"/>
+                                    <constraint firstAttribute="height" constant="76" id="ECB-j8-GEB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="20"/>
                                 <color key="textColor" red="0.83921568629999999" green="0.2666666667" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DE4-rr-oXw">
-                                <rect key="frame" x="23" y="51" width="275" height="188"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DE4-rr-oXw">
+                                <rect key="frame" x="23" y="80" width="275" height="188"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.95612185849999998" green="0.95612185849999998" blue="0.95612185849999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="HXU-yH-dhJ" firstAttribute="top" secondItem="aB8-qd-LPF" secondAttribute="bottom" constant="20" id="8Dk-nE-TSV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="WGe-B6-hvj" secondAttribute="trailing" constant="-11" id="9cq-8W-EhW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WGe-B6-hvj" secondAttribute="trailing" constant="-11" id="0xy-Ep-bmR"/>
+                            <constraint firstItem="DE4-rr-oXw" firstAttribute="top" secondItem="kxX-5j-1w3" secondAttribute="bottom" constant="16" id="AAu-zb-lRw"/>
                             <constraint firstItem="zEO-Ni-lju" firstAttribute="top" secondItem="1JY-Hp-G2k" secondAttribute="top" id="CtG-aa-ki6"/>
-                            <constraint firstItem="CIb-rG-eMt" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" id="Ehv-A4-jxO"/>
-                            <constraint firstItem="WGe-B6-hvj" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="68" id="EuP-3t-pUO"/>
-                            <constraint firstItem="CIb-rG-eMt" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="48" id="GcN-A6-3Dw"/>
-                            <constraint firstItem="KON-Pg-R0p" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="55" id="QAF-Es-bNN"/>
-                            <constraint firstItem="CIb-rG-eMt" firstAttribute="trailing" secondItem="1JY-Hp-G2k" secondAttribute="trailingMargin" id="RMY-bH-2vK"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="HXU-yH-dhJ" secondAttribute="bottom" constant="-6" id="S4g-Pz-7wf"/>
-                            <constraint firstItem="A35-56-Ef9" firstAttribute="top" secondItem="XFK-h3-faf" secondAttribute="bottom" constant="43" id="SSP-Wh-GVh"/>
-                            <constraint firstItem="DE4-rr-oXw" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" constant="-4" id="Ut3-cv-bdr"/>
+                            <constraint firstItem="DE4-rr-oXw" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" constant="7" id="FsR-CF-WUO"/>
+                            <constraint firstItem="CIb-rG-eMt" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" id="IPN-o7-jGs"/>
+                            <constraint firstItem="A35-56-Ef9" firstAttribute="top" secondItem="XFK-h3-faf" secondAttribute="bottom" constant="43" id="IS2-Uh-tZG"/>
+                            <constraint firstItem="CIb-rG-eMt" firstAttribute="trailing" secondItem="1JY-Hp-G2k" secondAttribute="trailingMargin" id="NC7-03-Pjn"/>
+                            <constraint firstItem="HXU-yH-dhJ" firstAttribute="top" secondItem="aB8-qd-LPF" secondAttribute="bottom" constant="20" id="ON0-gz-fqm"/>
+                            <constraint firstItem="WGe-B6-hvj" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="33" id="PTG-W8-kOl"/>
                             <constraint firstItem="zEO-Ni-lju" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leading" id="VNR-DW-UwB"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="HXU-yH-dhJ" secondAttribute="trailing" constant="-9" id="VdK-xD-Ekc"/>
-                            <constraint firstItem="DE4-rr-oXw" firstAttribute="top" secondItem="kxX-5j-1w3" secondAttribute="bottom" constant="18" id="WeO-Xh-zpC"/>
-                            <constraint firstItem="KON-Pg-R0p" firstAttribute="leading" secondItem="zEO-Ni-lju" secondAttribute="leading" id="dtD-nR-Gp9"/>
-                            <constraint firstItem="KON-Pg-R0p" firstAttribute="bottom" secondItem="A35-56-Ef9" secondAttribute="top" id="keV-En-PVv"/>
-                            <constraint firstAttribute="trailing" secondItem="XFK-h3-faf" secondAttribute="trailing" id="o4q-YF-Fe4"/>
-                            <constraint firstItem="XFK-h3-faf" firstAttribute="top" secondItem="WGe-B6-hvj" secondAttribute="bottom" constant="30" id="pbg-pd-9Fp"/>
-                            <constraint firstItem="CIb-rG-eMt" firstAttribute="centerX" secondItem="DE4-rr-oXw" secondAttribute="centerX" id="q64-8Z-2WC"/>
-                            <constraint firstItem="HXU-yH-dhJ" firstAttribute="centerX" secondItem="aB8-qd-LPF" secondAttribute="centerX" id="qZI-kt-Iue"/>
-                            <constraint firstItem="aB8-qd-LPF" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="98" id="s3U-QJ-1bl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aB8-qd-LPF" secondAttribute="trailing" constant="-18" id="yWP-95-HQV"/>
+                            <constraint firstAttribute="trailing" secondItem="XFK-h3-faf" secondAttribute="trailing" id="XSG-Vx-Ule"/>
+                            <constraint firstItem="HXU-yH-dhJ" firstAttribute="centerX" secondItem="aB8-qd-LPF" secondAttribute="centerX" id="YQb-ah-SQp"/>
+                            <constraint firstItem="CIb-rG-eMt" firstAttribute="centerX" secondItem="DE4-rr-oXw" secondAttribute="centerX" id="aDS-rf-y7Z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aB8-qd-LPF" secondAttribute="trailing" constant="-18" id="aU2-2b-5bC"/>
+                            <constraint firstItem="aB8-qd-LPF" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="63" id="bSt-Rk-9aD"/>
+                            <constraint firstItem="CIb-rG-eMt" firstAttribute="top" secondItem="DE4-rr-oXw" secondAttribute="bottom" constant="8" symbolic="YES" id="d71-Sh-zW7"/>
+                            <constraint firstItem="KON-Pg-R0p" firstAttribute="bottom" secondItem="A35-56-Ef9" secondAttribute="top" id="fCi-26-Nrj"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="HXU-yH-dhJ" secondAttribute="bottom" constant="-6" id="fMx-2l-IrW"/>
+                            <constraint firstItem="KON-Pg-R0p" firstAttribute="leading" secondItem="1JY-Hp-G2k" secondAttribute="leadingMargin" constant="-9" id="iOM-mq-dNO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HXU-yH-dhJ" secondAttribute="trailing" constant="-9" id="kmG-u5-ZCj"/>
+                            <constraint firstItem="XFK-h3-faf" firstAttribute="top" secondItem="WGe-B6-hvj" secondAttribute="bottom" constant="30" id="tYe-rQ-b8a"/>
+                            <constraint firstItem="KON-Pg-R0p" firstAttribute="top" secondItem="CIb-rG-eMt" secondAttribute="bottom" constant="20" id="yqY-4o-zDP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Cheer for Runners" id="uvw-bd-VJJ"/>
