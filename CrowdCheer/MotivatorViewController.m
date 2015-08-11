@@ -740,19 +740,16 @@ static NSString * const detailSegueName = @"RelationshipView";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    //    if ([sender isKindOfClass:[UITableViewCell class]]) {
-    //    self.myIndexPath = [self.tableView indexPathForCell:sender];
-    if([segue.identifier isEqualToString:@"relationshipSegue"]) {
-        if([segue.destinationViewController isKindOfClass:[RelationshipViewController class]]) {
-            NSLog(@"================Segueing===============");
-            RelationshipViewController *rvc = [segue destinationViewController];
-            rvc.runnerObjId = self.runnerObjId; //sets the property declared in RelationshipViewController.h
-//            rvc.fromAlert = YES;
-            NSLog(@"here is the object ID: %@",self.runnerObjId);
-        }
+    
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"relationshipSegue"]) {
+        [segue.destinationViewController setRunnerObjId:self.runnerObjId];
+        NSLog(@"==============Segueing with %@===============", self.runnerObjId);
     }
-    //    }
+    else {
+         NSLog(@"==============Segue ERROR===============");
+    }
 }
 
 /*

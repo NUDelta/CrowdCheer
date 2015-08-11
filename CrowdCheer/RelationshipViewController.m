@@ -46,6 +46,7 @@
 @property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
 @property (nonatomic, strong) NSMutableArray *runnerPath;
 @property (nonatomic, strong)AVAudioRecorder *recorder;
+@property (nonatomic, strong) NSString *fileName;
 
 
 @end
@@ -56,10 +57,13 @@
 - (void)viewDidLoad {
     //load runner info
     NSString *userObjectID = [self.userInfo objectForKey:@"user"];
-    NSLog(@"User ID passed to RVC is %@""", userObjectID);
+    NSLog(@"userObjectID passed to RVC is %@""", userObjectID); //null
+    NSLog(@"runnerObjectID passed to RVC is %@""", self.runnerObjId);
     PFQuery *query = [PFUser query];
-    PFUser *user = (PFUser *)[query getObjectWithId:userObjectID];
-    NSLog(@"User passed to RVC is %@", user);
+//    PFUser *user = (PFUser *)[query getObjectWithId:userObjectID]; //null query
+    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId]; //null query
+
+    NSLog(@"User passed to RVC is %@", user); //null
     
    // NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.userInfo objectForKey:@"beacon"]];
     NSString *runnerBeacon = user[@"beacon"];
@@ -115,11 +119,11 @@
     //preparing for recording
     // Set the audio file
     NSString *cheererName = [PFUser currentUser].username;
-    NSString *fileName = (@"cheer_%@_for_%@.m4a", cheererName, self.name);
-    NSLog(fileName);
+    self.fileName = (@"cheer_%@_for_%@.m4a", cheererName, self.name);
+    NSLog(self.fileName);
     NSArray *pathComponents = [NSArray arrayWithObjects:
                                [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-                               fileName,
+                               self.fileName,
                                nil];
     NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
     
@@ -164,7 +168,7 @@
             NSString *bibNumber = user[@"bibNumber"];
             NSString *commonality = user[@"display commonality here"];
             NSString *beacon = user[@"beacon"];
-            NSLog(self.name);
+            NSLog(@"%@", self.name);
             
             self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
             self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
@@ -230,6 +234,10 @@
     NSLog(@"vibrate");
 }
 
+- (void)setRunnerObjId:(NSString *)runnerObjId {
+    _runnerObjId = runnerObjId;
+}
+
 
 //location
 -(void)beaconManager:(ESTBeaconManager *)manager
@@ -254,9 +262,12 @@
                 [self.recorder stop];
                 AVAudioSession *audioSession = [AVAudioSession sharedInstance];
                 [audioSession setActive:NO error:nil];
-                
+                NSData *recorderData = [NSData dataWithContentsOfURL:self.recorder.url];
                 PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-                startCheering[@"audio"] = self.recorder.url;
+                NSLog(@"file name inside beacon mgr: %@", self.fileName);
+                PFFile *recorderFile = [PFFile fileWithName:self.fileName data:recorderData];
+                NSLog(@"recorderFile to store to Parse: %@", recorderFile);
+                startCheering[@"audio"] = recorderFile;
                 [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         NSLog(@"saved Cheering Time");
