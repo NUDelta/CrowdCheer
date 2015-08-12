@@ -648,6 +648,10 @@ static NSString * const detailSegueName = @"RelationshipView";
         });
 //        [self.isTrackingRunner invalidate];
     }
+    else {
+        NSLog(@"Could not find beacon, but moving on to RVC using GPS tracking anway");
+        self.cheerButton.hidden = NO;
+    }
 }
 
 
