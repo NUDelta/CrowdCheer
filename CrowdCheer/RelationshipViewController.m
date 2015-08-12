@@ -56,8 +56,10 @@
 
 - (void)viewDidLoad {
     //load runner info
-    NSString *userObjectID = [self.userInfo objectForKey:@"user"];
-    NSLog(@"userObjectID passed to RVC is %@""", userObjectID); //null
+    if (self.runnerObjId == NULL) { //if runner wasn't set via button press, check local notif dictionary for a value
+        self.runnerObjId = [self.userInfo objectForKey:@"user"];
+    }
+    
     NSLog(@"runnerObjectID passed to RVC is %@""", self.runnerObjId);
     PFQuery *query = [PFUser query];
 //    PFUser *user = (PFUser *)[query getObjectWithId:userObjectID]; //null query
