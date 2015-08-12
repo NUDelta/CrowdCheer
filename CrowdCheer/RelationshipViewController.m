@@ -47,7 +47,7 @@
 @property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
 @property (nonatomic, strong) NSMutableArray *runnerPath;
 @property (nonatomic, strong)AVAudioRecorder *recorder;
-@property (nonatomic, strong) NSString *fileName;
+@property (nonatomic, readwrite) NSString *fileName;
 
 
 @end
@@ -56,19 +56,29 @@
 @implementation RelationshipViewController
 
 - (void)viewDidLoad {
+    //
     //load runner info
+    //
     if (self.runnerObjId == NULL) { //if runner wasn't set via button press, check local notif dictionary for a value
         self.runnerObjId = [self.userInfo objectForKey:@"user"];
     }
-    
-    NSLog(@"runnerObjectID passed to RVC is %@""", self.runnerObjId);
     PFQuery *query = [PFUser query];
-//    PFUser *user = (PFUser *)[query getObjectWithId:userObjectID]; //null query
-    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId]; //null query
-
-    NSLog(@"User passed to RVC is %@", user); //null
+    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId];
+    PFFile *userImageFile = user[@"profilePic"];
+    [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+            UIImage *profilePic = [UIImage imageWithData:imageData];
+            self.imageView.image = profilePic;
+        }
+    }];
+    self.name = user[@"name"];
+    NSString *bibNumber = user[@"bibNumber"];
+    NSString *commonality = user[@"display commonality here"];
     
-   // NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.userInfo objectForKey:@"beacon"]];
+    self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
+    self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
+    self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
+
     NSString *runnerBeacon = user[@"beacon"];
     if ([runnerBeacon isEqualToString:@"Mint 1"]) {
         self.major = 17784;
@@ -85,11 +95,10 @@
     else {
         //do nothing
     }
+
+    //
     //setting up mapview
-    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:user, @"runner", nil];
-    self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
-    
+    //
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -104,11 +113,18 @@
     
     [self.mapView setShowsUserLocation:YES];
     
+    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:user, @"runner", nil];
+    self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+        
+                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
+    //
     //preparing for recording
+    //
+    
     // Set the audio file
     NSString *cheererName = [PFUser currentUser].username;
     self.fileName = (@"cheer_%@_for_%@.m4a", cheererName, self.name);
-    NSLog(@"file name in viewDidLoad is %@", self.fileName);
+    NSLog(@"file name: %@, cheerer: %@, runner: %@", self.fileName, cheererName, self.name); //runner name is null when beacon not found in MVC?
     NSArray *pathComponents = [NSArray arrayWithObjects:
                                [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                                self.fileName,
@@ -135,8 +151,11 @@
     
     // Start recording
     [self.recorder record];
+
     
+    //
     //setting up beacon listener
+    //
     self.beaconDist = -1;
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
@@ -151,73 +170,18 @@
     [self.beaconManager startRangingBeaconsInRegion:region];
     
     [super viewDidLoad];
-    
-    //if local notif
-    if (!self.fromAlert) {
-        //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
-        if(!user) {
-            NSLog(@"ERROR: No user object passed.");
+    PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+    startCheering[@"runnerMotivated"] = user;
+    startCheering[@"cheerer"] = [PFUser currentUser];
+    [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+        NSLog(@"saved Cheering Time");
         }
         else {
-            PFFile *userImageFile = user[@"profilePic"];
-            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                if (!error) {
-                    UIImage *profilePic = [UIImage imageWithData:imageData];
-                    self.imageView.image = profilePic;
-                }
-            }];
-            
-            
-            self.name = user[@"name"];
-            NSString *bibNumber = user[@"bibNumber"];
-            NSString *commonality = user[@"display commonality here"];
-            NSString *beacon = user[@"beacon"];
-            NSLog(@"%@", self.name);
-            
-            self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
-            self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
-            self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
+            // There was a problem, check error.description
         }
-    }
-    
-    //if alert
-    else {
-        //Once we have the Runner's account as user, we can use this code to pull data for the motivator:
-        if(!user) {
-            NSLog(@"ERROR: No user object passed.");
-        } else {
-            PFFile *userImageFile = user[@"profilePic"];
-            [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                if (!error) {
-                    UIImage *profilePic = [UIImage imageWithData:imageData];
-                    self.imageView.image = profilePic;
-                }
-            }];
-            
-            NSString *name = user[@"name"];
-            NSString *bibNumber = user[@"bibNumber"];
-            NSString *commonality = user[@"display commonality here"];
-            NSLog(self.name);
-            
-            self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
-            self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
-            self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
-        }
-    }
-    
-        PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-      //  NSLog(user, [PFUser currentUser]);
-        startCheering[@"runnerMotivated"] = user;
-        startCheering[@"cheerer"] = [PFUser currentUser];
-        [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                NSLog(@"saved Cheering Time");
-            } else {
-                // There was a problem, check error.description
-            }
-        }];
+    }];
 }
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -352,8 +316,8 @@
             //Add drawing of route line
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            [self drawLine];
             [self.mapView addAnnotation:self.runnerPath.firstObject];
+            [self drawLine];
             
             //update distance label
             
@@ -370,6 +334,7 @@
     }];
     
 }
+
 
 - (void)drawLine {
     

@@ -368,9 +368,6 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)drawLine {
     
-    // remove polyline if one exists
-    //[self.mapView removeOverlay:self.polyline];
-    
     // create an array of coordinates
     CLLocationCoordinate2D coordinates[self.runnerPath.count];
     int i = 0;
