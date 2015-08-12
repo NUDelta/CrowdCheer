@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/RelationshipViewController.m"
-            timestampString = "461082344.838009"
+            timestampString = "461087408.965501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>

@@ -42,6 +42,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *runnerDist;
+@property (nonatomic, readwrite) CLLocationAccuracy beaconDist;
 @property (nonatomic, readwrite) MKPolyline *polyline; //your line
 @property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
 @property (nonatomic, strong) NSMutableArray *runnerPath;
@@ -103,26 +104,11 @@
     
     [self.mapView setShowsUserLocation:YES];
     
-    //setting up beacon listener
-    self.beaconManager = [[ESTBeaconManager alloc] init];
-    self.beaconManager.delegate = self;
-    
-    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                     major:self.major
-                                                                     minor:self.minor
-                                                                identifier:@"EstimoteSampleRegion"];
-
-    [self.beaconManager requestWhenInUseAuthorization];
-    [self.beaconManager startMonitoringForRegion:region];
-    [self.beaconManager startRangingBeaconsInRegion:region];
-    
-    [super viewDidLoad];
-    
     //preparing for recording
     // Set the audio file
     NSString *cheererName = [PFUser currentUser].username;
     self.fileName = (@"cheer_%@_for_%@.m4a", cheererName, self.name);
-    NSLog(self.fileName);
+    NSLog(@"file name in viewDidLoad is %@", self.fileName);
     NSArray *pathComponents = [NSArray arrayWithObjects:
                                [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                                self.fileName,
@@ -149,6 +135,22 @@
     
     // Start recording
     [self.recorder record];
+    
+    //setting up beacon listener
+    self.beaconDist = -1;
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    
+    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                     major:self.major
+                                                                     minor:self.minor
+                                                                identifier:@"EstimoteSampleRegion"];
+
+    [self.beaconManager requestWhenInUseAuthorization];
+    [self.beaconManager startMonitoringForRegion:region];
+    [self.beaconManager startRangingBeaconsInRegion:region];
+    
+    [super viewDidLoad];
     
     //if local notif
     if (!self.fromAlert) {
@@ -252,6 +254,8 @@
         // beacon array is sorted based on distance
         // closest beacon is the first one
         CLBeacon* closestBeacon = [beacons objectAtIndex:0];
+        NSLog(@"beacon distance: %f", closestBeacon.accuracy);
+        self.beaconDist = closestBeacon.accuracy;
         
         // calculate and set new y position
         switch (closestBeacon.proximity)
@@ -338,7 +342,7 @@
                 //storing in location array
                 [self.runnerPath addObject: runnerLoc];
                 //calculate distance and store in distance array
-                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
+                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locationManager.location]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
                 if(self.runnerPath.count > 10) {
                     break;
@@ -352,10 +356,16 @@
             [self.mapView addAnnotation:self.runnerPath.firstObject];
             
             //update distance label
-            double dist = [self.runnerDist.firstObject doubleValue];
-            int distInt = (int)dist;
-            NSLog(@"runnerDist array: %@", self.runnerDist);
-            self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+            
+            if (self.beaconDist == -1) {
+                double dist = [self.runnerDist.firstObject doubleValue];
+                int distInt = (int)dist;
+                NSLog(@"runnerDist array: %@", self.runnerDist);
+                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+            }
+            else {
+                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
+            }
         }
     }];
     
