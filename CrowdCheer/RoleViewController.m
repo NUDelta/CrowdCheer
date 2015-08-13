@@ -9,10 +9,11 @@
 #import "RoleViewController.h"
 #import "DefaultSettingsViewController.h"
 
-@interface RoleViewController ()
+@interface RoleViewController () <CLLocationManagerDelegate>
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *logOutButton;
 @property (nonatomic, weak) IBOutlet UIButton *runnerRole;
 @property (nonatomic, weak) IBOutlet UIButton *cheererRole;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -21,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager requestAlwaysAuthorization];
 }
 
 - (void)didReceiveMemoryWarning {

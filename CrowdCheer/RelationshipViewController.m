@@ -110,16 +110,11 @@
     [self.locationManager startUpdatingLocation];
     
     CLLocation *location = [self.locationManager location];
-    
     CLLocationCoordinate2D coordinate = [location coordinate];
-    
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 200, 200);
-    
     [self.mapView setShowsUserLocation:YES];
-    
     NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
     self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-        
                                                              selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
     //
     //preparing for recording
@@ -219,7 +214,7 @@
         switch (closestBeacon.proximity)
         {
             case CLProximityUnknown: {
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is out of range!",self.name];
+                self.rangeLabel.text = [NSString stringWithFormat:@"Thanks for cheering! Hit BACK to cheer for more runners."];
                 [self.hapticTimer invalidate];
                 
                 //stop recording and store to Parse
@@ -245,9 +240,9 @@
 
                 NSLog(@"Runner exits region, returning to MVC");
                 //return to watching screen
-                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
-                [self.navigationController popToViewController:rsvc animated:YES];
+//                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
                 break;
             case CLProximityImmediate:
