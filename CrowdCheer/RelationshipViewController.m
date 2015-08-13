@@ -34,6 +34,8 @@
 @property int major;
 @property int minor;
 @property NSString* name;
+@property (weak, nonatomic) PFUser *cheerer;
+@property (weak, nonatomic) PFUser *runner;
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
@@ -63,23 +65,25 @@
         self.runnerObjId = [self.userInfo objectForKey:@"user"];
     }
     PFQuery *query = [PFUser query];
-    PFUser *user = (PFUser *)[query getObjectWithId:self.runnerObjId];
-    PFFile *userImageFile = user[@"profilePic"];
+    self.runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
+    PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+    
+    PFFile *userImageFile = self.runner[@"profilePic"];
     [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
             UIImage *profilePic = [UIImage imageWithData:imageData];
             self.imageView.image = profilePic;
         }
     }];
-    self.name = user[@"name"];
-    NSString *bibNumber = user[@"bibNumber"];
-    NSString *commonality = user[@"display commonality here"];
+    self.name = self.runner[@"name"];
+    NSString *bibNumber = self.runner[@"bibNumber"];
+    NSString *commonality = self.runner[@"display commonality here"];
     
     self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
     self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
     self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
 
-    NSString *runnerBeacon = user[@"beacon"];
+    NSString *runnerBeacon = self.runner[@"beacon"];
     if ([runnerBeacon isEqualToString:@"Mint 1"]) {
         self.major = 17784;
         self.minor = 47397;
@@ -113,7 +117,7 @@
     
     [self.mapView setShowsUserLocation:YES];
     
-    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:user, @"runner", nil];
+    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
     self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
         
                                                              selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
@@ -122,7 +126,8 @@
     //
     
     // Set the audio file
-    NSString *cheererName = [PFUser currentUser].username;
+    self.cheerer = [PFUser currentUser];
+    NSString *cheererName = self.cheerer.username;
     self.fileName = (@"cheer_%@_for_%@.m4a", cheererName, self.name);
     NSLog(@"file name: %@, cheerer: %@, runner: %@", self.fileName, cheererName, self.name); //runner name is null when beacon not found in MVC?
     NSArray *pathComponents = [NSArray arrayWithObjects:
@@ -170,17 +175,6 @@
     [self.beaconManager startRangingBeaconsInRegion:region];
     
     [super viewDidLoad];
-    PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-    startCheering[@"runnerMotivated"] = user;
-    startCheering[@"cheerer"] = [PFUser currentUser];
-    [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-        NSLog(@"saved Cheering Time");
-        }
-        else {
-            // There was a problem, check error.description
-        }
-    }];
 }
 
 
@@ -238,6 +232,9 @@
                 PFFile *recorderFile = [PFFile fileWithName:self.fileName data:recorderData];
                 NSLog(@"recorderFile to store to Parse: %@", recorderFile);
                 startCheering[@"audio"] = recorderFile;
+                [startCheering setObject:self.runner forKey:@"runner"];
+                [startCheering setObject:self.cheerer forKey:@"cheerer"];
+                
                 [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         NSLog(@"saved Cheering Time");
@@ -246,7 +243,7 @@
                     }
                 }];
 
-                
+                NSLog(@"Runner exits region, returning to MVC");
                 //return to watching screen
                 UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
