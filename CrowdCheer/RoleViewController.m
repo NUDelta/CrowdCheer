@@ -22,13 +22,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.locationManager requestWhenInUseAuthorization];
-    [self.locationManager requestAlwaysAuthorization];
+    [self startLocationUpdates];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)startLocationUpdates
+{
+    // Create the location manager if this object does not
+    // already have one.
+    if (self.locationManager == nil) {
+        self.locationManager = [[CLLocationManager alloc] init];
+    }
+    
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.activityType = CLActivityTypeFitness;
+    
+    // Movement threshold for new events.
+    self.locationManager.distanceFilter = 1; // meters
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager requestAlwaysAuthorization];
+    [self.locationManager startUpdatingLocation];
+    
 }
 
 - (IBAction)logOutButton:(id)sender {
