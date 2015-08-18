@@ -85,7 +85,8 @@ static NSString * const detailSegueName = @"RunDetails";
     [self.targetPace addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.raceTimeGoal addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.bibNumber addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    
+
+    [self.prepButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     if ([user objectForKey:@"targetPace"]== nil){
         self.prepButton.enabled = NO;
     }
@@ -93,6 +94,9 @@ static NSString * const detailSegueName = @"RunDetails";
         self.prepButton.enabled = NO;
     }
     else if ([user objectForKey:@"bibNumber"]==nil) {
+        self.prepButton.enabled = NO;
+    }
+    else if ([user objectForKey:@"beacon"]==nil) {
         self.prepButton.enabled = NO;
     }
     else {
