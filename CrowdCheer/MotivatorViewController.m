@@ -543,7 +543,13 @@ static NSString * const detailSegueName = @"RelationshipView";
         }
         
         [self.isTrackingRunner invalidate];
-        NSLog(@"invalidated isTrackingRunner");
+        CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                         major:self.major
+                                                                         minor:self.minor
+                                                                    identifier:@"EstimoteSampleRegion"];
+        [self.beaconManager stopMonitoringForRegion:region];
+        [self.beaconManager stopRangingBeaconsInRegion:region];
+        NSLog(@"invalidated isTrackingRunner and beaconManager");
 //        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
 //                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
         

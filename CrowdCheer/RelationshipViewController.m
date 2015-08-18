@@ -214,35 +214,8 @@
         switch (closestBeacon.proximity)
         {
             case CLProximityUnknown: {
-                self.rangeLabel.text = [NSString stringWithFormat:@"Thanks for cheering! Hit BACK to cheer for more runners."];
+               
                 [self.hapticTimer invalidate];
-                
-                //stop recording and store to Parse
-                [self.recorder stop];
-                AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-                [audioSession setActive:NO error:nil];
-                NSData *recorderData = [NSData dataWithContentsOfURL:self.recorder.url];
-                PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
-                NSLog(@"file name inside beacon mgr: %@", self.fileName);
-                PFFile *recorderFile = [PFFile fileWithName:self.fileName data:recorderData];
-                NSLog(@"recorderFile to store to Parse: %@", recorderFile);
-                startCheering[@"audio"] = recorderFile;
-                [startCheering setObject:self.runner forKey:@"runner"];
-                [startCheering setObject:self.cheerer forKey:@"cheerer"];
-                
-                [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (succeeded) {
-                        NSLog(@"saved Cheering Time");
-                    } else {
-                        // There was a problem, check error.description
-                    }
-                }];
-
-                NSLog(@"Runner exits region, returning to MVC");
-                //return to watching screen
-//                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
-                [self.navigationController popViewControllerAnimated:YES];
             }
                 break;
             case CLProximityImmediate:
@@ -268,7 +241,19 @@
                 break;
         }
     }
+    
+    double dist = [self.runnerDist.firstObject doubleValue];
+    double distPrev = [self.runnerDist[3] doubleValue];
+    NSLog(@"dist %f, distPrev %f", dist, distPrev);
+    if (dist > distPrev) {
+        NSLog(@"distance increasing");
+        if (dist > 30 || self.beaconDist > 30) {
+            NSLog(@"calling runnerExits");
+            [self runnerExits :self.runner];
+        }
+    }
 }
+
 
 //updateDistance(runner)
 - (void) updateDistance:(NSTimer*)timer {
@@ -313,9 +298,9 @@
             
             //update distance label
             
+            double dist = [self.runnerDist.firstObject doubleValue];
+            int distInt = (int)dist;
             if (self.beaconDist == -1) {
-                double dist = [self.runnerDist.firstObject doubleValue];
-                int distInt = (int)dist;
                 NSLog(@"runnerDist array: %@", self.runnerDist);
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
             }
@@ -325,6 +310,57 @@
         }
     }];
     
+    
+}
+
+- (void) runnerExits: (PFUser*)runner {
+    //if runner exits 30m radius, stop the recording, stop the beacon manager, invalidate timers, segue back to runner search
+    
+    double dist = [self.runnerDist.firstObject doubleValue];
+    int distInt = (int)dist;
+    self.runner = runner;
+    
+    if (dist > 30 || self.beaconDist > 30) {
+        CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                         major:self.major
+                                                                         minor:self.minor
+                                                                    identifier:@"EstimoteSampleRegion"];
+        
+        [self.beaconManager stopMonitoringForRegion:region];
+        [self.beaconManager stopRangingBeaconsInRegion:region];
+        [self.isUpdatingDistance invalidate];
+        [self.hapticTimer invalidate];
+        
+        self.rangeLabel.text = [NSString stringWithFormat:@"Thanks for cheering! Hit BACK to cheer for more runners."];
+        //stop recording and store to Parse
+        [self.recorder stop];
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:NO error:nil];
+        NSData *recorderData = [NSData dataWithContentsOfURL:self.recorder.url];
+        PFObject *startCheering = [PFObject objectWithClassName:@"startCheeringTime"];
+        NSLog(@"file name inside beacon mgr: %@", self.fileName);
+        PFFile *recorderFile = [PFFile fileWithName:self.fileName data:recorderData];
+        NSLog(@"recorderFile to store to Parse: %@", recorderFile);
+        startCheering[@"audio"] = recorderFile;
+        NSLog(@"runner %@, cheerer %@", self.runner, self.cheerer);
+        [startCheering setObject:self.runner forKey:@"runner"];
+        [startCheering setObject:self.cheerer forKey:@"cheerer"];
+        
+        [startCheering saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"saved Cheering Time");
+            } else {
+                // There was a problem, check error.description
+            }
+        }];
+        
+        NSLog(@"Runner exits region, returning to MVC");
+        //return to watching screen
+        //                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        //                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }
 }
 
 
