@@ -283,7 +283,7 @@
     }
     
     double dist = [self.runnerDist.firstObject doubleValue];
-    double distPrev = [self.runnerDist[9] doubleValue];
+    double distPrev = [self.runnerDist[29] doubleValue];
     NSLog(@"dist %f, distPrev %f", dist, distPrev);
     if (dist > distPrev) {
         NSLog(@"distance increasing");
@@ -325,7 +325,7 @@
                 //calculate distance and store in distance array
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locationManager.location]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                if(self.runnerPath.count > 10) {
+                if(self.runnerPath.count > 30) {
                     break;
                 }
             }

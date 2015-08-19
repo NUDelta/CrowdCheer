@@ -344,7 +344,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 //calculate distance and store in distance array
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                if(self.runnerPath.count > 10) {
+                if(self.runnerPath.count > 30) {
                     break;
                 }
             }
