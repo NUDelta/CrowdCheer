@@ -215,25 +215,25 @@ static NSString * const detailSegueName = @"RelationshipView";
                 if ((dist <= self.radius6) && (dist > self.radius5)) {
                     radiusO = [NSNumber numberWithInt:self.radius6];
                     radiusI = [NSNumber numberWithInt:self.radius5];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6*2.5, self.radius6*2.5);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6*2.1, self.radius6*2.1);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius5) && (dist > self.radius4)) {
                     radiusO = [NSNumber numberWithInt:self.radius5];
                     radiusI = [NSNumber numberWithInt:self.radius4];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5*2.5, self.radius5*2.5);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5*2.1, self.radius5*2.1);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius4) && (dist > self.radius3)) {
                     radiusO = [NSNumber numberWithInt:self.radius4];
                     radiusI = [NSNumber numberWithInt:self.radius3];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4*2.5, self.radius4*2.5);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4*2.1, self.radius4*2.1);
 //                    [self.mapView setShowsUserLocation:YES];
                 }
                 else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
                     radiusO = [NSNumber numberWithInt:self.radius3];
                     radiusI = [NSNumber numberWithInt:self.radius2];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius3*2.5, self.radius3*2.5);
+                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius3*2.1, self.radius3*2.1);
 //                    [self.mapView setShowsUserLocation:YES];
                     
                 }
@@ -344,7 +344,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 //calculate distance and store in distance array
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                if(self.runnerPath.count > 30) {
+                if(self.runnerPath.count > 10) {
                     break;
                 }
             }
@@ -399,7 +399,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"runnerApproaching called");
     if (runner != nil) {
         NSLog(@"runner = %@", runner);
-        
+        self.cheerButton.hidden = NO;
         self.runner = runner;
         NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
         NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
@@ -480,7 +480,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
         self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:([interval doubleValue]) target:self
                                                                selector:@selector(trackEachSecond:) userInfo:trackESArgs repeats:YES];
-        self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+        self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                                              selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
         
     }
@@ -753,6 +753,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     if ([segue.identifier isEqualToString:@"relationshipSegue"]) {
         [segue.destinationViewController setRunnerObjId:self.runnerObjId];
         NSLog(@"==============Segueing with %@===============", self.runnerObjId);
+        [self.isUpdatingDistance invalidate];
+        [self.isTrackingRunner invalidate];
     }
     else {
          NSLog(@"==============Segue ERROR===============");

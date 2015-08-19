@@ -215,34 +215,36 @@
         double dist = [self.runnerDist.firstObject doubleValue];
         int beaconDistInt = (int)self.beaconDist;
         
-        // calculate and set new y position
+//         calculate and set new y position
         
+        //vibrate by beacon distance
         if (self.beaconDist > 70) {
             [self.hapticTimer invalidate];
         }
-        else if ((self.beaconDist > 50 && self.beaconDist <= 60) || (dist > 50 && dist <= 60)) {
+        else if (self.beaconDist > 50 && self.beaconDist <= 60) {
             [self.hapticTimer invalidate];
             self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3) target:self
                                                               selector:@selector(setVibrations) userInfo:nil repeats:YES];
         }
-        else if ((self.beaconDist > 40 && self.beaconDist <= 50) || (dist > 40 && dist <= 50)) {
+        else if (self.beaconDist > 40 && self.beaconDist <= 50) {
             [self.hapticTimer invalidate];
             self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2) target:self
                                                               selector:@selector(setVibrations) userInfo:nil repeats:YES];
             
         }
-        else if ((self.beaconDist > 30 && self.beaconDist <= 40) || (dist > 30 && dist <= 40)) {
+        else if (self.beaconDist > 30 && self.beaconDist <= 40) {
             [self.hapticTimer invalidate];
             self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
                                                               selector:@selector(setVibrations) userInfo:nil repeats:YES];
             
         }
-        else if ((self.beaconDist > -1 && self.beaconDist <= 30) || (dist > -1 && dist <= 30)) {
+        else if (self.beaconDist > -1 && self.beaconDist <= 30) {
             // Start recording
             [self.hapticTimer invalidate];
             self.rangeLabel.text = [NSString stringWithFormat:@"%.02f m away - CHEER NOW!", self.beaconDist];
             [self.recorder record];
         }
+        
         
 //        switch (closestBeacon.proximity)
 //        {
@@ -282,8 +284,41 @@
 //        }
     }
     
+    else {
+        double dist = [self.runnerDist.firstObject doubleValue];
+        //vibrate by loc distance
+        if (dist > 70) {
+            [self.hapticTimer invalidate];
+        }
+        else if (dist > 50 && dist <= 60) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+        }
+        else if (dist > 40 && dist <= 50) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+            
+        }
+        else if (dist > 30 && dist <= 40) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+            
+        }
+        else if (dist > -1 && dist <= 30) {
+            // Start recording
+            [self.hapticTimer invalidate];
+            self.rangeLabel.text = [NSString stringWithFormat:@"%.02f m away - CHEER NOW!", dist];
+            [self.recorder record];
+        }
+    }
+    
+    
+    
     double dist = [self.runnerDist.firstObject doubleValue];
-    double distPrev = [self.runnerDist[29] doubleValue];
+    double distPrev = [self.runnerDist[9] doubleValue];
     NSLog(@"dist %f, distPrev %f", dist, distPrev);
     if (dist > distPrev) {
         NSLog(@"distance increasing");
@@ -325,7 +360,7 @@
                 //calculate distance and store in distance array
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locationManager.location]; //in meters
                 [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                if(self.runnerPath.count > 30) {
+                if(self.runnerPath.count > 10) {
                     break;
                 }
             }
