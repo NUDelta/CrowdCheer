@@ -13,6 +13,7 @@
 #import "Run.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioServices.h>
 #import "MathController.h"
 #import "Location.h"
 #import <MapKit/MapKit.h>
@@ -61,6 +62,7 @@
     //
     //load runner info
     //
+    
     if (self.runnerObjId == NULL) { //if runner wasn't set via button press, check local notif dictionary for a value
         self.runnerObjId = [self.userInfo objectForKey:@"user"];
     }
@@ -149,8 +151,8 @@
     [self.recorder prepareToRecord];
     [session setActive:YES error:nil];
     
-    // Start recording
-    [self.recorder record];
+//    // Start recording
+//    [self.recorder record];
 
     
     //
@@ -187,6 +189,7 @@
 }
 
 - (void)setVibrations{
+    [self.recorder stop];
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     NSLog(@"vibrate");
 }
@@ -209,41 +212,78 @@
         CLBeacon* closestBeacon = [beacons objectAtIndex:0];
         NSLog(@"beacon distance: %f", closestBeacon.accuracy);
         self.beaconDist = closestBeacon.accuracy;
+        double dist = [self.runnerDist.firstObject doubleValue];
+        int beaconDistInt = (int)self.beaconDist;
         
         // calculate and set new y position
-        switch (closestBeacon.proximity)
-        {
-            case CLProximityUnknown: {
-               
-                [self.hapticTimer invalidate];
-            }
-                break;
-            case CLProximityImmediate:
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
-                [self.hapticTimer invalidate];
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-            case CLProximityNear:
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
-                [self.hapticTimer invalidate];
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-            case CLProximityFar:
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
-                [self.hapticTimer invalidate];
-                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
-                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-                break;
-                
-            default:
-                break;
+        
+        if (self.beaconDist > 70) {
+            [self.hapticTimer invalidate];
         }
+        else if ((self.beaconDist > 50 && self.beaconDist <= 60) || (dist > 50 && dist <= 60)) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+        }
+        else if ((self.beaconDist > 40 && self.beaconDist <= 50) || (dist > 40 && dist <= 50)) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(2) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+            
+        }
+        else if ((self.beaconDist > 30 && self.beaconDist <= 40) || (dist > 30 && dist <= 40)) {
+            [self.hapticTimer invalidate];
+            self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+                                                              selector:@selector(setVibrations) userInfo:nil repeats:YES];
+            
+        }
+        else if ((self.beaconDist > -1 && self.beaconDist <= 30) || (dist > -1 && dist <= 30)) {
+            // Start recording
+            [self.hapticTimer invalidate];
+            self.rangeLabel.text = [NSString stringWithFormat:@"%.02f m away - CHEER NOW!", self.beaconDist];
+            [self.recorder record];
+        }
+        
+//        switch (closestBeacon.proximity)
+//        {
+//            case CLProximityUnknown: {
+//               
+//                [self.hapticTimer invalidate];
+//            }
+//                break;
+//            case CLProximityImmediate:
+////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+//                [self.hapticTimer invalidate];
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                break;
+//            case CLProximityNear:
+////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
+//                [self.hapticTimer invalidate];
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                break;
+//            case CLProximityFar:
+////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
+//                [self.hapticTimer invalidate];
+//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
+//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//                break;
+//                
+//            default:
+//                break;
+//        }
     }
     
     double dist = [self.runnerDist.firstObject doubleValue];
-    double distPrev = [self.runnerDist[3] doubleValue];
+    double distPrev = [self.runnerDist[9] doubleValue];
     NSLog(@"dist %f, distPrev %f", dist, distPrev);
     if (dist > distPrev) {
         NSLog(@"distance increasing");
@@ -304,7 +344,7 @@
                 NSLog(@"runnerDist array: %@", self.runnerDist);
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
             }
-            else {
+            else if (self.beaconDist > 30) {
                 self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
             }
         }
