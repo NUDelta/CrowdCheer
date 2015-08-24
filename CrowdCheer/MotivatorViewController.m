@@ -9,6 +9,7 @@
 
 #import "MotivatorViewController.h"
 #import "RelationshipViewController.h"
+#import "RunnerAnnotation.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 #import <MapKit/MapKit.h>
@@ -149,7 +150,17 @@ static NSString * const detailSegueName = @"RelationshipView";
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     int distInt = (int)dist;
-//                    [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
+                    //here, we should update the map with any runner that is in this radius shell
+                    //display each runner's location & name, selecting a runner allows you to track them
+                    CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
+                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runner.username] Location:runnerCoor];
+                    
+//                    [self.mapView addAnnotation:runnerAnnotation];
+                    
+                    //plot routes of each runner in different colors?
+                    //once user selects runner
+                        //SEGUE to RVC for tracking OR
+                        //call runnerApproaching from here
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self runnerApproaching:runner :dist]; //notify
                     });
@@ -167,6 +178,35 @@ static NSString * const detailSegueName = @"RelationshipView";
     }]; //end of find objects in background with block
     NSLog(@"No runners found");
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView
+            viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // If the annotation is the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[RunnerAnnotation class]])
+    {
+        RunnerAnnotation *loc = (RunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"RunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
+        }
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
+    return nil;
+}
+
 
 //trackEachSecond(radius shells, runner)
 - (void)trackEachSecond:(NSTimer*)timer {
@@ -352,7 +392,11 @@ static NSString * const detailSegueName = @"RelationshipView";
             //Add drawing of route line
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            [self.mapView addAnnotation:self.runnerPath.firstObject];
+            CLLocation *runnerLoc = self.runnerPath.firstObject;
+            CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
+            RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor];
+            [self.mapView addAnnotation:runnerAnnotation];
+//            [self.mapView addAnnotation:self.runnerPath.firstObject];
             [self drawLine];
             
             
