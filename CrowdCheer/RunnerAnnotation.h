@@ -13,8 +13,9 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (copy, nonatomic) NSString *title;
+@property (nonatomic, readonly) NSString *runnerObjID;
 
--(id)initWithTitle:(NSString *)newTitle Location:(CLLocationCoordinate2D)location;
+-(id)initWithTitle:(NSString *)newTitle Location:(CLLocationCoordinate2D)location RunnerID:(NSString *)runnerID;
 -(MKAnnotationView *)annotationView;
 
 @end

@@ -127,6 +127,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
     NSMutableArray *possibleRunnersLoc = [[NSMutableArray alloc]init];
+    NSMutableArray *possibleRunners = [[NSMutableArray alloc]init];
     NSMutableArray *possibleRunnersNames = [[NSMutableArray alloc]init];
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
@@ -153,7 +154,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     int distInt = (int)dist;
-                    
                     NSString *runnerName = [runner objectForKey:@"name"];
                     CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
                     
@@ -161,7 +161,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                         //skip runner
                     }
                     else {
-                        [possibleRunnersNames addObject:runnerName];
+                        [possibleRunners addObject:runner];
                         [possibleRunnersLoc addObject:runnerLoc];
                     }
                     
@@ -177,12 +177,13 @@ static NSString * const detailSegueName = @"RelationshipView";
             //remove existing possible runner pins
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            NSLog(@"possible runners: %@", possibleRunnersNames);
+            NSLog(@"possible runners: %@", possibleRunners);
             //here, we should update the map with any unique runner that is in this radius shell
             //display each runner's location & name
-            for (NSString *runnerName in possibleRunnersNames) {
+            for (PFUser *runner in possibleRunners) {
+                NSString *runnerName = [runner objectForKey:@"name"];
                 for (CLLocation *runnerLoc in possibleRunnersLoc) {
-                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate];
+                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
                     [self.mapView addAnnotation:runnerAnnotation];
                     //plot routes of each runner in different colors?
                 }
@@ -233,6 +234,28 @@ static NSString * const detailSegueName = @"RelationshipView";
     return nil;
 }
 
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+//    selecting a runner allows you to track them
+//    once user selects runner
+//    SEGUE to RVC for tracking OR
+//    call runnerApproaching from here
+    //get annotation title & distance to annotation pin
+    RunnerAnnotation *ann = (RunnerAnnotation *)view.annotation;
+    NSString *runnerObjID = ann.runnerObjID;
+    PFQuery *query = [PFUser query];
+    self.runner = (PFUser *)[query getObjectWithId:runnerObjID];
+    PFUser *runnerTracked = self.runner;
+    NSLog(@"runner on info tap is: %@", self.runner.objectId);
+    CLLocationCoordinate2D runnerCoor = [[view annotation]coordinate];
+    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:runnerCoor.latitude longitude:runnerCoor.longitude];
+    
+    CLLocationDistance dist = [runnerLoc distanceFromLocation:[self.locationManager location]]; //in meters
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self runnerApproaching:runnerTracked :dist]; //notify
+    });
+}
 
 //trackEachSecond(radius shells, runner)
 - (void)trackEachSecond:(NSTimer*)timer {
@@ -420,7 +443,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             [self.mapView setShowsUserLocation:YES];
             CLLocation *runnerLoc = self.runnerPath.firstObject;
             CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
-            RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor];
+            RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor RunnerID:runnerTracked.objectId];
             [self.mapView addAnnotation:runnerAnnotation];
 //            [self.mapView addAnnotation:self.runnerPath.firstObject];
             [self drawLine];
