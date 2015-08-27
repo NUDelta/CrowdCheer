@@ -162,6 +162,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                     }
                     else {
                         [possibleRunners addObject:runner];
+                        [possibleRunnersNames addObject:runnerName];
                         [possibleRunnersLoc addObject:runnerLoc];
                     }
                     
@@ -177,7 +178,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             //remove existing possible runner pins
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            NSLog(@"possible runners: %@", possibleRunners);
+            NSLog(@"possible runners: %@", possibleRunnersNames);
             //here, we should update the map with any unique runner that is in this radius shell
             //display each runner's location & name
             for (PFUser *runner in possibleRunners) {
