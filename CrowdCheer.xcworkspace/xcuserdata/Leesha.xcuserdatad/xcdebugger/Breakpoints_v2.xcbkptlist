@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "462135253.449349"
+            timestampString = "462213143.073196"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "741"
-            endingLineNumber = "741"
+            startingLineNumber = "767"
+            endingLineNumber = "767"
             landmarkName = "-startLocationUpdates"
             landmarkType = "5">
          </BreakpointContent>

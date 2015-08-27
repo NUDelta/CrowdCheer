@@ -81,7 +81,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     
     //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
     NSLog(@"isCheckingRunners started");
-    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                             selector:@selector(findEachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
     self.beaconManager = [[ESTBeaconManager alloc] init];
@@ -123,8 +123,11 @@ static NSString * const detailSegueName = @"RelationshipView";
 //findEachSecond()
 - (void)findEachSecond{
     NSLog(@"findEachSecond()...");
-    //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
     
+    
+    //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
+    NSMutableArray *possibleRunnersLoc = [[NSMutableArray alloc]init];
+    NSMutableArray *possibleRunnersNames = [[NSMutableArray alloc]init];
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
@@ -145,34 +148,57 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-                if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
+                if ((dist <= self.radius7) && (dist > self.radius4)) {  //between radius 4 and 7
                     NSLog(@"Entered %d m", self.radius7);
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     int distInt = (int)dist;
-                    //here, we should update the map with any runner that is in this radius shell
-                    //display each runner's location & name, selecting a runner allows you to track them
+                    
+                    NSString *runnerName = [runner objectForKey:@"name"];
                     CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
-                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runner.username] Location:runnerCoor];
                     
-//                    [self.mapView addAnnotation:runnerAnnotation];
+                    if([possibleRunnersNames containsObject:runnerName]) {
+                        //skip runner
+                    }
+                    else {
+                        [possibleRunnersNames addObject:runnerName];
+                        [possibleRunnersLoc addObject:runnerLoc];
+                    }
                     
-                    //plot routes of each runner in different colors?
-                    //once user selects runner
-                        //SEGUE to RVC for tracking OR
-                        //call runnerApproaching from here
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runner :dist]; //notify
-                    });
                 }
                 else {
                     
                     NSLog(@"Runner out of range"); //outside range
                 }
-                break; //exiting for loop
+//                break; //exiting for loop
             }
             
-        } else {
+
+            //remove existing possible runner pins
+            [self.mapView removeAnnotations:self.mapView.annotations];
+            [self.mapView setShowsUserLocation:YES];
+            NSLog(@"possible runners: %@", possibleRunnersNames);
+            //here, we should update the map with any unique runner that is in this radius shell
+            //display each runner's location & name
+            for (NSString *runnerName in possibleRunnersNames) {
+                for (CLLocation *runnerLoc in possibleRunnersLoc) {
+                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate];
+                    [self.mapView addAnnotation:runnerAnnotation];
+                    //plot routes of each runner in different colors?
+                }
+            }
+
+                
+                //selecting a runner allows you to track them
+                //once user selects runner
+                //SEGUE to RVC for tracking OR
+                //call runnerApproaching from here
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self runnerApproaching:runner :dist]; //notify
+//                });
+        
+        }
+     else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);  // Log details of the failure
         }
     }]; //end of find objects in background with block
@@ -524,7 +550,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
         self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:([interval doubleValue]) target:self
                                                                selector:@selector(trackEachSecond:) userInfo:trackESArgs repeats:YES];
-        self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+        self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
                                                                              selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
         
     }
