@@ -10,6 +10,7 @@
 #import "MotivatorViewController.h"
 #import "NewRunViewController.h"
 #import "DetailViewController.h"
+#import "RunnerAnnotation.h"
 #import "Run.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -123,6 +124,7 @@
     CLLocationCoordinate2D coordinate = [location coordinate];
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 200, 200);
     [self.mapView setShowsUserLocation:YES];
+    [self.mapView setDelegate:self];
     NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
     self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                              selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
@@ -214,6 +216,34 @@
     NSLog(@"RelationshipViewController.viewWillAppear()");
 
     self.commonalityLabel.hidden = YES;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView
+            viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // If the annotation is the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[RunnerAnnotation class]])
+    {
+        RunnerAnnotation *loc = (RunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"RunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
+        }
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
+    return nil;
 }
 
 //runnerApproaching()
@@ -598,6 +628,64 @@
 }
 
 
+////updateDistance(runner)
+//- (void) updateDistance:(NSTimer*)timer {
+//    NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
+//    PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
+//    
+//    CLLocation *location = [self.locationManager location];
+//    CLLocationCoordinate2D coordinate = [location coordinate];
+//    
+//    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+//    //Find any recent location updates from our runner
+//    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+//    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+//    [timeQuery whereKey:@"user" equalTo:runnerTracked];
+//    [timeQuery orderByDescending:@"updatedAt"];
+//    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
+//        if (!error) {
+//            // The find succeeded. The first 100 objects are available
+//            //loop through all these possibly nearby runners and check distance
+//            self.runnerDist = [NSMutableArray array];
+//            self.runnerPath = [NSMutableArray array];
+//            for (PFObject *runnerLocEntry in runnerLocations) {
+//                //getting location for a runner object
+//                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
+//                //converting location to CLLocation
+//                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+//                //storing in location array
+//                [self.runnerPath addObject: runnerLoc];
+//                //calculate distance and store in distance array
+//                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locationManager.location]; //in meters
+//                [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
+//                if(self.runnerPath.count > 10) {
+//                    break;
+//                }
+//            }
+//            
+//            //Add drawing of route line
+//            [self.mapView removeAnnotations:self.mapView.annotations];
+//            [self.mapView setShowsUserLocation:YES];
+//            [self.mapView addAnnotation:self.runnerPath.firstObject];
+//            [self drawLine];
+//            
+//            //update distance label
+//            
+//            double dist = [self.runnerDist.firstObject doubleValue];
+//            int distInt = (int)dist;
+//            if (self.beaconDist == -1) {
+//                NSLog(@"runnerDist array: %@", self.runnerDist);
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+//            }
+//            else if (self.beaconDist > 30) {
+//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
+//            }
+//        }
+//    }];
+//    
+//    
+//}
+
 //updateDistance(runner)
 - (void) updateDistance:(NSTimer*)timer {
     NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
@@ -636,25 +724,54 @@
             //Add drawing of route line
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            [self.mapView addAnnotation:self.runnerPath.firstObject];
+            CLLocation *runnerLoc = self.runnerPath.firstObject;
+            CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
+            RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor RunnerID:runnerTracked.objectId];
+            [self.mapView addAnnotation:runnerAnnotation];
+            NSLog(@"added annotation");
+            //            [self.mapView addAnnotation:self.runnerPath.firstObject];
             [self drawLine];
+            NSLog(@"drew line on map");
+            
             
             //update distance label
-            
             double dist = [self.runnerDist.firstObject doubleValue];
             int distInt = (int)dist;
-            if (self.beaconDist == -1) {
-                NSLog(@"runnerDist array: %@", self.runnerDist);
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
-            }
-            else if (self.beaconDist > 30) {
-                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
-            }
+            NSLog(@"runnerDist array: %@", self.runnerDist);
+            self.rangeLabel.hidden = NO;
+            self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
         }
     }];
     
+}
+
+- (void)drawLine {
+    
+    // create an array of coordinates
+    CLLocationCoordinate2D coordinates[self.runnerPath.count];
+    int i = 0;
+    for (CLLocation *currentPin in self.runnerPath) {
+        coordinates[i] = currentPin.coordinate;
+        i++;
+    }
+    
+    // create a polyline with all cooridnates
+    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.runnerPath.count];
+    [self.mapView addOverlay:polyline];
+    self.polyline = polyline;
+    
+    // create an MKPolylineView and add it to the map view
+    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+    self.lineView.strokeColor = [UIColor blueColor];
+    self.lineView.lineWidth = 3;
     
 }
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    
+    return self.lineView;
+}
+
 
 - (void) runnerExits: (PFUser*)runner {
     //if runner exits 30m radius, stop the recording, stop the beacon manager, invalidate timers, segue back to runner search
@@ -705,35 +822,5 @@
 
     }
 }
-
-
-- (void)drawLine {
-    
-    // create an array of coordinates
-    CLLocationCoordinate2D coordinates[self.runnerPath.count];
-    int i = 0;
-    for (CLLocation *currentPin in self.runnerPath) {
-        coordinates[i] = currentPin.coordinate;
-        i++;
-    }
-    
-    // create a polyline with all cooridnates
-    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.runnerPath.count];
-    [self.mapView addOverlay:polyline];
-    self.polyline = polyline;
-    
-    // create an MKPolylineView and add it to the map view
-    self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
-    self.lineView.strokeColor = [UIColor blueColor];
-    self.lineView.lineWidth = 3;
-    
-}
-
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-    
-    return self.lineView;
-}
-
-
 
 @end

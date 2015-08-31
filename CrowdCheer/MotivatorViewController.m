@@ -99,7 +99,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     
 }
 
--(void)viewDidAppear:(BOOL)animated {
+
+- (void)viewDidAppear:(BOOL)animated {
     
     //radius in meters, smaller index = closer to runner
     self.radius1 = 10; //10
@@ -134,17 +135,18 @@ static NSString * const detailSegueName = @"RelationshipView";
     
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+
+- (void)viewDidDisappear:(BOOL)animated {
     [self.isCheckingRunners invalidate];
     NSLog(@"invalidated isCheckingRunners");
 }
-
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 - (void)scheduleNotification {
     //don't use this
