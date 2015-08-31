@@ -89,7 +89,45 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.cheerer = [PFUser currentUser];
     
     //For debugging purposes:
-    self.cheerButton.hidden = YES;
+    self.cheerButton.enabled  = NO;
+    [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
+    self.rangeLabel.hidden = YES;
+    self.latLabel.hidden = YES;
+    self.lonLabel.hidden = YES;
+    self.distLabel.hidden = YES;
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    //radius in meters, smaller index = closer to runner
+    self.radius1 = 10; //10
+    self.radius2 = 50; //50
+    self.radius3 = 100;//100
+    self.radius4 = 200;//200
+    self.radius5 = 300;//300
+    self.radius6 = 400;//400
+    self.radius7 = 500;//500
+    
+    
+    // Do any additional setup after loading the view.
+    NSLog(@"MotivatorViewController.viewDidLoad()");
+    
+    //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
+    NSLog(@"isCheckingRunners started");
+    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                            selector:@selector(findEachSecond) userInfo:nil repeats:YES];
+    [self startLocationUpdates];
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    self.cheerer = [PFUser currentUser];
+    
+    //For debugging purposes:
+    self.cheerButton.enabled  = NO;
+    [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
+    self.rangeLabel.hidden = YES;
     self.latLabel.hidden = YES;
     self.lonLabel.hidden = YES;
     self.distLabel.hidden = YES;
@@ -454,6 +492,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             double dist = [self.runnerDist.firstObject doubleValue];
             int distInt = (int)dist;
             NSLog(@"runnerDist array: %@", self.runnerDist);
+            self.rangeLabel.hidden = NO;
             self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
         }
     }];
@@ -493,9 +532,10 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"runnerApproaching called");
     if (runner != nil) {
         NSLog(@"runner = %@", runner);
-        self.cheerButton.hidden = NO;
+        self.cheerButton.enabled = YES;
         self.runner = runner;
         NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
+        [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
         NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
         self.runnerObjId = runnerObjId;
         
@@ -617,7 +657,8 @@ static NSString * const detailSegueName = @"RelationshipView";
         
         UIApplicationState state = [UIApplication sharedApplication].applicationState;
         NSLog(@"application state is %d", state);
-        self.cheerButton.hidden = NO;
+        self.cheerButton.enabled = YES;
+        [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
         if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
         {
             // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
@@ -729,6 +770,9 @@ static NSString * const detailSegueName = @"RelationshipView";
             inRegion:(CLBeaconRegion *)region
 {
     NSLog(@"beacon count: %lu", (unsigned long)beacons.count);
+    PFQuery *query = [PFUser query];
+    PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
+    NSString *runnerName = [runner objectForKey:@"name"];
     if([beacons count] > 0)
     {
         // beacon array is sorted based on distance
@@ -737,8 +781,6 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSNumber *distance = [NSNumber numberWithDouble: closestBeacon.accuracy];
         NSLog(@"beacon distance: %f", closestBeacon.accuracy);
         //notify with primer
-        PFQuery *query = [PFUser query];
-        PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
         NSLog(@"sending primer for runner %@", runner);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self foundRunner:runner :[distance doubleValue]];
@@ -747,7 +789,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     }
     else {
         NSLog(@"Could not find beacon, but moving on to RVC using GPS tracking anway");
-        self.cheerButton.hidden = NO;
+        self.cheerButton.enabled = YES;
+        [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
     }
 }
 
@@ -790,6 +833,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius7*2.5, self.radius7*2.5);
+    [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView setShowsUserLocation:YES];
     [self.mapView setDelegate:self];
 }
