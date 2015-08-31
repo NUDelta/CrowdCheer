@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/MotivatorViewController.m"
-            timestampString = "462729498.786193"
+            timestampString = "462732628.399682"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "834"
-            endingLineNumber = "834"
+            startingLineNumber = "847"
+            endingLineNumber = "847"
             landmarkName = "-startLocationUpdates"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/RelationshipViewController.m"
-            timestampString = "461690661.844479"
+            timestampString = "462732410.628443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
             landmarkName = "-setVibrations"
             landmarkType = "5">
          </BreakpointContent>
