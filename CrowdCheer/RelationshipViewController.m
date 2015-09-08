@@ -24,7 +24,7 @@
 #import <EstimoteSDK/EstimoteSDK.h>
 
 
-@interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate, AVAudioRecorderDelegate>
+@interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate, AVAudioRecorderDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) Run *run;
 
@@ -122,7 +122,7 @@
     
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
-    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 200, 200);
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
     [self.mapView setShowsUserLocation:YES];
     [self.mapView setDelegate:self];
     NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
@@ -486,6 +486,75 @@
 }
 
 
+- (void) foundRunner:(PFUser*)runner :(const double)distance{
+    NSLog(@"foundRunner called");
+    if (runner != nil) {
+        NSLog(@"runner = %@", runner);
+        
+        //        [runner fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        //            if(!error) {
+        //                NSLog(@"runner we fetched is %@", self.runner);
+        //
+        //            }
+        //            else {
+        //                NSLog(@"ERR: could not fetch");
+        //            }
+        //        }]; // fetching runner in background is done
+        self.runner = runner;
+        NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
+        NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
+        self.runnerObjId = runnerObjId;
+        int dist = (int)distance;
+        NSString* distString = [NSString stringWithFormat:@"%d", dist];
+        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is coming, get ready to cheer!"];
+        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", distString, @"distance", nil]; //need distance here
+        
+        //saving parse data for when cheerer receives notification and for which runner
+        PFObject *cheererNotification = [PFObject objectWithClassName:@"cheererWasNotified"];
+        [cheererNotification setObject:self.runner forKey:@"runner"];
+        [cheererNotification setObject:self.cheerer forKey:@"cheerer"];
+        NSLog(@"self.runner is %@", self.runner);
+        [cheererNotification saveInBackground];
+        NSLog(@"cheererNotification is %@", cheererNotification);
+        
+        UIApplicationState state = [UIApplication sharedApplication].applicationState;
+        NSLog(@"application state is %d", state);
+        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+        {
+            // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
+            // userInfo can include the dictionary above called runnerDict
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
+                                                                object:self
+                                                              userInfo:runnerDict];
+            
+            NSLog(@" notifying about %@ from background", self.runnerObjId);
+        } else {
+            //            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            //            NSLog(@"about to display cheerAlert");
+            //            [cheerAlert show];
+            //            //                    self.runnerObjId = runnerObjId;
+            //            //                    NSLog(@"%@ in main thread", runnerObjId);
+            
+        }
+        
+        [self.isTrackingRunner invalidate];
+        CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                         major:self.major
+                                                                         minor:self.minor
+                                                                    identifier:@"EstimoteSampleRegion"];
+        [self.beaconManager stopMonitoringForRegion:region];
+        [self.beaconManager stopRangingBeaconsInRegion:region];
+        NSLog(@"invalidated isTrackingRunner and beaconManager");
+        //        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+        //                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
+        
+    } else {
+        NSLog(@"Runner was nil");
+    }
+    
+}
+
+
 - (void)setVibrations{
     [self.recorder stop];
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -542,44 +611,6 @@
 //            self.rangeLabel.text = [NSString stringWithFormat:@"%.02f m away - CHEER NOW!", self.beaconDist];
             [self.recorder record];
         }
-        
-        
-//        switch (closestBeacon.proximity)
-//        {
-//            case CLProximityUnknown: {
-//               
-//                [self.hapticTimer invalidate];
-//            }
-//                break;
-//            case CLProximityImmediate:
-////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
-//                [self.hapticTimer invalidate];
-//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
-//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                break;
-//            case CLProximityNear:
-////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is HERE! (0-2m)", self.name];
-//                [self.hapticTimer invalidate];
-//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(0.5) target:self
-//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                break;
-//            case CLProximityFar:
-////                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is NEAR! (2-70m)", self.name];
-//                [self.hapticTimer invalidate];
-//                self.hapticTimer = [NSTimer scheduledTimerWithTimeInterval:(3.0) target:self
-//                                                                  selector:@selector(setVibrations) userInfo:nil repeats:YES];
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//                break;
-//                
-//            default:
-//                break;
-//        }
     }
     
     else {
@@ -613,8 +644,6 @@
         }
     }
     
-    
-    
     double dist = [self.runnerDist.firstObject doubleValue];
     double distPrev = [self.runnerDist[9] doubleValue];
     NSLog(@"dist %f, distPrev %f", dist, distPrev);
@@ -628,76 +657,13 @@
 }
 
 
-////updateDistance(runner)
-//- (void) updateDistance:(NSTimer*)timer {
-//    NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
-//    PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
-//    
-//    CLLocation *location = [self.locationManager location];
-//    CLLocationCoordinate2D coordinate = [location coordinate];
-//    
-//    UIApplicationState state = [UIApplication sharedApplication].applicationState;
-//    //Find any recent location updates from our runner
-//    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-//    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
-//    [timeQuery whereKey:@"user" equalTo:runnerTracked];
-//    [timeQuery orderByDescending:@"updatedAt"];
-//    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
-//        if (!error) {
-//            // The find succeeded. The first 100 objects are available
-//            //loop through all these possibly nearby runners and check distance
-//            self.runnerDist = [NSMutableArray array];
-//            self.runnerPath = [NSMutableArray array];
-//            for (PFObject *runnerLocEntry in runnerLocations) {
-//                //getting location for a runner object
-//                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
-//                //converting location to CLLocation
-//                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-//                //storing in location array
-//                [self.runnerPath addObject: runnerLoc];
-//                //calculate distance and store in distance array
-//                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locationManager.location]; //in meters
-//                [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-//                if(self.runnerPath.count > 10) {
-//                    break;
-//                }
-//            }
-//            
-//            //Add drawing of route line
-//            [self.mapView removeAnnotations:self.mapView.annotations];
-//            [self.mapView setShowsUserLocation:YES];
-//            [self.mapView addAnnotation:self.runnerPath.firstObject];
-//            [self drawLine];
-//            
-//            //update distance label
-//            
-//            double dist = [self.runnerDist.firstObject doubleValue];
-//            int distInt = (int)dist;
-//            if (self.beaconDist == -1) {
-//                NSLog(@"runnerDist array: %@", self.runnerDist);
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
-//            }
-//            else if (self.beaconDist > 30) {
-//                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
-//            }
-//        }
-//    }];
-//    
-//    
-//}
-
 //updateDistance(runner)
 - (void) updateDistance:(NSTimer*)timer {
     NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
     PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
-    
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+
     //Find any recent location updates from our runner
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"user" equalTo:runnerTracked];
     [timeQuery orderByDescending:@"updatedAt"];
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
@@ -739,7 +705,13 @@
             int distInt = (int)dist;
             NSLog(@"runnerDist array: %@", self.runnerDist);
             self.rangeLabel.hidden = NO;
-            self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+            if (self.beaconDist == -1) {
+                NSLog(@"runnerDist array: %@", self.runnerDist);
+                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
+            }
+            else if (self.beaconDist > 30) {
+                self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %.02f meters away", [runnerTracked objectForKey:@"name"], self.beaconDist]; //UI update - Runner is x meters and y minutes away
+            }
         }
     }];
     
@@ -771,6 +743,38 @@
     
     return self.lineView;
 }
+
+
+//-(void)beaconManager:(ESTBeaconManager *)manager
+//     didRangeBeacons:(NSArray *)beacons
+//            inRegion:(CLBeaconRegion *)region
+//{
+//    NSLog(@"beacon count: %lu", (unsigned long)beacons.count);
+//    PFQuery *query = [PFUser query];
+//    PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
+//    NSString *runnerName = [runner objectForKey:@"name"];
+//    if([beacons count] > 0)
+//    {
+//        // beacon array is sorted based on distance
+//        // closest beacon is the first one
+//        CLBeacon* closestBeacon = [beacons objectAtIndex:0];
+//        NSNumber *distance = [NSNumber numberWithDouble: closestBeacon.accuracy];
+//        NSLog(@"beacon distance: %f", closestBeacon.accuracy);
+//        //notify with primer
+//        NSLog(@"sending primer for runner %@", runner);
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self foundRunner:runner :[distance doubleValue]];
+//        });
+//        //        [self.isTrackingRunner invalidate];
+//    }
+//    else {
+//        NSLog(@"Could not find beacon, but moving on to RVC using GPS tracking anway");
+//        self.cheerButton.enabled = YES;
+//        [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
+//    }
+//}
+
+
 
 
 - (void) runnerExits: (PFUser*)runner {
