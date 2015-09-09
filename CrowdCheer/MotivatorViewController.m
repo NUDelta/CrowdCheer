@@ -27,15 +27,10 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property (nonatomic, readwrite) MKPolyline *polyline; //your line
 @property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
 @property (nonatomic, strong) NSMutableArray *runnerPath;
-@property (weak, nonatomic) IBOutlet UILabel *lonLabel;
-@property (weak, nonatomic) IBOutlet UILabel *latLabel;
-@property (weak, nonatomic) IBOutlet UILabel *distLabel;
+@property (nonatomic, strong) NSMutableArray *runnerDist;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *cheerButton;
-@property (nonatomic, strong) NSMutableArray *runnerDist;
-
 @property int radius1;
 @property int radius2;
 @property int radius3;
@@ -44,10 +39,9 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property int radius6;
 @property int radius7;
 @property int radius8;
-
 @property int major;
 @property int minor;
-
+@property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) PFUser *cheerer;
 @property (weak, nonatomic) PFUser *runner;
 
@@ -68,21 +62,18 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.radius7 = 500;//500
     self.radius8 = 1000;//1000
     
-    //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
+    //Step 1a: initialize isCheckingRunners, call findRunners every 5s
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
-                                                            selector:@selector(findEachSecond) userInfo:nil repeats:YES];
+                                                            selector:@selector(findRunners) userInfo:nil repeats:YES];
     [self startLocationUpdates];
     self.cheerer = [PFUser currentUser];
     
-    //For debugging purposes:
+    //UI Setup:
     self.cheerButton.enabled  = NO;
     [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
     self.rangeLabel.hidden = YES;
-    self.latLabel.hidden = YES;
-    self.lonLabel.hidden = YES;
-    self.distLabel.hidden = YES;
     
 }
 
@@ -103,7 +94,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
-                                                            selector:@selector(findEachSecond) userInfo:nil repeats:YES];
+                                                            selector:@selector(findRunners) userInfo:nil repeats:YES];
     [self startLocationUpdates];
     self.cheerer = [PFUser currentUser];
     
@@ -112,9 +103,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
     self.rangeLabel.hidden = YES;
-    self.latLabel.hidden = YES;
-    self.lonLabel.hidden = YES;
-    self.distLabel.hidden = YES;
     
 }
 
@@ -136,16 +124,15 @@ static NSString * const detailSegueName = @"RelationshipView";
 }
 
 
-//findEachSecond()
-- (void)findEachSecond{
-    NSLog(@"findEachSecond()...");
+//findRunners()
+- (void)findRunners{
+    NSLog(@"findRunners()");
     
     //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
     //add later - if potential runner is 1000-900m away, and if the runner is the cheerer's primary target, select this runner
     NSMutableArray *possibleRunnersLoc = [[NSMutableArray alloc]init];
     NSMutableArray *possibleRunners = [[NSMutableArray alloc]init];
     NSMutableArray *possibleRunnersNames = [[NSMutableArray alloc]init];
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];//First check for runners who have updated information recently
@@ -269,10 +256,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     PFUser *runnerTracked = self.runner;
     NSLog(@"runner on info tap is: %@", self.runner.objectId);
     
-    CLLocationCoordinate2D runnerCoor = [[view annotation]coordinate];
-    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:runnerCoor.latitude longitude:runnerCoor.longitude];
-    CLLocationDistance dist = [runnerLoc distanceFromLocation:[self.locationManager location]]; //in meters
-    
     NSString *runnerName = [NSString stringWithFormat:@"%@",[runnerTracked objectForKey:@"name"]];
     self.runnerObjId = runnerObjID;
     [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
@@ -285,13 +268,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
     PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
     
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
     //Find any recent location updates from our runner
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"user" equalTo:runnerTracked];
     [timeQuery orderByDescending:@"updatedAt"];
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
@@ -322,7 +300,6 @@ static NSString * const detailSegueName = @"RelationshipView";
             CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
             RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor RunnerID:runnerTracked.objectId];
             [self.mapView addAnnotation:runnerAnnotation];
-//            [self.mapView addAnnotation:self.runnerPath.firstObject];
             [self drawLine];
             
             
@@ -387,7 +364,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    NSLog(@"%d", buttonIndex);
+    NSLog(@"%ld", (long)buttonIndex);
     if ([buttonTitle isEqualToString:@"Cheer!"]) {
         NSLog(@"the button is equal to cheer");
         
