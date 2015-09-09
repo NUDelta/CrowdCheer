@@ -22,6 +22,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     dispatch_queue_t checkQueue;
 }
 @property (nonatomic, strong) NSTimer *isCheckingRunners;
+@property (nonatomic, strong) NSTimer *isCheckingMyRunner;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *locations;
 @property (nonatomic, readwrite) MKPolyline *polyline; //your line
@@ -66,6 +67,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                             selector:@selector(findRunners) userInfo:nil repeats:YES];
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                             selector:@selector(findMyRunner) userInfo:nil repeats:YES];
+    
     [self startLocationUpdates];
     self.cheerer = [PFUser currentUser];
     
@@ -123,6 +127,86 @@ static NSString * const detailSegueName = @"RelationshipView";
     // Dispose of any resources that can be recreated.
 }
 
+//findMyRunner()
+- (void)findMyRunner {
+    NSLog(@"findMyRunner()");
+    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+    [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];//First check for runners who have updated information recently
+    [timeQuery orderByAscending:@"updatedAt"];
+    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *possibleNearbyRunners, NSError *error) { //if there are any objects found, create an array and execute block
+        if (!error) {
+            // The find succeeded. The first 100 objects are available
+            for (PFObject *possible in possibleNearbyRunners) { //loop through all these possibly nearby runners and first check if it's our target, then check target's distance
+                NSLog(@"Looping through runners...");
+                PFUser *runner = possible[@"user"];
+                [runner fetchIfNeeded];
+                NSString *runnerName = [runner objectForKey:@"name"];
+                NSString *runnerUsername = [runner objectForKey:@"username"];
+                NSString *targetUsername = [self.cheerer objectForKey:@"targetRunner"];
+                NSLog(@"Target: %@ Runner: %@", targetUsername, runnerUsername);
+                
+                if ([runnerUsername isEqualToString:targetUsername]) {
+                    NSLog(@"Target runner %@ was found", targetUsername);
+                    //calculate distance of target runner
+                    PFGeoPoint *point = [possible objectForKey:@"location"]; //getting location for a runner object
+                    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //converting location to CLLocation
+                    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; // distance in meters
+                    NSLog(@"Target runner's dist: %f", dist);
+                    
+                    //based on the distance between me and our possible runner, do the following:
+                    if ((dist <= self.radius7) && (dist > self.radius4)) {  //between radius 4 and 7
+                        NSLog(@"Target Runner Approaching");
+                        [self.isCheckingRunners invalidate];
+                        //remove any map annotations and only pin target runner
+                        [self.mapView removeAnnotations:self.mapView.annotations];
+                        [self.mapView setShowsUserLocation:YES];
+                        RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
+                        [self.mapView addAnnotation:runnerAnnotation];
+                        
+                        //notify cheerer of approaching target runner
+//                        NSString* distString = [NSString stringWithFormat:@"%f", dist];
+//                        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %.02fm away!", dist];
+//                        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", runnerName, @"name", distString, @"distance", @"approaching", @"runnerStatus", nil];
+//                        NSLog(@"runnerDict: %@", runnerDict);
+//                        
+//                        UIApplicationState state = [UIApplication sharedApplication].applicationState;
+//                        NSLog(@"application state is %ld", (long)state);
+//                        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+//                        {
+//                            // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
+//                            // userInfo can include the dictionary above called runnerDict
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
+//                                                                                object:self
+//                                                                              userInfo:runnerDict];
+//                            
+//                            NSLog(@" notifying about %@ from background", self.runnerObjId);
+//                        }
+//                        else {
+//                            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                            NSLog(@"about to display cheerAlert");
+//                            [cheerAlert show];
+//                        }
+                    }
+                    else {
+                        NSLog(@"Target runner out of range");
+                    }
+
+                }
+                
+                else {
+                    NSLog(@"ERROR: Target runner was not found"); //outside range
+                }
+            }
+        }
+        
+        else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);  // Log details of the failure
+        }
+    }]; //end of find objects in background with block
+    NSLog(@"No runners found");
+    
+}
 
 //findRunners()
 - (void)findRunners{
@@ -148,7 +232,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                 NSLog(@"possible's dist: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-                if ((dist <= self.radius6) && (dist > self.radius4)) {  //between radius 4 and 7
+                if ((dist <= self.radius7) && (dist > self.radius4)) {  //between radius 4 and 7
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
                     NSString *runnerName = [runner objectForKey:@"name"];
@@ -162,27 +246,6 @@ static NSString * const detailSegueName = @"RelationshipView";
                         [possibleRunnersLoc addObject:runnerLoc];
                     }
                     
-                }
-                
-                else if ((dist <= self.radius8) && (dist > self.radius6)) { //between radius 8 and 6
-                    //query runners for target based on username
-                    PFUser *runner = possible[@"user"];
-                    [runner fetchIfNeeded];
-                    NSString *runnerName = [runner objectForKey:@"name"];
-                    NSString *runnerUsername = [runner objectForKey:@"username"];
-                    NSString *targetUsername = [self.cheerer objectForKey:@"username"];
-                    
-                    if ([runnerUsername isEqualToString:targetUsername]) {
-                        NSLog(@"Target runner %@ is approaching", targetUsername);
-                        //empty possibleRunners and possibleRunnersLoc and possibleRunnerName
-                        [possibleRunners removeAllObjects];
-                        [possibleRunnersNames removeAllObjects];
-                        [possibleRunnersLoc removeAllObjects];
-                        //add runner, runnerLoc, runnerName
-                        [possibleRunners addObject:runner];
-                        [possibleRunnersNames addObject:runnerName];
-                        [possibleRunnersLoc addObject:runnerLoc];
-                    }
                 }
                 else {
                     
