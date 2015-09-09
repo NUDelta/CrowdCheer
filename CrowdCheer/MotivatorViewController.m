@@ -304,6 +304,23 @@ static NSString * const detailSegueName = @"RelationshipView";
         return annotationView;
     }
     
+    else if ([annotation isKindOfClass:[MyRunnerAnnotation class]])
+    {
+        MyRunnerAnnotation *loc = (MyRunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MyRunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
+        }
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
     return nil;
 }
 

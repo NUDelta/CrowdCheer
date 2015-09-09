@@ -27,7 +27,7 @@
     UIButton *cheerBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
     [cheerBtn setTitle:@"Cheer!" forState:UIControlStateNormal];
     
-    MKAnnotationView *annotationView = [[MKAnnotationView alloc]initWithAnnotation:self reuseIdentifier:@"RunnerAnnotation"];
+    MKAnnotationView *annotationView = [[MKAnnotationView alloc]initWithAnnotation:self reuseIdentifier:@"MyRunnerAnnotation"];
     annotationView.enabled = YES;
     annotationView.canShowCallout = YES;
     annotationView.image = [UIImage imageNamed:@"myrunner.png"];
