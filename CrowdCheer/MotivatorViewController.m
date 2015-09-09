@@ -10,6 +10,7 @@
 #import "MotivatorViewController.h"
 #import "RelationshipViewController.h"
 #import "RunnerAnnotation.h"
+#import "MyRunnerAnnotation.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 #import <MapKit/MapKit.h>
@@ -161,8 +162,9 @@ static NSString * const detailSegueName = @"RelationshipView";
                         //remove any map annotations and only pin target runner
                         [self.mapView removeAnnotations:self.mapView.annotations];
                         [self.mapView setShowsUserLocation:YES];
-                        RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
-                        [self.mapView addAnnotation:runnerAnnotation];
+                        MyRunnerAnnotation *myRunnerAnnotation = [[MyRunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
+                        [self.mapView addAnnotation:myRunnerAnnotation];
+                        break;
                         
                         //notify cheerer of approaching target runner
 //                        NSString* distString = [NSString stringWithFormat:@"%f", dist];
