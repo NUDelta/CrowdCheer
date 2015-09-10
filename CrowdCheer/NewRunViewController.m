@@ -103,7 +103,7 @@ static NSString * const detailSegueName = @"RunDetails";
         self.prepButton.enabled = YES;
     }
     
-    self.beaconArray  = [[NSArray alloc] initWithObjects:@"Mint 1", @"Ice 1", @"CrowdCheer B", nil];
+    self.beaconArray  = [[NSArray alloc] initWithObjects:@"Mint 1", @"Ice 1", @"CrowdCheer B", @"dog", @"bag", @"fridge", @"bed", @"bike", @"door", @"shoe", @"car", @"chair", @"blank", nil];
     self.beaconPicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
     [self attachPickerToTextField:self.beaconName :self.beaconPicker];
     

@@ -107,6 +107,46 @@
         self.major = 28548;
         self.minor = 7152;
     }
+    else if ([runnerBeacon isEqualToString:@"bike"]) {
+        self.major = 42669;
+        self.minor = 56336;
+    }
+    else if ([runnerBeacon isEqualToString:@"bag"]) {
+        self.major = 51256;
+        self.minor = 22967;
+    }
+    else if ([runnerBeacon isEqualToString:@"fridge"]) {
+        self.major = 7727;
+        self.minor = 3361;
+    }
+    else if ([runnerBeacon isEqualToString:@"car"]) {
+        self.major = 45346;
+        self.minor = 37940;
+    }
+    else if ([runnerBeacon isEqualToString:@"bed"]) {
+        self.major = 20117;
+        self.minor = 19974;
+    }
+    else if ([runnerBeacon isEqualToString:@"chair"]) {
+        self.major = 21003;
+        self.minor = 27968;
+    }
+    else if ([runnerBeacon isEqualToString:@"dog"]) {
+        self.major = 48249;
+        self.minor = 54366;
+    }
+    else if ([runnerBeacon isEqualToString:@"shoe"]) {
+        self.major = 5126;
+        self.minor = 555;
+    }
+    else if ([runnerBeacon isEqualToString:@"door"]) {
+        self.major = 63256;
+        self.minor = 35571;
+    }
+    else if ([runnerBeacon isEqualToString:@"blank"]) {
+        self.major = 29456;
+        self.minor = 23645;
+    }
     else {
         //do nothing
     }

@@ -68,7 +68,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                             selector:@selector(findRunners) userInfo:nil repeats:YES];
-    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
                                                              selector:@selector(findMyRunner) userInfo:nil repeats:YES];
     
     [self startLocationUpdates];
@@ -139,7 +139,7 @@ static NSString * const detailSegueName = @"RelationshipView";
         if (!error) {
             // The find succeeded. The first 100 objects are available
             for (PFObject *possible in possibleNearbyRunners) { //loop through all these possibly nearby runners and first check if it's our target, then check target's distance
-                NSLog(@"Looping through runners...");
+                NSLog(@"Searching for my runner...");
                 PFUser *runner = possible[@"user"];
                 [runner fetchIfNeeded];
                 NSString *runnerName = [runner objectForKey:@"name"];
@@ -164,7 +164,7 @@ static NSString * const detailSegueName = @"RelationshipView";
                         [self.mapView setShowsUserLocation:YES];
                         MyRunnerAnnotation *myRunnerAnnotation = [[MyRunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
                         [self.mapView addAnnotation:myRunnerAnnotation];
-                        break;
+                        
                         
                         //notify cheerer of approaching target runner
 //                        NSString* distString = [NSString stringWithFormat:@"%f", dist];
