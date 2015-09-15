@@ -11,6 +11,7 @@
 #import "NewRunViewController.h"
 #import "DetailViewController.h"
 #import "RunnerAnnotation.h"
+#import "MyRunnerAnnotation.h"
 #import "Run.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -26,14 +27,13 @@
 
 @interface RelationshipViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate, AVAudioRecorderDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) Run *run;
-
 @property (nonatomic, strong) NSTimer *hapticTimer;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *isTrackingRunner;
 @property (nonatomic, strong) NSTimer *isUpdatingDistance;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
+
 @property int major;
 @property int minor;
 @property int radius1;
@@ -50,7 +50,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bibLabel;
-@property (nonatomic, weak) IBOutlet UILabel *commonalityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *runnerDist;
@@ -61,7 +60,6 @@
 @property (nonatomic, strong)AVAudioRecorder *recorder;
 @property (nonatomic, readwrite) NSString *fileName;
 
-
 @end
 
 
@@ -70,14 +68,14 @@
 - (void)viewDidLoad {
     
     //
-    //load runner info
+    ////////// load runner info ///////////
     //
     if (self.runnerObjId == NULL) { //if runner wasn't set via button press, check local notif dictionary for a value
         self.runnerObjId = [self.userInfo objectForKey:@"user"];
     }
+    
     PFQuery *query = [PFUser query];
     self.runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
-    
     PFFile *userImageFile = self.runner[@"profilePic"];
     [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
@@ -87,14 +85,48 @@
     }];
     self.name = self.runner[@"name"];
     NSString *bibNumber = self.runner[@"bibNumber"];
-    NSString *commonality = self.runner[@"display commonality here"];
-    
+    NSString *runnerBeacon = self.runner[@"beacon"];
     self.nameLabel.text = [NSString stringWithFormat:@"%@!", self.name];
     self.bibLabel.text = [NSString stringWithFormat:@" Bib #: %@", bibNumber];
-    self.commonalityLabel.text = [NSString stringWithFormat:@"You are both %@!", commonality];
     
-
-    NSString *runnerBeacon = self.runner[@"beacon"];
+    //
+    ////////// setting up mapview ///////////
+    //
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = kCLLocationAccuracyKilometer;
+    [self.locationManager startUpdatingLocation];
+    
+    CLLocation *location = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [location coordinate];
+    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
+    [self.mapView setShowsUserLocation:YES];
+    [self.mapView setDelegate:self];
+    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
+    self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
+    
+    //radius in meters, smaller index = closer to runner
+    self.radius1 = 10; //10
+    self.radius2 = 50; //50
+    self.radius3 = 100;//100
+    self.radius4 = 200;//200
+    self.radius5 = 300;//300
+    self.radius6 = 400;//400
+    self.radius7 = 500;//500
+    
+    //
+    ////////// start runnerApproaching ///////////
+    //
+    double dist = [self.runnerDist.firstObject doubleValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self runnerApproaching:self.runner :dist]; //notify
+    });
+    
+    //
+    ////////// set beacon we're looking for ///////////
+    //
     if ([runnerBeacon isEqualToString:@"Mint 1"]) {
         self.major = 17784;
         self.minor = 47397;
@@ -150,41 +182,25 @@
     else {
         //do nothing
     }
-
+    
     //
-    //setting up mapview
+    ////////// setting up beacon listener ///////////
     //
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    self.locationManager.distanceFilter = kCLLocationAccuracyKilometer;
-    [self.locationManager startUpdatingLocation];
+    self.beaconDist = -1;
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
     
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
-    [self.mapView setShowsUserLocation:YES];
-    [self.mapView setDelegate:self];
-    NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:self.runner, @"runner", nil];
-    self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
+    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                                     major:self.major
+                                                                     minor:self.minor
+                                                                identifier:@"EstimoteSampleRegion"];
     
-    //radius in meters, smaller index = closer to runner
-    self.radius1 = 10; //10
-    self.radius2 = 50; //50
-    self.radius3 = 100;//100
-    self.radius4 = 200;//200
-    self.radius5 = 300;//300
-    self.radius6 = 400;//400
-    self.radius7 = 500;//500
-    
-    double dist = [self.runnerDist.firstObject doubleValue];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self runnerApproaching:self.runner :dist]; //notify
-    });
+    [self.beaconManager requestWhenInUseAuthorization];
+    [self.beaconManager startMonitoringForRegion:region];
+    [self.beaconManager startRangingBeaconsInRegion:region];
    
     //
-    //preparing for recording
+    ////////// prepare for recording ///////////
     //
     // Set the audio file
     self.cheerer = [PFUser currentUser];
@@ -217,26 +233,10 @@
     
 //    // Start recording
 //    [self.recorder record];
-
-    
-    //
-    //setting up beacon listener
-    //
-    self.beaconDist = -1;
-    self.beaconManager = [[ESTBeaconManager alloc] init];
-    self.beaconManager.delegate = self;
-    
-    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                     major:self.major
-                                                                     minor:self.minor
-                                                                identifier:@"EstimoteSampleRegion"];
-
-    [self.beaconManager requestWhenInUseAuthorization];
-    [self.beaconManager startMonitoringForRegion:region];
-    [self.beaconManager startRangingBeaconsInRegion:region];
     
     [super viewDidLoad];
 }
+
 
 - (void)viewDidDisappear:(BOOL)animated {
     [self.isTrackingRunner invalidate];
@@ -248,14 +248,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    NSLog(@"RelationshipViewController.viewWillAppear()");
-
-    self.commonalityLabel.hidden = YES;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView
@@ -271,6 +263,23 @@
         RunnerAnnotation *loc = (RunnerAnnotation *)annotation;
         // Try to dequeue an existing pin view first.
         MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"RunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
+        }
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
+    else if ([annotation isKindOfClass:[MyRunnerAnnotation class]])
+    {
+        MyRunnerAnnotation *loc = (MyRunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MyRunnerAnnotationView"];
         
         if (!annotationView)
         {
@@ -299,7 +308,6 @@
         
         int dist = (int)distance;
         NSString* distString = [NSString stringWithFormat:@"%d", dist];
-        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %dm away!", dist];
         NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", runnerName, @"name", distString, @"distance", @"approaching", @"runnerStatus", nil];
         NSLog(@"runnerDict: %@", runnerDict);
         
@@ -314,11 +322,6 @@
                                                               userInfo:runnerDict];
             
             NSLog(@" notifying about %@ from background", self.runnerObjId);
-        }
-        else {
-            //            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            //            NSLog(@"about to display cheerAlert");
-            //            [cheerAlert show];
         }
                 
         //setting inner/outer radius and corresponding interval for isTrackingRunner based on current distance
@@ -394,10 +397,8 @@
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
     
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
     //Find any recent location updates from our runner
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"user" equalTo:runnerTracked];
     [timeQuery orderByDescending:@"updatedAt"];
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
@@ -471,7 +472,7 @@
                     self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
                     [self.runner fetchIfNeeded];
                     NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
-                    NSLog(runnerBeacon);
+                    NSLog(@"%@", runnerBeacon);
                     if ([runnerBeacon isEqualToString:@"Mint 1"]) {
                         self.major = 17784;
                         self.minor = 47397;
@@ -546,7 +547,6 @@
         self.runnerObjId = runnerObjId;
         int dist = (int)distance;
         NSString* distString = [NSString stringWithFormat:@"%d", dist];
-        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is coming, get ready to cheer!"];
         NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", distString, @"distance", nil]; //need distance here
         
         //saving parse data for when cheerer receives notification and for which runner
@@ -558,7 +558,7 @@
         NSLog(@"cheererNotification is %@", cheererNotification);
         
         UIApplicationState state = [UIApplication sharedApplication].applicationState;
-        NSLog(@"application state is %d", state);
+        NSLog(@"application state is %ld", (long)state);
         if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
         {
             // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
@@ -585,8 +585,6 @@
         [self.beaconManager stopMonitoringForRegion:region];
         [self.beaconManager stopRangingBeaconsInRegion:region];
         NSLog(@"invalidated isTrackingRunner and beaconManager");
-        //        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-        //                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
         
     } else {
         NSLog(@"Runner was nil");
@@ -619,8 +617,7 @@
         CLBeacon* closestBeacon = [beacons objectAtIndex:0];
         NSLog(@"beacon distance: %f", closestBeacon.accuracy);
         self.beaconDist = closestBeacon.accuracy;
-        double dist = [self.runnerDist.firstObject doubleValue];
-        int beaconDistInt = (int)self.beaconDist;
+
         
 //         calculate and set new y position
         
@@ -821,7 +818,6 @@
     //if runner exits 30m radius, stop the recording, stop the beacon manager, invalidate timers, segue back to runner search
     
     double dist = [self.runnerDist.firstObject doubleValue];
-    int distInt = (int)dist;
     self.runner = runner;
     
     if (dist > 30 || self.beaconDist > 30) {
@@ -860,8 +856,6 @@
         
         NSLog(@"Runner exits region, returning to MVC");
         //return to watching screen
-        //                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        //                RelationshipViewController *rsvc = (RelationshipViewController *)[sb instantiateViewControllerWithIdentifier:@"relationshipViewController"];
         [self.navigationController popViewControllerAnimated:YES];
 
     }

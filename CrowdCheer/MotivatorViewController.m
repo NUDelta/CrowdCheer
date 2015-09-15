@@ -64,11 +64,11 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.radius7 = 500;//500
     self.radius8 = 1000;//1000
     
-    //Step 1a: initialize isCheckingRunners, call findRunners every 5s
+    //Step 1a: initialize checking runner timers
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                             selector:@selector(findRunners) userInfo:nil repeats:YES];
-    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                              selector:@selector(findMyRunner) userInfo:nil repeats:YES];
     
     [self startLocationUpdates];
@@ -95,20 +95,21 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.radius7 = 500;//500
     self.radius8 = 1000;//1000
     
-    
-    //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
+    //Step 1a: initialize checking runner timers
     NSLog(@"isCheckingRunners started");
     self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
                                                             selector:@selector(findRunners) userInfo:nil repeats:YES];
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                             selector:@selector(findMyRunner) userInfo:nil repeats:YES];
+    
     [self startLocationUpdates];
     self.cheerer = [PFUser currentUser];
     
-    //For debugging purposes:
+    //UI Setup:
     self.cheerButton.enabled  = NO;
     [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
     self.rangeLabel.hidden = YES;
-    
 }
 
 
@@ -116,12 +117,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     [self.isCheckingRunners invalidate];
     NSLog(@"invalidated isCheckingRunners");
 }
-
-//- (void)viewWillDisappear:(BOOL)animated
-//{
-//    //[super viewWillDisappear:];
-//    [self.isCheckingRunners invalidate];
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -524,18 +519,8 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSLog(@"==============Segueing with %@===============", self.runnerObjId);
     }
     else {
-         NSLog(@"==============Segue ERROR===============");
+         NSLog(@"==============SEGUE ERROR===============");
     }
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
