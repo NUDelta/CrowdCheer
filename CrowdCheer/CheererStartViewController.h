@@ -10,6 +10,5 @@
 
 @interface CheererStartViewController : UIViewController <UITextFieldDelegate>
 
--(IBAction)removeKeyboard;
 
 @end

@@ -331,23 +331,25 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)eachSecond
 {
     NSLog(@"NewRunViewController.eachSecond()");
-    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
+//    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
     PFUser *thisUser = [PFUser currentUser];
+    [self saveRunnerLoc:thisUser];
+    [self updateCurrentLoc:thisUser];
     
-    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
-    [runnerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
-    
-    //add pace as key
-    self.pace = [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds];
-    NSNumber *runTime = [NSNumber numberWithInt:self.seconds];
-    NSNumber *distance = [NSNumber numberWithFloat:self.distance];
-    [runnerLocation setObject:loc forKey:@"location"];
-    [runnerLocation setObject:thisUser forKey:@"user"];
-    [runnerLocation setObject:self.pace forKey:@"pace"];
-    [runnerLocation setObject:distance forKey:@"distance"];
-    [runnerLocation setObject:runTime forKey:@"runTime"]; //runnerLocation[@"runtime"]
-    
-    [runnerLocation saveInBackground];
+//    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
+//    [runnerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
+//    
+//    //add pace as key
+//    self.pace = [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds];
+//    NSNumber *runTime = [NSNumber numberWithInt:self.seconds];
+//    NSNumber *distance = [NSNumber numberWithFloat:self.distance];
+//    [runnerLocation setObject:loc forKey:@"location"];
+//    [runnerLocation setObject:thisUser forKey:@"user"];
+//    [runnerLocation setObject:self.pace forKey:@"pace"];
+//    [runnerLocation setObject:distance forKey:@"distance"];
+//    [runnerLocation setObject:runTime forKey:@"runTime"]; //runnerLocation[@"runtime"]
+//    
+//    [runnerLocation saveInBackground];
     
     self.seconds++;
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
@@ -382,6 +384,46 @@ static NSString * const detailSegueName = @"RunDetails";
 //            [self drawLine];
 //        }
 //    }];
+}
+
+- (void)updateCurrentLoc:(PFUser*)runner {
+    
+    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
+    runner[@"lastLoc"] = loc;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"RunnerLatest"];
+    [query getObjectInBackgroundWithId:runner.objectId block:^(PFObject *lastLoc, NSError *error) {
+        if(!error) {
+            //Find succeeded, update loc field for object
+            lastLoc[@"lastLoc"] = loc;
+        }
+        else {
+            
+        }
+    }];
+
+}
+
+- (void)saveRunnerLoc:(PFUser*)runner {
+    
+    PFGeoPoint *loc  = [PFGeoPoint geoPointWithLocation:self.locations.lastObject];
+    PFObject *runnerLocation = [PFObject objectWithClassName:@"RunnerLocation"];
+    [runnerLocation setObject:[[NSDate alloc] init] forKey:@"time"];
+    
+    //add pace as key
+    self.pace = [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds];
+    NSNumber *runTime = [NSNumber numberWithInt:self.seconds];
+    NSNumber *distance = [NSNumber numberWithFloat:self.distance];
+    [runnerLocation setObject:loc forKey:@"location"];
+    [runnerLocation setObject:runner forKey:@"user"];
+    [runnerLocation setObject:self.pace forKey:@"pace"];
+    [runnerLocation setObject:distance forKey:@"distance"];
+    [runnerLocation setObject:runTime forKey:@"runTime"]; //runnerLocation[@"runtime"]
+    
+    [runnerLocation saveInBackground];
+
+    
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

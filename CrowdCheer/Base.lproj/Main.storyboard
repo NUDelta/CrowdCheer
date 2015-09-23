@@ -177,7 +177,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gau-40-1Eu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-816" y="260"/>
+            <point key="canvasLocation" x="-809" y="260"/>
         </scene>
         <!--Start Tracking Runners-->
         <scene sceneID="qOn-C6-Dzt">
@@ -255,7 +255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A06-H8-pc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1245" y="970"/>
+            <point key="canvasLocation" x="-1332" y="1004"/>
         </scene>
         <!--Find Runners Nearby-->
         <scene sceneID="P7a-eQ-Jgc">
@@ -344,7 +344,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rOy-5l-ZPh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-816" y="970"/>
+            <point key="canvasLocation" x="-809" y="1004"/>
         </scene>
         <!--Track A Runner-->
         <scene sceneID="n5q-d5-Rg5">
@@ -443,7 +443,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wel-m0-3iI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-342" y="970"/>
+            <point key="canvasLocation" x="-270" y="1004"/>
         </scene>
         <!--Getting Started-->
         <scene sceneID="7pQ-Wi-f0p">
@@ -551,7 +551,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-pn-L7b">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-pn-L7b">
                                 <rect key="frame" x="16" y="129" width="72" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="72" id="GSz-XB-o7h"/>
@@ -560,7 +560,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
                                 <rect key="frame" x="96" y="137" width="214" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="vaS-O0-Mi0"/>
@@ -568,12 +568,6 @@
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEs-Wl-9ek">
-                                <rect key="frame" x="16" y="161" width="72" height="35"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="month" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDA-Jw-UAf">
                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
@@ -582,14 +576,6 @@
                             <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1438375376_wooman.png" translatesAutoresizingMaskIntoConstraints="NO" id="vBD-cI-dt0">
                                 <rect key="frame" x="74" y="204" width="172" height="200"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="day" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CDU-DZ-Hog">
-                                <rect key="frame" x="247" y="180" width="63" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="1D4-rZ-cHf"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fill out your profile so participants can find each other on the race track." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="b65-9f-ZYc">
                                 <rect key="frame" x="20" y="64" width="281" height="45"/>
                                 <constraints>
@@ -638,8 +624,6 @@
                         </subviews>
                         <color key="backgroundColor" red="0.95612185849999998" green="0.95612185849999998" blue="0.95612185849999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="CDU-DZ-Hog" firstAttribute="top" secondItem="OOr-um-zFI" secondAttribute="bottom" constant="13" id="08e-lF-oBx"/>
-                            <constraint firstItem="aEs-Wl-9ek" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" id="2c7-YU-RcI"/>
                             <constraint firstItem="wiE-xL-7Kf" firstAttribute="trailing" secondItem="A1h-uz-pWL" secondAttribute="trailing" id="5hy-2q-MIJ"/>
                             <constraint firstItem="wiE-xL-7Kf" firstAttribute="top" secondItem="A1h-uz-pWL" secondAttribute="bottom" constant="8" symbolic="YES" id="7Du-xf-zmS"/>
                             <constraint firstItem="vBD-cI-dt0" firstAttribute="centerX" secondItem="blk-JG-yrS" secondAttribute="centerX" id="B6p-k2-OTf"/>
@@ -648,18 +632,12 @@
                             <constraint firstItem="A1h-uz-pWL" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="72" id="ElH-u6-sP5"/>
                             <constraint firstItem="OOr-um-zFI" firstAttribute="leading" secondItem="gZV-pn-L7b" secondAttribute="trailing" constant="8" symbolic="YES" id="HpK-mP-Ngx"/>
                             <constraint firstItem="OOr-um-zFI" firstAttribute="centerY" secondItem="gZV-pn-L7b" secondAttribute="centerY" id="N9f-Ue-i2C"/>
-                            <constraint firstItem="aEs-Wl-9ek" firstAttribute="top" secondItem="b65-9f-ZYc" secondAttribute="bottom" constant="52" id="QSk-Sw-JzS"/>
                             <constraint firstItem="A1h-uz-pWL" firstAttribute="centerX" secondItem="vBD-cI-dt0" secondAttribute="centerX" id="QvH-ZY-BCg"/>
-                            <constraint firstItem="vBD-cI-dt0" firstAttribute="top" secondItem="aEs-Wl-9ek" secondAttribute="bottom" constant="8" symbolic="YES" id="T6F-P1-w4h"/>
                             <constraint firstItem="b65-9f-ZYc" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="4" id="UGA-lH-hZj"/>
                             <constraint firstItem="vBD-cI-dt0" firstAttribute="centerX" secondItem="b65-9f-ZYc" secondAttribute="centerX" id="UrD-iE-VNV"/>
-                            <constraint firstItem="CDU-DZ-Hog" firstAttribute="leading" secondItem="vBD-cI-dt0" secondAttribute="trailing" constant="1" id="VAI-q8-cJF"/>
                             <constraint firstItem="vBD-cI-dt0" firstAttribute="top" secondItem="gZV-pn-L7b" secondAttribute="bottom" constant="29" id="Vf3-Lv-gKb"/>
-                            <constraint firstItem="CDU-DZ-Hog" firstAttribute="trailing" secondItem="OOr-um-zFI" secondAttribute="trailing" id="XsE-r2-2mC"/>
-                            <constraint firstItem="gZV-pn-L7b" firstAttribute="leading" secondItem="aEs-Wl-9ek" secondAttribute="leading" id="aZD-3k-Q73"/>
                             <constraint firstItem="A1h-uz-pWL" firstAttribute="top" secondItem="vBD-cI-dt0" secondAttribute="bottom" constant="32" id="aqc-oo-C2m"/>
                             <constraint firstItem="b65-9f-ZYc" firstAttribute="top" secondItem="EAz-pW-Eby" secondAttribute="bottom" constant="44" id="bPW-yh-2hF"/>
-                            <constraint firstItem="OOr-um-zFI" firstAttribute="leading" secondItem="aEs-Wl-9ek" secondAttribute="trailing" constant="8" symbolic="YES" id="cVl-Up-7Jh"/>
                             <constraint firstItem="Ww6-5V-zk0" firstAttribute="leading" secondItem="wiE-xL-7Kf" secondAttribute="trailing" constant="8" symbolic="YES" id="efk-zu-olo"/>
                             <constraint firstItem="2he-7X-ULa" firstAttribute="top" secondItem="Ww6-5V-zk0" secondAttribute="bottom" constant="64" id="fCY-UU-m7R"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OOr-um-zFI" secondAttribute="trailing" constant="-6" id="kBB-OC-XOm"/>
@@ -680,9 +658,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Update Profile" id="Q67-Rg-tOB"/>
                     <connections>
-                        <outlet property="birthDay" destination="CDU-DZ-Hog" id="qhm-ze-rvo"/>
                         <outlet property="birthMonth" destination="HDA-Jw-UAf" id="TOE-OT-AJJ"/>
-                        <outlet property="birthdayLabel" destination="aEs-Wl-9ek" id="28X-83-2fX"/>
                         <outlet property="imageView" destination="vBD-cI-dt0" id="nGn-ff-wEz"/>
                         <outlet property="infoButton" destination="Ww6-5V-zk0" id="cse-xM-W03"/>
                         <outlet property="name" destination="OOr-um-zFI" id="Okd-6y-YWr"/>
@@ -693,7 +669,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1370" y="-492"/>
+            <point key="canvasLocation" x="-1520" y="-456"/>
         </scene>
         <!--Getting Started-->
         <scene sceneID="84m-de-lis">
@@ -787,7 +763,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1370" y="260"/>
+            <point key="canvasLocation" x="-1332" y="260"/>
         </scene>
         <!--Track My Run-->
         <scene sceneID="ffh-gm-bon">
@@ -922,7 +898,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgk-qh-RUe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-356" y="260"/>
+            <point key="canvasLocation" x="-270" y="260"/>
         </scene>
         <!--Detail-->
         <scene sceneID="Cn3-H9-jdl">
@@ -1274,7 +1250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iru-NH-jsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-809" y="-492"/>
+            <point key="canvasLocation" x="1087" y="-32"/>
         </scene>
     </scenes>
     <resources>
