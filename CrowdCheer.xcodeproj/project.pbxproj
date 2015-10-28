@@ -22,6 +22,8 @@
 		E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */; };
 		E25A11BA1AB1CDF2003FFA73 /* RoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */; };
 		E25A11D81AB1D42F003FFA73 /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */; };
+		E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */; };
+		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
 		E2AD20161A9A97E500B1BEFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */; };
@@ -67,6 +69,8 @@
 		E2CA51831A89537200C2BB03 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51821A89537200C2BB03 /* icon.png */; };
 		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
 		E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */; };
+		E2D6B3D91BA0C3E000D1B8BB /* myrunner.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */; };
+		E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */; };
 		E2E652EA1AB2B97400561710 /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E61AB2B97400561710 /* icon_120.png */; };
 		E2E652EB1AB2B97400561710 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E71AB2B97400561710 /* icon_58.png */; };
 		E2E652EC1AB2B97400561710 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E81AB2B97400561710 /* icon_80.png */; };
@@ -108,6 +112,9 @@
 		E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoleViewController.h; path = CrowdCheer/RoleViewController.h; sourceTree = "<group>"; };
 		E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoleViewController.m; path = CrowdCheer/RoleViewController.m; sourceTree = "<group>"; };
 		E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultSettingsViewController.m; path = CrowdCheer/DefaultSettingsViewController.m; sourceTree = "<group>"; };
+		E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
+		E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
+		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -167,6 +174,9 @@
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
 		E2CA51891A89E0A100C2BB03 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MulticolorPolylineSegment.h; path = CrowdCheer/MulticolorPolylineSegment.h; sourceTree = "<group>"; };
 		E2CA518A1A89E0A100C2BB03 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MulticolorPolylineSegment.m; path = CrowdCheer/MulticolorPolylineSegment.m; sourceTree = "<group>"; };
+		E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myrunner.png; sourceTree = "<group>"; };
+		E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRunnerAnnotation.m; path = CrowdCheer/MyRunnerAnnotation.m; sourceTree = "<group>"; };
+		E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRunnerAnnotation.h; path = CrowdCheer/MyRunnerAnnotation.h; sourceTree = "<group>"; };
 		E2E652E61AB2B97400561710 /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
 		E2E652E71AB2B97400561710 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 		E2E652E81AB2B97400561710 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
@@ -259,6 +269,8 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
+				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
+				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
 				E245B6E61ADC544700432C61 /* CheererStartViewController.h */,
 				E245B6E71ADC544700432C61 /* CheererStartViewController.m */,
 				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
@@ -273,6 +285,8 @@
 				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
 				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
 				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
+				E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */,
 				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
 				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
 				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
@@ -349,6 +363,8 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */,
+				E265087E1B8B9DE600D726F0 /* runner.png */,
 				E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */,
 				E240F4771B6BBEB6008C9580 /* Ford.gpx */,
 				E240F4711B692510008C9580 /* 3_cheer.png */,
@@ -481,6 +497,7 @@
 				E2CA51691A89219900C2BB03 /* red-btn.png in Resources */,
 				E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */,
 				E2CA514C1A89219900C2BB03 /* badges.txt in Resources */,
+				E2D6B3D91BA0C3E000D1B8BB /* myrunner.png in Resources */,
 				E2CA514B1A89219900C2BB03 /* atmosphere.jpg in Resources */,
 				E2E652EA1AB2B97400561710 /* icon_120.png in Resources */,
 				E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */,
@@ -499,6 +516,7 @@
 				E2CA515C1A89219900C2BB03 /* info@2x.png in Resources */,
 				E2E652EC1AB2B97400561710 /* icon_80.png in Resources */,
 				E2E652EB1AB2B97400561710 /* icon_58.png in Resources */,
+				E265087F1B8B9DE600D726F0 /* runner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				E25A11D81AB1D42F003FFA73 /* DefaultSettingsViewController.m in Sources */,
 				E25A11BA1AB1CDF2003FFA73 /* RoleViewController.m in Sources */,
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
@@ -565,6 +584,7 @@
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
+				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

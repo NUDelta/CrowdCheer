@@ -7,8 +7,11 @@
 //
 
 #import "CheererStartViewController.h"
+#import <Parse/Parse.h>
 
-@interface CheererStartViewController ()
+@interface CheererStartViewController () <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *targetRunner;
 
 @end
 
@@ -17,6 +20,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    PFUser *user = [PFUser currentUser];
+    
+    NSString *targetRunner = user[@"targetRunner"];
+    
+    self.targetRunner.text = targetRunner;
+    
+    [self.targetRunner addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+}
+
+-(void)textFieldDidChange :(UITextField *)textField{
+    //save profile info to Parse
+    PFUser *currentUser = [PFUser currentUser];
+    if (textField == self.targetRunner){
+        currentUser[@"targetRunner"] = self.targetRunner.text;
+    }
+    
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.targetRunner resignFirstResponder];
+    
 }
 
 - (void)didReceiveMemoryWarning {

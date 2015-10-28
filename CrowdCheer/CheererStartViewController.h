@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CheererStartViewController : UIViewController
+@interface CheererStartViewController : UIViewController <UITextFieldDelegate>
+
 
 @end

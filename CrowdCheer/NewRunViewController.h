@@ -11,7 +11,6 @@
 @interface NewRunViewController : UIViewController <UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
--(IBAction)removeKeyboard;
 
 
 @end

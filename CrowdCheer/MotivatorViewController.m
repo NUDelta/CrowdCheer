@@ -9,41 +9,30 @@
 
 #import "MotivatorViewController.h"
 #import "RelationshipViewController.h"
+#import "RunnerAnnotation.h"
+#import "MyRunnerAnnotation.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
 #import <MapKit/MapKit.h>
-#import <AudioToolbox/AudioServices.h>
-#import <CoreBluetooth/CoreBluetooth.h>
-#import <EstimoteSDK/EstimoteSDK.h>
 
 static NSString * const detailSegueName = @"RelationshipView";
 
-@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, ESTBeaconManagerDelegate, MKMapViewDelegate>
+@interface MotivatorViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, MKMapViewDelegate>
 
 {
     dispatch_queue_t checkQueue;
 }
 @property (nonatomic, strong) NSTimer *isCheckingRunners;
-@property (nonatomic, strong) NSTimer *isTrackingRunner;
-@property (nonatomic, strong) NSTimer *isUpdatingDistance;
-@property (nonatomic, strong) NSTimer *didRunnerExit;
-@property (nonatomic, strong) NSTimer *hapticTimer;
-
+@property (nonatomic, strong) NSTimer *isCheckingMyRunner;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) CLLocation *locations;
 @property (nonatomic, readwrite) MKPolyline *polyline; //your line
 @property (nonatomic, readwrite) MKPolylineView *lineView; //your line view
 @property (nonatomic, strong) NSMutableArray *runnerPath;
-@property (weak, nonatomic) IBOutlet UILabel *lonLabel;
-@property (weak, nonatomic) IBOutlet UILabel *latLabel;
-@property (weak, nonatomic) IBOutlet UILabel *distLabel;
+@property (nonatomic, strong) NSMutableArray *runnerDist;
 @property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) IBOutlet UIButton *cheerButton;
-@property (nonatomic, strong) NSMutableArray *runnerDist;
-
 @property int radius1;
 @property int radius2;
 @property int radius3;
@@ -51,12 +40,12 @@ static NSString * const detailSegueName = @"RelationshipView";
 @property int radius5;
 @property int radius6;
 @property int radius7;
+@property int radius8;
 @property int major;
 @property int minor;
-
+@property (strong, nonatomic) NSString *runnerObjId;
 @property (weak, nonatomic) PFUser *cheerer;
 @property (weak, nonatomic) PFUser *runner;
-@property (weak, nonatomic) NSUUID *uuid;
 
 @end
 
@@ -73,58 +62,158 @@ static NSString * const detailSegueName = @"RelationshipView";
     self.radius5 = 300;//300
     self.radius6 = 400;//400
     self.radius7 = 500;//500
+    self.radius8 = 1000;//1000
     
-    
-    // Do any additional setup after loading the view.
-    NSLog(@"MotivatorViewController.viewDidLoad()");
-    
-    //Step 1a: initialize isCheckingRunners, call findEachSecond every 1s
+    //Step 1a: initialize checking runner timers
     NSLog(@"isCheckingRunners started");
-    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-                                                            selector:@selector(findEachSecond) userInfo:nil repeats:YES];
+    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                            selector:@selector(findRunners) userInfo:nil repeats:YES];
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                             selector:@selector(findMyRunner) userInfo:nil repeats:YES];
+    
     [self startLocationUpdates];
-    self.beaconManager = [[ESTBeaconManager alloc] init];
-    self.beaconManager.delegate = self;
     self.cheerer = [PFUser currentUser];
     
-    //For debugging purposes:
-    self.cheerButton.hidden = YES;
-    self.latLabel.hidden = YES;
-    self.lonLabel.hidden = YES;
-    self.distLabel.hidden = YES;
+    //UI Setup:
+    self.cheerButton.enabled  = NO;
+    [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
+    self.rangeLabel.hidden = YES;
     
 }
 
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    //radius in meters, smaller index = closer to runner
+    self.radius1 = 10; //10
+    self.radius2 = 50; //50
+    self.radius3 = 100;//100
+    self.radius4 = 200;//200
+    self.radius5 = 300;//300
+    self.radius6 = 400;//400
+    self.radius7 = 500;//500
+    self.radius8 = 1000;//1000
+    
+    //Step 1a: initialize checking runner timers
+    NSLog(@"isCheckingRunners started");
+    self.isCheckingRunners = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                            selector:@selector(findRunners) userInfo:nil repeats:YES];
+    self.isCheckingMyRunner = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
+                                                             selector:@selector(findMyRunner) userInfo:nil repeats:YES];
+    
+    [self startLocationUpdates];
+    self.cheerer = [PFUser currentUser];
+    
+    //UI Setup:
+    self.cheerButton.enabled  = NO;
+    [self.cheerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.cheerButton setTitle:@"Get ready to cheer!" forState:UIControlStateNormal];
+    self.rangeLabel.hidden = YES;
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.isCheckingRunners invalidate];
+    NSLog(@"invalidated isCheckingRunners");
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)scheduleNotification {
-    //don't use this
+//findMyRunner()
+- (void)findMyRunner {
+    NSLog(@"findMyRunner()");
+    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
+    [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];//First check for runners who have updated information recently
+    [timeQuery orderByAscending:@"updatedAt"];
+    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *possibleNearbyRunners, NSError *error) { //if there are any objects found, create an array and execute block
+        if (!error) {
+            // The find succeeded. The first 100 objects are available
+            for (PFObject *possible in possibleNearbyRunners) { //loop through all these possibly nearby runners and first check if it's our target, then check target's distance
+                NSLog(@"Searching for my runner...");
+                PFUser *runner = possible[@"user"];
+                [runner fetchIfNeeded];
+                NSString *runnerName = [runner objectForKey:@"name"];
+                NSString *runnerUsername = [runner objectForKey:@"username"];
+                NSString *targetUsername = [self.cheerer objectForKey:@"targetRunner"];
+                NSLog(@"Target: %@ Runner: %@", targetUsername, runnerUsername);
+                
+                if ([runnerUsername isEqualToString:targetUsername]) {
+                    NSLog(@"Target runner %@ was found", targetUsername);
+                    //calculate distance of target runner
+                    PFGeoPoint *point = [possible objectForKey:@"location"]; //getting location for a runner object
+                    CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //converting location to CLLocation
+                    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; // distance in meters
+                    NSLog(@"Target runner's dist: %f", dist);
+                    
+                    //based on the distance between me and our possible runner, do the following:
+                    if ((dist <= self.radius7) && (dist > self.radius4)) {  //between radius 4 and 7
+                        NSLog(@"Target Runner Approaching");
+                        [self.isCheckingRunners invalidate];
+                        //remove any map annotations and only pin target runner
+                        [self.mapView removeAnnotations:self.mapView.annotations];
+                        [self.mapView setShowsUserLocation:YES];
+                        MyRunnerAnnotation *myRunnerAnnotation = [[MyRunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
+                        [self.mapView addAnnotation:myRunnerAnnotation];
+                        
+                        
+                        //notify cheerer of approaching target runner
+//                        NSString* distString = [NSString stringWithFormat:@"%f", dist];
+//                        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %.02fm away!", dist];
+//                        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", runnerName, @"name", distString, @"distance", @"approaching", @"runnerStatus", nil];
+//                        NSLog(@"runnerDict: %@", runnerDict);
+//                        
+//                        UIApplicationState state = [UIApplication sharedApplication].applicationState;
+//                        NSLog(@"application state is %ld", (long)state);
+//                        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+//                        {
+//                            // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
+//                            // userInfo can include the dictionary above called runnerDict
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
+//                                                                                object:self
+//                                                                              userInfo:runnerDict];
+//                            
+//                            NSLog(@" notifying about %@ from background", self.runnerObjId);
+//                        }
+//                        else {
+//                            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                            NSLog(@"about to display cheerAlert");
+//                            [cheerAlert show];
+//                        }
+                    }
+                    else {
+                        NSLog(@"Target runner out of range");
+                    }
+
+                }
+                
+                else {
+                    NSLog(@"ERROR: Target runner was not found"); //outside range
+                }
+            }
+        }
+        
+        else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);  // Log details of the failure
+        }
+    }]; //end of find objects in background with block
+    NSLog(@"No runners found");
     
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    UILocalNotification *notif = [[UILocalNotification alloc] init];
-    
-    notif.timeZone = [NSTimeZone defaultTimeZone];
-    
-    notif.alertBody = @"Body";
-    notif.alertAction = @"AlertButtonCaption";
-    notif.soundName = UILocalNotificationDefaultSoundName;
-    notif.applicationIconBadgeNumber = 1;
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
 }
 
-//findEachSecond()
-- (void)findEachSecond{
-    NSLog(@"findEachSecond()...");
-    //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
+//findRunners()
+- (void)findRunners{
+    NSLog(@"findRunners()");
     
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    //Step 1b: Every second, look for potential runners to cheer. Pick a runner if they are 400-500m away.
+    //add later - if potential runner is 1000-900m away, and if the runner is the cheerer's primary target, select this runner
+    NSMutableArray *possibleRunnersLoc = [[NSMutableArray alloc]init];
+    NSMutableArray *possibleRunners = [[NSMutableArray alloc]init];
+    NSMutableArray *possibleRunnersNames = [[NSMutableArray alloc]init];
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
     NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"updatedAt" greaterThanOrEqualTo:then];//First check for runners who have updated information recently
@@ -138,180 +227,117 @@ static NSString * const detailSegueName = @"RelationshipView";
                 CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //converting location to CLLocation
                 CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; // distance in meters
                 NSLog(@"possible's dist: %f", dist);
-                self.distLabel.text = [NSString stringWithFormat:@"Dist(ft): %f", dist];
-                self.latLabel.text = [NSString stringWithFormat:@"Lat: %f", point.latitude];
-                self.lonLabel.text = [NSString stringWithFormat:@"Lon: %f", point.longitude];
-                NSLog(@"updated dist label to: %f", dist);
                 
                 //based on the distance between me and our possible runner, do the following:
-                if ((dist <= self.radius7) && (dist > self.radius6)) {  //between radius 6 and 7
-                    NSLog(@"Entered %d m", self.radius7);
+                if ((dist <= self.radius7) && (dist > self.radius4)) {  //between radius 4 and 7
                     PFUser *runner = possible[@"user"];
                     [runner fetchIfNeeded];
-                    int distInt = (int)dist;
-//                    [self.runnerDist addObject:[NSNumber numberWithDouble:dist]];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runner :dist]; //notify
-                    });
+                    NSString *runnerName = [runner objectForKey:@"name"];
+                    
+                    if([possibleRunnersNames containsObject:runnerName]) {
+                        //skip runner
+                    }
+                    else {
+                        [possibleRunners addObject:runner];
+                        [possibleRunnersNames addObject:runnerName];
+                        [possibleRunnersLoc addObject:runnerLoc];
+                    }
+                    
                 }
                 else {
                     
                     NSLog(@"Runner out of range"); //outside range
                 }
-                break; //exiting for loop
+//                break; //exiting for loop
             }
             
-        } else {
+
+            //remove existing possible runner pins
+            [self.mapView removeAnnotations:self.mapView.annotations];
+            [self.mapView setShowsUserLocation:YES];
+            NSLog(@"possible runners: %@", possibleRunnersNames);
+            //here, we should update the map with any unique runner that is in this radius shell
+            //display each runner's location & name
+            for (PFUser *runner in possibleRunners) {
+                NSString *runnerName = [runner objectForKey:@"name"];
+                for (CLLocation *runnerLoc in possibleRunnersLoc) {
+                    RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:runnerName Location:runnerLoc.coordinate RunnerID:runner.objectId];
+                    [self.mapView addAnnotation:runnerAnnotation];
+                    //plot routes of each runner in different colors?
+                }
+            }
+        }
+     else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);  // Log details of the failure
         }
     }]; //end of find objects in background with block
     NSLog(@"No runners found");
 }
 
-//trackEachSecond(radius shells, runner)
-- (void)trackEachSecond:(NSTimer*)timer {
-    NSLog(@"trackEachSecond()...");
-   
-    NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
-    NSLog(@"trackESArgs: %@", trackESArgs);
-    PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
+- (MKAnnotationView *)mapView:(MKMapView *)mapView
+            viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // If the annotation is the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
     
-    NSInteger radiusOuter = [[trackESArgs objectForKey:@"radiusOuter"] integerValue];
-    NSInteger radiusInner = [[trackESArgs objectForKey:@"radiusInner"] integerValue];
-    NSLog(@"radiusouter: %ld radiusinner: %ld", (long)radiusOuter, (long)radiusInner);
-    
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
-    //Find any recent location updates from our runner
-    PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
-    [timeQuery whereKey:@"user" equalTo:runnerTracked];
-    [timeQuery orderByDescending:@"updatedAt"];
-    [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
-        if (!error) {
-            // The find succeeded. The first 100 objects are available
-            //loop through all these possibly nearby runners and check distance
-            NSMutableArray *runnerPath = [NSMutableArray array];
-            for (PFObject *runnerLocEntry in runnerLocations) {
-                NSLog(@"Looping through runner's locations...");
-                NSLog(@"runnerLocEntry: %@", runnerLocEntry);
-                //getting location for a runner object
-                PFGeoPoint *point = [runnerLocEntry objectForKey:@"location"];
-                //converting location to CLLocation
-                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-                //storing in location array
-                [runnerPath addObject:runnerLoc];
-                
-                //calculate distance
-                CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
-                NSLog(@"runnerLocEntry's dist: %f", dist);
-//                NSLog(@"updated dist label to: %f", dist);
-                //based on the distance between me and our possible runner, do the following:
-                NSNumber *radiusO;
-                NSNumber *radiusI;
-                
-                if ((dist <= self.radius6) && (dist > self.radius5)) {
-                    radiusO = [NSNumber numberWithInt:self.radius6];
-                    radiusI = [NSNumber numberWithInt:self.radius5];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius6*2.5, self.radius6*2.5);
-//                    [self.mapView setShowsUserLocation:YES];
-                }
-                else if ((dist <= self.radius5) && (dist > self.radius4)) {
-                    radiusO = [NSNumber numberWithInt:self.radius5];
-                    radiusI = [NSNumber numberWithInt:self.radius4];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius5*2.5, self.radius5*2.5);
-//                    [self.mapView setShowsUserLocation:YES];
-                }
-                else if ((dist <= self.radius4) && (dist > self.radius3)) {
-                    radiusO = [NSNumber numberWithInt:self.radius4];
-                    radiusI = [NSNumber numberWithInt:self.radius3];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius4*2.5, self.radius4*2.5);
-//                    [self.mapView setShowsUserLocation:YES];
-                }
-                else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
-                    radiusO = [NSNumber numberWithInt:self.radius3];
-                    radiusI = [NSNumber numberWithInt:self.radius2];
-                    self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius3*2.5, self.radius3*2.5);
-//                    [self.mapView setShowsUserLocation:YES];
-                    
-                }
-                else if ((dist <= self.radius2) && (dist > self.radius1)) {
-                    radiusO = [NSNumber numberWithInt:self.radius2];
-                    radiusI = [NSNumber numberWithInt:self.radius1];
-                }
-                else if (dist <= self.radius1) {
-                    radiusO = [NSNumber numberWithInt:self.radius1];
-                    radiusI = [NSNumber numberWithInt:0];
-                }
-                else if ((dist <= self.radius7) && (dist > self.radius6)) {
-                    radiusO = [NSNumber numberWithInt:self.radius7];
-                    radiusI = [NSNumber numberWithInt:self.radius6];
-                }
-                
-                if ((dist <= self.radius3) && (dist > self.radius2)) { //should this only track between radii 3 and 2, or between 3 and 0?
-                    radiusO = [NSNumber numberWithInt:self.radius3];
-                    radiusI = [NSNumber numberWithInt:self.radius2];
-                    //between radius 2 and 3
-                    //search for runner's beacon
-                    //if found, notify with primer, switch to beacons in RVC
-                    NSLog(@"Inside %d m", self.radius3);
-                    self.runner = runnerLocEntry[@"user"]; //pointer to user, not a user
-                    [self.runner fetchIfNeeded];
-                    NSString *runnerBeacon = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"beacon"]];
-                    NSLog(runnerBeacon);
-                    if ([runnerBeacon isEqualToString:@"Mint 1"]) {
-                        self.major = 17784;
-                        self.minor = 47397;
-                    }
-                    else if ([runnerBeacon isEqualToString: @"Ice 1"]) {
-                        self.major = 51579;
-                        self.minor = 48731;
-                    }
-                    else if ([runnerBeacon isEqualToString: @"CrowdCheer B"]) {
-                        self.major = 28548;
-                        self.minor = 7152;
-                    }
-                    else {
-                        //do nothing
-                    }
-                    
-                    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                                     major:self.major
-                                                                                     minor:self.minor
-                                                                                identifier:@"EstimoteSampleRegion"];
-                    
-                    // start looking for Estimote beacons in region
-                    // when beacon ranged beaconManager:didRangeBeacons:inRegion: invoked
-                    [self.beaconManager requestWhenInUseAuthorization];
-                    [self.beaconManager startMonitoringForRegion:region];
-                    [self.beaconManager startRangingBeaconsInRegion:region];
-                }
-
-                
-                else if ((dist <= [radiusO doubleValue]) && (dist > [radiusI doubleValue])) { //not updating when we cross into different radii
-                    //notify
-                    //UI update
-                    NSLog(@"Entered %@ m", radiusO);
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self runnerApproaching:runnerTracked :dist];
-                    });
-                }
-                else {
-                    //outside range
-                    NSLog(@"Out of range"); //gets stuck here when distance isn't within the now incorrect inner/outer radius
-                }
-                
-                break; //exiting for loop
-            }
-            
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[RunnerAnnotation class]])
+    {
+        RunnerAnnotation *loc = (RunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"RunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
         }
-    }]; //end of find objects in background with block
-    //checking if we found runner
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
+    else if ([annotation isKindOfClass:[MyRunnerAnnotation class]])
+    {
+        MyRunnerAnnotation *loc = (MyRunnerAnnotation *)annotation;
+        // Try to dequeue an existing pin view first.
+        MKAnnotationView*    annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MyRunnerAnnotationView"];
+        
+        if (!annotationView)
+        {
+            // If an existing pin view was not available, create one.
+            annotationView = loc.annotationView;
+        }
+        else
+            annotationView.annotation = annotation;
+        
+        return annotationView;
+    }
+    
+    return nil;
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+//    selecting a runner allows you to track them
+//    once user selects runner
+//    SEGUE to RVC for tracking OR
+//    call runnerApproaching from here
+    //get annotation title & distance to annotation pin
+    RunnerAnnotation *ann = (RunnerAnnotation *)view.annotation;
+    NSString *runnerObjID = ann.runnerObjID;
+    PFQuery *query = [PFUser query];
+    self.runner = (PFUser *)[query getObjectWithId:runnerObjID];
+    PFUser *runnerTracked = self.runner;
+    NSLog(@"runner on info tap is: %@", self.runner.objectId);
+    
+    NSString *runnerName = [NSString stringWithFormat:@"%@",[runnerTracked objectForKey:@"name"]];
+    self.runnerObjId = runnerObjID;
+    [self.cheerButton setTitle:[NSString stringWithFormat:@"Follow %@!", runnerName] forState:UIControlStateNormal];
+    self.cheerButton.enabled = YES;
+
 }
 
 //updateDistance(runner)
@@ -319,13 +345,8 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSDictionary *trackESArgs = (NSDictionary *)[timer userInfo];
     PFUser *runnerTracked = [trackESArgs objectForKey:@"runner"];
     
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
     //Find any recent location updates from our runner
     PFQuery *timeQuery = [PFQuery queryWithClassName:@"RunnerLocation"];
-    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10];
     [timeQuery whereKey:@"user" equalTo:runnerTracked];
     [timeQuery orderByDescending:@"updatedAt"];
     [timeQuery findObjectsInBackgroundWithBlock:^(NSArray *runnerLocations, NSError *error) {
@@ -352,7 +373,10 @@ static NSString * const detailSegueName = @"RelationshipView";
             //Add drawing of route line
             [self.mapView removeAnnotations:self.mapView.annotations];
             [self.mapView setShowsUserLocation:YES];
-            [self.mapView addAnnotation:self.runnerPath.firstObject];
+            CLLocation *runnerLoc = self.runnerPath.firstObject;
+            CLLocationCoordinate2D runnerCoor = runnerLoc.coordinate;
+            RunnerAnnotation *runnerAnnotation = [[RunnerAnnotation alloc]initWithTitle:[NSString stringWithFormat:@"%@", runnerTracked.username] Location:runnerCoor RunnerID:runnerTracked.objectId];
+            [self.mapView addAnnotation:runnerAnnotation];
             [self drawLine];
             
             
@@ -360,6 +384,7 @@ static NSString * const detailSegueName = @"RelationshipView";
             double dist = [self.runnerDist.firstObject doubleValue];
             int distInt = (int)dist;
             NSLog(@"runnerDist array: %@", self.runnerDist);
+            self.rangeLabel.hidden = NO;
             self.rangeLabel.text = [NSString stringWithFormat:@"%@ is %d meters away", [runnerTracked objectForKey:@"name"], distInt]; //UI update - Runner is x meters and y minutes away
         }
     }];
@@ -393,165 +418,6 @@ static NSString * const detailSegueName = @"RelationshipView";
     return self.lineView;
 }
 
-//runnerApproaching()
-- (void) runnerApproaching:(PFUser*)runner :(const double)distance {
-    //runner is within 500m
-    NSLog(@"runnerApproaching called");
-    if (runner != nil) {
-        NSLog(@"runner = %@", runner);
-        
-        self.runner = runner;
-        NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
-        NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
-        self.runnerObjId = runnerObjId;
-        
-        int dist = (int)distance;
-        NSString* distString = [NSString stringWithFormat:@"%d", dist];
-        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is %dm away!", dist];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", runnerName, @"name", distString, @"distance", @"approaching", @"runnerStatus", nil];
-        NSLog(@"runnerDict: %@", runnerDict);
-        
-        UIApplicationState state = [UIApplication sharedApplication].applicationState;
-        NSLog(@"application state is %d", state);
-        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-        {
-            // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
-            // userInfo can include the dictionary above called runnerDict
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
-                                                                object:self
-                                                              userInfo:runnerDict];
-            
-            NSLog(@" notifying about %@ from background", self.runnerObjId);
-        }
-        else {
-//            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//            NSLog(@"about to display cheerAlert");
-//            [cheerAlert show];
-        }
-        
-        [self.isCheckingRunners invalidate];
-        NSLog(@"invalidated isCheckingRunners");
-        
-        //setting inner/outer radius and corresponding interval for isTrackingRunner based on current distance
-        NSNumber *radiusOuter;
-        NSNumber *radiusInner;
-        NSNumber *interval;
-//        dist = 75.00;
-        if ((dist <= self.radius6) && (dist > self.radius5)) { //distance isn't live here, it's being fed into runnerApproaching from trackEachSecond
-            radiusOuter = [NSNumber numberWithInt:self.radius6];
-            radiusInner = [NSNumber numberWithInt:self.radius5];
-            interval = [NSNumber numberWithDouble:30.0]; //10
-        }
-        else if ((dist <= self.radius5) && (dist > self.radius4)) {
-            radiusOuter = [NSNumber numberWithInt:self.radius5];
-            radiusInner = [NSNumber numberWithInt:self.radius4];
-            interval = [NSNumber numberWithDouble:30.0]; //5
-        }
-        else if ((dist <= self.radius4) && (dist > self.radius3)) {
-            radiusOuter = [NSNumber numberWithInt:self.radius4];
-            radiusInner = [NSNumber numberWithInt:self.radius3];
-            interval = [NSNumber numberWithDouble:30.0]; //3
-        }
-        else if ((dist <= self.radius3) && (dist > self.radius2)) { //check for beacons
-            radiusOuter = [NSNumber numberWithInt:self.radius3];
-            radiusInner = [NSNumber numberWithInt:self.radius2];
-            interval = [NSNumber numberWithDouble:3.0]; //5 or 3
-        }
-        else if ((dist <= self.radius2) && (dist > self.radius1)) {
-            radiusOuter = [NSNumber numberWithInt:self.radius2];
-            radiusInner = [NSNumber numberWithInt:self.radius1];
-            interval = [NSNumber numberWithDouble:2.0]; //1
-        }
-        else if (dist <= self.radius1) {
-            radiusOuter = [NSNumber numberWithInt:self.radius1];
-            radiusInner = [NSNumber numberWithInt:0];
-            interval = [NSNumber numberWithDouble:0.5]; //1
-        }
-        else if ((dist <= self.radius7) && (dist > self.radius6)) {
-            radiusOuter = [NSNumber numberWithInt:self.radius7];
-            radiusInner = [NSNumber numberWithInt:self.radius6];
-            interval = [NSNumber numberWithDouble:30.0]; //15
-        }
-       
-        
-        NSDictionary *trackESArgs = [NSDictionary dictionaryWithObjectsAndKeys:radiusOuter, @"radiusOuter", radiusInner, @"radiusInner", runner, @"runner", nil];
-        [self.isTrackingRunner invalidate];
-        [self.isUpdatingDistance invalidate];
-        NSLog(@"starting isTrackingRunner with radiusInner: %@ and radiusOuter: %@", radiusInner, radiusOuter);
-        self.isTrackingRunner = [NSTimer scheduledTimerWithTimeInterval:([interval doubleValue]) target:self
-                                                               selector:@selector(trackEachSecond:) userInfo:trackESArgs repeats:YES];
-        self.isUpdatingDistance = [NSTimer scheduledTimerWithTimeInterval:(5.0) target:self
-                                                                             selector:@selector(updateDistance:) userInfo:trackESArgs repeats:YES];
-        
-    }
-    
-    else {
-        NSLog(@"Runner was nil");
-    }
-}
-
-- (void) foundRunner:(PFUser*)runner :(const double)distance{
-    NSLog(@"foundRunner called");
-    if (runner != nil) {
-        NSLog(@"runner = %@", runner);
-        
-        //        [runner fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        //            if(!error) {
-        //                NSLog(@"runner we fetched is %@", self.runner);
-        //
-        //            }
-        //            else {
-        //                NSLog(@"ERR: could not fetch");
-        //            }
-        //        }]; // fetching runner in background is done
-        self.runner = runner;
-        NSString *runnerName = [NSString stringWithFormat:@"%@",[self.runner objectForKey:@"name"]];
-        NSString *runnerObjId = [self.runner valueForKeyPath:@"objectId"];
-        self.runnerObjId = runnerObjId;
-        int dist = (int)distance;
-        NSString* distString = [NSString stringWithFormat:@"%d", dist];
-        NSString *alertMess =  [runnerName stringByAppendingFormat:@" is coming, get ready to cheer!"];
-        NSDictionary *runnerDict = [NSDictionary dictionaryWithObjectsAndKeys:self.runnerObjId, @"user", @"here", @"runnerStatus", runnerName, @"name", distString, @"distance", nil]; //need distance here
-        
-        //saving parse data for when cheerer receives notification and for which runner
-        PFObject *cheererNotification = [PFObject objectWithClassName:@"cheererWasNotified"];
-        [cheererNotification setObject:self.runner forKey:@"runner"];
-        [cheererNotification setObject:self.cheerer forKey:@"cheerer"];
-        NSLog(@"self.runner is %@", self.runner);
-        [cheererNotification saveInBackground];
-        NSLog(@"cheererNotification is %@", cheererNotification);
-        
-        UIApplicationState state = [UIApplication sharedApplication].applicationState;
-        NSLog(@"application state is %d", state);
-        self.cheerButton.hidden = NO;
-        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-        {
-            // This code sends notification to didFinishLaunchingWithOptions in AppDelegate.m
-            // userInfo can include the dictionary above called runnerDict
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DataUpdated"
-                                                                object:self
-                                                              userInfo:runnerDict];
-            
-            NSLog(@" notifying about %@ from background", self.runnerObjId);
-        } else {
-//            UIAlertView *cheerAlert = [[UIAlertView alloc] initWithTitle:alertMess message:alertMess delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//            NSLog(@"about to display cheerAlert");
-//            [cheerAlert show];
-//            //                    self.runnerObjId = runnerObjId;
-//            //                    NSLog(@"%@ in main thread", runnerObjId);
-            
-        }
-        
-        [self.isTrackingRunner invalidate];
-        NSLog(@"invalidated isTrackingRunner");
-//        self.didRunnerExit = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self
-//                                                            selector:@selector(checkRunnerLocation:) userInfo:runner repeats:YES];
-        
-    } else {
-        NSLog(@"Runner was nil");
-    }
-    
-}
 
 -(IBAction)cheerPressed:(id)sender {
     
@@ -568,89 +434,6 @@ static NSString * const detailSegueName = @"RelationshipView";
 //    }];
 }
 
-- (void)checkRunnerLocation:(PFUser*)runner {
-    //get runner to cheerer id
-    //query parse for distance
-    NSLog(@"checkRunnerLocation called");
-    NSLog(@"timer is passing the username: %@", self.runner.username);
-    if (self.runner == nil) {
-        NSLog(@"runner is nil");
-    }
-    else {
-        NSLog(@"runner found, name is %@", self.runner.username);
-        //PFQuery *query = [PFQuery queryWithClassName:@"User"];
-        // [query whereKey:@"objectId" equalTo:runner];
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"RunnerLocation"];
-        [query orderByDescending: @"updatedAt"];
-        //convert user key to string instead of pointer
-        [query whereKey:@"user" equalTo:self.runner];
-        
-        
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                // The find succeeded.
-                // Do something with the found objects
-                NSString *objId = [objects.firstObject valueForKeyPath:@"objectId"];
-                
-                NSLog(@"findingRunner objId == %@", objId);
-                PFGeoPoint *point = [objects.firstObject valueForKeyPath:@"location"];
-                //NSLog(@"%@", objects.firstObject);
-                //NSLog(objects);
-                CLLocation *runnerLoc = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude]; //hardcode runner data here to test on simulator
-                NSLog(@"Lat : %f", point.latitude);
-                NSLog(@"Lon : %f", point.longitude);
-                if ( (point.latitude != 0) && (point.longitude != 0)){
-                    CLLocationDistance dist = [runnerLoc distanceFromLocation:self.locations]; //in meters
-                    NSLog(@"dist : %f", dist);
-                    if (dist > self.radius2){
-                        NSLog(@"runner exited %f!", self.radius2);
-                        [self.didRunnerExit invalidate];
-                       // [self.hapticTimer invalidate];
-                    }
-                }
-            } else {
-                // Log details of the failure
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
-}
-
-- (void)setVibrations{
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    NSLog(@"vibrate");
-}
-
-
-//location
--(void)beaconManager:(ESTBeaconManager *)manager
-     didRangeBeacons:(NSArray *)beacons
-            inRegion:(CLBeaconRegion *)region
-{
-    NSLog(@"beacon count: %lu", (unsigned long)beacons.count);
-    if([beacons count] > 0)
-    {
-        // beacon array is sorted based on distance
-        // closest beacon is the first one
-        CLBeacon* closestBeacon = [beacons objectAtIndex:0];
-        NSNumber *distance = [NSNumber numberWithDouble: closestBeacon.accuracy];
-        NSLog(@"beacon distance: %f", closestBeacon.accuracy);
-        //notify with primer
-        PFQuery *query = [PFUser query];
-        PFUser *runner = (PFUser *)[query getObjectWithId:self.runnerObjId];
-        NSLog(@"sending primer for runner %@", runner);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self foundRunner:runner :[distance doubleValue]];
-        });
-//        [self.isTrackingRunner invalidate];
-    }
-    else {
-        NSLog(@"Could not find beacon, but moving on to RVC using GPS tracking anway");
-        self.cheerButton.hidden = NO;
-    }
-}
-
 
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     NSLog(@"button clicked!!!!");
@@ -658,7 +441,7 @@ static NSString * const detailSegueName = @"RelationshipView";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    NSLog(@"%d", buttonIndex);
+    NSLog(@"%ld", (long)buttonIndex);
     if ([buttonTitle isEqualToString:@"Cheer!"]) {
         NSLog(@"the button is equal to cheer");
         
@@ -690,6 +473,7 @@ static NSString * const detailSegueName = @"RelationshipView";
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
     self.mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, self.radius7*2.5, self.radius7*2.5);
+    [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView setShowsUserLocation:YES];
     [self.mapView setDelegate:self];
 }
@@ -708,23 +492,9 @@ static NSString * const detailSegueName = @"RelationshipView";
     NSLog(@"CheererLocation is %@", loc);
     
     [cheerLocation saveInBackground];
-    /**
-     if (!checkQueue){
-     checkQueue = dispatch_queue_create("com.crowdcheer.runnerCheck", NULL);
-     }
-     */
     
 }
 
-- (void)resizeMap {
-//zoom map to include runner route
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    //[super viewWillDisappear:];
-    [self.isCheckingRunners invalidate];
-}
 
 - (void)showAlarm:(NSNotification *)notification {
     // showAlarm gets called from notification that is registered in didFinishLaunchingWithOptions at the top of this class
@@ -749,18 +519,8 @@ static NSString * const detailSegueName = @"RelationshipView";
         NSLog(@"==============Segueing with %@===============", self.runnerObjId);
     }
     else {
-         NSLog(@"==============Segue ERROR===============");
+         NSLog(@"==============SEGUE ERROR===============");
     }
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
