@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F70F522581F4D2823391BC8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B02C0ADC9A925398130FD734 /* libPods.a */; };
+		CFCF3C3B1BE10FB30085DBB6 /* users.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCF3C3A1BE10FB30085DBB6 /* users.swift */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
 		E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23AEFB11B54239100FB6B78 /* AppDelegate.m */; };
@@ -88,6 +89,8 @@
 		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B02C0ADC9A925398130FD734 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFCF3C391BE10FB30085DBB6 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
+		CFCF3C3A1BE10FB30085DBB6 /* users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = users.swift; path = CrowdCheer/users.swift; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E23AEFB11B54239100FB6B78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
@@ -280,6 +283,7 @@
 				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
 				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
 				E2CA51861A89D51100C2BB03 /* MathController.h */,
+				CFCF3C3A1BE10FB30085DBB6 /* users.swift */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
 				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
@@ -296,6 +300,7 @@
 				E2CA51001A88677A00C2BB03 /* CrowdCheerTests */,
 				E2CA50DF1A88677A00C2BB03 /* Products */,
 				3D8FEAA639501C75D3CF23DB /* Pods */,
+				CFCF3C391BE10FB30085DBB6 /* CrowdCheer-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -428,6 +433,7 @@
 		E2CA50D61A88677A00C2BB03 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Delta Lab";
 				TargetAttributes = {
@@ -559,6 +565,7 @@
 				E2CA518B1A89E0A100C2BB03 /* MulticolorPolylineSegment.m in Sources */,
 				E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */,
 				E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */,
+				CFCF3C3B1BE10FB30085DBB6 /* users.swift in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */,
 				E2CA510F1A886BE900C2BB03 /* Location.m in Sources */,
@@ -688,6 +695,7 @@
 			baseConfigurationReference = 91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -703,6 +711,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -712,6 +722,7 @@
 			baseConfigurationReference = 13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -727,6 +738,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
