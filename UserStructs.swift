@@ -8,25 +8,19 @@
 
 import Foundation
 
-public protocol tracking {
-    func startLocationUpdates()
-    func trackUser()
-    func locationManager()
-}
-
 struct runner: tracking {
     func startLocationUpdates(){
     }
-    func trackUser() {
+    func trackUser(self) {
     }
     func locationManager(){
     }
 }
 
-struct cheerer {
+struct cheerer: tracking {
     func startLocationUpdates(){
     }
-    func trackUser() {
+    func trackUser(self) {
     }
     func locationManager(){
     }
