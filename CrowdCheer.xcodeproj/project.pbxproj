@@ -726,7 +726,7 @@
 					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/CrowdCheer/Estimote\\iOS\\SDK/EstimoteSDK",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
@@ -754,7 +754,7 @@
 					"/Users/Leesha/Dropbox/EECS/Delta\\Lab/CrowdCheer/Estimote\\iOS\\SDK/EstimoteSDK",
 				);
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";

@@ -12,7 +12,7 @@ public protocol Tracking {
     func startLocationUpdates()
     func trackUser()
     func locationManager()
-    struct position
+//    struct position
 }
 
 //this tracking delegate would be like a start tracking all runners/cheerers

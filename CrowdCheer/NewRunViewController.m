@@ -15,7 +15,6 @@
 #import "Location.h"
 #import <Parse/Parse.h>
 #import <Parse/PFGeoPoint.h>
-#import "CrowdCheer-Swift.h"
 
 static NSString * const detailSegueName = @"RunDetails";
 
