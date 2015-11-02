@@ -7,7 +7,7 @@
 //
 
 import Foundation
-struct runner: tracking {
+struct runner: Tracking {
     var locationManager: CLLocationManager
     var timer: NSTimer
     var runnerPath: NSMutableArray
@@ -33,11 +33,11 @@ struct runner: tracking {
     
     func eachSecond() {
         let thisUser: PFUser = PFUser.currentUser()
-        self.saveRunnerLoc(thisUser)
+        self.saveUserLoc(thisUser)
         self.runnerPath.addObject(self.locationManager.location!)
     }
     
-    func saveRunnerLoc(runner: PFUser) {
+    func saveUserLoc(runner: PFUser) {
         var loc: PFGeoPoint = PFGeoPoint.geoPointWithLocation(self.locations.lastObject)
         var runnerLocation: PFObject = PFObject(className: "RunnerLocation")
         runnerLocation.setObject(NSDate(), forKey: "time")
@@ -69,7 +69,11 @@ struct runner: tracking {
     }
 }
 
-struct cheerer: tracking {
+struct cheerer: Tracking {
+    var locationManager: CLLocationManager
+    var timer: NSTimer
+    
+    
     func startLocationUpdates() {
         if self.locationManager == nil {
             self.locationManager = CLLocationManager()
@@ -89,10 +93,10 @@ struct cheerer: tracking {
     
     func eachSecond() {
         let thisUser: PFUser = PFUser.currentUser()
-        self.saveCheererLoc(thisUser)
+        self.saveUserLoc(thisUser)
     }
     
-    func saveCheererLoc(runner: PFUser) {
+    func saveUserLoc(runner: PFUser) {
         var loc: PFGeoPoint = PFGeoPoint.geoPointWithLocation(self.locations.lastObject)
         var cheererLocation: PFObject = PFObject.objectWithClassName("CheererLocation")
         cheererLocation.setObject(NSDate(), forKey: "time")

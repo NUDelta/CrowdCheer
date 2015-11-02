@@ -12,6 +12,8 @@ public protocol Tracking {
     func startLocationUpdates()
     func trackUser()
     func locationManager()
+    func saveUserLocation()
+    func eachSecond()
 //    struct position
 }
 
