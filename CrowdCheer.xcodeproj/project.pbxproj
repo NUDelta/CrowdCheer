@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
+		CF33CEFA1BE9E2190020C5BE /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */; };
+		CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */; };
+		CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242C1BE9F206004287AD /* RaceViewModel.swift */; };
+		CF8624301BE9F21A004287AD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242F1BE9F21A004287AD /* Tracking.swift */; };
+		CF8624321BE9F24B004287AD /* UserStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8624311BE9F24B004287AD /* UserStructs.swift */; };
+		CF8624341BE9F258004287AD /* Cheering.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8624331BE9F258004287AD /* Cheering.swift */; };
+		CF8624371BE9F27F004287AD /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8624361BE9F27F004287AD /* MulticolorPolylineSegment.m */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
 		E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23AEFB11B54239100FB6B78 /* AppDelegate.m */; };
@@ -93,6 +100,15 @@
 /* Begin PBXFileReference section */
 		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		CF33CEF81BE9E2190020C5BE /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
+		CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
+		CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceMapProtocol.swift; path = CrowdCheer/RaceMapProtocol.swift; sourceTree = "<group>"; };
+		CF86242C1BE9F206004287AD /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/RaceViewModel.swift; sourceTree = "<group>"; };
+		CF86242F1BE9F21A004287AD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tracking.swift; path = CrowdCheer/Tracking.swift; sourceTree = "<group>"; };
+		CF8624311BE9F24B004287AD /* UserStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStructs.swift; path = CrowdCheer/UserStructs.swift; sourceTree = "<group>"; };
+		CF8624331BE9F258004287AD /* Cheering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cheering.swift; path = CrowdCheer/Cheering.swift; sourceTree = "<group>"; };
+		CF8624351BE9F27F004287AD /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MulticolorPolylineSegment.h; path = CrowdCheer/MulticolorPolylineSegment.h; sourceTree = "<group>"; };
+		CF8624361BE9F27F004287AD /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MulticolorPolylineSegment.m; path = CrowdCheer/MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E23AEFB11B54239100FB6B78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
@@ -289,12 +305,21 @@
 				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
 				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
 				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
+				CF8624331BE9F258004287AD /* Cheering.swift */,
+				CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */,
+				CF86242C1BE9F206004287AD /* RaceViewModel.swift */,
+				CF86242F1BE9F21A004287AD /* Tracking.swift */,
 				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
+				CF8624311BE9F24B004287AD /* UserStructs.swift */,
 				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
 				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
 				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				CF8624351BE9F27F004287AD /* MulticolorPolylineSegment.h */,
+				CF8624361BE9F27F004287AD /* MulticolorPolylineSegment.m */,
 				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
 				E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */,
+				CF33CEF81BE9E2190020C5BE /* MulticolorPolylineSegment.h */,
+				CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */,
 				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
 				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
 				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
@@ -587,12 +612,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29375831BE7D225003FC150 /* Tracking.swift in Sources */,
+				CF33CEFA1BE9E2190020C5BE /* MulticolorPolylineSegment.m in Sources */,
+				CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */,
 				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				E25A11D81AB1D42F003FFA73 /* DefaultSettingsViewController.m in Sources */,
+				CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */,
 				E25A11BA1AB1CDF2003FFA73 /* RoleViewController.m in Sources */,
+				CF8624321BE9F24B004287AD /* UserStructs.swift in Sources */,
 				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
 				E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */,
 				E29375821BE7D225003FC150 /* RaceViewModel.swift in Sources */,
+				CF8624301BE9F21A004287AD /* Tracking.swift in Sources */,
 				E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */,
@@ -604,9 +634,11 @@
 				E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */,
 				E29375841BE7D225003FC150 /* UserStructs.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
+				CF8624371BE9F27F004287AD /* MulticolorPolylineSegment.m in Sources */,
 				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
 				E29375811BE7D225003FC150 /* RaceMapProtocol.swift in Sources */,
+				CF8624341BE9F258004287AD /* Cheering.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,7 +777,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -773,7 +805,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7b5d17f0-86e5-4701-9684-04d2ac050c69";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -782,7 +814,6 @@
 		E2CA510B1A88677A00C2BB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -801,7 +832,6 @@
 		E2CA510C1A88677A00C2BB03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
