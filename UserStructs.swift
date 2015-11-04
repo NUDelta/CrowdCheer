@@ -8,23 +8,23 @@
 
 import Foundation
 struct runner: Tracking {
-    var locationManager: CLLocationManager
+    var locationMgr: CLLocationManager!
     var timer: NSTimer
-    var runnerPath: NSMutableArray
+    var userPath: NSMutableArray
     
     
     
-    func startLocationUpdates(){
-        if self.locationManager == nil {
-            self.locationManager = CLLocationManager()
+    func startLocationUpdates() {
+        if locationMgr == nil {
+            locationMgr = CLLocationManager()
         }
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.activityType = CLActivityType.Fitness
-        self.locationManager.distanceFilter = 1
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1
+        locationMgr.requestWhenInUseAuthorization()
+        locationMgr.requestAlwaysAuthorization()
+        locationMgr.startUpdatingLocation()
     }
     
     func trackUser(user: runner) {
@@ -33,26 +33,26 @@ struct runner: Tracking {
     
     func eachSecond() {
         let thisUser: PFUser = PFUser.currentUser()
-        self.saveUserLoc(thisUser)
-        self.runnerPath.addObject(self.locationManager.location!)
+//        self.saveUserLoc(thisUser)
+        self.userPath.addObject(self.locationManager.location!)
     }
     
-    func saveUserLoc(runner: PFUser) {
-        var loc: PFGeoPoint = PFGeoPoint.geoPointWithLocation(self.locations.lastObject)
-        var runnerLocation: PFObject = PFObject(className: "RunnerLocation")
-        runnerLocation.setObject(NSDate(), forKey: "time")
-        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime: self.seconds)
-        var runTime: Int = NSNumber.numberWithInt(self.seconds)
-        var distance: Int = NSNumber.numberWithFloat(self.distance)
-        runnerLocation.setObject(loc, forKey: "location")
-        runnerLocation.setObject(runner, forKey: "user")
-        runnerLocation.setObject(self.pace, forKey: "pace")
-        runnerLocation.setObject(distance, forKey: "distance")
-        runnerLocation.setObject(runTime, forKey: "runTime")
-        runnerLocation.saveInBackground()
-    }
+//    func saveUserLoc(runner: PFUser) {
+//        var loc: PFGeoPoint = PFGeoPoint.geoPointWithLocation(self.locations.lastObject)
+//        var runnerLocation: PFObject = PFObject(className: "RunnerLocation")
+//        runnerLocation.setObject(NSDate(), forKey: "time")
+//        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime: self.seconds)
+//        var runTime: Int = NSNumber.numberWithInt(self.seconds)
+//        var distance: Int = NSNumber.numberWithFloat(self.distance)
+//        runnerLocation.setObject(loc, forKey: "location")
+//        runnerLocation.setObject(runner, forKey: "user")
+//        runnerLocation.setObject(self.pace, forKey: "pace")
+//        runnerLocation.setObject(distance, forKey: "distance")
+//        runnerLocation.setObject(runTime, forKey: "runTime")
+//        runnerLocation.saveInBackground()
+//    }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [Any]) {
         for newLocation: CLLocation in locations {
             if newLocation.horizontalAccuracy < 0 {
                 return

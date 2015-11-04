@@ -10,11 +10,15 @@ import Foundation
 
 public protocol Tracking {
     func startLocationUpdates()
-    func trackUser()
-    func locationManager()
-    func saveUserLocation()
+    func trackUser(delegate: Self)
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [Any])
+//    func saveUserLocation()
     func eachSecond()
 //    struct position
+    
+    var locationMgr: CLLocationManager {get set}
+    var timer: NSTimer {get set}
+    var userPath: NSMutableArray {get set}
 }
 
 //this tracking delegate would be like a start tracking all runners/cheerers
