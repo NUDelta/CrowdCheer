@@ -126,7 +126,7 @@
 		E29375EC1BEBF20F003FC150 /* RelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RelationshipViewController.m; path = CrowdCheer/Views/RelationshipViewController.m; sourceTree = "<group>"; };
 		E29375ED1BEBF20F003FC150 /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoleViewController.h; path = CrowdCheer/Views/RoleViewController.h; sourceTree = "<group>"; };
 		E29375EE1BEBF20F003FC150 /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoleViewController.m; path = CrowdCheer/Views/RoleViewController.m; sourceTree = "<group>"; };
-		E29FA21C1BE3F42C007B1D3C /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
+		E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CrowdCheer-Bridging-Header.h"; path = "CrowdCheer/CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -299,7 +299,7 @@
 				CF86242C1BE9F206004287AD /* RaceViewModel.swift */,
 				CF86242F1BE9F21A004287AD /* Tracking.swift */,
 				CF8624311BE9F24B004287AD /* UserStructs.swift */,
-				E29FA21C1BE3F42C007B1D3C /* CrowdCheer-Bridging-Header.h */,
+				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
 				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
 				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
 				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
