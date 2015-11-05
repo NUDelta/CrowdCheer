@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
-		CF33CEFA1BE9E2190020C5BE /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */; };
 		CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */; };
 		CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242C1BE9F206004287AD /* RaceViewModel.swift */; };
 		CF8624301BE9F21A004287AD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242F1BE9F21A004287AD /* Tracking.swift */; };
@@ -31,11 +30,6 @@
 		E25A11D81AB1D42F003FFA73 /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */; };
 		E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
-		E29375801BE7D225003FC150 /* Cheering.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293757B1BE7D225003FC150 /* Cheering.swift */; };
-		E29375811BE7D225003FC150 /* RaceMapProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293757C1BE7D225003FC150 /* RaceMapProtocol.swift */; };
-		E29375821BE7D225003FC150 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293757D1BE7D225003FC150 /* RaceViewModel.swift */; };
-		E29375831BE7D225003FC150 /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293757E1BE7D225003FC150 /* Tracking.swift */; };
-		E29375841BE7D225003FC150 /* UserStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293757F1BE7D225003FC150 /* UserStructs.swift */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
 		E2AD20161A9A97E500B1BEFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */; };
@@ -52,7 +46,6 @@
 		E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E61A9E6808007EC795 /* Parse.framework */; };
 		E2CA50E41A88677A00C2BB03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E31A88677A00C2BB03 /* main.m */; };
 		E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E81A88677A00C2BB03 /* CrowdCheer.xcdatamodeld */; };
-		E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */; };
 		E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2CA50F11A88677A00C2BB03 /* Main.storyboard */; };
 		E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CA50F41A88677A00C2BB03 /* Images.xcassets */; };
 		E2CA50F81A88677A00C2BB03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CA50F61A88677A00C2BB03 /* LaunchScreen.xib */; };
@@ -100,8 +93,6 @@
 /* Begin PBXFileReference section */
 		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		CF33CEF81BE9E2190020C5BE /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
-		CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 		CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceMapProtocol.swift; path = CrowdCheer/RaceMapProtocol.swift; sourceTree = "<group>"; };
 		CF86242C1BE9F206004287AD /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/RaceViewModel.swift; sourceTree = "<group>"; };
 		CF86242F1BE9F21A004287AD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tracking.swift; path = CrowdCheer/Tracking.swift; sourceTree = "<group>"; };
@@ -132,11 +123,6 @@
 		E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
 		E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
-		E293757B1BE7D225003FC150 /* Cheering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cheering.swift; sourceTree = "<group>"; };
-		E293757C1BE7D225003FC150 /* RaceMapProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceMapProtocol.swift; sourceTree = "<group>"; };
-		E293757D1BE7D225003FC150 /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
-		E293757E1BE7D225003FC150 /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracking.swift; sourceTree = "<group>"; };
-		E293757F1BE7D225003FC150 /* UserStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStructs.swift; sourceTree = "<group>"; };
 		E29FA21C1BE3F42C007B1D3C /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -158,8 +144,6 @@
 		E2CA50E31A88677A00C2BB03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E2CA50E51A88677A00C2BB03 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CrowdCheer/AppDelegate.h; sourceTree = "<group>"; };
 		E2CA50E91A88677A00C2BB03 /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
-		E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = CrowdCheer/DetailViewController.h; sourceTree = "<group>"; };
-		E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = CrowdCheer/DetailViewController.m; sourceTree = "<group>"; };
 		E2CA50F21A88677A00C2BB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2CA50F41A88677A00C2BB03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E2CA50F71A88677A00C2BB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -253,6 +237,31 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E29375851BEBC784003FC150 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
+				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
+				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
+				E245B6E61ADC544700432C61 /* CheererStartViewController.h */,
+				E245B6E71ADC544700432C61 /* CheererStartViewController.m */,
+				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
+				E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */,
+				E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */,
+				E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */,
+				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
+				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
+				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
+				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
+				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
+				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
+				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
+				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		E2AD20071A9A96B400B1BEFE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,8 +272,6 @@
 				E2ADB5D81A9D0A72007EC795 /* Social.framework */,
 				E2ADB5D61A9D0A63007EC795 /* Accounts.framework */,
 				E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */,
-				E2AD200F1A9A97E400B1BEFE /* libsqlite3.dylib */,
-				E2AD20101A9A97E400B1BEFE /* libz.dylib */,
 				E2AD20111A9A97E400B1BEFE /* MobileCoreServices.framework */,
 				E2AD20121A9A97E400B1BEFE /* QuartzCore.framework */,
 				E2AD20131A9A97E400B1BEFE /* Security.framework */,
@@ -280,6 +287,8 @@
 				E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */,
 				E2CA51741A8928AA00C2BB03 /* GLKit.framework */,
 				F7AAC48DA163158EAFEBF0D7 /* Pods.framework */,
+				E2AD20101A9A97E400B1BEFE /* libz.dylib */,
+				E2AD200F1A9A97E400B1BEFE /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -287,45 +296,19 @@
 		E2CA50D51A88677A00C2BB03 = {
 			isa = PBXGroup;
 			children = (
-				E293757B1BE7D225003FC150 /* Cheering.swift */,
-				E293757C1BE7D225003FC150 /* RaceMapProtocol.swift */,
-				E293757D1BE7D225003FC150 /* RaceViewModel.swift */,
-				E293757E1BE7D225003FC150 /* Tracking.swift */,
-				E293757F1BE7D225003FC150 /* UserStructs.swift */,
-				E29FA21C1BE3F42C007B1D3C /* CrowdCheer-Bridging-Header.h */,
-				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
-				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
-				E245B6E61ADC544700432C61 /* CheererStartViewController.h */,
-				E245B6E71ADC544700432C61 /* CheererStartViewController.m */,
-				E25A11B41AB1CDBC003FFA73 /* DefaultSettingsViewController.h */,
-				E25A11D71AB1D42F003FFA73 /* DefaultSettingsViewController.m */,
-				E25A11B61AB1CDBC003FFA73 /* RoleViewController.h */,
-				E25A11B71AB1CDBC003FFA73 /* RoleViewController.m */,
-				E2CA517F1A892F7000C2BB03 /* NewRunViewController.h */,
-				E2CA51801A892F7000C2BB03 /* NewRunViewController.m */,
-				E2ADB5D31A9D091C007EC795 /* MySignUpViewController.h */,
-				E2ADB5D41A9D091C007EC795 /* MySignUpViewController.m */,
+				E29375851BEBC784003FC150 /* Views */,
 				CF8624331BE9F258004287AD /* Cheering.swift */,
 				CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */,
 				CF86242C1BE9F206004287AD /* RaceViewModel.swift */,
 				CF86242F1BE9F21A004287AD /* Tracking.swift */,
-				E25A11A51AB10248003FFA73 /* CommonalityViewController.h */,
 				CF8624311BE9F24B004287AD /* UserStructs.swift */,
-				E25A11A61AB10248003FFA73 /* CommonalityViewController.m */,
-				E25A11A71AB10248003FFA73 /* MotivatorViewController.h */,
-				E25A11A81AB10248003FFA73 /* MotivatorViewController.m */,
+				E29FA21C1BE3F42C007B1D3C /* CrowdCheer-Bridging-Header.h */,
+				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
+				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
 				CF8624351BE9F27F004287AD /* MulticolorPolylineSegment.h */,
 				CF8624361BE9F27F004287AD /* MulticolorPolylineSegment.m */,
 				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
 				E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */,
-				CF33CEF81BE9E2190020C5BE /* MulticolorPolylineSegment.h */,
-				CF33CEF91BE9E2190020C5BE /* MulticolorPolylineSegment.m */,
-				E25A11A91AB10248003FFA73 /* RelationshipViewController.h */,
-				E25A11AA1AB10248003FFA73 /* RelationshipViewController.m */,
-				E2CA517C1A892E8000C2BB03 /* HomeViewController.h */,
-				E2CA517D1A892E8000C2BB03 /* HomeViewController.m */,
-				E2CA50EE1A88677A00C2BB03 /* DetailViewController.h */,
-				E2CA50EF1A88677A00C2BB03 /* DetailViewController.m */,
 				E2CA51861A89D51100C2BB03 /* MathController.h */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
 				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
@@ -611,33 +594,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E29375831BE7D225003FC150 /* Tracking.swift in Sources */,
-				CF33CEFA1BE9E2190020C5BE /* MulticolorPolylineSegment.m in Sources */,
 				CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */,
 				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				E25A11D81AB1D42F003FFA73 /* DefaultSettingsViewController.m in Sources */,
 				CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */,
 				E25A11BA1AB1CDF2003FFA73 /* RoleViewController.m in Sources */,
 				CF8624321BE9F24B004287AD /* UserStructs.swift in Sources */,
-				E2CA50F01A88677A00C2BB03 /* DetailViewController.m in Sources */,
 				E25A11AD1AB10248003FFA73 /* RelationshipViewController.m in Sources */,
-				E29375821BE7D225003FC150 /* RaceViewModel.swift in Sources */,
 				CF8624301BE9F21A004287AD /* Tracking.swift in Sources */,
 				E245B6E81ADC544700432C61 /* CheererStartViewController.m in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E25A11AC1AB10248003FFA73 /* MotivatorViewController.m in Sources */,
-				E29375801BE7D225003FC150 /* Cheering.swift in Sources */,
 				E25A11AB1AB10248003FFA73 /* CommonalityViewController.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E2ADB5D51A9D091C007EC795 /* MySignUpViewController.m in Sources */,
 				E2CA517E1A892E8000C2BB03 /* HomeViewController.m in Sources */,
 				E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */,
-				E29375841BE7D225003FC150 /* UserStructs.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				CF8624371BE9F27F004287AD /* MulticolorPolylineSegment.m in Sources */,
 				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E2CA51811A892F7000C2BB03 /* NewRunViewController.m in Sources */,
-				E29375811BE7D225003FC150 /* RaceMapProtocol.swift in Sources */,
 				CF8624341BE9F258004287AD /* Cheering.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
