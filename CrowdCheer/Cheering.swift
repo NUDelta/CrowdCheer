@@ -8,11 +8,9 @@
 
 import Foundation
 
-protocol Cheering{
-    
-}
-
-protocol CheeringDelegate {
-    func startCheering()
-    func stopCheering()
+struct cheer {
+    func recordAudio()
+    var time
+    var runner
+    var cheerer
 }

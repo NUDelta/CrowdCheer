@@ -8,10 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
-		CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */; };
 		CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242C1BE9F206004287AD /* RaceViewModel.swift */; };
 		CF8624301BE9F21A004287AD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242F1BE9F21A004287AD /* Tracking.swift */; };
-		CF8624321BE9F24B004287AD /* UserStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8624311BE9F24B004287AD /* UserStructs.swift */; };
 		CF8624341BE9F258004287AD /* Cheering.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8624331BE9F258004287AD /* Cheering.swift */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
@@ -23,6 +21,11 @@
 		E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */; };
 		E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
+		E28E68B21BFC33D2008C6A0A /* Monitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B11BFC33D2008C6A0A /* Monitoring.swift */; };
+		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
+		E28E68B81BFC34B0008C6A0A /* CheeringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B71BFC34B0008C6A0A /* CheeringViewController.swift */; };
+		E28E68BA1BFC34DA008C6A0A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B91BFC34DA008C6A0A /* ProfileViewController.swift */; };
+		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
 		E29375DE1BEBF1BC003FC150 /* MotivatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */; };
 		E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29375E01BEBF20F003FC150 /* CheererStartViewController.m */; };
 		E29375F01BEBF20F003FC150 /* CommonalityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29375E21BEBF20F003FC150 /* CommonalityViewController.m */; };
@@ -92,10 +95,8 @@
 /* Begin PBXFileReference section */
 		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceMapProtocol.swift; path = CrowdCheer/RaceMapProtocol.swift; sourceTree = "<group>"; };
 		CF86242C1BE9F206004287AD /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/RaceViewModel.swift; sourceTree = "<group>"; };
 		CF86242F1BE9F21A004287AD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tracking.swift; path = CrowdCheer/Tracking.swift; sourceTree = "<group>"; };
-		CF8624311BE9F24B004287AD /* UserStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStructs.swift; path = CrowdCheer/UserStructs.swift; sourceTree = "<group>"; };
 		CF8624331BE9F258004287AD /* Cheering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cheering.swift; path = CrowdCheer/Cheering.swift; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
@@ -108,6 +109,11 @@
 		E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
 		E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
+		E28E68B11BFC33D2008C6A0A /* Monitoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Monitoring.swift; path = CrowdCheer/Monitoring.swift; sourceTree = "<group>"; };
+		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
+		E28E68B71BFC34B0008C6A0A /* CheeringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheeringViewController.swift; path = CrowdCheer/Views/CheeringViewController.swift; sourceTree = "<group>"; };
+		E28E68B91BFC34DA008C6A0A /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = CrowdCheer/Views/ProfileViewController.swift; sourceTree = "<group>"; };
+		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
 		E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotivatorViewController.h; path = CrowdCheer/Views/MotivatorViewController.h; sourceTree = "<group>"; };
 		E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MotivatorViewController.m; path = CrowdCheer/Views/MotivatorViewController.m; sourceTree = "<group>"; };
 		E29375DF1BEBF20F003FC150 /* CheererStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheererStartViewController.h; path = CrowdCheer/Views/CheererStartViewController.h; sourceTree = "<group>"; };
@@ -255,6 +261,9 @@
 				E29375EE1BEBF20F003FC150 /* RoleViewController.m */,
 				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
 				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
+				E28E68B71BFC34B0008C6A0A /* CheeringViewController.swift */,
+				E28E68B91BFC34DA008C6A0A /* ProfileViewController.swift */,
+				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -295,10 +304,10 @@
 			children = (
 				E29375851BEBC784003FC150 /* Views */,
 				CF8624331BE9F258004287AD /* Cheering.swift */,
-				CF86242B1BE9F206004287AD /* RaceMapProtocol.swift */,
 				CF86242C1BE9F206004287AD /* RaceViewModel.swift */,
 				CF86242F1BE9F21A004287AD /* Tracking.swift */,
-				CF8624311BE9F24B004287AD /* UserStructs.swift */,
+				E28E68B31BFC341A008C6A0A /* Users.swift */,
+				E28E68B11BFC33D2008C6A0A /* Monitoring.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
 				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
 				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
@@ -590,18 +599,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29375F51BEBF20F003FC150 /* RelationshipViewController.m in Sources */,
-				CF86242D1BE9F206004287AD /* RaceMapProtocol.swift in Sources */,
 				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */,
-				CF8624321BE9F24B004287AD /* UserStructs.swift in Sources */,
+				E28E68B81BFC34B0008C6A0A /* CheeringViewController.swift in Sources */,
 				E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */,
 				CF8624301BE9F21A004287AD /* Tracking.swift in Sources */,
+				E28E68BA1BFC34DA008C6A0A /* ProfileViewController.swift in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E29375F21BEBF20F003FC150 /* HomeViewController.m in Sources */,
+				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
 				E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */,
+				E28E68B21BFC33D2008C6A0A /* Monitoring.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E29375F31BEBF20F003FC150 /* MySignUpViewController.m in Sources */,
+				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
 				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E29375F01BEBF20F003FC150 /* CommonalityViewController.m in Sources */,
 				E29375F61BEBF20F003FC150 /* RoleViewController.m in Sources */,
