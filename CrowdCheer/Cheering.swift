@@ -1,5 +1,5 @@
 //
-//  cheering.swift
+//  Cheering.swift
 //  CrowdCheer
 //
 //  Created by Christina Kim on 10/30/15.
@@ -10,7 +10,10 @@ import Foundation
 
 struct cheer {
     func recordAudio()
+    var runnerAudio
+    var cheererAudio
     var time
     var runner
     var cheerer
+    var location
 }

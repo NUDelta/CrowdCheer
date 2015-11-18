@@ -9,13 +9,25 @@
 import Foundation
 
 public protocol User {
-    
+    var name: String
+    var profilePic
+    var role: String
 }
 
 struct runner: User {
-    
+    var name: String
+    var profilePic
+    var role: String
+    var beacon: String
+    var bibNumber: Int
+    var racePic
+    var targetTime
+    var targetPace
 }
 
 struct cheerer: User {
-    
+    var name: String
+    var profilePic
+    var role: String
+    var targetRunner
 }

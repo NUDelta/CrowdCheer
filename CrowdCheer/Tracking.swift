@@ -1,5 +1,5 @@
 //
-//  runner.swift
+//  Runner.swift
 //  CrowdCheer
 //
 //  Created by Christina Kim on 10/30/15.
@@ -9,16 +9,15 @@
 import Foundation
 
 public protocol Tracking {
-    func startLocationUpdates()
-    func trackUser(delegate: Self)
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [Any])
-//    func saveUserLocation()
-    func eachSecond()
-//    struct position
+    func initLocationManager()
+    func initMapView()
+    func locationManager()
+    func mapView()
     
-    var locationMgr: CLLocationManager {get set}
-    var timer: NSTimer {get set}
-    var userPath: NSMutableArray {get set}
+    var locations: [CLLocation]
+    var distance: Double
+    var pace: NSTimeInterval
+    var duration: NSTimeInterval
 }
 
 //this tracking delegate would be like a start tracking all runners/cheerers

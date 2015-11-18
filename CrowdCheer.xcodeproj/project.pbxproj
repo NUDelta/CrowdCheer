@@ -261,9 +261,9 @@
 				E29375EE1BEBF20F003FC150 /* RoleViewController.m */,
 				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
 				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
-				E28E68B71BFC34B0008C6A0A /* CheeringViewController.swift */,
 				E28E68B91BFC34DA008C6A0A /* ProfileViewController.swift */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
+				E28E68B71BFC34B0008C6A0A /* CheeringViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
