@@ -9,11 +9,13 @@
 import Foundation
 
 struct cheer {
-    func recordAudio()
-    var runnerAudio
-    var cheererAudio
-    var time
-    var runner
-    var cheerer
-    var location
+    func recordAudio() {
+        
+    }
+    var runnerAudio: String
+    var cheererAudio: String
+    var time: NSTimeInterval
+    var runner: String
+    var cheerer: String
+    var location: CLLocation
 }

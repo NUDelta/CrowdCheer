@@ -14,10 +14,10 @@ public protocol Tracking {
     func locationManager()
     func mapView()
     
-    var locations: [CLLocation]
-    var distance: Double
-    var pace: NSTimeInterval
-    var duration: NSTimeInterval
+    var locations: [CLLocation] {get set}
+    var distance: Double {get set}
+    var pace: NSTimeInterval {get set}
+    var duration: NSTimeInterval {get set}
 }
 
 //this tracking delegate would be like a start tracking all runners/cheerers

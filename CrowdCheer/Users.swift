@@ -9,25 +9,25 @@
 import Foundation
 
 public protocol User {
-    var name: String
-    var profilePic
-    var role: String
+    var name: String {get set}
+    var profilePic: String {get set}
+    var role: String {get set}
 }
 
 struct runner: User {
     var name: String
-    var profilePic
+    var profilePic: String
     var role: String
     var beacon: String
     var bibNumber: Int
-    var racePic
-    var targetTime
-    var targetPace
+    var racePic: String
+    var targetTime: NSTimeInterval
+    var targetPace: NSTimeInterval
 }
 
 struct cheerer: User {
     var name: String
-    var profilePic
+    var profilePic: String
     var role: String
-    var targetRunner
+    var targetRunner: String
 }

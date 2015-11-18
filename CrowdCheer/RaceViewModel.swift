@@ -38,22 +38,22 @@ struct RaceViewModel: Tracking {
     
     func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         mapLabel.text = "\(locations[0])"
-        myLocations.append(locations[0])
+        locations.append(locations[0])
         
         let spanX = 0.007
         let spanY = 0.007
-        var newRegion = MKCoordinateRegion(center: map.userLocation.coordinate, span: MKCoordinateSpanMake(spanX, spanY))
-        map.setRegion(newRegion, animated: true)
+        var newRegion = MKCoordinateRegion(center: mapView.userLocation.coordinate, span: MKCoordinateSpanMake(spanX, spanY))
+        mapView.setRegion(newRegion, animated: true)
         
-        if (myLocations.count > 1){
-            var sourceIndex = myLocations.count - 1
-            var destinationIndex = myLocations.count - 2
+        if (locations.count > 1){
+            var sourceIndex = locations.count - 1
+            var destinationIndex = locations.count - 2
             
-            let c1 = myLocations[sourceIndex].coordinate
-            let c2 = myLocations[destinationIndex].coordinate
+            let c1 = locations[sourceIndex].coordinate
+            let c2 = locations[destinationIndex].coordinate
             var a = [c1, c2]
             var polyline = MKPolyline(coordinates: &a, count: a.count)
-            map.addOverlay(polyline)
+            mapView.addOverlay(polyline)
         }
     }
     
