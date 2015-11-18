@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import UIKit
 
-struct RaceViewModel: Tracking {
+struct RaceViewModel {
     
     var locations: [CLLocation]
     var distance: Double
@@ -20,8 +20,10 @@ struct RaceViewModel: Tracking {
     
     var locationMgr: CLLocationManager
     var mapView: MKMapView
+    var mapLabel: UILabel
     
-    func initLocationManager() {
+    //I acutally think this should be in the viewcontroller -- that's why we're getting errrors about  setting .delegates as self
+    mutating func initLocationManager() {
         locationMgr = CLLocationManager()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
@@ -33,10 +35,10 @@ struct RaceViewModel: Tracking {
     func initMapView() {
         mapView.delegate = self
         mapView.mapType = MKMapType.Satellite
-        mapView.showUserLocation = true
+        mapView.showUserLocation = YES
     }
     
-    func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
+    func locationManager(manager:CLLocationManager, var didUpdateLocations locations:[CLLocation]) {
         mapLabel.text = "\(locations[0])"
         locations.append(locations[0])
         
