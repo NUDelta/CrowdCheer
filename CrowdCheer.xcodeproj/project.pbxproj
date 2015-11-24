@@ -178,7 +178,6 @@
 		E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E2CA51821A89537200C2BB03 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = DeltaLab_CrowdCheer.mobileprovision; sourceTree = "<group>"; };
 		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathController.h; path = CrowdCheer/MathController.h; sourceTree = "<group>"; };
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
 		E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myrunner.png; sourceTree = "<group>"; };
@@ -324,7 +323,6 @@
 				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
 				E2AD20071A9A96B400B1BEFE /* Frameworks */,
-				E2CA51841A89585A00C2BB03 /* DeltaLab_CrowdCheer.mobileprovision */,
 				E2CA511D1A89219900C2BB03 /* Resources */,
 				E2CA50E01A88677A00C2BB03 /* CrowdCheer */,
 				E2CA51001A88677A00C2BB03 /* CrowdCheerTests */,
