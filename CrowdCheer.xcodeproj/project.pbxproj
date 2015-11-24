@@ -133,6 +133,9 @@
 		E29375ED1BEBF20F003FC150 /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoleViewController.h; path = CrowdCheer/Views/RoleViewController.h; sourceTree = "<group>"; };
 		E29375EE1BEBF20F003FC150 /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoleViewController.m; path = CrowdCheer/Views/RoleViewController.m; sourceTree = "<group>"; };
 		E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CrowdCheer-Bridging-Header.h"; path = "CrowdCheer/CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
+		E2AABB811C04CD2D0062960A /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Run.h; path = CrowdCheer/Run.h; sourceTree = "<group>"; };
+		E2AABB821C04CDE70062960A /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Location.h; path = CrowdCheer/Location.h; sourceTree = "<group>"; };
+		E2AABB831C04CF450062960A /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = CrowdCheer/Archive/DetailViewController.h; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -312,8 +315,11 @@
 				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
 				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
 				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
+				E2AABB811C04CD2D0062960A /* Run.h */,
 				E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */,
 				E2CA51861A89D51100C2BB03 /* MathController.h */,
+				E2AABB831C04CF450062960A /* DetailViewController.h */,
+				E2AABB821C04CDE70062960A /* Location.h */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
 				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,

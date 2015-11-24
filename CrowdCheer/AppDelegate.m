@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "DetailViewController.h"
+//#import "DetailViewController.h"
 #import "HomeViewController.h"
 #import "DefaultSettingsViewController.h"
 #import "RoleViewController.h"

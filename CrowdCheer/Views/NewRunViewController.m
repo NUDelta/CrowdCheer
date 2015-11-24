@@ -7,7 +7,7 @@
 //
 
 #import "NewRunViewController.h"
-#import "DetailViewController.h"
+//#import "DetailViewController.h"
 #import "Run.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
