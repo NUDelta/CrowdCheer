@@ -9,25 +9,34 @@
 import Foundation
 
 public protocol User {
-    var name: String {get set}
-    var profilePic: String {get set}
-    var role: String {get set}
+    var username: String {get}
+    var profilePic: String {get}
+    var role: String {get}
 }
 
 struct runner: User {
-    var name: String
-    var profilePic: String
-    var role: String
-    var beacon: String
-    var bibNumber: Int
-    var racePic: String
-    var targetTime: NSTimeInterval
-    var targetPace: NSTimeInterval
+    let username: String
+    let profilePic: String
+    let role: String
+    let beacon: String
+    let bibNumber: Int
+    let racePic: String
+    let targetTime: NSTimeInterval
+    let targetPace: NSTimeInterval
 }
 
 struct cheerer: User {
-    var name: String
-    var profilePic: String
-    var role: String
-    var targetRunner: String
+    let username: String
+    let profilePic: String
+    let role: String
+    let targetRunner: String
+ // would instantiate without target runner - right now it is required
+ /*   init(firstName: String,
+        let profilePic: String,
+        let role: String) {
+        self.username = username
+        self.profilePic = profilePic
+        self.role = role
+    }
+*/
 }
