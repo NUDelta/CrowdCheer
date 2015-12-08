@@ -30,6 +30,7 @@ struct cheerer: User {
     let profilePic: String
     let role: String
     let targetRunner: String
+    
  // would instantiate without target runner - right now it is required
  /*   init(firstName: String,
         let profilePic: String,

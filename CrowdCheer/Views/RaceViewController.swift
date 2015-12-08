@@ -12,6 +12,7 @@ import MapKit
 
 class RaceViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    var isTracking: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
