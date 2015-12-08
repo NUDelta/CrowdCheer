@@ -8,16 +8,12 @@
 
 import Foundation
 
-public protocol Tracking {
-    func initLocationManager()
-    func initMapView()
-    func locationManager()
-    func mapView()
-    
-    var locations: [CLLocation] {get set}
-    var distance: Double {get set}
+@objc
+protocol Tracking {
+    var locations: Array<CLLocation> {get set}
+    var distance: NSNumber {get set}
     var pace: NSTimeInterval {get set}
-    var duration: NSTimeInterval {get set}
+    var duration: NSTimeInterval {get}
 }
 
 //this tracking delegate would be like a start tracking all runners/cheerers

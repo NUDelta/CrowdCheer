@@ -10,12 +10,13 @@ import Foundation
 import CoreData
 import CoreLocation
 
-class Run: NSManagedObject {
+class Run: NSManagedObject, Tracking {
     
-    @NSManaged var distance: NSNumber
+    @NSManaged dynamic var distance: NSNumber
     @NSManaged var startTimestamp: NSDate
     @NSManaged var endTimestamp: NSDate
-    @NSManaged var locations: Array<CLLocation>
+    @NSManaged dynamic var pace: NSTimeInterval
+    @NSManaged dynamic var locations: Array<CLLocation>
     
     var duration: NSTimeInterval {
         get {
