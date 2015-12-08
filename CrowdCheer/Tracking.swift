@@ -12,7 +12,7 @@ import Foundation
 protocol Tracking {
     var locations: Array<CLLocation> {get set}
     var distance: NSNumber {get set}
-    var pace: NSTimeInterval {get set}
+    optional var pace: NSTimeInterval {get set}
     var duration: NSTimeInterval {get}
 }
 

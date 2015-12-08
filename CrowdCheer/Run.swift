@@ -41,3 +41,28 @@ class Run: NSManagedObject, Tracking {
     }
     
 }
+
+class Cheer: NSManagedObject, Tracking {
+    @NSManaged dynamic var locations: Array<CLLocation>
+    @NSManaged var startTimestamp: NSDate
+    @NSManaged var endTimestamp: NSDate
+    @NSManaged dynamic var distance: NSNumber
+    
+    var duration: NSTimeInterval {
+        get {
+            return endTimestamp.timeIntervalSinceDate(startTimestamp)
+        }
+    }
+    
+    func addNewLocation(location: CLLocation) {
+        locations.append(location)
+    }
+    
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        
+        locations = [CLLocation]()
+        startTimestamp = NSDate()
+        distance = 0.0
+    }
+}
