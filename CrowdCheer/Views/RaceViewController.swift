@@ -15,7 +15,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         var locationMgr: CLLocationManager
         var mapView: MKMapView
         

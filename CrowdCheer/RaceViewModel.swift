@@ -22,8 +22,6 @@ struct RaceViewModel {
     var mapView: MKMapView
     var mapLabel: UILabel
     
-    //I acutally think this should be in the viewcontroller -- that's why we're getting errrors about  setting .delegates as self
-    
     func locationManager(manager:CLLocationManager, var didUpdateLocations locations:[CLLocation]) {
         mapLabel.text = "\(locations[0])"
         locations.append(locations[0])

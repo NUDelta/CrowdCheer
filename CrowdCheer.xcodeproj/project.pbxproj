@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
+		CF526D031C16AEEC00DB9D1D /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF526D021C16AEEC00DB9D1D /* Run.swift */; };
 		CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242C1BE9F206004287AD /* RaceViewModel.swift */; };
 		CF8624301BE9F21A004287AD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86242F1BE9F21A004287AD /* Tracking.swift */; };
 		CF8624341BE9F258004287AD /* Cheering.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8624331BE9F258004287AD /* Cheering.swift */; };
@@ -95,6 +96,7 @@
 /* Begin PBXFileReference section */
 		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		CF526D021C16AEEC00DB9D1D /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Run.swift; path = CrowdCheer/Run.swift; sourceTree = "<group>"; };
 		CF86242C1BE9F206004287AD /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/RaceViewModel.swift; sourceTree = "<group>"; };
 		CF86242F1BE9F21A004287AD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tracking.swift; path = CrowdCheer/Tracking.swift; sourceTree = "<group>"; };
 		CF8624331BE9F258004287AD /* Cheering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cheering.swift; path = CrowdCheer/Cheering.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				CF86242F1BE9F21A004287AD /* Tracking.swift */,
 				E28E68B31BFC341A008C6A0A /* Users.swift */,
 				E28E68B11BFC33D2008C6A0A /* Monitoring.swift */,
+				CF526D021C16AEEC00DB9D1D /* Run.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
 				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
 				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
@@ -607,6 +610,7 @@
 				CF86242E1BE9F206004287AD /* RaceViewModel.swift in Sources */,
 				E28E68B81BFC34B0008C6A0A /* CheeringViewController.swift in Sources */,
 				E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */,
+				CF526D031C16AEEC00DB9D1D /* Run.swift in Sources */,
 				CF8624301BE9F21A004287AD /* Tracking.swift in Sources */,
 				E28E68BA1BFC34DA008C6A0A /* ProfileViewController.swift in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
@@ -767,6 +771,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
+				"TEST_HOST[sdk=iphoneos*]" = "";
 			};
 			name = Debug;
 		};
@@ -794,6 +799,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
+				"TEST_HOST[sdk=iphoneos*]" = "";
 			};
 			name = Release;
 		};
