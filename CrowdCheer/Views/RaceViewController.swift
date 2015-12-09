@@ -36,6 +36,23 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
             locationMgr.requestAlwaysAuthorization()
             locationMgr.startUpdatingLocation()
             
+            
+            
+        }
+        
+        //this is saving to parse
+        func saveLocation(){
+            var loc =  locationMgr.location!.coordinate
+            var actualLocation = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+            print("did we get in here")
+            let object = PFObject(className:"TestLocations")
+            object["Location"] = actualLocation
+            object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+                if _error == nil
+                {
+                    print("location saved")
+                }
+            }
         }
         
        /* func initMapView() {
@@ -49,6 +66,7 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             print("Object has been saved.")
         }
+        
         
     }
 }

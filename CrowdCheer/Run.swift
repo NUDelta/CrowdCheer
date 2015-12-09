@@ -25,6 +25,9 @@ class Run: NSManagedObject, Tracking {
         }
     }
     
+    
+ 
+    
     func addDistance(distance: Double) {
         self.distance = NSNumber(double: (self.distance.doubleValue + distance))
     }
