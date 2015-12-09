@@ -19,10 +19,6 @@ class Run: NSManagedObject, Tracking {
     @NSManaged dynamic var pace: NSTimeInterval
     @NSManaged dynamic var locations: Array<CLLocation>
     
-    locations = [CLLocation(latitude: 38.5, longitude: -120.2),
-        CLLocation(latitude: 40.7000, longitude: -120.95000),
-        CLLocation(latitude: 43.25200, longitude: -126.453000)]
-    
     var duration: NSTimeInterval {
         get {
             return endTimestamp.timeIntervalSinceDate(startTimestamp)
@@ -35,14 +31,6 @@ class Run: NSManagedObject, Tracking {
     
     func addNewLocation(location: CLLocation) {
         locations.append(location)
-    }
-    
-    func saveLocation {
-        let point = PFGeoPoint(location: locations.last)
-        let cheererLoc = PFObject(className: @"CheererLoc")
-        
-        [cheererLoc.setObject(point, forKey: @"location"]
-        
     }
     
     override func awakeFromInsert() {
@@ -60,10 +48,7 @@ class Cheer: NSManagedObject, Tracking {
     @NSManaged var startTimestamp: NSDate
     @NSManaged var endTimestamp: NSDate
     @NSManaged dynamic var distance: NSNumber
-    
-    locations = [CLLocation(latitude: 38.5, longitude: -120.2),
-    CLLocation(latitude: 40.7000, longitude: -120.95000),
-    CLLocation(latitude: 43.25200, longitude: -126.453000)]
+
     
     var duration: NSTimeInterval {
         get {
@@ -77,13 +62,6 @@ class Cheer: NSManagedObject, Tracking {
         locations.append(location)
     }
     
-    func saveLocation {
-        let point = PFGeoPoint(location: locations.last)
-        let cheererLoc = PFObject(className: @"CheererLoc")
-        
-        [cheererLoc.setObject(point, forKey: @"location"]
-        
-    }
     
     override func awakeFromInsert() {
         super.awakeFromInsert()
