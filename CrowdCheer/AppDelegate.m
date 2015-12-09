@@ -63,9 +63,11 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Override point for customization after application launch.
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    CommonalityViewController *controller = (CommonalityViewController *)navigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+    //********commented out just for testing ADD BACK IN LATER***********
+    /*    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+     CommonalityViewController *controller = (CommonalityViewController *)navigationController.topViewController;
+     controller.managedObjectContext = self.managedObjectContext;
+     */
     return YES;
     
 }
