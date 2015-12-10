@@ -27,23 +27,17 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         super.viewDidLoad()
          print("Object is doing a thing.")
         
-        let locationMgr = CLLocationManager()
-        let locations: [CLLocation] = []
-        initLocationManager(locationMgr)
-       // var mapView: MKMapView
+//        let locationMgr = CLLocationManager()
+//        let locations: [CLLocation] = []
+
+//        var mapView: MKMapView
         
-        
-        
-       /* func initMapView() {
-            mapView.delegate = self
-            mapView.mapType = MKMapType.Satellite
-            mapView.showsUserLocation = true
-        } */
-        
-        
-        let runner = RunnerLocation()
-        runner.trackUserLocation(locationMgr, didUpdateLocations: locations)
-        runner.saveUserLocation(locationMgr, didUpdateLocations: locations)
+        let runnerTracker = RunnerLocation()
+        let cheererTracker = CheererLocation()
+        runnerTracker.trackUserLocation()
+        runnerTracker.saveUserLocation()
+        cheererTracker.trackUserLocation()
+        cheererTracker.saveUserLocation()
         
         let testObject = PFObject(className: "TestObject")
         testObject["foo"] = "bar"
@@ -54,12 +48,20 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         
     }
     
-    func initLocationManager(locationMgr :CLLocationManager) {
-        
-        locationMgr.requestAlwaysAuthorization()
-        locationMgr.requestWhenInUseAuthorization()
-        locationMgr.delegate = self
-        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.startUpdatingLocation()
-    }
+//    func initLocationManager(locationMgr :CLLocationManager) {
+//        
+//        locationMgr.requestAlwaysAuthorization()
+//        locationMgr.requestWhenInUseAuthorization()
+//        locationMgr.delegate = self
+//        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+//        locationMgr.activityType = CLActivityType.Fitness
+//        locationMgr.distanceFilter = 1;
+//        locationMgr.startUpdatingLocation()
+//    }
+    
+    /* func initMapView() {
+    mapView.delegate = self
+    mapView.mapType = MKMapType.Satellite
+    mapView.showsUserLocation = true
+    } */
 }
