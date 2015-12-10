@@ -11,7 +11,7 @@ import CoreData
 import CoreLocation
 import Parse
 
-class Run: NSManagedObject, Tracking {
+class Run: NSManagedObject {
     
     @NSManaged dynamic var distance: NSNumber
     @NSManaged var startTimestamp: NSDate
@@ -46,7 +46,7 @@ class Run: NSManagedObject, Tracking {
     
 }
 
-class Cheer: NSManagedObject, Tracking {
+class Cheer: NSManagedObject {
     @NSManaged dynamic var locations: Array<CLLocation>
     @NSManaged var startTimestamp: NSDate
     @NSManaged var endTimestamp: NSDate

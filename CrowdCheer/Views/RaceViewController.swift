@@ -26,40 +26,24 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
     override func viewDidLoad() {
         super.viewDidLoad()
          print("Object is doing a thing.")
-        var locationMgr: CLLocationManager
+        
+        let locationMgr = CLLocationManager()
+        let locations: [CLLocation] = []
+        initLocationManager(locationMgr)
        // var mapView: MKMapView
         
-        func initLocationManager() {
-            locationMgr = CLLocationManager()
-            locationMgr.delegate = self
-            locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-            locationMgr.requestAlwaysAuthorization()
-            locationMgr.startUpdatingLocation()
-            
-            
-            
-        }
         
-        //this is saving to parse
-        func saveLocation(){
-            var loc =  locationMgr.location!.coordinate
-            var actualLocation = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-            print("did we get in here")
-            let object = PFObject(className:"TestLocations")
-            object["Location"] = actualLocation
-            object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
-                if _error == nil
-                {
-                    print("location saved")
-                }
-            }
-        }
         
        /* func initMapView() {
             mapView.delegate = self
             mapView.mapType = MKMapType.Satellite
             mapView.showsUserLocation = true
         } */
+        
+        
+        let runner = RunnerLocation()
+        runner.trackUserLocation(locationMgr, didUpdateLocations: locations)
+        runner.saveUserLocation(locationMgr, didUpdateLocations: locations)
         
         let testObject = PFObject(className: "TestObject")
         testObject["foo"] = "bar"
@@ -68,5 +52,14 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         }
         
         
+    }
+    
+    func initLocationManager(locationMgr :CLLocationManager) {
+        
+        locationMgr.requestAlwaysAuthorization()
+        locationMgr.requestWhenInUseAuthorization()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.startUpdatingLocation()
     }
 }
