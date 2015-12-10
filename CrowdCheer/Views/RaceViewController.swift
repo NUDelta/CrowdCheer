@@ -16,7 +16,7 @@ import CoreLocation
 import MapKit
 import Parse
 
-class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationManagerDelegate {
+class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     
     let isTracking: Bool = true
@@ -27,11 +27,6 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         super.viewDidLoad()
          print("Object is doing a thing.")
         
-//        let locationMgr = CLLocationManager()
-//        let locations: [CLLocation] = []
-
-//        var mapView: MKMapView
-        
         let runnerTracker = RunnerLocation()
         let cheererTracker = CheererLocation()
         runnerTracker.trackUserLocation()
@@ -39,29 +34,5 @@ class RaceViewController: UIViewController, /*MKMapViewDelegate*/ CLLocationMana
         cheererTracker.trackUserLocation()
         cheererTracker.saveUserLocation()
         
-        let testObject = PFObject(className: "TestObject")
-        testObject["foo"] = "bar"
-        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            print("Object has been saved.")
-        }
-        
-        
     }
-    
-//    func initLocationManager(locationMgr :CLLocationManager) {
-//        
-//        locationMgr.requestAlwaysAuthorization()
-//        locationMgr.requestWhenInUseAuthorization()
-//        locationMgr.delegate = self
-//        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-//        locationMgr.activityType = CLActivityType.Fitness
-//        locationMgr.distanceFilter = 1;
-//        locationMgr.startUpdatingLocation()
-//    }
-    
-    /* func initMapView() {
-    mapView.delegate = self
-    mapView.mapType = MKMapType.Satellite
-    mapView.showsUserLocation = true
-    } */
 }
