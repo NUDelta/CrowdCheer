@@ -2,7 +2,7 @@
 //  Tracking.swift
 //  CrowdCheer
 //
-//  Created by Christina Kim on 10/30/15.
+//  Created by Leesha Maliakal on 10/30/15.
 //  Copyright © 2015 Delta Lab. All rights reserved.
 //
 
@@ -31,7 +31,7 @@ protocol TrackingDelegate {
 }
 
 
-class RunnerLocation: NSObject, Tracking, CLLocationManagerDelegate {
+class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
     
 //    var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
@@ -100,7 +100,7 @@ class RunnerLocation: NSObject, Tracking, CLLocationManagerDelegate {
     }
 }
 
-class CheererLocation: NSObject, Tracking, CLLocationManagerDelegate {
+class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
     
     //    var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
