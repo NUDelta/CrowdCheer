@@ -47,7 +47,7 @@
     
     [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager requestAlwaysAuthorization];
-    [self.locationManager startUpdatingLocation];
+//    [self.locationManager startUpdatingLocation];
     
 }
 

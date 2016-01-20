@@ -31,9 +31,21 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         let runnerTracker = RunnerTracker()
         let cheererTracker = CheererTracker()
         
-        runnerTracker.trackUserLocation()
-        runnerTracker.saveUserLocation()
-        cheererTracker.trackUserLocation()
-        cheererTracker.saveUserLocation()
+        //query current user's role
+        //if runner, start runner tracker and if cheerer, start cheerer tracker
+        let user = PFUser.currentUser()
+        let role = user.valueForKey("role")
+        
+        if ((role?.isEqualToString("runner")) != nil) {
+            runnerTracker.trackUserLocation()
+            runnerTracker.saveUserLocation()
+        }
+        else if ((role?.isEqualToString("cheerer")) != nil) {
+            cheererTracker.trackUserLocation()
+            cheererTracker.saveUserLocation()
+        }
+        else {
+            print("No valid role found.")
+        }
     }
 }

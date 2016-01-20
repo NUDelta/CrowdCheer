@@ -50,8 +50,6 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         
         //initialize location manager
         super.init()
-//        self.locationMgr.requestAlwaysAuthorization()
-//        self.locationMgr.requestWhenInUseAuthorization()
         self.locationMgr.delegate = self
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         self.locationMgr.activityType = CLActivityType.Fitness
@@ -119,8 +117,6 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
         
         //initialize location manager
         super.init()
-//        self.locationMgr.requestAlwaysAuthorization()
-//        self.locationMgr.requestWhenInUseAuthorization()
         self.locationMgr.delegate = self
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         self.locationMgr.activityType = CLActivityType.Fitness
