@@ -16,12 +16,13 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationMgr: CLLocationManager = CLLocationManager()
     let isTracking: Bool = true
-    let isRacer: Bool = false
+    let isRunner: Bool = false
     let isCheerer: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.locationMgr.requestAlwaysAuthorization()
+        self.locationMgr.requestWhenInUseAuthorization()
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
     }
     

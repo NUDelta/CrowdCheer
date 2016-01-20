@@ -7,7 +7,19 @@
 //
 
 import Foundation
+import Parse
 
-public protocol Monitoring {
 
+protocol Monitoring: Any {
+    //    var user: PFUser {get}
+//    var locationMgr: CLLocationManager {get}
+//    var location: CLLocation {get set}
+//    var distance: Float {get set}
+//    var pace: NSString {get set}
+//    var duration: Int32 {get}
+//    
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+//    func trackUserLocation()
+//    func saveUserLocation()
+    
 }
