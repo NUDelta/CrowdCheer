@@ -11,7 +11,7 @@ import Parse
 
 
 protocol Tracking: Any {
-//    var user: PFUser {get}
+    var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
     var distance: Float {get set}
@@ -33,7 +33,7 @@ protocol TrackingDelegate {
 
 class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
     
-//    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
     var distance: Float
@@ -41,7 +41,7 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
     let duration: Int32
     
     override init(){
-//        self.user = PFUser.currentUser()
+        self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         self.distance = 0.0
@@ -78,12 +78,12 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
-//        print (user)
+        print (user)
         print(self.distance)
         print(self.pace)
         print(NSDate())
         object["location"] = geoPoint
-//        object["user"] = PFUser.currentUser()
+        object["user"] = PFUser.currentUser()
         object["distance"] = self.distance
         object["pace"] = self.pace
 //        object["duration"] = self.duration
@@ -100,7 +100,7 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
 
 class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
     
-    //    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
     var distance: Float
@@ -108,7 +108,7 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
     let duration: Int32
     
     override init(){
-        //        self.user = PFUser.currentUser()
+        self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         self.distance = 0.0
@@ -145,7 +145,7 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
         
         let object = PFObject(className:"CheererLocations")
         object["location"] = geoPoint
-//        object["user"] = PFUser.currentUser()
+        object["user"] = PFUser.currentUser()
         object["distance"] = distance
 //        object["pace"] = pace
 //        object["duration"] = duration
