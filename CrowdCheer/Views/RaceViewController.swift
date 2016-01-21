@@ -38,11 +38,13 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         
         if ((role?.isEqualToString("runner")) != nil) {
             runnerTracker.trackUserLocation()
+            runnerTracker.saveUserPath()
             runnerTracker.saveUserLocation()
         }
         else if ((role?.isEqualToString("cheerer")) != nil) {
             cheererTracker.trackUserLocation()
-            cheererTracker.saveUserLocation()
+            cheererTracker.saveUserPath()
+            runnerTracker.saveUserLocation()
         }
         else {
             print("No valid role found.")

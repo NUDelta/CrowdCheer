@@ -20,7 +20,7 @@ protocol Tracking: Any {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func trackUserLocation()
-    func saveUserLocation()
+    func saveUserPath()
     
 }
 
@@ -70,7 +70,39 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         print("current location is: ", currentLoc)
     }
     
-    func saveUserLocation(){
+    func saveUserLocation() {
+        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+        pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        
+        var query = PFQuery(className: "CurrRunnerLocation")
+        query.whereKey("user", equalTo: self.user)
+        query.getFirstObjectInBackgroundWithBlock {
+            (currLoc: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+                //add runner
+                var newCurrLoc = PFObject(className: "CurrRunnerLocation")
+                newCurrLoc["location"] = geoPoint
+                newCurrLoc["user"] = PFUser.currentUser()
+                newCurrLoc["distance"] = self.distance
+                newCurrLoc["pace"] = self.pace
+//                newCurrLoc["duration"] = self.duration
+                newCurrLoc["time"] = NSDate()
+                newCurrLoc.saveInBackground()
+                
+            } else if let currLoc = currLoc {
+                currLoc["location"] = geoPoint
+                currLoc["user"] = PFUser.currentUser()
+                currLoc["distance"] = self.distance
+                currLoc["pace"] = self.pace
+//                currLoc["duration"] = self.duration
+                currLoc["time"] = NSDate()
+                currLoc.saveInBackground()
+            }
+        }
+    }
+    func saveUserPath(){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
@@ -137,7 +169,7 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
         print("current location is: ", currentLoc)
     }
     
-    func saveUserLocation(){
+    func saveUserPath(){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
