@@ -14,21 +14,23 @@ protocol Monitoring: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
-    var runnersNearby: Set<PFUser> {get set}
+    var runnersNearby: Array<PFObject> {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion)
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion)
-    func monitorCheerZone() //create a geofence and print out current runners in my zone every 5 seconds
+    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void) //create a geofence and print out current runners in my zone every 5 seconds
     
 }
 
 class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
+//This class handles how a cheerer monitors any runners around them
+    
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
-    var runnersNearby: Set<PFUser>
+    var runnersNearby: Array<PFObject>
     
     override init(){
         self.user = PFUser.currentUser()
@@ -58,29 +60,60 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
         print("Exiting region")
     }
     
-    func monitorCheerZone() {
+    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void) {
+
         //set up a geofence around me
-        //query runners' locations from parse
-        //check if runners are in my geofence
-        //if they are, print them out
-        
         let cheerZone = CLCircularRegion(center: location.coordinate, radius: 500, identifier: "cheerZone")
         locationMgr.startMonitoringForRegion(cheerZone)
         
         
+        //query & return runners' locations from parse (recently updated & near me)
+        let geoPoint = PFGeoPoint(location: location)
+        var runnerLocs:Array<AnyObject> = []
+        let now = NSDate()
+        let interval:NSTimeInterval = -10
+        let tenSecondsAgo = now.dateByAddingTimeInterval(interval)
+        let query = PFQuery(className: "CurrRunnerLocation")
         
-//        if cheerZone.containsCoordinate(coordinate: CLLocationCoordinate2D)
-        
+        query.orderByDescending("updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: tenSecondsAgo) //runners updated in the last 10 seconds
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.5) //runners within 500 meters of me
+        query.findObjectsInBackgroundWithBlock {
+            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // Found at least one runner
+                print("Successfully retrieved \(runnerObjects!.count) scores.")
+                //CURRENTLY: Walk through runners, save locations to a separate array
+                //SHOULD: Walk through objects, extract runners, create dictionary of <Runner Object, Curr Location> entries
+                if let objects = runnerObjects {
+                    for object in runnerObjects! {
+                        print("Runner Entry: ", object)
+                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        runnerLocs.append(location)
+                    }
+                }
+                print ("Runner Locs: ", runnerLocs)
+                result(runnerLocations: runnerLocs)
+            }
+            else {
+                // Query failed, load error
+                print("Error: \(error!) \(error!.userInfo)")
+                result(runnerLocations: runnerLocs)
+            }
+        }
     }
-    
 }
 
+
 class MonitorMyRunner: NSObject, Monitoring, CLLocationManagerDelegate {
+//This class handles how a cheerer monitors for their own runner(s)
+    
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
-    var runnersNearby: Set<PFUser>
+    var runnersNearby: Array<PFObject>
     
     override init(){
         self.user = PFUser.currentUser()
@@ -111,7 +144,7 @@ class MonitorMyRunner: NSObject, Monitoring, CLLocationManagerDelegate {
         print("Exiting region")
     }
     
-    func monitorCheerZone() {
+    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void) {
         //set up a geofence around me
         //query parse for my runner's location
         //check if my runner is in my geofence

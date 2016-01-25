@@ -19,11 +19,16 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     let isRunner: Bool = false
     let isCheerer: Bool = false
     
+    @IBOutlet weak var updateLocsLabel: UILabel!
+    @IBOutlet weak var updateCheerZoneLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
+        let userTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
+        let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
     }
     
     func userTracker() {
@@ -40,14 +45,34 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             runnerTracker.trackUserLocation()
             runnerTracker.saveUserPath()
             runnerTracker.saveUserLocation()
+            updateLocsLabel.text = "Updating your location..."
         }
         else if ((role?.isEqualToString("cheerer")) != nil) {
             cheererTracker.trackUserLocation()
             cheererTracker.saveUserPath()
             runnerTracker.saveUserLocation()
+            updateLocsLabel.text = "Updating your location..."
         }
         else {
             print("No valid role found.")
+        }
+    }
+    
+    
+    func updateNearbyRunners() {
+        
+        let runnerMonitor = MonitorRunners()
+        runnerMonitor.monitorCheerZone(){ (runnerLocations) -> Void in
+            print("Runner List is ", runnerLocations)
+            var locList: String = ""
+            for runner in runnerLocations! {
+                let lat = runner.latitude
+                let lon = runner.longitude
+                let loc = String(lat) + " " + String(lon)
+                locList.appendContentsOf(loc)
+            }
+            print("Nearby runners label: ", locList)
+            self.updateCheerZoneLabel.text = locList
         }
     }
 }

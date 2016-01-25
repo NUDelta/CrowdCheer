@@ -68,6 +68,10 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
+        
+        //testing monitoring code
+        
+        //end testing
     }
     
     func saveUserLocation() {
@@ -75,14 +79,14 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
         
-        var query = PFQuery(className: "CurrRunnerLocation")
+        let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
         query.getFirstObjectInBackgroundWithBlock {
             (currLoc: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
                 //add runner
-                var newCurrLoc = PFObject(className: "CurrRunnerLocation")
+                let newCurrLoc = PFObject(className: "CurrRunnerLocation")
                 newCurrLoc["location"] = geoPoint
                 newCurrLoc["user"] = PFUser.currentUser()
                 newCurrLoc["distance"] = self.distance
