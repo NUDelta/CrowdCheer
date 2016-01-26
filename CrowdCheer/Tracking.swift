@@ -68,10 +68,6 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
-        
-        //testing monitoring code
-        
-        //end testing
     }
     
     func saveUserLocation() {
@@ -163,7 +159,6 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = manager.location!
-        print("locations = \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
     func trackUserLocation() {
