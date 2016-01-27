@@ -19,8 +19,8 @@ protocol Monitoring: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion)
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion)
-//    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) //create a geofence and print out current runners in my zone every 5 seconds
-    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void)
+    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) //create a geofence and print out current runners in my zone every 5 seconds
+//    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void)
 }
 
 class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
@@ -59,7 +59,7 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
         print("Exiting region")
     }
     
-    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void) {
+    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
 
         //set up a geofence around me
         let cheerZone = CLCircularRegion(center: location.coordinate, radius: 500, identifier: "cheerZone")
@@ -70,6 +70,7 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
         let geoPoint = PFGeoPoint(location: location)
         var runnerUpdates = [PFUser: PFGeoPoint]()
         var runnerLocs:Array<AnyObject> = []
+//        var runner:PFUser = PFUser.currentUser()
         let now = NSDate()
         let seconds:NSTimeInterval = -600
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
@@ -89,22 +90,28 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         print("Runner Entry: ", object)
+                        
+//                        object.fetchIfNeededInBackgroundWithBlock({ (object: PFObject?, error: NSError?) -> Void in
+//                            runner = (object?["user"] as? PFUser)!
+//                        })
+                        
                         let runner = (object as! PFObject)["user"] as! PFUser
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        print ("Runner and loc are: ", location)
+                        print("runner is  ", runner)
+                        print ("runner's loc is: ", location)
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
                     }
                 }
                 print ("Runner Locs: ", runnerLocs)
-//                result(runnerLocations: runnerUpdates)
-                result(runnerLocations: runnerLocs)
+                result(runnerLocations: runnerUpdates)
+//                result(runnerLocations: runnerLocs)
             }
             else {
                 // Query failed, load error
                 print("Error: \(error!) \(error!.userInfo)")
-//                result(runnerLocations: runnerUpdates)
-                result(runnerLocations: runnerLocs)
+                result(runnerLocations: runnerUpdates)
+//                result(runnerLocations: runnerLocs)
             }
         }
     }
@@ -149,7 +156,7 @@ class MonitorMyRunner: NSObject, Monitoring, CLLocationManagerDelegate {
         print("Exiting region")
     }
     
-    func monitorCheerZone(result:(runnerLocations: Array <AnyObject>?) -> Void) {
+    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         //set up a geofence around me
         //query parse for my runner's location
         //check if my runner is in my geofence

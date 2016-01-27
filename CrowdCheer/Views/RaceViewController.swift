@@ -70,18 +70,19 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             
             print("Runner List is ", runnerLocations!)
             var runnerUpdates: String = ""
-//            for (runnerObj, runnerLoc) in runnerLocations! {
-//                let runner = runnerObj
-//                let loc = runnerLoc
-//                let update = String(runner.username) + ": " + String(loc)
-//                runnerUpdates.appendContentsOf(update)
-//            }
-            for runnerUpdate in runnerLocations! {
-                let lat = runnerUpdate.latitude
-                let lon = runnerUpdate.longitude
-                let loc = String(lat) + " " + String(lon)
-                runnerUpdates.appendContentsOf(loc)
+            for (runnerObj, runnerLoc) in runnerLocations! {
+                let runner = runnerObj
+                let loc = runnerLoc
+                
+                let update = String(runner) + ": " + String(loc)
+                runnerUpdates.appendContentsOf(update)
             }
+//            for runnerUpdate in runnerLocations! {
+//                let lat = runnerUpdate.latitude
+//                let lon = runnerUpdate.longitude
+//                let loc = String(lat) + " " + String(lon)
+//                runnerUpdates.appendContentsOf(loc)
+//            }
             print("Nearby runners label: ", runnerUpdates)
             self.updateCheerZoneLabel.text = runnerUpdates
         }
