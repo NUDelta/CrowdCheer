@@ -30,7 +30,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         let userTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
         
         //should only run this timer if user is a cheerer
-        let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
+//        let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
     }
     
     func userTracker() {
@@ -55,7 +55,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             cheererTracker.trackUserLocation()
             cheererTracker.saveUserPath()
             updateLocsLabel.text = "Updating cheerer location..."
-//            let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
+            let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         }
         else {
             print("No valid role found.")

@@ -91,7 +91,7 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
                         print("Runner Entry: ", object)
                         let runner = (object as! PFObject)["user"] as! PFUser
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        print ("Runner and loc are: ", runner.username, location)
+                        print ("Runner and loc are: ", location)
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
                     }
