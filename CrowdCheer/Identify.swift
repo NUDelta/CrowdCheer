@@ -19,6 +19,15 @@ protocol Trigger: Any {
     func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
+protocol Select: Any {
+    var user: PFUser {get}
+    var locationMgr: CLLocationManager {get}
+    var location: CLLocation {get set}
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func preselectRunners() -> Dictionary<PFUser, PFGeoPoint>
+}
+
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
 //This class handles how a cheerer monitors any runners around them
     
@@ -47,11 +56,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     }
     
     func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
-
-        //set up a geofence around me
-        let cheerZone = CLCircularRegion(center: location.coordinate, radius: 500, identifier: "cheerZone")
-        locationMgr.startMonitoringForRegion(cheerZone)
-        
         
         //query & return runners' locations from parse (recently updated & near me)
         let geoPoint = PFGeoPoint(location: location)

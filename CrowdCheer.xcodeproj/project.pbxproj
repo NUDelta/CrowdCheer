@@ -76,6 +76,9 @@
 		E2EFA7C51C4EC3D000974475 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */; };
 		E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C61C5A77C700974475 /* Monitor.swift */; };
 		E2EFA7C91C5A79FA00974475 /* Identify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C81C5A79FA00974475 /* Identify.swift */; };
+		E2EFA7CB1C5A800F00974475 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CA1C5A800F00974475 /* Track.swift */; };
+		E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CC1C5A802C00974475 /* Verify.swift */; };
+		E2EFA7CF1C5A804900974475 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CE1C5A804900974475 /* Update.swift */; };
 		E2F0C54A1B710D3200EF6B87 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +184,9 @@
 		E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/Views/RaceViewModel.swift; sourceTree = "<group>"; };
 		E2EFA7C61C5A77C700974475 /* Monitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Monitor.swift; path = CrowdCheer/Monitor.swift; sourceTree = "<group>"; };
 		E2EFA7C81C5A79FA00974475 /* Identify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Identify.swift; path = CrowdCheer/Identify.swift; sourceTree = "<group>"; };
+		E2EFA7CA1C5A800F00974475 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Track.swift; path = CrowdCheer/Track.swift; sourceTree = "<group>"; };
+		E2EFA7CC1C5A802C00974475 /* Verify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Verify.swift; path = CrowdCheer/Verify.swift; sourceTree = "<group>"; };
+		E2EFA7CE1C5A804900974475 /* Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Update.swift; path = CrowdCheer/Update.swift; sourceTree = "<group>"; };
 		E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F7AAC48DA163158EAFEBF0D7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -301,6 +307,9 @@
 				E28E68B31BFC341A008C6A0A /* Users.swift */,
 				E2EFA7C61C5A77C700974475 /* Monitor.swift */,
 				E2EFA7C81C5A79FA00974475 /* Identify.swift */,
+				E2EFA7CA1C5A800F00974475 /* Track.swift */,
+				E2EFA7CC1C5A802C00974475 /* Verify.swift */,
+				E2EFA7CE1C5A804900974475 /* Update.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
 				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
 				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
@@ -593,6 +602,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */,
 				E29375F51BEBF20F003FC150 /* RelationshipViewController.m in Sources */,
 				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */,
@@ -600,6 +610,7 @@
 				E2EFA7C91C5A79FA00974475 /* Identify.swift in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
+				E2EFA7CF1C5A804900974475 /* Update.swift in Sources */,
 				E29375F21BEBF20F003FC150 /* HomeViewController.m in Sources */,
 				E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */,
 				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
@@ -613,6 +624,7 @@
 				E29375DE1BEBF1BC003FC150 /* MotivatorViewController.m in Sources */,
 				E29375F41BEBF20F003FC150 /* NewRunViewController.m in Sources */,
 				E29375F11BEBF20F003FC150 /* DefaultSettingsViewController.m in Sources */,
+				E2EFA7CB1C5A800F00974475 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
