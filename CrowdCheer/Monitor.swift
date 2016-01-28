@@ -1,5 +1,5 @@
 //
-//  Tracking.swift
+//  Monitor.swift
 //  CrowdCheer
 //
 //  Created by Leesha Maliakal on 10/30/15.
@@ -10,7 +10,7 @@ import Foundation
 import Parse
 
 
-protocol Tracking: Any {
+protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
@@ -19,8 +19,8 @@ protocol Tracking: Any {
     var duration: Int32 {get}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func trackUserLocation()
-    func saveUserPath()
+    func monitorUserLocation()
+    func updateUserPath()
     
 }
 
@@ -31,7 +31,7 @@ protocol TrackingDelegate {
 }
 
 
-class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
+class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
@@ -63,14 +63,14 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
         print("locations = \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
-    func trackUserLocation() {
+    func monitorUserLocation() {
         
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
     }
     
-    func saveUserLocation() {
+    func updateUserLocation() {
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
@@ -102,7 +102,7 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
             }
         }
     }
-    func saveUserPath(){
+    func updateUserPath(){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
@@ -130,7 +130,7 @@ class RunnerTracker: NSObject, Tracking, CLLocationManagerDelegate {
     }
 }
 
-class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
+class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
@@ -161,14 +161,14 @@ class CheererTracker: NSObject, Tracking, CLLocationManagerDelegate {
         self.location = manager.location!
     }
     
-    func trackUserLocation() {
+    func monitorUserLocation() {
         
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
     }
     
-    func saveUserPath(){
+    func updateUserPath(){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)

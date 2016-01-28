@@ -35,8 +35,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     func userTracker() {
        
-        let runnerTracker = RunnerTracker()
-        let cheererTracker = CheererTracker()
+        let runnerMonitor = RunnerMonitor()
+        let cheererMonitor = CheererMonitor()
         
         //query current user's role
         //if runner, start runner tracker and if cheerer, start cheerer tracker
@@ -45,15 +45,15 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         print("user role: ", role)
         
         if (role.isEqualToString("runner")) {
-            runnerTracker.trackUserLocation()
-            runnerTracker.saveUserPath()
-            runnerTracker.saveUserLocation()
+            runnerMonitor.monitorUserLocation()
+            runnerMonitor.updateUserPath()
+            runnerMonitor.updateUserLocation()
             updateLocsLabel.text = "Updating runner location..."
         }
         
         else if (role.isEqualToString("cheerer")) {
-            cheererTracker.trackUserLocation()
-            cheererTracker.saveUserPath()
+            cheererMonitor.monitorUserLocation()
+            cheererMonitor.updateUserPath()
             updateLocsLabel.text = "Updating cheerer location..."
             let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         }
@@ -65,8 +65,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     func updateNearbyRunners() {
         
-        let runnerMonitor = MonitorRunners()
-        runnerMonitor.monitorCheerZone(){ (runnerLocations) -> Void in
+        let nearbyRunners = NearbyRunners()
+        nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
             
             print("Runner List is ", runnerLocations!)
             var runnerUpdates: String = ""
@@ -77,12 +77,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
                 let update = String(runner) + ": " + String(loc)
                 runnerUpdates.appendContentsOf(update)
             }
-//            for runnerUpdate in runnerLocations! {
-//                let lat = runnerUpdate.latitude
-//                let lon = runnerUpdate.longitude
-//                let loc = String(lat) + " " + String(lon)
-//                runnerUpdates.appendContentsOf(loc)
-//            }
+            
             print("Nearby runners label: ", runnerUpdates)
             self.updateCheerZoneLabel.text = runnerUpdates
         }

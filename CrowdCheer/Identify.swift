@@ -1,5 +1,5 @@
 //
-//  Monitoring.swift
+//  Identify.swift
 //  CrowdCheer
 //
 //  Created by Leesha Maliakal on 11/17/15.
@@ -10,33 +10,27 @@ import Foundation
 import Parse
 
 
-protocol Monitoring: Any {
+protocol Trigger: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
-    var runnersNearby: Array<PFObject> {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion)
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion)
-    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) //create a geofence and print out current runners in my zone every 5 seconds
-//    func monitorCheerZone(result:(runnerLocations: Array<AnyObject>?) -> Void)
+    func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
-class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
+class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
 //This class handles how a cheerer monitors any runners around them
     
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
-    var runnersNearby: Array<PFObject>
     
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
-        self.runnersNearby = []
         
         //initialize location manager
         super.init()
@@ -52,14 +46,7 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
         self.location = manager.location!
     }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entering region")
-    }
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exiting region")
-    }
-    
-    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
 
         //set up a geofence around me
         let cheerZone = CLCircularRegion(center: location.coordinate, radius: 500, identifier: "cheerZone")
@@ -105,62 +92,12 @@ class MonitorRunners: NSObject, Monitoring, CLLocationManagerDelegate {
                 }
                 print ("Runner Locs: ", runnerLocs)
                 result(runnerLocations: runnerUpdates)
-//                result(runnerLocations: runnerLocs)
             }
             else {
                 // Query failed, load error
                 print("Error: \(error!) \(error!.userInfo)")
                 result(runnerLocations: runnerUpdates)
-//                result(runnerLocations: runnerLocs)
             }
         }
     }
 }
-
-
-class MonitorMyRunner: NSObject, Monitoring, CLLocationManagerDelegate {
-//This class handles how a cheerer monitors for their own runner(s)
-    
-    
-    var user: PFUser = PFUser.currentUser()
-    var locationMgr: CLLocationManager
-    var location: CLLocation
-    var runnersNearby: Array<PFObject>
-    
-    override init(){
-        self.user = PFUser.currentUser()
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
-        self.runnersNearby = []
-        
-        //initialize location manager
-        super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
-        
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
-        print("locations = \(location.coordinate.latitude) \(location.coordinate.longitude)")
-    }
-    
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entering region")
-    }
-    
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exiting region")
-    }
-    
-    func monitorCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
-        //set up a geofence around me
-        //query parse for my runner's location
-        //check if my runner is in my geofence
-        //if they are, print them out
-    }
-}
-
