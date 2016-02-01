@@ -79,6 +79,7 @@
 		E2EFA7CB1C5A800F00974475 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CA1C5A800F00974475 /* Track.swift */; };
 		E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CC1C5A802C00974475 /* Verify.swift */; };
 		E2EFA7CF1C5A804900974475 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7CE1C5A804900974475 /* Update.swift */; };
+		E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */; };
 		E2F0C54A1B710D3200EF6B87 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -187,6 +188,7 @@
 		E2EFA7CA1C5A800F00974475 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Track.swift; path = CrowdCheer/Track.swift; sourceTree = "<group>"; };
 		E2EFA7CC1C5A802C00974475 /* Verify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Verify.swift; path = CrowdCheer/Verify.swift; sourceTree = "<group>"; };
 		E2EFA7CE1C5A804900974475 /* Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Update.swift; path = CrowdCheer/Update.swift; sourceTree = "<group>"; };
+		E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrackViewController.swift; path = CrowdCheer/Views/TrackViewController.swift; sourceTree = "<group>"; };
 		E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F7AAC48DA163158EAFEBF0D7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -264,6 +266,7 @@
 				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
 				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
+				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
 				E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */,
 			);
 			name = Views;
@@ -618,6 +621,7 @@
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E29375F31BEBF20F003FC150 /* MySignUpViewController.m in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
+				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
 				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E29375F01BEBF20F003FC150 /* CommonalityViewController.m in Sources */,
 				E29375F61BEBF20F003FC150 /* RoleViewController.m in Sources */,

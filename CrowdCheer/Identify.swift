@@ -25,7 +25,7 @@ protocol Select: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func preselectRunners() -> Dictionary<PFUser, PFGeoPoint>
+    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -63,7 +63,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         var runnerLocs:Array<AnyObject> = []
 //        var runner:PFUser = PFUser.currentUser()
         let now = NSDate()
-        let seconds:NSTimeInterval = -600
+        let seconds:NSTimeInterval = -3600
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
         
@@ -104,4 +104,38 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             }
         }
     }
+}
+
+class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
+//This class handles how a cheerer monitors any runners around them
+    
+    var user: PFUser = PFUser.currentUser()
+    var locationMgr: CLLocationManager
+    var location: CLLocation
+    
+    override init(){
+        self.user = PFUser.currentUser()
+        self.locationMgr = CLLocationManager()
+        self.location = self.locationMgr.location!
+        
+        //initialize location manager
+        super.init()
+        self.locationMgr.delegate = self
+        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationMgr.activityType = CLActivityType.Fitness
+        self.locationMgr.distanceFilter = 1;
+        self.locationMgr.startUpdatingLocation()
+        
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.location = manager.location!
+    }
+    
+    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
+        let selectedRunners = runnerLocations
+        return selectedRunners
+        
+    }
+    
 }
