@@ -15,9 +15,9 @@ import Parse
 class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationMgr: CLLocationManager = CLLocationManager()
-    let isTracking: Bool = true
-    let isRunner: Bool = false
-    let isCheerer: Bool = false
+    var runner: PFUser = PFUser()
+    var userTrackerTimer: NSTimer = NSTimer()
+    var nearbyRunnersTimer: NSTimer = NSTimer()
     
     @IBOutlet weak var updateLocsLabel: UILabel!
     @IBOutlet weak var updateRunner: UIButton!
@@ -28,10 +28,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
         self.updateRunner.hidden = true
-        let userTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
+        self.userTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
         
-        //should only run this timer if user is a cheerer
-//        let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
     }
     
     func userTracker() {
@@ -43,7 +41,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         //if runner, start runner tracker and if cheerer, start cheerer tracker
         let user = PFUser.currentUser()
         let role = (user.valueForKey("role"))!
-        print("user role: ", role)
         
         if (role.isEqualToString("runner")) {
             runnerMonitor.monitorUserLocation()
@@ -56,10 +53,10 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             cheererMonitor.monitorUserLocation()
             cheererMonitor.updateUserPath()
             updateLocsLabel.text = "Updating cheerer location..."
-            let nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
+            self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         }
         else {
-            print("No valid role found.")
+            print("ERROR: No valid role found.")
         }
     }
     
@@ -69,24 +66,30 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         let nearbyRunners = NearbyRunners()
         nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
             
-            print("Runner List is ", runnerLocations!)
             var update: String = ""
             for (runnerObj, runnerLoc) in runnerLocations! {
-                print("runnerObj: ", runnerObj)
-                let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
-                print("runner: ", runner)
+                self.runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
                 let lat = runnerLoc.latitude
                 let lon = runnerLoc.longitude
                 let clLoc = CLLocation(latitude: lat, longitude: lon)
-                let runnerName = (runner.valueForKey("name"))!
+                let runnerName = (self.runner.valueForKey("name"))!
                 let distance = (self.locationMgr.location?.distanceFromLocation(clLoc))!
                 update = "Cheer for " + String(runnerName) + ": " + String(format: " %.02f", distance) + "m away"
             }
             
-            print("Nearby runners label: ", update)
+            //right now, we're automatically selecting the last runner on the list
             self.updateRunner.hidden = false
             self.updateRunner.setTitle(update, forState: UIControlState.Normal)
             
         }
+    }
+    
+    @IBAction func cheerCommitment(sender: UIButton) {
+        //call a function that will save a "cheer" object to parse
+        
+        let selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(self.runner)
+        self.userTrackerTimer.invalidate()
+        self.nearbyRunnersTimer.invalidate()
     }
 }

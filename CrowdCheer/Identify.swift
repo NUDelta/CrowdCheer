@@ -26,6 +26,7 @@ protocol Select: Any {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
+    func selectRunner(runner: PFUser)
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -76,30 +77,21 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             if error == nil {
                 // Found at least one runner
                 print("Successfully retrieved \(runnerObjects!.count) scores.")
-                //CURRENTLY: Walk through runners, save locations to a separate array
-                //SHOULD: Walk through objects, extract runners, create dictionary of <Runner Object, Curr Location> entries
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
-                        print("Runner Entry: ", object)
-                        
-//                        object.fetchIfNeededInBackgroundWithBlock({ (object: PFObject?, error: NSError?) -> Void in
-//                            runner = (object?["user"] as? PFUser)!
-//                        })
                         
                         let runner = (object as! PFObject)["user"] as! PFUser
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        print("runner is  ", runner)
-                        print ("runner's loc is: ", location)
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
                     }
                 }
-                print ("Runner Locs: ", runnerLocs)
+                print ("Runner dictionary: ", runnerLocs)
                 result(runnerLocations: runnerUpdates)
             }
             else {
                 // Query failed, load error
-                print("Error: \(error!) \(error!.userInfo)")
+                print("ERROR: \(error!) \(error!.userInfo)")
                 result(runnerLocations: runnerUpdates)
             }
         }
@@ -135,6 +127,21 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
         let selectedRunners = runnerLocations
         return selectedRunners
+        
+    }
+    
+    func selectRunner(runner: PFUser) {
+        //save runner/cheerer pair as a cheer object to parse
+        
+        let cheer = PFObject(className:"Cheers")
+        cheer["runner"] = runner
+        cheer["cheerer"] = PFUser.currentUser()
+        cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+            if _error == nil
+            {
+                print("cheer object saved")
+            }
+        }
         
     }
     

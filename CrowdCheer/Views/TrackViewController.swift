@@ -13,6 +13,13 @@ import Parse
 
 class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var profilePic: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var bibLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

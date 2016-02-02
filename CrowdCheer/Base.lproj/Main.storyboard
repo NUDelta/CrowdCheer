@@ -291,6 +291,7 @@
                                     <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="cheerCommitment:" destination="AWe-3X-XCa" eventType="touchUpInside" id="CxN-l1-cZo"/>
                                     <segue destination="x3m-YV-U7c" kind="push" id="Ajl-oe-eut"/>
                                 </connections>
                             </button>
@@ -1313,7 +1314,7 @@
         <!--Track A Runner-->
         <scene sceneID="yii-jB-kYF">
             <objects>
-                <viewController title="Track A Runner" id="x3m-YV-U7c" sceneMemberID="viewController">
+                <viewController title="Track A Runner" id="x3m-YV-U7c" customClass="TrackViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Ha-Tf-Ntm"/>
                         <viewControllerLayoutGuide type="bottom" id="FsL-z0-khY"/>
@@ -1396,7 +1397,14 @@
                             <constraint firstItem="grj-9f-Tle" firstAttribute="centerX" secondItem="Zx9-nv-uRq" secondAttribute="centerX" id="zAn-Gi-6U8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Cheer for Runners" id="Vvo-3Z-7hY"/>
+                    <navigationItem key="navigationItem" title="Track A Runner" id="Vvo-3Z-7hY"/>
+                    <connections>
+                        <outlet property="bibLabel" destination="Zx9-nv-uRq" id="vqn-zK-Nph"/>
+                        <outlet property="distanceLabel" destination="grj-9f-Tle" id="QG6-PW-WkA"/>
+                        <outlet property="mapView" destination="NyN-48-tka" id="0Aj-oF-NGH"/>
+                        <outlet property="nameLabel" destination="ZgZ-jF-70l" id="Sex-pH-goa"/>
+                        <outlet property="profilePic" destination="90Z-WU-ZMA" id="qGB-vd-bjK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dAT-08-fBq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
