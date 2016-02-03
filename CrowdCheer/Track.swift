@@ -11,6 +11,9 @@ import Parse
 
 
 protocol Prime: Any {
+    //get runner profile
+    //get runner location
+    
     var user: PFUser {get}
     var runner: PFUser {get}
     var locationMgr: CLLocationManager {get}

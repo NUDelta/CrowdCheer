@@ -16,7 +16,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
-    var userTrackerTimer: NSTimer = NSTimer()
+    var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     
     @IBOutlet weak var updateLocsLabel: UILabel!
@@ -28,11 +28,12 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
         self.updateRunner.hidden = true
-        self.userTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "userTracker", userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
+        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         
     }
     
-    func userTracker() {
+    func monitorUser() {
        
         let runnerMonitor = RunnerMonitor()
         let cheererMonitor = CheererMonitor()
@@ -47,13 +48,16 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             runnerMonitor.updateUserPath()
             runnerMonitor.updateUserLocation()
             updateLocsLabel.text = "Updating runner location..."
+            self.updateRunner.hidden = true
+            self.nearbyRunnersTimer.invalidate()
         }
         
         else if (role.isEqualToString("cheerer")) {
             cheererMonitor.monitorUserLocation()
             cheererMonitor.updateUserPath()
             updateLocsLabel.text = "Updating cheerer location..."
-            self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
+            self.updateRunner.hidden = false
+            
         }
         else {
             print("ERROR: No valid role found.")
@@ -78,18 +82,17 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             }
             
             //right now, we're automatically selecting the last runner on the list
-            self.updateRunner.hidden = false
             self.updateRunner.setTitle(update, forState: UIControlState.Normal)
             
         }
     }
     
     @IBAction func cheerCommitment(sender: UIButton) {
-        //call a function that will save a "cheer" object to parse
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
         
         let selectedRunners = SelectedRunners()
         selectedRunners.selectRunner(self.runner)
-        self.userTrackerTimer.invalidate()
+        self.userMonitorTimer.invalidate()
         self.nearbyRunnersTimer.invalidate()
     }
 }

@@ -19,9 +19,23 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var bibLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
+    var runnerTrackerTimer: NSTimer = NSTimer()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //update the runner profile info
+        //every second, update the map with the runner's location
+        
+        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+    }
+    
+    func trackRunner() {
         
     }
+    
+    func getRunnerProfile() {
+        
+    }
+
 }
