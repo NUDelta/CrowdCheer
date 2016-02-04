@@ -44,13 +44,25 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             
             self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
             let runnerName = (self.runner.valueForKey("name"))!
-            let runnerPic = (self.runner.valueForKey("profilePic"))
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
+//            let runnerPic = (self.runner.valueForKey("profilePic"))
+            
+            let userImageFile = self.runner["profilePic"] as? PFFile
+            userImageFile!.getDataInBackgroundWithBlock {
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        let image = UIImage(data:imageData)
+                        self.profilePic.image = image
+                    }
+                }
+            }
+            
+            
             print("name: \(runnerName) bib: \(runnerBib)")
             
             self.nameLabel.text = runnerName as? String
             self.bibLabel.text = runnerBib as? String
-            self.profilePic.image = runnerPic as? UIImage
             
         }
     }
