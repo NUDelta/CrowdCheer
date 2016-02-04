@@ -45,7 +45,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
             let runnerName = (self.runner.valueForKey("name"))!
             let runnerPic = (self.runner.valueForKey("profilePic"))
-            let runnerBib = (self.runner.valueForKey("bibNumber"))
+            let runnerBib = (self.runner.valueForKey("bibNumber"))!
             print("name: \(runnerName) bib: \(runnerBib)")
             
             self.nameLabel.text = runnerName as? String
