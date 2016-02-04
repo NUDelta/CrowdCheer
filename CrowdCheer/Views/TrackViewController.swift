@@ -19,17 +19,22 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var bibLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
+    let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //initialize map
         //update the runner profile info
         //every second, update the distance label and map with the runner's location
-        
+
+        self.mapView.showsUserLocation = true
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        
         
     }
     
@@ -44,9 +49,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         contextPrimer.getRunnerLocation(trackedRunner) { (runnerLoc) -> Void in
             //update map and distance label
             
-            self.mapView.showsUserLocation = true
-            self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true);
+            
             print("runnerLastLoc: ",runnerLoc)
+            
+            let distance = (self.locationMgr.location?.distanceFromLocation(runnerLoc))!
+            self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
         }
     }
     
