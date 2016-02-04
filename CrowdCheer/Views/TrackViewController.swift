@@ -26,7 +26,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     override func viewDidLoad() {
         super.viewDidLoad()
         //update the runner profile info
-        //every second, update the map with the runner's location
+        //every second, update the distance label and map with the runner's location
         
         getRunnerProfile()
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
@@ -35,18 +35,30 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func trackRunner() {
         print("Tracking runner")
+        let contextPrimer = ContextPrimer()
+        var trackedRunner = PFUser()
+        
+        contextPrimer.getRunner { (runnerObject) -> Void in
+            trackedRunner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
+        }
+        contextPrimer.getRunnerLocation(trackedRunner) { (runnerLoc) -> Void in
+            //update map and distance label
+            
+            self.mapView.showsUserLocation = true
+            self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true);
+            print("runnerLastLoc: ",runnerLoc)
+        }
     }
     
     func getRunnerProfile() {
         
         let contextPrimer = ContextPrimer()
         contextPrimer.getRunner(){ (runnerObject) -> Void in
+            //update runner name, bib #, picture
             
             self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
             let runnerName = (self.runner.valueForKey("name"))!
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
-//            let runnerPic = (self.runner.valueForKey("profilePic"))
-            
             let userImageFile = self.runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
                 (imageData: NSData?, error: NSError?) -> Void in
@@ -57,8 +69,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
                     }
                 }
             }
-            
-            
             print("name: \(runnerName) bib: \(runnerBib)")
             
             self.nameLabel.text = runnerName as? String

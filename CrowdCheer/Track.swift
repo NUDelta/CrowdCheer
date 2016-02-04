@@ -21,8 +21,8 @@ protocol Prime: Any {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner(result:(runnerObject: PFUser) -> Void)
-    func getRunnerProfile(runner: PFUser)
-    func getRunnerLocation(runner: PFUser) -> Dictionary<PFUser, PFGeoPoint>
+//    func getRunnerLocation(runner: PFUser) -> CLLocation
+    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocation) -> Void)
     func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
 }
@@ -92,13 +92,36 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         }
     }
     
-    func getRunnerProfile(runner: PFUser) {
+    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocation) -> Void) {
+        var runnerUpdate = CLLocation()
+        let now = NSDate()
+        let seconds:NSTimeInterval = -3600
+        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+        let query = PFQuery(className: "CurrRunnerLocation")
         
-    }
-    
-    func getRunnerLocation(runner: PFUser) -> Dictionary<PFUser, PFGeoPoint> {
-        let runnerUpdate = [PFUser: PFGeoPoint]()
-        return runnerUpdate
+        query.orderByDescending("updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
+        query.findObjectsInBackgroundWithBlock {
+            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // Found at least one runner
+                print("Successfully retrieved \(runnerObjects!.count) updates.")
+                if let runnerObjects = runnerObjects {
+                    for object in runnerObjects {
+                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        runnerUpdate = CLLocation(latitude: location.latitude, longitude: location.longitude)
+                    }
+                }
+                print ("Runner update: ", runnerUpdate)
+                result(runnerLoc: runnerUpdate)
+            }
+            else {
+                // Query failed, load error
+                print("ERROR: \(error!) \(error!.userInfo)")
+                result(runnerLoc: runnerUpdate)
+            }
+        }
     }
     
     func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint> {
