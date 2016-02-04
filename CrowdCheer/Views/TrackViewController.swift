@@ -20,6 +20,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var distanceLabel: UILabel!
     
     var runnerTrackerTimer: NSTimer = NSTimer()
+    var runner: PFUser = PFUser()
     
     
     override func viewDidLoad() {
@@ -27,15 +28,30 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         //update the runner profile info
         //every second, update the map with the runner's location
         
+        getRunnerProfile()
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        
     }
     
     func trackRunner() {
-        
+        print("Tracking runner")
     }
     
     func getRunnerProfile() {
         
+        let contextPrimer = ContextPrimer()
+        contextPrimer.getRunner(){ (runnerObject) -> Void in
+            
+            self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
+            let runnerName = (self.runner.valueForKey("name"))!
+            let runnerPic = (self.runner.valueForKey("profilePic"))
+            let runnerBib = (self.runner.valueForKey("bibNumber"))
+            print("name: \(runnerName) bib: \(runnerBib)")
+            
+            self.nameLabel.text = runnerName as? String
+            self.bibLabel.text = runnerBib as? String
+            self.profilePic.image = runnerPic as? UIImage
+            
+        }
     }
-
 }

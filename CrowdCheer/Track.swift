@@ -20,12 +20,14 @@ protocol Prime: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func getRunnerLocation() -> Dictionary<PFUser, PFGeoPoint>
-    func getRunnerPath() -> Array<PFGeoPoint>
+    func getRunner(result:(runnerObject: PFUser) -> Void)
+    func getRunnerProfile(runner: PFUser)
+    func getRunnerLocation(runner: PFUser) -> Dictionary<PFUser, PFGeoPoint>
+    func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
 }
 
-class contextPrimer: NSObject, Prime, CLLocationManagerDelegate {
+class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     var user: PFUser
     var runner: PFUser
@@ -34,7 +36,7 @@ class contextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     override init(){
         self.user = PFUser.currentUser()
-        self.runner = PFUser.currentUser()
+        self.runner = PFUser()
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         
@@ -51,12 +53,55 @@ class contextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
-    func getRunnerLocation() -> Dictionary<PFUser, PFGeoPoint> {
+    
+    func getRunner(result:(runnerObject: PFUser) -> Void) {
+        //query Cheers class for spectator's runner commitment and retrieve runner object
+        
+        var runner = PFUser()
+        let now = NSDate()
+        let seconds:NSTimeInterval = -60
+        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+        let query = PFQuery(className: "Cheers")
+        
+        //NOTE: query just uses last runner on list of commitments, maybe should cleverly select a runner if we support multiple commitments, like if you check of all the people you want to cheer for, what if we display the ones in the ideal "start" range?
+        query.orderByDescending("updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10
+        query.whereKey("cheerer", equalTo: self.user)
+        
+        query.findObjectsInBackgroundWithBlock {
+            (cheerObjects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // Found at least one runner
+                print("Successfully retrieved \(cheerObjects!.count) cheers.")
+                if let cheerObjects = cheerObjects {
+                    for cheer in cheerObjects {
+                        
+                        let runnerObject = (cheer as! PFObject)["runner"] as! PFUser
+                        runner = runnerObject
+                    }
+                }
+                print ("Runner: ", runner)
+                result(runnerObject: runner)
+            }
+            else {
+                // Query failed, load error
+                print("ERROR: \(error!) \(error!.userInfo)")
+                result(runnerObject: runner)
+            }
+        }
+    }
+    
+    func getRunnerProfile(runner: PFUser) {
+        
+    }
+    
+    func getRunnerLocation(runner: PFUser) -> Dictionary<PFUser, PFGeoPoint> {
         let runnerUpdate = [PFUser: PFGeoPoint]()
         return runnerUpdate
     }
     
-    func getRunnerPath() -> Array<PFGeoPoint> {
+    func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint> {
         let runnerPath:Array<PFGeoPoint> = []
         return runnerPath
     }
