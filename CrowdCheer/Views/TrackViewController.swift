@@ -22,6 +22,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
+    var runnerPath: Array<CLLocationCoordinate2D> = []
     
     
     override func viewDidLoad() {
@@ -51,8 +52,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             
             
             print("runnerLastLoc: ",runnerLoc)
+            self.runnerPath.append(runnerLoc)
+            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
+            self.mapView.addOverlay(geodesic)
             
-            let distance = (self.locationMgr.location?.distanceFromLocation(runnerLoc))!
+            let distance = (self.locationMgr.location?.distanceFromLocation(CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)))!
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
         }
     }

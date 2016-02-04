@@ -22,7 +22,7 @@ protocol Prime: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner(result:(runnerObject: PFUser) -> Void)
 //    func getRunnerLocation(runner: PFUser) -> CLLocation
-    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocation) -> Void)
+    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
     func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
 }
@@ -92,8 +92,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         }
     }
     
-    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocation) -> Void) {
-        var runnerUpdate = CLLocation()
+    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
+        var runnerUpdate = CLLocationCoordinate2D()
         let now = NSDate()
         let seconds:NSTimeInterval = -3600
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
@@ -110,7 +110,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        runnerUpdate = CLLocation(latitude: location.latitude, longitude: location.longitude)
+                        runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
                     }
                 }
                 print ("Runner update: ", runnerUpdate)
