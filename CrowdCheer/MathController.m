@@ -65,7 +65,7 @@ static float const metersInMile = 1609.344;
     }
 }
 
-+ (NSString *)stringifyAvgPaceFromDist:(float)meters overTime:(int)seconds
++ (NSString *)stringifyAvgPaceFromDist:(float)meters overTime:(NSInteger)seconds
 {
     if (seconds == 0 || meters == 0) {
         return @"0";

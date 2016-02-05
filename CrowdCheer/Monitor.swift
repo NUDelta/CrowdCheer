@@ -16,7 +16,7 @@ protocol Monitor: Any {
     var location: CLLocation {get set}
     var distance: Float {get set}
     var pace: NSString {get set}
-    var duration: Int32 {get}
+    var duration: NSInteger {get}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func monitorUserLocation()
@@ -38,7 +38,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var location: CLLocation
     var distance: Float
     var pace: NSString
-    let duration: Int32
+    var duration: NSInteger
     
     override init(){
         self.user = PFUser.currentUser()
@@ -73,7 +73,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func updateUserLocation() {
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime:self.duration)
         
         let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
@@ -87,7 +87,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc["user"] = PFUser.currentUser()
                 newCurrLoc["distance"] = self.distance
                 newCurrLoc["pace"] = self.pace
-//                newCurrLoc["duration"] = self.duration
+                newCurrLoc["duration"] = self.duration
                 newCurrLoc["time"] = NSDate()
                 newCurrLoc.saveInBackground()
                 
@@ -96,7 +96,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 currLoc["user"] = PFUser.currentUser()
                 currLoc["distance"] = self.distance
                 currLoc["pace"] = self.pace
-//                currLoc["duration"] = self.duration
+                currLoc["duration"] = self.duration
                 currLoc["time"] = NSDate()
                 currLoc.saveInBackground()
             }
@@ -107,18 +107,20 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        self.duration++
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
         print (user)
         print(self.distance)
+        print(self.duration)
         print(self.pace)
         print(NSDate())
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
         object["distance"] = self.distance
         object["pace"] = self.pace
-//        object["duration"] = self.duration
+        object["duration"] = self.duration
         object["time"] = NSDate()
         
         object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
@@ -137,7 +139,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var location: CLLocation
     var distance: Float
     var pace: NSString
-    let duration: Int32
+    var duration: NSInteger
     
     override init(){
         self.user = PFUser.currentUser()
@@ -172,14 +174,15 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime: self.duration)
+        self.duration++
         
         let object = PFObject(className:"CheererLocations")
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
         object["distance"] = distance
-//        object["pace"] = pace
-//        object["duration"] = duration
+        object["pace"] = pace
+        object["duration"] = duration
         object["time"] = NSDate()
         
         
