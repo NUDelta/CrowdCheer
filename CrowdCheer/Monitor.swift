@@ -106,7 +106,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
         self.duration++
         
         let object = PFObject(className:"RunnerLocations")

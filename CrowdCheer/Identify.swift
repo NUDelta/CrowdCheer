@@ -64,19 +64,19 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         var runnerLocs:Array<AnyObject> = []
 //        var runner:PFUser = PFUser.currentUser()
         let now = NSDate()
-        let seconds:NSTimeInterval = -3600
+        let seconds:NSTimeInterval = -60
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
         
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.5) //runners within 500 meters of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 1.0) //runners within 500 meters of me
         query.findObjectsInBackgroundWithBlock {
             (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // Found at least one runner
-                print("Successfully retrieved \(runnerObjects!.count) scores.")
+                print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         

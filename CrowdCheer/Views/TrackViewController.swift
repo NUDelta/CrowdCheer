@@ -43,6 +43,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         print("Tracking runner")
         let contextPrimer = ContextPrimer()
         var trackedRunner = PFUser()
+        let annotation = MKPointAnnotation()
         
         contextPrimer.getRunner { (runnerObject) -> Void in
             trackedRunner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
@@ -53,8 +54,10 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             
             print("runnerLastLoc: ",runnerLoc)
             self.runnerPath.append(runnerLoc)
-            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
-            self.mapView.addOverlay(geodesic)
+            annotation.coordinate = runnerLoc
+            self.mapView.addAnnotation(annotation)
+//            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
+//            self.mapView.addOverlay(geodesic)
             
             let distance = (self.locationMgr.location?.distanceFromLocation(CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)))!
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
