@@ -23,6 +23,8 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     var runnerPath: Array<CLLocationCoordinate2D> = []
+    var contextPrimer = ContextPrimer()
+    
     
     
     override func viewDidLoad() {
@@ -34,23 +36,19 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
-        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        self.contextPrimer = ContextPrimer()
         
         
     }
     
     func trackRunner() {
         print("Tracking runner")
-        let contextPrimer = ContextPrimer()
-        var trackedRunner = PFUser()
+        let trackedRunnerID: String = self.runner.objectId
         var runnerLastLoc = CLLocationCoordinate2D()
         let annotation = MKPointAnnotation()
         
-        
-        contextPrimer.getRunner { (runnerObject) -> Void in
-            trackedRunner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
-        }
-        contextPrimer.getRunnerLocation(trackedRunner) { (runnerLoc) -> Void in
+        self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
             runnerLastLoc = runnerLoc
         }
         //update map and distance label
@@ -68,8 +66,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func getRunnerProfile() {
         
-        let contextPrimer = ContextPrimer()
-        contextPrimer.getRunner(){ (runnerObject) -> Void in
+        self.contextPrimer.getRunner(){ (runnerObject) -> Void in
             //update runner name, bib #, picture
             
             self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
