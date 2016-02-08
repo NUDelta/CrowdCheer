@@ -22,6 +22,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
+    var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     
@@ -43,24 +44,27 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func trackRunner() {
+        //get latest loc and update map and distance label
+        
         print("Tracking runner")
         let trackedRunnerID: String = self.runner.objectId
-        var runnerLastLoc = CLLocationCoordinate2D()
         let annotation = MKPointAnnotation()
         
         self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
-            runnerLastLoc = runnerLoc
+
+            self.runnerLastLoc = runnerLoc
+            print("runnerLastLoc inside timer", self.runnerLastLoc)
         }
-        //update map and distance label
         
-        print("runnerLastLoc: ",runnerLastLoc)
-        self.runnerPath.append(runnerLastLoc)
-        annotation.coordinate = runnerLastLoc
+        print("runnerLastLoc: ",self.runnerLastLoc)
+        self.runnerPath.append(self.runnerLastLoc)
+        annotation.coordinate = self.runnerLastLoc
         self.mapView.addAnnotation(annotation)
         //            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
         //            self.mapView.addOverlay(geodesic)
         
-        let distance = (self.locationMgr.location?.distanceFromLocation(CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)))!
+        let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
+        let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
         self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
     }
     

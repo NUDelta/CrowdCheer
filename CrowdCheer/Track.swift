@@ -94,8 +94,6 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     func getRunnerLocation(trackedRunnerID: String, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
         
-        print("trackedRunnerObj: ", trackedRunnerID)
-        print("trackedRunner query: ", PFQuery.getUserObjectWithId(trackedRunnerID))
         let trackedRunner = PFQuery.getUserObjectWithId(trackedRunnerID)
         var runnerUpdate = CLLocationCoordinate2D()
         let now = NSDate()
@@ -107,54 +105,27 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
         query.whereKey("user", equalTo: trackedRunner)
-        //BUG: not entering if/else statements
-        if(trackedRunner.objectId != nil) {
-            query.findObjectsInBackgroundWithBlock {
-                (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
-                
-                if error == nil {
-                    // Found at least one runner
-                    print("Successfully retrieved \(runnerObjects!.count) updates.")
-                    if let runnerObjects = runnerObjects {
-                        for object in runnerObjects {
-                            let location = (object as! PFObject)["location"] as! PFGeoPoint
-                            runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-                        }
+        query.findObjectsInBackgroundWithBlock {
+            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // Found at least one runner
+                print("Successfully retrieved \(runnerObjects!.count) updates.")
+                if let runnerObjects = runnerObjects {
+                    for object in runnerObjects {
+                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        print("location: ", location)
+                        runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
                     }
-                    print ("Runner update: ", runnerUpdate)
-                    result(runnerLoc: runnerUpdate)
                 }
-                else {
-                    // Query failed, load error
-                    print("ERROR: \(error!) \(error!.userInfo)")
-                    result(runnerLoc: runnerUpdate)
-                }
+                print ("Runner update: ", runnerUpdate)
+                result(runnerLoc: runnerUpdate)
             }
-        }
-        else {
-            trackedRunner.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
-                query.findObjectsInBackgroundWithBlock {
-                    (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
-                    
-                    if error == nil {
-                        // Found at least one runner
-                        print("Successfully retrieved \(runnerObjects!.count) updates.") //BUG: sometimes returns 0 objects, casuing fatal bug when unwrapping a nil below
-                        if let runnerObjects = runnerObjects {
-                            for object in runnerObjects {
-                                let location = (object as! PFObject)["location"] as! PFGeoPoint
-                                runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-                            }
-                        }
-                        print ("Runner update: ", runnerUpdate)
-                        result(runnerLoc: runnerUpdate)
-                    }
-                    else {
-                        // Query failed, load error
-                        print("ERROR: \(error!) \(error!.userInfo)")
-                        result(runnerLoc: runnerUpdate)
-                    }
-                }
-            })
+            else {
+                // Query failed, load error
+                print("ERROR: \(error!) \(error!.userInfo)")
+                result(runnerLoc: runnerUpdate)
+            }
         }
     }
     
