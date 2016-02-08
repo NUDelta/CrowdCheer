@@ -22,7 +22,7 @@ protocol Prime: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner(result:(runnerObject: PFUser) -> Void)
 //    func getRunnerLocation(runner: PFUser) -> CLLocation
-    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
+    func getRunnerLocation(trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
     func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
 }
@@ -57,7 +57,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     func getRunner(result:(runnerObject: PFUser) -> Void) {
         //query Cheers class for spectator's runner commitment and retrieve runner object
         
-        var runner = PFUser()
+        self.runner = PFUser()
         let now = NSDate()
         let seconds:NSTimeInterval = -600 //NOTE: called every second when tracking, so we get an empty query after 60 seconds. ideally, interval would last as long as you are committed to a runner, but then the query might find your last committed runner and your current, so then pull the most recent of the list?
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
@@ -78,33 +78,57 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                     for cheer in cheerObjects {
                         
                         let runnerObject = (cheer as! PFObject)["runner"] as! PFUser
-                        runner = runnerObject
+                        self.runner = runnerObject
                     }
                 }
-                print ("Runner: ", runner)
-                result(runnerObject: runner)
+                print ("Runner: ", self.runner)
+                result(runnerObject: self.runner)
             }
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \(error!.userInfo)")
-                result(runnerObject: runner)
+                result(runnerObject: self.runner)
             }
         }
     }
     
-    func getRunnerLocation(runner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
+    func getRunnerLocation(trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
         var runnerUpdate = CLLocationCoordinate2D()
         let now = NSDate()
-        let seconds:NSTimeInterval = -3600
+        let seconds:NSTimeInterval = -60
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
+        print("trackedRunner: ", trackedRunner)
         
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("user", equalTo: runner)
-        
-        if(runner.objectId == nil) {
-            runner.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
+        query.whereKey("user", equalTo: trackedRunner)
+        //BUG: not entering if/else statements
+        if(trackedRunner.objectId != nil) {
+            query.findObjectsInBackgroundWithBlock {
+                (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    // Found at least one runner
+                    print("Successfully retrieved \(runnerObjects!.count) updates.")
+                    if let runnerObjects = runnerObjects {
+                        for object in runnerObjects {
+                            let location = (object as! PFObject)["location"] as! PFGeoPoint
+                            runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+                        }
+                    }
+                    print ("Runner update: ", runnerUpdate)
+                    result(runnerLoc: runnerUpdate)
+                }
+                else {
+                    // Query failed, load error
+                    print("ERROR: \(error!) \(error!.userInfo)")
+                    result(runnerLoc: runnerUpdate)
+                }
+            }
+        }
+        else {
+            trackedRunner.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
                 query.findObjectsInBackgroundWithBlock {
                     (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
                     
@@ -126,31 +150,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         result(runnerLoc: runnerUpdate)
                     }
                 }
-
             })
-        }
-        else {
-            query.findObjectsInBackgroundWithBlock {
-                (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
-                
-                if error == nil {
-                    // Found at least one runner
-                    print("Successfully retrieved \(runnerObjects!.count) updates.") //BUG: sometimes returns 0 objects, casuing fatal bug when unwrapping a nil below
-                    if let runnerObjects = runnerObjects {
-                        for object in runnerObjects {
-                            let location = (object as! PFObject)["location"] as! PFGeoPoint
-                            runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-                        }
-                    }
-                    print ("Runner update: ", runnerUpdate)
-                    result(runnerLoc: runnerUpdate)
-                }
-                else {
-                    // Query failed, load error
-                    print("ERROR: \(error!) \(error!.userInfo)")
-                    result(runnerLoc: runnerUpdate)
-                }
-            }
         }
     }
     
