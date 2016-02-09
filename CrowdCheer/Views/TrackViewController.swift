@@ -53,19 +53,17 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
 
             self.runnerLastLoc = runnerLoc
-            print("runnerLastLoc inside timer", self.runnerLastLoc)
         }
         
-        print("runnerLastLoc: ",self.runnerLastLoc)
         self.runnerPath.append(self.runnerLastLoc)
+        print("runnerPath: ", self.runnerPath)
+//        self.mapView.removeAnnotation(annotation)
         annotation.coordinate = self.runnerLastLoc
         self.mapView.addAnnotation(annotation)
-        //            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
-        //            self.mapView.addOverlay(geodesic)
-        
         let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
         let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
         self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
+        drawPath()
     }
     
     func getRunnerProfile() {
@@ -92,5 +90,14 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.bibLabel.text = runnerBib as? String
             
         }
+    }
+    
+    func drawPath() {
+        
+        if(self.runnerPath.count > 10) {
+            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[1] , count: self.runnerPath.count)
+            self.mapView.addOverlay(geodesic)
+        }
+        
     }
 }

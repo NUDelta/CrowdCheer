@@ -756,7 +756,7 @@
 
 - (void)drawLine {
     
-    // create an array of coordinates
+    // create an array of coordinate
     CLLocationCoordinate2D coordinates[self.runnerPath.count];
     int i = 0;
     for (CLLocation *currentPin in self.runnerPath) {
