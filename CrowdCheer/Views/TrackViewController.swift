@@ -68,10 +68,10 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func getRunnerProfile() {
         
-        self.contextPrimer.getRunner(){ (runnerObject) -> Void in
+        self.contextPrimer.getRunner(){ (runnerObjectID) -> Void in
             //update runner name, bib #, picture
-            
-            self.runner = PFQuery.getUserObjectWithId(runnerObject.objectId!)
+            print("runnerObjID: ", runnerObjectID)
+            self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
             let runnerName = (self.runner.valueForKey("name"))!
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
             let userImageFile = self.runner["profilePic"] as? PFFile

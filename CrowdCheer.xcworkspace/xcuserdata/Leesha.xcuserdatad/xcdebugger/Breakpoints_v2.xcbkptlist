@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/Track.swift"
-            timestampString = "476651549.943053"
+            timestampString = "476738352.861107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "getRunnerLocation(_:result:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,12 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CrowdCheer/Views/TrackViewController.swift"
-            timestampString = "476662327.854502"
+            timestampString = "476738352.861107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "trackRunner()"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "getRunnerProfile()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CrowdCheer/Views/TrackViewController.swift"
+            timestampString = "476738352.861107"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "getRunnerProfile()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

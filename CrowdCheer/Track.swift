@@ -20,8 +20,7 @@ protocol Prime: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func getRunner(result:(runnerObject: PFUser) -> Void)
-//    func getRunnerLocation(runner: PFUser) -> CLLocation
+    func getRunner(result:(runnerObjectID: String) -> Void)
     func getRunnerLocation(trackedRunnerID: String, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
     func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
@@ -31,12 +30,14 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     var user: PFUser
     var runner: PFUser
+    var runnerObjID: String
     var locationMgr: CLLocationManager
     var location: CLLocation
     
     override init(){
         self.user = PFUser.currentUser()
         self.runner = PFUser()
+        self.runnerObjID = ""
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         
@@ -54,7 +55,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
     }
     
-    func getRunner(result:(runnerObject: PFUser) -> Void) {
+    func getRunner(result:(runnerObjectID: String) -> Void) {
         //query Cheers class for spectator's runner commitment and retrieve runner object
         
         self.runner = PFUser()
@@ -79,15 +80,16 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         
                         let runnerObject = (cheer as! PFObject)["runner"] as! PFUser
                         self.runner = runnerObject
+                        self.runnerObjID = self.runner.objectId
                     }
                 }
                 print ("Runner: ", self.runner)
-                result(runnerObject: self.runner)
+                result(runnerObjectID: self.runnerObjID)
             }
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \(error!.userInfo)")
-                result(runnerObject: self.runner)
+                result(runnerObjectID: self.runnerObjID)
             }
         }
     }
