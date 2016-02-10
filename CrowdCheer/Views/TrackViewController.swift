@@ -56,14 +56,17 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.runnerLastLoc = runnerLoc
         }
         
-//        if (CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
+        if (self.runnerLastLoc.latitude == 0.0 && self.runnerLastLoc.longitude == 0.0) {
+            print("skipping coordinate")
+        }
+        else {
             self.runnerPath.append(self.runnerLastLoc)
             print("runnerPath: ", self.runnerPath)
-//        }
-        
+        }
+    
 //        self.mapView.removeAnnotation(annotation)
         annotation.coordinate = self.runnerLastLoc
-        self.mapView.addAnnotation(annotation)
+//        self.mapView.addAnnotation(annotation)
         let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
         let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
         self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
@@ -99,7 +102,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     func drawPath() {
         
         if(self.runnerPath.count > 1) {
-            self.runnerPath.removeFirst()
+//            self.runnerPath.removeFirst()
             let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
             self.mapView.addOverlay(polyline)
         }
@@ -112,7 +115,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             let polyLine = overlay
             let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
             polyLineRenderer.strokeColor = UIColor.blueColor()
-            polyLineRenderer.lineWidth = 2.0
+            polyLineRenderer.lineWidth = 3.0
             
             return polyLineRenderer
         }
