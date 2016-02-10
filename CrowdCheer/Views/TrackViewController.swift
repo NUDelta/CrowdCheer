@@ -34,6 +34,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         //update the runner profile info
         //every second, update the distance label and map with the runner's location
 
+        self.mapView.delegate = self
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
@@ -55,8 +56,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.runnerLastLoc = runnerLoc
         }
         
-        self.runnerPath.append(self.runnerLastLoc)
-        print("runnerPath: ", self.runnerPath)
+//        if (CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
+            self.runnerPath.append(self.runnerLastLoc)
+            print("runnerPath: ", self.runnerPath)
+//        }
+        
 //        self.mapView.removeAnnotation(annotation)
         annotation.coordinate = self.runnerLastLoc
         self.mapView.addAnnotation(annotation)
@@ -94,10 +98,25 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func drawPath() {
         
-        if(self.runnerPath.count > 10) {
-            let geodesic = MKGeodesicPolyline(coordinates: &self.runnerPath[1] , count: self.runnerPath.count)
-            self.mapView.addOverlay(geodesic)
+        if(self.runnerPath.count > 1) {
+            self.runnerPath.removeFirst()
+            let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
+            self.mapView.addOverlay(polyline)
         }
         
+    }
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay.isKindOfClass(MKPolyline) {
+            // draw the track
+            let polyLine = overlay
+            let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
+            polyLineRenderer.strokeColor = UIColor.blueColor()
+            polyLineRenderer.lineWidth = 2.0
+            
+            return polyLineRenderer
+        }
+        
+        return nil
     }
 }

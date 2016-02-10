@@ -52,7 +52,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             self.runnerMonitor.monitorUserLocation()
             self.runnerMonitor.updateUserPath()
             self.runnerMonitor.updateUserLocation()
-            updateLocsLabel.text = "Updating runner location..."
+            updateLocsLabel.text = "Tracking your run..."
             self.updateRunner.hidden = true
             self.nearbyRunnersTimer.invalidate()
         }
@@ -60,8 +60,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         else if (role.isEqualToString("cheerer")) {
             self.cheererMonitor.monitorUserLocation()
             self.cheererMonitor.updateUserPath()
-            updateLocsLabel.text = "Updating cheerer location..."
-            self.updateRunner.hidden = false
+            updateLocsLabel.text = "Searching for runners..."
+            
             
         }
         else {
@@ -88,6 +88,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
             
             //right now, we're automatically selecting the last runner on the list
             self.updateRunner.setTitle(update, forState: UIControlState.Normal)
+            self.updateRunner.hidden = false
             
         }
     }

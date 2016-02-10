@@ -62,7 +62,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         let geoPoint = PFGeoPoint(location: location)
         var runnerUpdates = [PFUser: PFGeoPoint]()
         var runnerLocs:Array<AnyObject> = []
-//        var runner:PFUser = PFUser.currentUser()
         let now = NSDate()
         let seconds:NSTimeInterval = -60
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)

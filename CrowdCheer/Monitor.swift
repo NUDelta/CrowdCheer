@@ -10,6 +10,7 @@ import Foundation
 import Parse
 
 
+//the MONITOR protocol is used to monitor the status of all users
 protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
@@ -24,13 +25,8 @@ protocol Monitor: Any {
     
 }
 
-//this tracking delegate would be like a start tracking all runners/cheerers
-protocol TrackingDelegate {
-    func startTracking()
-    func stopTracking()
-}
 
-
+//the RunnerMonitor Class specifically monitors runner stats (current location, movement, performance)
 class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
@@ -60,7 +56,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = manager.location!
-        print("locations = \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
     func monitorUserLocation() {
@@ -132,6 +127,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
 }
 
+
+//the CheererMonitor Class specifically monitors cheerer stats (movement)
 class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
