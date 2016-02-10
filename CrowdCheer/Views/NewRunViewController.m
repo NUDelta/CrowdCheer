@@ -317,10 +317,10 @@ static NSString * const detailSegueName = @"RunDetails";
     return self.lineView;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    [[segue destinationViewController] setRun:self.run];
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    [[segue destinationViewController] setRun:self.run];
+//}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
