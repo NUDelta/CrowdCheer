@@ -16,7 +16,10 @@
 		E240F4761B692510008C9580 /* 2_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4731B692510008C9580 /* 2_watch.png */; };
 		E240F4781B6BBEB6008C9580 /* Ford.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E240F4771B6BBEB6008C9580 /* Ford.gpx */; };
 		E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */; };
-		E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */; };
+		E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */; };
+		E254BE631C6B978200C9FD8B /* RunnerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */; };
+		E254BE681C6BA0C000C9FD8B /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */; };
+		E254BE691C6BA0C000C9FD8B /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
@@ -68,7 +71,6 @@
 		E2CA51831A89537200C2BB03 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA51821A89537200C2BB03 /* icon.png */; };
 		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
 		E2D6B3D91BA0C3E000D1B8BB /* myrunner.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */; };
-		E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */; };
 		E2E652EA1AB2B97400561710 /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E61AB2B97400561710 /* icon_120.png */; };
 		E2E652EB1AB2B97400561710 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E71AB2B97400561710 /* icon_58.png */; };
 		E2E652EC1AB2B97400561710 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E81AB2B97400561710 /* icon_80.png */; };
@@ -104,8 +106,12 @@
 		E240F4731B692510008C9580 /* 2_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_watch.png; sourceTree = "<group>"; };
 		E240F4771B6BBEB6008C9580 /* Ford.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ford.gpx; sourceTree = "<group>"; };
 		E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1438375376_wooman.png; sourceTree = "<group>"; };
-		E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
-		E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
+		E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotation.swift; path = CrowdCheer/RunnerAnnotation.swift; sourceTree = "<group>"; };
+		E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotationView.swift; path = CrowdCheer/Views/RunnerAnnotationView.swift; sourceTree = "<group>"; };
+		E254BE641C6BA0C000C9FD8B /* MyRunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRunnerAnnotation.h; path = CrowdCheer/MyRunnerAnnotation.h; sourceTree = "<group>"; };
+		E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRunnerAnnotation.m; path = CrowdCheer/MyRunnerAnnotation.m; sourceTree = "<group>"; };
+		E254BE661C6BA0C000C9FD8B /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
+		E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
@@ -176,8 +182,6 @@
 		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathController.h; path = CrowdCheer/MathController.h; sourceTree = "<group>"; };
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
 		E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myrunner.png; sourceTree = "<group>"; };
-		E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRunnerAnnotation.m; path = CrowdCheer/MyRunnerAnnotation.m; sourceTree = "<group>"; };
-		E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRunnerAnnotation.h; path = CrowdCheer/MyRunnerAnnotation.h; sourceTree = "<group>"; };
 		E2E652E61AB2B97400561710 /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
 		E2E652E71AB2B97400561710 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 		E2E652E81AB2B97400561710 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				E29375E21BEBF20F003FC150 /* CommonalityViewController.m */,
 				E29375E31BEBF20F003FC150 /* DefaultSettingsViewController.h */,
 				E29375E41BEBF20F003FC150 /* DefaultSettingsViewController.m */,
+				E2AABB831C04CF450062960A /* DetailViewController.h */,
 				E29375E51BEBF20F003FC150 /* HomeViewController.h */,
 				E29375E61BEBF20F003FC150 /* HomeViewController.m */,
 				E29375E71BEBF20F003FC150 /* MySignUpViewController.h */,
@@ -266,8 +271,9 @@
 				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
 				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
-				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
 				E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */,
+				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
+				E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -311,18 +317,18 @@
 				E2EFA7C61C5A77C700974475 /* Monitor.swift */,
 				E2EFA7C81C5A79FA00974475 /* Identify.swift */,
 				E2EFA7CA1C5A800F00974475 /* Track.swift */,
+				E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */,
 				E2EFA7CC1C5A802C00974475 /* Verify.swift */,
 				E2EFA7CE1C5A804900974475 /* Update.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
-				E2D6B3DA1BA0C49400D1B8BB /* MyRunnerAnnotation.m */,
-				E2D6B3DB1BA0C49400D1B8BB /* MyRunnerAnnotation.h */,
-				E265087B1B8B830C00D726F0 /* RunnerAnnotation.h */,
 				E2AABB811C04CD2D0062960A /* Run.h */,
-				E265087C1B8B830C00D726F0 /* RunnerAnnotation.m */,
-				E2CA51861A89D51100C2BB03 /* MathController.h */,
-				E2AABB831C04CF450062960A /* DetailViewController.h */,
 				E2AABB821C04CDE70062960A /* Location.h */,
+				E2CA51861A89D51100C2BB03 /* MathController.h */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
+				E254BE641C6BA0C000C9FD8B /* MyRunnerAnnotation.h */,
+				E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */,
+				E254BE661C6BA0C000C9FD8B /* RunnerAnnotation.h */,
+				E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */,
 				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
 				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
 				E2AD20071A9A96B400B1BEFE /* Frameworks */,
@@ -605,9 +611,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E254BE681C6BA0C000C9FD8B /* MyRunnerAnnotation.m in Sources */,
 				E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */,
 				E29375F51BEBF20F003FC150 /* RelationshipViewController.m in Sources */,
-				E2D6B3DC1BA0C49400D1B8BB /* MyRunnerAnnotation.m in Sources */,
 				E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */,
 				E2EFA7C51C4EC3D000974475 /* RaceViewModel.swift in Sources */,
 				E2EFA7C91C5A79FA00974475 /* Identify.swift in Sources */,
@@ -621,12 +627,14 @@
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E29375F31BEBF20F003FC150 /* MySignUpViewController.m in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
+				E254BE691C6BA0C000C9FD8B /* RunnerAnnotation.m in Sources */,
 				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
-				E265087D1B8B830C00D726F0 /* RunnerAnnotation.m in Sources */,
 				E29375F01BEBF20F003FC150 /* CommonalityViewController.m in Sources */,
+				E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */,
 				E29375F61BEBF20F003FC150 /* RoleViewController.m in Sources */,
 				E29375DE1BEBF1BC003FC150 /* MotivatorViewController.m in Sources */,
 				E29375F41BEBF20F003FC150 /* NewRunViewController.m in Sources */,
+				E254BE631C6B978200C9FD8B /* RunnerAnnotationView.swift in Sources */,
 				E29375F11BEBF20F003FC150 /* DefaultSettingsViewController.m in Sources */,
 				E2EFA7CB1C5A800F00974475 /* Track.swift in Sources */,
 			);

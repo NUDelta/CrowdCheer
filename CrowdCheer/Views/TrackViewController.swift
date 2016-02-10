@@ -21,6 +21,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
+    var runnerAnnotationTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
@@ -39,6 +40,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+//        self.runnerAnnotationTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "updateRunnerPin", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         
         
@@ -49,7 +51,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         print("Tracking runner")
         let trackedRunnerID: String = self.runner.objectId
-        let annotation = MKPointAnnotation()
+//        let annotation = MKPointAnnotation()
         
         self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
 
@@ -64,13 +66,13 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             print("runnerPath: ", self.runnerPath)
         }
     
-//        self.mapView.removeAnnotation(annotation)
-        annotation.coordinate = self.runnerLastLoc
+//        annotation.coordinate = self.runnerLastLoc
 //        self.mapView.addAnnotation(annotation)
         let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
         let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
         self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
         drawPath()
+        updateRunnerPin()
     }
     
     func getRunnerProfile() {
@@ -91,7 +93,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
                     }
                 }
             }
-            print("name: \(runnerName) bib: \(runnerBib)")
             
             self.nameLabel.text = runnerName as? String
             self.bibLabel.text = runnerBib as? String
@@ -102,16 +103,29 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     func drawPath() {
         
         if(self.runnerPath.count > 1) {
-//            self.runnerPath.removeFirst()
             let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
             self.mapView.addOverlay(polyline)
         }
         
     }
     
+    func updateRunnerPin() {
+        
+        let coordinate = self.runnerLastLoc
+        let title = self.nameLabel.text
+        let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
+        let subtitle = ("Bib #:" + self.bibLabel.text!)
+        let annotation = RunnerAnnotation(coordinate: coordinate, title: title!, subtitle: subtitle, type: type!)
+
+        let annotationsToRemove = self.mapView.annotations.filter { $0 !== self.mapView.userLocation }
+        self.mapView.removeAnnotations(annotationsToRemove)
+        self.mapView.addAnnotation(annotation)
+    }
+    
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay.isKindOfClass(MKPolyline) {
-            // draw the track
+
+            // render the path
             let polyLine = overlay
             let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
             polyLineRenderer.strokeColor = UIColor.blueColor()
@@ -121,5 +135,17 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         }
         
         return nil
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if (annotation is MKUserLocation) {
+            return nil
+        }
+        else {
+            let annotationView = RunnerAnnotationView(annotation: annotation, reuseIdentifier: "Runner")
+            annotationView.canShowCallout = true
+            return annotationView
+        }
     }
 }
