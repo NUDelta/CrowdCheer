@@ -22,7 +22,6 @@ protocol Prime: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner(result:(runnerObjectID: String) -> Void)
     func getRunnerLocation(trackedRunnerID: String, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
-    func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint>
     
 }
 
@@ -129,10 +128,5 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 result(runnerLoc: runnerUpdate)
             }
         }
-    }
-    
-    func getRunnerPath(runner: PFUser) -> Array<PFGeoPoint> {
-        let runnerPath:Array<PFGeoPoint> = []
-        return runnerPath
     }
 }

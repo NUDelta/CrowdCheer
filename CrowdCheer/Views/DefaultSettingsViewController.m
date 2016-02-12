@@ -8,7 +8,7 @@
 
 #import "DefaultSettingsViewController.h"
 #import "MySignUpViewController.h"
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 #import "NewRunViewController.h"
 
 @interface DefaultSettingsViewController ()
@@ -28,8 +28,10 @@
 
 - (IBAction)logOutButton:(id)sender {
     [PFUser logOut];
-    [self viewDidLoad];
-    [self viewDidAppear:YES];
+    
+    //instantiate VC
+    UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpViewController"];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,11 +72,11 @@
                       otherButtonTitles:nil] show];
     return NO; // Interrupt login process
 }
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
-    
-    appDelegateTemp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-}
+//- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+//    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
+//    
+//    appDelegateTemp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+//}
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
     NSLog(@"Failed to log in...");
 }
@@ -104,12 +106,12 @@
     
     return informationComplete;
 }
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-    [self dismissModalViewControllerAnimated:YES]; // Dismiss the PFSignUpViewController
-    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
-    
-    appDelegateTemp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-}
+//- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+//    [self dismissModalViewControllerAnimated:YES]; // Dismiss the PFSignUpViewController
+//    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
+//    
+//    appDelegateTemp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+//}
 
 // Sent to the delegate when the sign up attempt fails.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {

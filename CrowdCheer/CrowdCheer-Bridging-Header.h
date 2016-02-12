@@ -15,6 +15,7 @@
 #import "MathController.h"
 #import "Parse/Parse.h"
 #import "Parse/PFGeoPoint.h"
+#import "EstimoteSDK/EstimoteSDK.h"
 
 
 #endif /* CrowdCheer_Bridging_Header_h */

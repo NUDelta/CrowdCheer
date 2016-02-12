@@ -10,7 +10,6 @@
 #import "DefaultSettingsViewController.h"
 
 @interface RoleViewController () <CLLocationManagerDelegate>
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *logOutButton;
 @property (nonatomic, weak) IBOutlet UIButton *runnerRole;
 @property (nonatomic, weak) IBOutlet UIButton *cheererRole;
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -51,13 +50,6 @@
     
 }
 
-- (IBAction)logOutButton:(id)sender {
-    [PFUser logOut];
-    
-    //instantiate VC
-    UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"defaultSettingsViewController"];
-    [self.navigationController pushViewController:controller animated:YES];
-}
 
 - (IBAction)runnerRole:(id)sender {
     PFUser *currentUser = [PFUser currentUser];

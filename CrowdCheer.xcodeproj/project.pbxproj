@@ -10,7 +10,6 @@
 		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
-		E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23AEFB11B54239100FB6B78 /* AppDelegate.m */; };
 		E240F4741B692510008C9580 /* 3_cheer.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4711B692510008C9580 /* 3_cheer.png */; };
 		E240F4751B692510008C9580 /* 1_notify.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4721B692510008C9580 /* 1_notify.png */; };
 		E240F4761B692510008C9580 /* 2_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4731B692510008C9580 /* 2_watch.png */; };
@@ -18,8 +17,11 @@
 		E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */ = {isa = PBXBuildFile; fileRef = E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */; };
 		E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */; };
 		E254BE631C6B978200C9FD8B /* RunnerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */; };
-		E254BE681C6BA0C000C9FD8B /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */; };
-		E254BE691C6BA0C000C9FD8B /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */; };
+		E254BE6D1C6BCB1000C9FD8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE6C1C6BCB1000C9FD8B /* AppDelegate.swift */; };
+		E254BEA91C6D0D3F00C9FD8B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BEA81C6D0D3F00C9FD8B /* SignUpViewController.swift */; };
+		E254BEAE1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEAB1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m */; };
+		E254BEAF1C6E3A0D00C9FD8B /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEAD1C6E3A0D00C9FD8B /* RunnerAnnotation.m */; };
+		E254BEB21C6E3A7000C9FD8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEB11C6E3A6F00C9FD8B /* AppDelegate.m */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
@@ -100,7 +102,6 @@
 		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
-		E23AEFB11B54239100FB6B78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
 		E240F4711B692510008C9580 /* 3_cheer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3_cheer.png; sourceTree = "<group>"; };
 		E240F4721B692510008C9580 /* 1_notify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_notify.png; sourceTree = "<group>"; };
 		E240F4731B692510008C9580 /* 2_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_watch.png; sourceTree = "<group>"; };
@@ -108,10 +109,14 @@
 		E240F4791B6BCF3C008C9580 /* 1438375376_wooman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1438375376_wooman.png; sourceTree = "<group>"; };
 		E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotation.swift; path = CrowdCheer/RunnerAnnotation.swift; sourceTree = "<group>"; };
 		E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotationView.swift; path = CrowdCheer/Views/RunnerAnnotationView.swift; sourceTree = "<group>"; };
-		E254BE641C6BA0C000C9FD8B /* MyRunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRunnerAnnotation.h; path = CrowdCheer/MyRunnerAnnotation.h; sourceTree = "<group>"; };
-		E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRunnerAnnotation.m; path = CrowdCheer/MyRunnerAnnotation.m; sourceTree = "<group>"; };
-		E254BE661C6BA0C000C9FD8B /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
-		E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
+		E254BE6C1C6BCB1000C9FD8B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = CrowdCheer/AppDelegate.swift; sourceTree = "<group>"; };
+		E254BEA81C6D0D3F00C9FD8B /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = CrowdCheer/Views/SignUpViewController.swift; sourceTree = "<group>"; };
+		E254BEAA1C6E3A0D00C9FD8B /* MyRunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRunnerAnnotation.h; path = CrowdCheer/MyRunnerAnnotation.h; sourceTree = "<group>"; };
+		E254BEAB1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRunnerAnnotation.m; path = CrowdCheer/MyRunnerAnnotation.m; sourceTree = "<group>"; };
+		E254BEAC1C6E3A0D00C9FD8B /* RunnerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnerAnnotation.h; path = CrowdCheer/RunnerAnnotation.h; sourceTree = "<group>"; };
+		E254BEAD1C6E3A0D00C9FD8B /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
+		E254BEB01C6E3A6F00C9FD8B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CrowdCheer/AppDelegate.h; sourceTree = "<group>"; };
+		E254BEB11C6E3A6F00C9FD8B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
@@ -153,7 +158,6 @@
 		E2CA50DE1A88677A00C2BB03 /* CrowdCheer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrowdCheer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA50E21A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CA50E31A88677A00C2BB03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E2CA50E51A88677A00C2BB03 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CrowdCheer/AppDelegate.h; sourceTree = "<group>"; };
 		E2CA50E91A88677A00C2BB03 /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
 		E2CA50F21A88677A00C2BB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2CA50F41A88677A00C2BB03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -270,8 +274,9 @@
 				E29375EE1BEBF20F003FC150 /* RoleViewController.m */,
 				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
 				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
-				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */,
+				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
+				E254BEA81C6D0D3F00C9FD8B /* SignUpViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
 				E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */,
 			);
@@ -317,20 +322,21 @@
 				E2EFA7C61C5A77C700974475 /* Monitor.swift */,
 				E2EFA7C81C5A79FA00974475 /* Identify.swift */,
 				E2EFA7CA1C5A800F00974475 /* Track.swift */,
-				E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */,
 				E2EFA7CC1C5A802C00974475 /* Verify.swift */,
 				E2EFA7CE1C5A804900974475 /* Update.swift */,
+				E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */,
+				E254BE6C1C6BCB1000C9FD8B /* AppDelegate.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
 				E2AABB811C04CD2D0062960A /* Run.h */,
+				E254BEAA1C6E3A0D00C9FD8B /* MyRunnerAnnotation.h */,
+				E254BEAB1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m */,
+				E254BEAC1C6E3A0D00C9FD8B /* RunnerAnnotation.h */,
+				E254BEB01C6E3A6F00C9FD8B /* AppDelegate.h */,
+				E254BEB11C6E3A6F00C9FD8B /* AppDelegate.m */,
+				E254BEAD1C6E3A0D00C9FD8B /* RunnerAnnotation.m */,
 				E2AABB821C04CDE70062960A /* Location.h */,
 				E2CA51861A89D51100C2BB03 /* MathController.h */,
 				E2CA51871A89D51100C2BB03 /* MathController.m */,
-				E254BE641C6BA0C000C9FD8B /* MyRunnerAnnotation.h */,
-				E254BE651C6BA0C000C9FD8B /* MyRunnerAnnotation.m */,
-				E254BE661C6BA0C000C9FD8B /* RunnerAnnotation.h */,
-				E254BE671C6BA0C000C9FD8B /* RunnerAnnotation.m */,
-				E23AEFB11B54239100FB6B78 /* AppDelegate.m */,
-				E2CA50E51A88677A00C2BB03 /* AppDelegate.h */,
 				E2AD20071A9A96B400B1BEFE /* Frameworks */,
 				E2CA511D1A89219900C2BB03 /* Resources */,
 				E2CA50E01A88677A00C2BB03 /* CrowdCheer */,
@@ -611,27 +617,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E254BE681C6BA0C000C9FD8B /* MyRunnerAnnotation.m in Sources */,
+				E254BEAE1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m in Sources */,
 				E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */,
 				E29375F51BEBF20F003FC150 /* RelationshipViewController.m in Sources */,
 				E29375EF1BEBF20F003FC150 /* CheererStartViewController.m in Sources */,
 				E2EFA7C51C4EC3D000974475 /* RaceViewModel.swift in Sources */,
 				E2EFA7C91C5A79FA00974475 /* Identify.swift in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,
+				E254BEAF1C6E3A0D00C9FD8B /* RunnerAnnotation.m in Sources */,
 				E2CA50EA1A88677A00C2BB03 /* CrowdCheer.xcdatamodeld in Sources */,
 				E2EFA7CF1C5A804900974475 /* Update.swift in Sources */,
 				E29375F21BEBF20F003FC150 /* HomeViewController.m in Sources */,
 				E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */,
 				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
-				E23AEFB21B54239100FB6B78 /* AppDelegate.m in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E29375F31BEBF20F003FC150 /* MySignUpViewController.m in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
-				E254BE691C6BA0C000C9FD8B /* RunnerAnnotation.m in Sources */,
 				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
 				E29375F01BEBF20F003FC150 /* CommonalityViewController.m in Sources */,
 				E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */,
 				E29375F61BEBF20F003FC150 /* RoleViewController.m in Sources */,
+				E254BEB21C6E3A7000C9FD8B /* AppDelegate.m in Sources */,
+				E254BE6D1C6BCB1000C9FD8B /* AppDelegate.swift in Sources */,
+				E254BEA91C6D0D3F00C9FD8B /* SignUpViewController.swift in Sources */,
 				E29375DE1BEBF1BC003FC150 /* MotivatorViewController.m in Sources */,
 				E29375F41BEBF20F003FC150 /* NewRunViewController.m in Sources */,
 				E254BE631C6B978200C9FD8B /* RunnerAnnotationView.swift in Sources */,
