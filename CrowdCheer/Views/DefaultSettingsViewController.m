@@ -43,16 +43,17 @@
 {
     if (![PFUser currentUser]) {
         // Customize the Log In View Controller
-        PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
-        [logInViewController setDelegate:self];
-        logInViewController.logInView.logo = nil;
-        MySignUpViewController *signUpViewController = [[MySignUpViewController alloc] init];
-        signUpViewController.delegate = self;
-        signUpViewController.fields = PFSignUpFieldsDefault;
-        logInViewController.logInView.dismissButton.hidden = YES;
-        logInViewController.logInView.passwordForgottenButton.hidden = YES;
-        logInViewController.signUpController = signUpViewController;
-        [self presentViewController:logInViewController animated:YES completion:NULL];
+//        PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+//        [logInViewController setDelegate:self];
+//        logInViewController.logInView.logo = nil;
+//        MySignUpViewController *signUpViewController = [[MySignUpViewController alloc] init];
+//        signUpViewController.delegate = self;
+//        signUpViewController.fields = PFSignUpFieldsDefault;
+//        logInViewController.logInView.dismissButton.hidden = YES;
+//        logInViewController.logInView.passwordForgottenButton.hidden = YES;
+//        logInViewController.signUpController = signUpViewController;
+        UIViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpViewController"];
+        [self.navigationController pushViewController:controller animated:YES];
         
     }
     else if (([[PFUser currentUser] objectForKey:@"name"])==nil) {

@@ -9,7 +9,7 @@
 import Foundation
 import Parse
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -21,9 +21,26 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.usernameField.delegate = self
+        self.emailField.delegate = self
+        self.passwordField.delegate = self
+        
         if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("loggedIn", sender: nil)
         }
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 
     @IBAction func logIn(sender: UIButton) {
