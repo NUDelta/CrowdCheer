@@ -39,8 +39,8 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
+        self.distanceLabel.hidden = true
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
-//        self.runnerAnnotationTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "updateRunnerPin", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         
         
@@ -51,7 +51,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         print("Tracking runner")
         let trackedRunnerID: String = self.runner.objectId
-//        let annotation = MKPointAnnotation()
         
         self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
 
@@ -64,13 +63,12 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         else {
             self.runnerPath.append(self.runnerLastLoc)
             print("runnerPath: ", self.runnerPath)
+            let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
+            let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
+            self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
+            self.distanceLabel.hidden = false
         }
-    
-//        annotation.coordinate = self.runnerLastLoc
-//        self.mapView.addAnnotation(annotation)
-        let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
-        let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
-        self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
+        
         drawPath()
         updateRunnerPin()
     }
@@ -123,8 +121,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-//        if overlay.isKindOfClass(MKPolyline) {
-
             // render the path
             assert(overlay.isKindOfClass(MKPolyline))
             let polyLine = overlay
@@ -133,9 +129,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             polyLineRenderer.lineWidth = 3.0
             
             return polyLineRenderer
-//        }
-//        
-//        return MKPolylineRenderer()
+
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -147,6 +141,22 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             let annotationView = RunnerAnnotationView(annotation: annotation, reuseIdentifier: "Runner")
             annotationView.canShowCallout = true
             return annotationView
+        }
+    }
+    
+    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
+        var newMode: MKUserTrackingMode = MKUserTrackingMode.None
+        if CLLocationManager.headingAvailable() {
+            newMode = MKUserTrackingMode.FollowWithHeading
+        }
+        else {
+            newMode = MKUserTrackingMode.Follow
+        }
+        
+        if mode != newMode {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+            })
         }
     }
 }
