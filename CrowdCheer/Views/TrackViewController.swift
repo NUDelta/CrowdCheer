@@ -14,15 +14,14 @@ import Parse
 class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var profilePic: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var bibLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
-    var runnerAnnotationTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
+    var runnerPic: UIImage = UIImage()
+    var runnerName: String = ""
+    var runnerBib: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
@@ -67,6 +66,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
             self.distanceLabel.hidden = false
+            
+            if distance<75 {
+                self.runnerTrackerTimer.invalidate()
+                self.performSegueWithIdentifier("runnerNear", sender: nil)
+            }
         }
         
         drawPath()
@@ -79,22 +83,20 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             //update runner name, bib #, picture
             print("runnerObjID: ", runnerObjectID)
             self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
-            let runnerName = (self.runner.valueForKey("name"))!
-            let runnerBib = (self.runner.valueForKey("bibNumber"))!
+            let name = (self.runner.valueForKey("name"))!
+            let bib = (self.runner.valueForKey("bibNumber"))!
             let userImageFile = self.runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
                 (imageData: NSData?, error: NSError?) -> Void in
                 if error == nil {
                     if let imageData = imageData {
                         let image = UIImage(data:imageData)
-                        self.profilePic.image = image
+                        self.runnerPic = image!
                     }
                 }
             }
-            
-            self.nameLabel.text = runnerName as? String
-            self.bibLabel.text = runnerBib as? String
-            
+            self.runnerName = (name as? String)!
+            self.runnerBib = (bib as? String)!
         }
     }
     
@@ -110,10 +112,10 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     func updateRunnerPin() {
         
         let coordinate = self.runnerLastLoc
-        let title = self.nameLabel.text
+        let title = self.runnerName
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
-        let subtitle = ("Bib #:" + self.bibLabel.text!)
-        let annotation = RunnerAnnotation(coordinate: coordinate, title: title!, subtitle: subtitle, type: type!)
+        let subtitle = ("Bib #:" + self.runnerBib)
+        let annotation = RunnerAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, type: type!)
 
         let annotationsToRemove = self.mapView.annotations.filter { $0 !== self.mapView.userLocation }
         self.mapView.removeAnnotations(annotationsToRemove)

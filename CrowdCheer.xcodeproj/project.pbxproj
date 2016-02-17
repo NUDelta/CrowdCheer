@@ -22,6 +22,7 @@
 		E254BEAE1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEAB1C6E3A0D00C9FD8B /* MyRunnerAnnotation.m */; };
 		E254BEAF1C6E3A0D00C9FD8B /* RunnerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEAD1C6E3A0D00C9FD8B /* RunnerAnnotation.m */; };
 		E254BEB21C6E3A7000C9FD8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E254BEB11C6E3A6F00C9FD8B /* AppDelegate.m */; };
+		E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BEB31C74F26100C9FD8B /* CheerViewController.swift */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
@@ -117,6 +118,7 @@
 		E254BEAD1C6E3A0D00C9FD8B /* RunnerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunnerAnnotation.m; path = CrowdCheer/RunnerAnnotation.m; sourceTree = "<group>"; };
 		E254BEB01C6E3A6F00C9FD8B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CrowdCheer/AppDelegate.h; sourceTree = "<group>"; };
 		E254BEB11C6E3A6F00C9FD8B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CrowdCheer/AppDelegate.m; sourceTree = "<group>"; };
+		E254BEB31C74F26100C9FD8B /* CheerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheerViewController.swift; path = CrowdCheer/Views/CheerViewController.swift; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E254BEA81C6D0D3F00C9FD8B /* SignUpViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
+				E254BEB31C74F26100C9FD8B /* CheerViewController.swift */,
 				E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */,
 			);
 			name = Views;
@@ -631,6 +634,7 @@
 				E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */,
 				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
+				E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */,
 				E29375F31BEBF20F003FC150 /* MySignUpViewController.m in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
 				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
