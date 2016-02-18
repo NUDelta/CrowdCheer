@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 import Parse
+import AudioToolbox
 
 class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -100,53 +101,67 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func updateBanner(location: CLLocation) {
         
-        let distanceCurr = (self.locationMgr.location?.distanceFromLocation(location))
-        var distancePrev: CLLocationDistance = 0
-        if self.runnerPath.count > 0 {
-            let coordinatePrev = self.runnerPath[self.runnerPath.count-1]
+        let distanceCurr = (self.locationMgr.location?.distanceFromLocation(location))!
+        if self.runnerPath.count > 1 {
+            let coordinatePrev = self.runnerPath[self.runnerPath.count-2]
             let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
-            distancePrev = (self.locationMgr.location?.distanceFromLocation(locationPrev))!
-        }
-        
-        
-        if distancePrev >= distanceCurr {
+            let distancePrev = (self.locationMgr.location?.distanceFromLocation(locationPrev))!
             
-            if distanceCurr>50 {
-                self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+            print("prev: ", distancePrev)
+            print("curr: ", distanceCurr)
+            
+            if distancePrev >= distanceCurr {
+                
+                if distanceCurr>50 {
+                    self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                    self.nearBanner.hidden = false
+                    self.lookBanner.hidden = true
+                    self.cheerBanner.hidden = true
+                }
+                    
+                else if distanceCurr<=50 && distanceCurr>25 {
+                    self.lookBanner.text = "LOOK FOR " + self.nameLabel.text!.capitalizedString + "!"
+                    self.nearBanner.hidden = true
+                    self.lookBanner.hidden = false
+                    self.cheerBanner.hidden = true
+                }
+                    
+                else if distanceCurr<=25 {
+                    self.cheerBanner.text = "CHEER FOR " + self.nameLabel.text!.capitalizedString + "!"
+                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                    self.nearBanner.hidden = true
+                    self.lookBanner.hidden = true
+                    self.cheerBanner.hidden = false
+                }
+                    
+                else {
+                    self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                    self.nearBanner.hidden = false
+                    self.lookBanner.hidden = true
+                    self.cheerBanner.hidden = true
+                }
+            }
+                
+            else if distancePrev < distanceCurr {
+                self.nearBanner.text = self.nameLabel.text! + " has passed by."
                 self.nearBanner.hidden = false
                 self.lookBanner.hidden = true
                 self.cheerBanner.hidden = true
-            }
-                
-            else if distanceCurr<=50 && distanceCurr>25 {
-                self.lookBanner.text = "LOOK FOR " + self.nameLabel.text!.capitalizedString + "!"
-                self.nearBanner.hidden = true
-                self.lookBanner.hidden = false
-                self.cheerBanner.hidden = true
-            }
-                
-            else if distanceCurr<=25 {
-                self.cheerBanner.text = "CHEER FOR " + self.nameLabel.text!.capitalizedString + "!"
-                self.nearBanner.hidden = true
-                self.lookBanner.hidden = true
-                self.cheerBanner.hidden = false
             }
                 
             else {
-                self.nearBanner.text = self.nameLabel.text! + " is nearby!"
-                self.nearBanner.hidden = false
+                self.nearBanner.hidden = true
                 self.lookBanner.hidden = true
                 self.cheerBanner.hidden = true
             }
+
         }
         
         else {
-            self.nearBanner.text = self.nameLabel.text! + " has passed by."
+            self.nearBanner.text = self.nameLabel.text! + " is nearby!"
             self.nearBanner.hidden = false
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
         }
-        
-        
     }
 }
