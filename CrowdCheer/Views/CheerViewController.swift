@@ -28,6 +28,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     var runnerLastLoc = CLLocationCoordinate2D()
+    var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     
     
@@ -63,9 +64,10 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             print("skipping coordinate")
         }
         else {
+            self.runnerPath.append(self.runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
             let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
-            updateBanner(distance)
+            updateBanner(runnerCLLoc)
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
             self.distanceLabel.hidden = false
         }
@@ -96,34 +98,55 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func updateBanner(distance: CLLocationDistance) {
-        if distance>50 {
-            self.nearBanner.text = self.nameLabel.text! + " is nearby!"
-            self.nearBanner.hidden = false
-            self.lookBanner.hidden = true
-            self.cheerBanner.hidden = true
-        }
-    
-        else if distance<=50 && distance>25 {
-            self.lookBanner.text = "LOOK FOR " + self.nameLabel.text!.capitalizedString + "!"
-            self.nearBanner.hidden = true
-            self.lookBanner.hidden = false
-            self.cheerBanner.hidden = true
+    func updateBanner(location: CLLocation) {
+        
+        let distanceCurr = (self.locationMgr.location?.distanceFromLocation(location))
+        var distancePrev: CLLocationDistance = 0
+        if self.runnerPath.count > 0 {
+            let coordinatePrev = self.runnerPath[self.runnerPath.count-1]
+            let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
+            distancePrev = (self.locationMgr.location?.distanceFromLocation(locationPrev))!
         }
         
-        else if distance<=25 {
-            self.cheerBanner.text = "CHEER FOR " + self.nameLabel.text!.capitalizedString + "!"
-            self.nearBanner.hidden = true
-            self.lookBanner.hidden = true
-            self.cheerBanner.hidden = false
+        
+        if distancePrev >= distanceCurr {
+            
+            if distanceCurr>50 {
+                self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                self.nearBanner.hidden = false
+                self.lookBanner.hidden = true
+                self.cheerBanner.hidden = true
+            }
+                
+            else if distanceCurr<=50 && distanceCurr>25 {
+                self.lookBanner.text = "LOOK FOR " + self.nameLabel.text!.capitalizedString + "!"
+                self.nearBanner.hidden = true
+                self.lookBanner.hidden = false
+                self.cheerBanner.hidden = true
+            }
+                
+            else if distanceCurr<=25 {
+                self.cheerBanner.text = "CHEER FOR " + self.nameLabel.text!.capitalizedString + "!"
+                self.nearBanner.hidden = true
+                self.lookBanner.hidden = true
+                self.cheerBanner.hidden = false
+            }
+                
+            else {
+                self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                self.nearBanner.hidden = false
+                self.lookBanner.hidden = true
+                self.cheerBanner.hidden = true
+            }
         }
         
         else {
-            self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+            self.nearBanner.text = self.nameLabel.text! + " has passed by."
             self.nearBanner.hidden = false
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
         }
+        
         
     }
 }

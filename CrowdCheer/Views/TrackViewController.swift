@@ -158,7 +158,15 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         
-        mapView.selectAnnotation(mapView.annotations.last!, animated: true)
+        if (mapView.annotations.first is MKUserLocation) {
+            mapView.selectAnnotation(mapView.annotations.last!, animated: true)
+        }
+        
+        else {
+            mapView.selectAnnotation(mapView.annotations.first!, animated: true)
+        }
+        
+        
     }
     
     func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
