@@ -20,11 +20,13 @@ class RunnerAnnotation: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var type: RunnerType
+    var image: UIImage
     
-    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, type: RunnerType) {
+    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, type: RunnerType, image: UIImage) {
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
         self.type = type
+        self.image = image
     }
 }

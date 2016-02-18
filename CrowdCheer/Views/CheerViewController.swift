@@ -91,7 +91,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             }
             
             self.nameLabel.text = runnerName as? String
-            self.bibLabel.text = runnerBib as? String
+            self.bibLabel.text = "Bib #: " + (runnerBib as! String)
             
         }
     }
