@@ -36,6 +36,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //notify user
+        
+        //if user is in background:
+        
+        //if user is active:
+        sendLocalNotification()
+        
         //update the runner profile info
         //every second, update the distance and map with the runner's location
         
@@ -163,5 +171,19 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
         }
+    }
+    
+    func sendLocalNotification() {
+        let localNotification = UILocalNotification()
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+        localNotification.alertBody = "Time to cheer for " + self.nameLabel.text! + "!"
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    }
+    
+    func sendAlert() {
+        
     }
 }

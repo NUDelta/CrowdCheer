@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate 
             proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!,
             major: 62145, minor: 6639, identifier: "monitored region"))
         
-        UIApplication.sharedApplication().registerUserNotificationSettings(
-            UIUserNotificationSettings(forTypes: .Alert, categories: nil))
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+        
         
         return true
     }
@@ -66,6 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate 
             "and it's a 5 minute walk from security to the gate. " +
         "Looks like you've got plenty of time!"
         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+    }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        
+        application.applicationIconBadgeNumber = 0
+    
     }
     
     
