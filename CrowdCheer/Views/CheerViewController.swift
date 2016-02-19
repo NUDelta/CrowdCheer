@@ -28,6 +28,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
+    var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
@@ -37,21 +38,17 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //notify user
-        
-        //if user is in background:
-        
-        //if user is active:
-        sendLocalNotification()
-        
-        //update the runner profile info
-        //every second, update the distance and map with the runner's location
-        
-        getRunnerProfile()
         self.distanceLabel.hidden = true
         self.nearBanner.hidden = true
         self.lookBanner.hidden = true
         self.cheerBanner.hidden = true
+        
+        //update the runner profile info & notify
+        getRunnerProfile()
+        
+        
+        
+        //every second, update the distance and map with the runner's location
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         
@@ -88,7 +85,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             //update runner name, bib #, picture
             print("runnerObjID: ", runnerObjectID)
             self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
-            let runnerName = (self.runner.valueForKey("name"))!
+            self.runnerName = (self.runner.valueForKey("name"))! as! String
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
             let userImageFile = self.runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
@@ -101,8 +98,13 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 }
             }
             
-            self.nameLabel.text = runnerName as? String
+            self.nameLabel.text = self.runnerName
             self.bibLabel.text = "Bib #: " + (runnerBib as! String)
+            
+            //notify user
+            //if user is in background:
+            //if user is active:
+            self.sendLocalNotification()
             
         }
     }
@@ -121,21 +123,21 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             if distancePrev >= distanceCurr {
                 
                 if distanceCurr>50 {
-                    self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                    self.nearBanner.text = self.runnerName + " is nearby!"
                     self.nearBanner.hidden = false
                     self.lookBanner.hidden = true
                     self.cheerBanner.hidden = true
                 }
                     
                 else if distanceCurr<=50 && distanceCurr>25 {
-                    self.lookBanner.text = "LOOK FOR " + self.nameLabel.text!.capitalizedString + "!"
+                    self.lookBanner.text = "LOOK FOR " + self.runnerName.capitalizedString + "!"
                     self.nearBanner.hidden = true
                     self.lookBanner.hidden = false
                     self.cheerBanner.hidden = true
                 }
                     
                 else if distanceCurr<=25 {
-                    self.cheerBanner.text = "CHEER FOR " + self.nameLabel.text!.capitalizedString + "!"
+                    self.cheerBanner.text = "CHEER FOR " + self.runnerName.capitalizedString + "!"
                     AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     self.nearBanner.hidden = true
                     self.lookBanner.hidden = true
@@ -143,7 +145,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 }
                     
                 else {
-                    self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+                    self.nearBanner.text = self.runnerName + " is nearby!"
                     self.nearBanner.hidden = false
                     self.lookBanner.hidden = true
                     self.cheerBanner.hidden = true
@@ -151,7 +153,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             }
                 
             else if distancePrev < distanceCurr {
-                self.nearBanner.text = self.nameLabel.text! + " has passed by."
+                self.nearBanner.text = self.runnerName + " has passed by."
                 self.nearBanner.hidden = false
                 self.lookBanner.hidden = true
                 self.cheerBanner.hidden = true
@@ -166,7 +168,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         else {
-            self.nearBanner.text = self.nameLabel.text! + " is nearby!"
+            self.nearBanner.text = self.runnerName + " is nearby!"
             self.nearBanner.hidden = false
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
@@ -176,8 +178,9 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     func sendLocalNotification() {
         let localNotification = UILocalNotification()
         localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
-        localNotification.alertBody = "Time to cheer for " + self.nameLabel.text! + "!"
+        localNotification.alertBody = "Time to cheer for " + self.runnerName + "!"
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)

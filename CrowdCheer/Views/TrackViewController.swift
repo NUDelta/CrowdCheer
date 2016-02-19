@@ -61,7 +61,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         }
         else {
             self.runnerPath.append(self.runnerLastLoc)
-            print("runnerPath: ", self.runnerPath)
             let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
             let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
