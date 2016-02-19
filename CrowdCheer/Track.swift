@@ -82,7 +82,6 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         self.runnerObjID = self.runner.objectId
                     }
                 }
-                print ("Runner: ", self.runner)
                 result(runnerObjectID: self.runnerObjID)
             }
             else {
@@ -101,7 +100,6 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         let seconds:NSTimeInterval = -60
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
-        print("trackedRunner: ", trackedRunner)
         
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
@@ -119,7 +117,6 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
                     }
                 }
-                print ("Runner update: ", runnerUpdate)
                 result(runnerLoc: runnerUpdate)
             }
             else {

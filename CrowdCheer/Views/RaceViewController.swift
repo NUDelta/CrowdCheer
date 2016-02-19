@@ -22,6 +22,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
     @IBOutlet weak var updateLocsLabel: UILabel!
@@ -36,6 +37,9 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate {
         self.runnerMonitor = RunnerMonitor()
         self.cheererMonitor = CheererMonitor()
         
+        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
+            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        })
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
         self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         

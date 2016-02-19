@@ -177,13 +177,11 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func sendLocalNotification() {
         let localNotification = UILocalNotification()
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
         localNotification.alertBody = "Time to cheer for " + self.runnerName + "!"
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
     }
     
     func sendAlert() {
