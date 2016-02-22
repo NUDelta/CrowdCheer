@@ -22,9 +22,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
+    var myLocation = CLLocation()
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
     
@@ -39,6 +41,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
         self.distanceLabel.hidden = true
+        self.myLocation = self.locationMgr.location!
+        
+        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
+            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        })
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         
@@ -49,6 +56,15 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         //get latest loc and update map and distance label
         
         print("Tracking runner")
+        
+        if self.locationMgr.location != nil {
+            self.myLocation = self.locationMgr.location!
+        }
+        else {
+            print(self.locationMgr.location)
+            print(self.myLocation)
+        }
+        
         let trackedRunnerID: String = self.runner.objectId
         
         self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
@@ -62,7 +78,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         else {
             self.runnerPath.append(self.runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
-            let distance = (self.locationMgr.location?.distanceFromLocation(runnerCLLoc))!
+            let distance = (self.myLocation.distanceFromLocation(runnerCLLoc))
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
             self.distanceLabel.hidden = false
             
@@ -96,7 +112,17 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             }
             self.runnerName = (name as? String)!
             self.runnerBib = (bib as? String)!
+            self.sendLocalNotification(name as! String)
         }
+    }
+    
+    func sendLocalNotification(name: String) {
+        let localNotification = UILocalNotification()
+        localNotification.alertBody = "Time to cheer for " + name + "!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
     }
     
     func drawPath() {

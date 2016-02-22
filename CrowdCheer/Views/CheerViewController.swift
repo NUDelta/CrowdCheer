@@ -18,6 +18,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var bibLabel: UILabel!
+    @IBOutlet weak var outfit: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
     @IBOutlet weak var lookBanner: UILabel!
@@ -87,6 +88,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
             self.runnerName = (self.runner.valueForKey("name"))! as! String
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
+            let runnerOutfit = (self.runner.valueForKey("outfit"))!
             let userImageFile = self.runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
                 (imageData: NSData?, error: NSError?) -> Void in
@@ -100,11 +102,12 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             
             self.nameLabel.text = self.runnerName
             self.bibLabel.text = "Bib #: " + (runnerBib as! String)
+            self.outfit.text = "Wearing: " + (runnerOutfit as! String)
             
             //notify user
             //if user is in background:
             //if user is active:
-            self.sendLocalNotification()
+//            self.sendLocalNotification()
             
         }
     }
@@ -175,14 +178,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func sendLocalNotification() {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "Time to cheer for " + self.runnerName + "!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
-    }
+//    func sendLocalNotification() {
+//        let localNotification = UILocalNotification()
+//        localNotification.alertBody = "Time to cheer for " + self.runnerName + "!"
+//        localNotification.soundName = UILocalNotificationDefaultSoundName
+//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+//        
+//        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+//    }
     
     func sendAlert() {
         

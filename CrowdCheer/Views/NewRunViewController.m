@@ -49,6 +49,7 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (weak, nonatomic) IBOutlet UITextField *targetPace;
 @property (weak, nonatomic) IBOutlet UITextField *raceTimeGoal;
 @property (weak, nonatomic) IBOutlet UITextField *bibNumber;
+@property (weak, nonatomic) IBOutlet UITextField *outfit;
 
 @property (strong, nonatomic) IBOutlet UIPickerView *beaconPicker;
 @property (strong, nonatomic) NSArray *beaconArray;
@@ -77,14 +78,17 @@ static NSString * const detailSegueName = @"RunDetails";
     NSString *targetPace = user[@"targetPace"];
     NSString *raceTimeGoal = user[@"raceTimeGoal"];
     NSString *bibNumber = user[@"bibNumber"];
+    NSString *outfit = user[@"outfit"];
     
     self.targetPace.text = targetPace;
     self.raceTimeGoal.text = raceTimeGoal;
     self.bibNumber.text = bibNumber;
+    self.outfit.text = outfit;
 
     [self.targetPace addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.raceTimeGoal addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.bibNumber addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.outfit addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
     [self.prepButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     if ([user objectForKey:@"targetPace"]== nil){
@@ -94,6 +98,9 @@ static NSString * const detailSegueName = @"RunDetails";
         self.prepButton.enabled = NO;
     }
     else if ([user objectForKey:@"bibNumber"]==nil) {
+        self.prepButton.enabled = NO;
+    }
+    else if ([user objectForKey:@"outfit"]==nil) {
         self.prepButton.enabled = NO;
     }
     else if ([user objectForKey:@"beacon"]==nil) {
@@ -201,6 +208,11 @@ static NSString * const detailSegueName = @"RunDetails";
         currentUser[@"bibNumber"] = self.bibNumber.text;
     }
     
+    else if (textField == self.outfit){
+        currentUser[@"outfit"] = self.outfit.text;
+    }
+    
+    
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             // The object has been saved.
@@ -211,7 +223,8 @@ static NSString * const detailSegueName = @"RunDetails";
     
     if (([currentUser objectForKey:@"targetPace"]== nil) ||
         ([currentUser objectForKey:@"raceTimeGoal"]==nil) ||
-        ([currentUser objectForKey:@"bibNumber"]==nil) )
+        ([currentUser objectForKey:@"bibNumber"]==nil) ||
+        ([currentUser objectForKey:@"outfit"]==nil) )
     {
         self.prepButton.enabled = NO;
     }
@@ -430,6 +443,7 @@ static NSString * const detailSegueName = @"RunDetails";
     [self.targetPace resignFirstResponder];
     [self.raceTimeGoal resignFirstResponder];
     [self.bibNumber resignFirstResponder];
+    [self.outfit resignFirstResponder];
     [self.beaconName resignFirstResponder];
 
 }
