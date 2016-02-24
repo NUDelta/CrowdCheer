@@ -14,6 +14,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
@@ -25,22 +26,44 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.emailField.delegate = self
         self.passwordField.delegate = self
         
+        
         if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("loggedIn", sender: nil)
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
+        
+        var contentInset:UIEdgeInsets = self.scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        self.scrollView.contentInset = contentInset
+    }
+    
+    func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsetsZero
+        self.scrollView.contentInset = contentInset
     }
 
     @IBAction func logIn(sender: UIButton) {
