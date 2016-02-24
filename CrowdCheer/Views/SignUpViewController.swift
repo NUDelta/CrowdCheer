@@ -15,7 +15,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     
@@ -27,20 +26,24 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.passwordField.delegate = self
         
         
-        if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("loggedIn", sender: nil)
-        }
+        //set up rules for keyboard
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
         
+        //set up scrollview behavior
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
+
+        //if already logged in, segue to next VC
+        if PFUser.currentUser() != nil {
+            self.performSegueWithIdentifier("loggedIn", sender: nil)
+        }
     }
     
     
+    //keyboard behavior
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
@@ -66,15 +69,17 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.scrollView.contentInset = contentInset
     }
 
+    
+    //Check fields, Log In, and segue to next VC
     @IBAction func logIn(sender: UIButton) {
         PFUser.logInWithUsernameInBackground(usernameField.text, password:passwordField.text) {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
-                // Do stuff after successful login.
+                // Successful login
                 self.performSegueWithIdentifier("loggedIn", sender: nil)
                 
             } else {
-                // The login failed. Check error to see why.
+                // failed login, error displayed to user
                 let errorString = error!.userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Log In Error", message:
                     errorString, preferredStyle: UIAlertControllerStyle.Alert)
@@ -85,6 +90,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
+    //Check fields, Sign Up, and segue to next VC
     @IBAction func signUp(sender: UIButton) {
         let user = PFUser()
         user.username = usernameField.text
@@ -94,6 +101,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         user.signUpInBackgroundWithBlock {
             (succeeded: Bool, error: NSError?) -> Void in
             if let error = error {
+                //failed signup, error displayed to user
                 let errorString = error.userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Sign Up Error", message:
                     errorString, preferredStyle: UIAlertControllerStyle.Alert)
@@ -103,7 +111,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
                 
             } else {
-                // Hooray! Let them use the app now.
+                //Successful signup
                 self.performSegueWithIdentifier("loggedIn", sender: nil)
             }
         }

@@ -38,9 +38,10 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.setHidesBackButton(true, animated:true);
         self.distanceLabel.hidden = true
-        self.nearBanner.hidden = true
+        self.nearBanner.hidden = false
+        self.nearBanner.text = "Loading location..."
         self.lookBanner.hidden = true
         self.cheerBanner.hidden = true
         
@@ -104,11 +105,6 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             self.bibLabel.text = "Bib #: " + (runnerBib as! String)
             self.outfit.text = "Wearing: " + (runnerOutfit as! String)
             
-            //notify user
-            //if user is in background:
-            //if user is active:
-//            self.sendLocalNotification()
-            
         }
     }
     
@@ -133,14 +129,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 }
                     
                 else if distanceCurr<=50 && distanceCurr>25 {
-                    self.lookBanner.text = "LOOK FOR " + self.runnerName.capitalizedString + "!"
+                    self.lookBanner.text = "LOOK FOR " + self.runnerName.uppercaseString + "!"
                     self.nearBanner.hidden = true
                     self.lookBanner.hidden = false
                     self.cheerBanner.hidden = true
                 }
                     
                 else if distanceCurr<=25 {
-                    self.cheerBanner.text = "CHEER FOR " + self.runnerName.capitalizedString + "!"
+                    self.cheerBanner.text = "CHEER FOR " + self.runnerName.uppercaseString + "!"
                     AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     self.nearBanner.hidden = true
                     self.lookBanner.hidden = true
@@ -176,18 +172,5 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
         }
-    }
-    
-//    func sendLocalNotification() {
-//        let localNotification = UILocalNotification()
-//        localNotification.alertBody = "Time to cheer for " + self.runnerName + "!"
-//        localNotification.soundName = UILocalNotificationDefaultSoundName
-//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-//        
-//        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
-//    }
-    
-    func sendAlert() {
-        
     }
 }
