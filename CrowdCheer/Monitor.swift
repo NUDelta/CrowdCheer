@@ -15,7 +15,7 @@ protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
-    var distance: Float {get set}
+    var distance: Double {get set}
     var pace: NSString {get set}
     var duration: NSInteger {get}
     
@@ -32,7 +32,9 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
-    var distance: Float
+    var startLoc: CLLocation!
+    var lastLoc: CLLocation!
+    var distance: Double
     var pace: NSString
     var duration: NSInteger
     
@@ -56,6 +58,22 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = manager.location!
+        
+        if self.startLoc == nil {
+            startLoc = locations.first!
+            print("locations: \(locations)")
+        }
+        else {
+            let distance = startLoc.distanceFromLocation(locations.last!)
+            let lastDist = lastLoc.distanceFromLocation(locations.last!)
+            
+            print("dist: \(distance)")
+            print("lastDist: \(lastDist)")
+            
+            self.distance += lastDist
+        }
+        self.lastLoc = locations.last
+        
     }
     
     func monitorUserLocation() {
@@ -68,7 +86,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func updateUserLocation() {
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime:self.duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime:self.duration)
         
         let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
@@ -101,7 +119,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.pace = MathController.stringifyAvgPaceFromDist(distance, overTime: duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: duration)
         self.duration++
         
         let object = PFObject(className:"RunnerLocations")
@@ -134,7 +152,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
-    var distance: Float
+    var distance: Double
     var pace: NSString
     var duration: NSInteger
     
@@ -171,7 +189,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.pace = MathController.stringifyAvgPaceFromDist(self.distance, overTime: self.duration)
+        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: self.duration)
         self.duration++
         
         let object = PFObject(className:"CheererLocations")
