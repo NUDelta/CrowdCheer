@@ -12,7 +12,7 @@ import CoreLocation
 import MapKit
 import Parse
 
-class StopRunViewController: UIViewController, CLLocationManagerDelegate {
+class PostrunViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
