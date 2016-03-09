@@ -955,7 +955,7 @@
         <!--Track My Run-->
         <scene sceneID="ffh-gm-bon">
             <objects>
-                <viewController storyboardIdentifier="trackRunViewController" title="Track My Run" id="Pm9-0g-7IT" customClass="RunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="runViewController" title="Track My Run" id="Pm9-0g-7IT" customClass="RunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Cnx-KJ-Bew"/>
                         <viewControllerLayoutGuide type="bottom" id="hNl-2s-6JH"/>
@@ -974,6 +974,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="stop:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="QXl-EI-mwJ"/>
                                     <segue destination="ZIq-Ed-nEm" kind="push" id="eMH-C8-cER"/>
                                 </connections>
                             </button>
@@ -1047,6 +1048,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
+                    <connections>
+                        <outlet property="distance" destination="4FK-Vx-3FF" id="Hp0-hH-nL6"/>
+                        <outlet property="mapView" destination="1sg-Ga-944" id="DVm-Xh-nyN"/>
+                        <outlet property="pace" destination="BiV-ig-TSI" id="qpe-Z3-kmh"/>
+                        <outlet property="pause" destination="CQP-0x-xzO" id="cSy-R0-dkB"/>
+                        <outlet property="stop" destination="ay5-rc-SSD" id="zbW-2M-lXd"/>
+                        <outlet property="time" destination="BiV-ig-TSI" id="oc7-TH-dap"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgk-qh-RUe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1584,7 +1593,7 @@
         <!--Finish Run-->
         <scene sceneID="nIG-1M-jqb">
             <objects>
-                <viewController storyboardIdentifier="stopRunViewController" title="Finish Run" id="ZIq-Ed-nEm" customClass="StopRunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postrunViewController" title="Finish Run" id="ZIq-Ed-nEm" customClass="PostrunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zqI-Jr-aNh"/>
                         <viewControllerLayoutGuide type="bottom" id="5ng-hD-dZH"/>
