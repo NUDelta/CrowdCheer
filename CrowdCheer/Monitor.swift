@@ -143,6 +143,13 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             }
         }
     }
+    
+    func stringFromSeconds(sec: NSInteger) -> String {
+        let seconds = sec % 60
+        let minutes = (sec / 60) % 60
+        let hours = (sec / 3600)
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
 }
 
 

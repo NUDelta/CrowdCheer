@@ -61,7 +61,9 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         print("Duration: " + String(format: " %i", self.runnerMonitor.duration) + " s")
         distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.distance) + "m"
-        time.text = "Time: " + String(self.runnerMonitor.duration) + " s"
+//        time.text = "Time: " + String(self.runnerMonitor.duration) + " s"
+        let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
+        time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (self.runnerMonitor.pace as String)
     }
     
