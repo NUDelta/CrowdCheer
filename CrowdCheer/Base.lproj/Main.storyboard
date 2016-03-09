@@ -1054,7 +1054,7 @@
                         <outlet property="pace" destination="BiV-ig-TSI" id="qpe-Z3-kmh"/>
                         <outlet property="pause" destination="CQP-0x-xzO" id="cSy-R0-dkB"/>
                         <outlet property="stop" destination="ay5-rc-SSD" id="zbW-2M-lXd"/>
-                        <outlet property="time" destination="BiV-ig-TSI" id="oc7-TH-dap"/>
+                        <outlet property="time" destination="EJM-VI-Z8j" id="B3t-Gs-dyQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgk-qh-RUe" userLabel="First Responder" sceneMemberID="firstResponder"/>

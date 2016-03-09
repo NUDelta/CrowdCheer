@@ -17,7 +17,7 @@ protocol Monitor: Any {
     var location: CLLocation {get set}
     var distance: Double {get set}
     var pace: NSString {get set}
-    var duration: NSInteger {get}
+    var duration: NSInteger {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func monitorUserLocation()
