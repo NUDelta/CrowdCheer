@@ -427,24 +427,26 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wc-ao-cH8">
                                 <rect key="frame" x="20" y="103" width="280" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="GfO-M0-Gqf"/>
+                                    <constraint firstAttribute="height" constant="21" id="xWK-nd-cRB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="e87-2t-VPW">
-                                <rect key="frame" x="20" y="252" width="280" height="115"/>
+                                <rect key="frame" x="20" y="132" width="280" height="70"/>
                                 <color key="backgroundColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="115" id="ZZj-I7-b7m"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
                                 <size key="titleShadowOffset" width="2" height="0.0"/>
                                 <state key="normal">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="cheerCommitment:" destination="AWe-3X-XCa" eventType="touchUpInside" id="CxN-l1-cZo"/>
                                     <segue destination="x3m-YV-U7c" kind="push" id="Ajl-oe-eut"/>
@@ -453,12 +455,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.95612185849999998" green="0.95612185849999998" blue="0.95612185849999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="6wc-ao-cH8" firstAttribute="leading" secondItem="vya-t9-Bxq" secondAttribute="leadingMargin" constant="4" id="2xh-b0-6hk"/>
-                            <constraint firstItem="4Nt-yb-EBD" firstAttribute="top" secondItem="e87-2t-VPW" secondAttribute="bottom" constant="157" id="WcE-je-4Gf"/>
-                            <constraint firstItem="6wc-ao-cH8" firstAttribute="trailing" secondItem="e87-2t-VPW" secondAttribute="trailing" id="efn-a6-xuH"/>
-                            <constraint firstItem="e87-2t-VPW" firstAttribute="centerX" secondItem="vya-t9-Bxq" secondAttribute="centerX" id="ry7-ch-1hc"/>
-                            <constraint firstItem="6wc-ao-cH8" firstAttribute="top" secondItem="KHz-Cx-kUT" secondAttribute="bottom" constant="39" id="vxP-Se-GnM"/>
-                            <constraint firstItem="e87-2t-VPW" firstAttribute="leading" secondItem="6wc-ao-cH8" secondAttribute="leading" id="yVo-mD-XoJ"/>
+                            <constraint firstItem="6wc-ao-cH8" firstAttribute="trailing" secondItem="e87-2t-VPW" secondAttribute="trailing" id="1Wo-1K-yct"/>
+                            <constraint firstItem="6wc-ao-cH8" firstAttribute="top" secondItem="KHz-Cx-kUT" secondAttribute="bottom" constant="39" id="IDh-Wx-3SW"/>
+                            <constraint firstItem="e87-2t-VPW" firstAttribute="top" secondItem="6wc-ao-cH8" secondAttribute="bottom" constant="8" symbolic="YES" id="S29-og-kXS"/>
+                            <constraint firstItem="4Nt-yb-EBD" firstAttribute="top" secondItem="e87-2t-VPW" secondAttribute="bottom" constant="322" id="hZY-eU-Bnu"/>
+                            <constraint firstItem="6wc-ao-cH8" firstAttribute="leading" secondItem="e87-2t-VPW" secondAttribute="leading" id="n0d-yo-Jco"/>
+                            <constraint firstItem="6wc-ao-cH8" firstAttribute="leading" secondItem="vya-t9-Bxq" secondAttribute="leadingMargin" constant="4" id="qso-D7-R1k"/>
+                            <constraint firstItem="e87-2t-VPW" firstAttribute="centerX" secondItem="vya-t9-Bxq" secondAttribute="centerX" id="sqz-bq-KXN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Find Runners" id="9qf-rh-Z4n"/>

@@ -268,25 +268,7 @@
 		E29375851BEBC784003FC150 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E29375DF1BEBF20F003FC150 /* CheererStartViewController.h */,
-				E29375E01BEBF20F003FC150 /* CheererStartViewController.m */,
-				E29375E11BEBF20F003FC150 /* CommonalityViewController.h */,
-				E29375E21BEBF20F003FC150 /* CommonalityViewController.m */,
-				E29375E31BEBF20F003FC150 /* DefaultSettingsViewController.h */,
-				E29375E41BEBF20F003FC150 /* DefaultSettingsViewController.m */,
-				E2AABB831C04CF450062960A /* DetailViewController.h */,
-				E29375E51BEBF20F003FC150 /* HomeViewController.h */,
-				E29375E61BEBF20F003FC150 /* HomeViewController.m */,
-				E29375E71BEBF20F003FC150 /* MySignUpViewController.h */,
-				E29375E81BEBF20F003FC150 /* MySignUpViewController.m */,
-				E29375E91BEBF20F003FC150 /* NewRunViewController.h */,
-				E29375EA1BEBF20F003FC150 /* NewRunViewController.m */,
-				E29375EB1BEBF20F003FC150 /* RelationshipViewController.h */,
-				E29375EC1BEBF20F003FC150 /* RelationshipViewController.m */,
-				E29375ED1BEBF20F003FC150 /* RoleViewController.h */,
-				E29375EE1BEBF20F003FC150 /* RoleViewController.m */,
-				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
-				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
+				E2F481A21C921E6A00D3FBC8 /* ObjC Views */,
 				E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */,
 				E254BEA81C6D0D3F00C9FD8B /* SignUpViewController.swift */,
 				E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */,
@@ -460,6 +442,32 @@
 			path = icons;
 			sourceTree = "<group>";
 		};
+		E2F481A21C921E6A00D3FBC8 /* ObjC Views */ = {
+			isa = PBXGroup;
+			children = (
+				E29375DF1BEBF20F003FC150 /* CheererStartViewController.h */,
+				E29375E01BEBF20F003FC150 /* CheererStartViewController.m */,
+				E29375E11BEBF20F003FC150 /* CommonalityViewController.h */,
+				E29375E21BEBF20F003FC150 /* CommonalityViewController.m */,
+				E29375E31BEBF20F003FC150 /* DefaultSettingsViewController.h */,
+				E29375E41BEBF20F003FC150 /* DefaultSettingsViewController.m */,
+				E2AABB831C04CF450062960A /* DetailViewController.h */,
+				E29375E51BEBF20F003FC150 /* HomeViewController.h */,
+				E29375E61BEBF20F003FC150 /* HomeViewController.m */,
+				E29375E71BEBF20F003FC150 /* MySignUpViewController.h */,
+				E29375E81BEBF20F003FC150 /* MySignUpViewController.m */,
+				E29375E91BEBF20F003FC150 /* NewRunViewController.h */,
+				E29375EA1BEBF20F003FC150 /* NewRunViewController.m */,
+				E29375EB1BEBF20F003FC150 /* RelationshipViewController.h */,
+				E29375EC1BEBF20F003FC150 /* RelationshipViewController.m */,
+				E29375ED1BEBF20F003FC150 /* RoleViewController.h */,
+				E29375EE1BEBF20F003FC150 /* RoleViewController.m */,
+				E29375DC1BEBF1BC003FC150 /* MotivatorViewController.h */,
+				E29375DD1BEBF1BC003FC150 /* MotivatorViewController.m */,
+			);
+			name = "ObjC Views";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -519,7 +527,7 @@
 								enabled = 1;
 							};
 							com.apple.HealthKit = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -802,7 +810,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
@@ -832,7 +839,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CrowdCheer/CrowdCheer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
