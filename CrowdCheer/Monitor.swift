@@ -98,18 +98,18 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 let newCurrLoc = PFObject(className: "CurrRunnerLocation")
                 newCurrLoc["location"] = geoPoint
                 newCurrLoc["user"] = PFUser.currentUser()
-                newCurrLoc["distance"] = self.distance
+                newCurrLoc["distance"] = self.metersToMiles(self.distance)
                 newCurrLoc["pace"] = self.pace
-                newCurrLoc["duration"] = self.duration
+                newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
                 newCurrLoc["time"] = NSDate()
                 newCurrLoc.saveInBackground()
                 
             } else if let currLoc = currLoc {
                 currLoc["location"] = geoPoint
                 currLoc["user"] = PFUser.currentUser()
-                currLoc["distance"] = self.distance
+                currLoc["distance"] = self.metersToMiles(self.distance)
                 currLoc["pace"] = self.pace
-                currLoc["duration"] = self.duration
+                currLoc["duration"] = self.stringFromSeconds(self.duration)
                 currLoc["time"] = NSDate()
                 currLoc.saveInBackground()
             }
@@ -131,9 +131,9 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         print(NSDate())
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
-        object["distance"] = self.distance
+        object["distance"] = self.metersToMiles(self.distance)
         object["pace"] = self.pace
-        object["duration"] = self.duration
+        object["duration"] = self.stringFromSeconds(self.duration)
         object["time"] = NSDate()
         
         object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
@@ -149,6 +149,12 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let minutes = (sec / 60) % 60
         let hours = (sec / 3600)
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+    
+    func metersToMiles(meters: Double) -> Double {
+        let km = meters/1000
+        let mi = km*0.62137119
+        return mi
     }
 }
 
@@ -202,9 +208,9 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let object = PFObject(className:"CheererLocations")
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
-        object["distance"] = distance
+        object["distance"] = self.metersToMiles(self.distance)
         object["pace"] = pace
-        object["duration"] = duration
+        object["duration"] = self.stringFromSeconds(self.duration)
         object["time"] = NSDate()
         
         
@@ -214,5 +220,19 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 print("location saved")
             }
         }
+    }
+    
+    func stringFromSeconds(sec: NSInteger) -> String {
+        let seconds = sec % 60
+        let minutes = (sec / 60) % 60
+        let hours = (sec / 3600)
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+    
+    func metersToMiles(meters: Double) -> Double {
+        let km = meters/1000
+        let mi = km*0.62137119
+        print("%f miles", mi)
+        return mi
     }
 }

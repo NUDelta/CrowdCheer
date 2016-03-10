@@ -18,7 +18,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
-    var myLocation = CLLocation()
+    var runnerPath: Array<CLLocationCoordinate2D> = []
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
@@ -59,10 +59,27 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.runnerMonitor.updateUserPath()
         self.runnerMonitor.updateUserLocation()
         
-        distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.distance) + "m"
+        distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
         let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
         time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (self.runnerMonitor.pace as String)
+        
+        if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {
+            print("skipping coordinate")
+        }
+        else {
+            self.runnerPath.append((locationMgr.location?.coordinate)!)
+        }
+        drawPath()
+    }
+    
+    
+    func drawPath() {
+        
+        if(self.runnerPath.count > 1) {
+            let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
+            self.mapView.addOverlay(polyline)
+        }
     }
     
     
@@ -80,6 +97,18 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
             })
         }
+    }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        // render the path
+        assert(overlay.isKindOfClass(MKPolyline))
+        let polyLine = overlay
+        let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
+        polyLineRenderer.strokeColor = UIColor.blueColor()
+        polyLineRenderer.lineWidth = 3.0
+        
+        return polyLineRenderer
+        
     }
     
     @IBAction func stop(sender: UIButton) {
