@@ -27,6 +27,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBOutlet weak var pace: UILabel!
     @IBOutlet weak var pause: UIButton!
     @IBOutlet weak var stop: UIButton!
+    @IBOutlet weak var congrats: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
     
@@ -48,7 +49,10 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         
+        self.congrats.hidden = true
+        
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
+        
         
     }
     
@@ -115,5 +119,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //suspend runner monitor when you hit stop
         
         self.userMonitorTimer.invalidate()
+        self.pause.hidden = true
+        self.stop.hidden = true
+        self.congrats.hidden = false
     }
 }

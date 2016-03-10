@@ -12,97 +12,106 @@ import CoreLocation
 import MapKit
 import Parse
 
-class PostrunViewController: UIViewController, CLLocationManagerDelegate {
+class PostrunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
-    var nearbyRunnersTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
-    var cheererMonitor: CheererMonitor = CheererMonitor()
-    var nearbyRunners: NearbyRunners = NearbyRunners()
-    var selectedRunners: SelectedRunners = SelectedRunners()
+    var runnerPath: Array<CLLocationCoordinate2D> = []
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
-    @IBOutlet weak var updateLocsLabel: UILabel!
-    @IBOutlet weak var updateRunner: UIButton!
+    @IBOutlet weak var distance: UILabel!
+    @IBOutlet weak var time: UILabel!
+    @IBOutlet weak var pace: UILabel!
+    @IBOutlet weak var mapView: MKMapView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
-        self.updateRunner.hidden = true
         self.runnerMonitor = RunnerMonitor()
-        self.cheererMonitor = CheererMonitor()
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
+        
+        //initialize map
+        //update the runner profile info
+        //every second, update the distance label and map with the runner's location
+        
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
-        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
         
     }
     
     func monitorUser() {
         
-        //query current user's role
-        //if runner, start runner tracker and if cheerer, start cheerer tracker
-        let user = PFUser.currentUser()
-        let role = (user.valueForKey("role"))!
+        //start runner monitor
+        self.runnerMonitor.monitorUserLocation()
+        self.runnerMonitor.updateUserPath()
+        self.runnerMonitor.updateUserLocation()
         
-        if (role.isEqualToString("runner")) {
-            self.runnerMonitor.monitorUserLocation()
-            self.runnerMonitor.updateUserPath()
-            self.runnerMonitor.updateUserLocation()
-            updateLocsLabel.text = "Tracking your run..."
-            self.updateRunner.hidden = true
-            self.nearbyRunnersTimer.invalidate()
-        }
-            
-        else if (role.isEqualToString("cheerer")) {
-            self.cheererMonitor.monitorUserLocation()
-            self.cheererMonitor.updateUserPath()
-            updateLocsLabel.text = "Searching for runners..."
-            
-            
+        distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
+        let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
+        time.text = "Time: " + timeString + " s"
+        pace.text = "Pace: " + (self.runnerMonitor.pace as String)
+        
+        if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {
+            print("skipping coordinate")
         }
         else {
-            print("ERROR: No valid role found.")
+            self.runnerPath.append((locationMgr.location?.coordinate)!)
+        }
+        drawPath()
+    }
+    
+    
+    func drawPath() {
+        
+        if(self.runnerPath.count > 1) {
+            let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
+            self.mapView.addOverlay(polyline)
         }
     }
     
     
-    func updateNearbyRunners() {
+    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
+        var newMode: MKUserTrackingMode = MKUserTrackingMode.None
+        if CLLocationManager.headingAvailable() {
+            newMode = MKUserTrackingMode.FollowWithHeading
+        }
+        else {
+            newMode = MKUserTrackingMode.Follow
+        }
         
-        self.nearbyRunners = NearbyRunners()
-        self.nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
-            
-            var update: String = ""
-            for (runnerObj, runnerLoc) in runnerLocations! {
-                self.runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
-                let lat = runnerLoc.latitude
-                let lon = runnerLoc.longitude
-                let clLoc = CLLocation(latitude: lat, longitude: lon)
-                let runnerName = (self.runner.valueForKey("name"))!
-                let distance = (self.locationMgr.location?.distanceFromLocation(clLoc))!
-                update = "Cheer for " + String(runnerName) + ": " + String(format: " %.02f", distance) + "m away"
-            }
-            
-            //right now, we're automatically selecting the last runner on the list
-            self.updateRunner.setTitle(update, forState: UIControlState.Normal)
-            self.updateRunner.hidden = false
-            
+        if mode != newMode {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+            })
         }
     }
     
-    @IBAction func cheerCommitment(sender: UIButton) {
-        //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        // render the path
+        assert(overlay.isKindOfClass(MKPolyline))
+        let polyLine = overlay
+        let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
+        polyLineRenderer.strokeColor = UIColor.blueColor()
+        polyLineRenderer.lineWidth = 3.0
         
-        self.selectedRunners = SelectedRunners()
-        self.selectedRunners.selectRunner(self.runner)
+        return polyLineRenderer
+        
+    }
+    
+    @IBAction func stop(sender: UIButton) {
+        //suspend runner monitor when you hit stop
+        
         self.userMonitorTimer.invalidate()
-        self.nearbyRunnersTimer.invalidate()
     }
 }
