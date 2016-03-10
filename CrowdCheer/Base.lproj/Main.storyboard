@@ -996,7 +996,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4FK-Vx-3FF">
                                 <rect key="frame" x="20" y="363" width="280" height="23"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="23" id="KCU-sG-SI1"/>
+                                    <constraint firstAttribute="height" constant="23" id="KYm-hH-iDT"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1005,7 +1005,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJM-VI-Z8j">
                                 <rect key="frame" x="20" y="394" width="280" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="gxM-g8-zhd"/>
+                                    <constraint firstAttribute="height" constant="21" id="jDf-L8-cqL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1015,8 +1015,8 @@
                                 <rect key="frame" x="20" y="457" width="122" height="48"/>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.74509803919999995" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="a08-VV-Agv"/>
-                                    <constraint firstAttribute="width" constant="122" id="hxN-Ne-Cmp"/>
+                                    <constraint firstAttribute="width" constant="122" id="F53-gX-8Sq"/>
+                                    <constraint firstAttribute="height" constant="48" id="ln5-cB-wUn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="22"/>
                                 <size key="titleShadowOffset" width="1" height="0.0"/>
@@ -1029,11 +1029,32 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pause:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="nc7-pe-O8A"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RvS-i7-rap">
+                                <rect key="frame" x="20" y="457" width="122" height="48"/>
+                                <color key="backgroundColor" red="0.91764705879999997" green="0.74509803919999995" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="22"/>
+                                <size key="titleShadowOffset" width="1" height="0.0"/>
+                                <state key="normal" title="RESUME">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="resume:" destination="Pm9-0g-7IT" eventType="touchUpInside" id="kio-UN-OAC"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Pace:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BiV-ig-TSI">
                                 <rect key="frame" x="20" y="423" width="280" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="J1h-Wp-um1"/>
+                                    <constraint firstAttribute="height" constant="24" id="GeV-ZI-9NJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1052,30 +1073,35 @@
                         </subviews>
                         <color key="backgroundColor" red="0.95612185849999998" green="0.95612185849999998" blue="0.95612185849999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="leading" secondItem="4FK-Vx-3FF" secondAttribute="leading" id="2ek-AM-IMU"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="top" secondItem="1sg-Ga-944" secondAttribute="bottom" constant="8" symbolic="YES" id="3Js-g4-xcc"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="baseline" secondItem="ay5-rc-SSD" secondAttribute="firstBaseline" id="5Hr-gO-2uY"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="baseline" secondItem="CQP-0x-xzO" secondAttribute="firstBaseline" id="684-cn-B5n"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="leading" secondItem="CQP-0x-xzO" secondAttribute="trailing" constant="34" id="DgS-bm-fDW"/>
-                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="top" secondItem="4FK-Vx-3FF" secondAttribute="bottom" constant="8" symbolic="YES" id="EZC-bJ-4gm"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="trailing" secondItem="ay5-rc-SSD" secondAttribute="trailing" id="H0j-sb-i2I"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="trailing" secondItem="EJM-VI-Z8j" secondAttribute="trailing" id="HEx-zf-2lm"/>
-                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="bottom" secondItem="hNl-2s-6JH" secondAttribute="top" id="IPx-Uy-TbX"/>
-                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leading" id="Jti-bV-vP4"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="top" secondItem="EJM-VI-Z8j" secondAttribute="bottom" constant="8" symbolic="YES" id="RIG-ap-eaP"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="10" id="SIp-Pv-KKE"/>
-                            <constraint firstItem="hNl-2s-6JH" firstAttribute="top" secondItem="CQP-0x-xzO" secondAttribute="bottom" constant="19" id="e0H-c6-S4a"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="leading" secondItem="EJM-VI-Z8j" secondAttribute="leading" id="eu7-3X-tyW"/>
-                            <constraint firstItem="CQP-0x-xzO" firstAttribute="leading" secondItem="BiV-ig-TSI" secondAttribute="leading" id="fws-hs-ycM"/>
-                            <constraint firstItem="1sg-Ga-944" firstAttribute="top" secondItem="Cnx-KJ-Bew" secondAttribute="bottom" constant="8" symbolic="YES" id="gth-U1-8bG"/>
-                            <constraint firstItem="ay5-rc-SSD" firstAttribute="top" secondItem="CQP-0x-xzO" secondAttribute="top" id="hO9-wd-rDn"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="trailing" secondItem="EJM-VI-Z8j" secondAttribute="trailing" id="iyS-Io-eQe"/>
-                            <constraint firstItem="BiV-ig-TSI" firstAttribute="centerX" secondItem="j1f-hB-9Rm" secondAttribute="centerX" id="jtV-Cc-R4D"/>
-                            <constraint firstAttribute="trailing" secondItem="j1f-hB-9Rm" secondAttribute="trailing" id="lAZ-VA-5w2"/>
-                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="8" symbolic="YES" id="vam-OL-vX4"/>
-                            <constraint firstItem="1sg-Ga-944" firstAttribute="centerX" secondItem="4FK-Vx-3FF" secondAttribute="centerX" id="w9K-wn-7mB"/>
-                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="4" id="wd2-kR-Nwx"/>
-                            <constraint firstItem="1sg-Ga-944" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" id="wj8-Oh-V8i"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="leading" secondItem="EJM-VI-Z8j" secondAttribute="leading" id="0kz-dI-BIh"/>
+                            <constraint firstItem="RvS-i7-rap" firstAttribute="top" secondItem="CQP-0x-xzO" secondAttribute="top" id="3w2-Z8-NfT"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" constant="4" id="6Ao-tS-8LW"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="trailing" secondItem="BiV-ig-TSI" secondAttribute="trailing" id="7M8-MJ-fKa"/>
+                            <constraint firstItem="ay5-rc-SSD" firstAttribute="leading" secondItem="RvS-i7-rap" secondAttribute="trailing" constant="34" id="8wz-Px-Qj9"/>
+                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="centerX" secondItem="BiV-ig-TSI" secondAttribute="centerX" id="95l-yJ-dbq"/>
+                            <constraint firstItem="ay5-rc-SSD" firstAttribute="trailing" secondItem="BiV-ig-TSI" secondAttribute="trailing" id="E9g-oZ-M9r"/>
+                            <constraint firstItem="1sg-Ga-944" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leadingMargin" id="GaA-1D-QuR"/>
+                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="8" symbolic="YES" id="Ibh-0o-alp"/>
+                            <constraint firstItem="RvS-i7-rap" firstAttribute="baseline" secondItem="ay5-rc-SSD" secondAttribute="firstBaseline" id="MhM-sm-AQ1"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="top" secondItem="1sg-Ga-944" secondAttribute="bottom" constant="8" symbolic="YES" id="N5s-lI-cuY"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="top" secondItem="ay5-rc-SSD" secondAttribute="top" id="O8E-Kh-V0H"/>
+                            <constraint firstItem="4FK-Vx-3FF" firstAttribute="centerX" secondItem="1sg-Ga-944" secondAttribute="centerX" id="P8S-PJ-y9k"/>
+                            <constraint firstItem="RvS-i7-rap" firstAttribute="leading" secondItem="CQP-0x-xzO" secondAttribute="leading" id="U9x-yi-oEp"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="trailing" secondItem="4FK-Vx-3FF" secondAttribute="trailing" id="VGv-07-XjT"/>
+                            <constraint firstItem="BiV-ig-TSI" firstAttribute="leading" secondItem="CQP-0x-xzO" secondAttribute="leading" id="WAf-0P-9yR"/>
+                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="bottom" secondItem="hNl-2s-6JH" secondAttribute="top" id="WfM-y3-92e"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="baseline" secondItem="RvS-i7-rap" secondAttribute="firstBaseline" id="XSj-aw-1Pp"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="baseline" secondItem="ay5-rc-SSD" secondAttribute="baseline" id="Z1z-pB-WsZ"/>
+                            <constraint firstItem="RvS-i7-rap" firstAttribute="top" secondItem="BiV-ig-TSI" secondAttribute="bottom" constant="10" id="aN5-gV-d9D"/>
+                            <constraint firstItem="1sg-Ga-944" firstAttribute="top" secondItem="Cnx-KJ-Bew" secondAttribute="bottom" constant="8" symbolic="YES" id="aSB-NK-lFb"/>
+                            <constraint firstItem="BiV-ig-TSI" firstAttribute="top" secondItem="EJM-VI-Z8j" secondAttribute="bottom" constant="8" symbolic="YES" id="btC-TI-4Th"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="leading" secondItem="BiV-ig-TSI" secondAttribute="leading" id="csS-EE-fOc"/>
+                            <constraint firstAttribute="trailing" secondItem="j1f-hB-9Rm" secondAttribute="trailing" id="cyZ-Mr-SaN"/>
+                            <constraint firstItem="hNl-2s-6JH" firstAttribute="top" secondItem="CQP-0x-xzO" secondAttribute="bottom" constant="19" id="kIL-Wr-md6"/>
+                            <constraint firstItem="EJM-VI-Z8j" firstAttribute="top" secondItem="4FK-Vx-3FF" secondAttribute="bottom" constant="8" symbolic="YES" id="pdn-c5-0bq"/>
+                            <constraint firstItem="RvS-i7-rap" firstAttribute="baseline" secondItem="CQP-0x-xzO" secondAttribute="firstBaseline" id="qGq-ej-Hg7"/>
+                            <constraint firstItem="j1f-hB-9Rm" firstAttribute="leading" secondItem="UWT-8N-XTP" secondAttribute="leading" id="usY-SS-fci"/>
+                            <constraint firstItem="CQP-0x-xzO" firstAttribute="trailing" secondItem="RvS-i7-rap" secondAttribute="trailing" id="zfh-x3-whS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
@@ -1085,6 +1111,7 @@
                         <outlet property="mapView" destination="1sg-Ga-944" id="DVm-Xh-nyN"/>
                         <outlet property="pace" destination="BiV-ig-TSI" id="qpe-Z3-kmh"/>
                         <outlet property="pause" destination="CQP-0x-xzO" id="cSy-R0-dkB"/>
+                        <outlet property="resume" destination="RvS-i7-rap" id="7bm-UJ-MZH"/>
                         <outlet property="stop" destination="ay5-rc-SSD" id="zbW-2M-lXd"/>
                         <outlet property="time" destination="EJM-VI-Z8j" id="B3t-Gs-dyQ"/>
                     </connections>
