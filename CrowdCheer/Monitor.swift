@@ -15,8 +15,9 @@ protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
+    var startLoc: CLLocation! {get set}
+    var lastLoc: CLLocation! {get set}
     var distance: Double {get set}
-    var pace: NSString {get set}
     var duration: NSInteger {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -165,8 +166,9 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
+    var startLoc: CLLocation!
+    var lastLoc: CLLocation!
     var distance: Double
-    var pace: NSString
     var duration: NSInteger
     
     override init(){
@@ -174,7 +176,6 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         self.distance = 0.0
-        self.pace = ""
         self.duration = 0
         
         //initialize location manager
@@ -189,6 +190,22 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = manager.location!
+        
+        if self.startLoc == nil {
+            startLoc = locations.first!
+            print("locations: \(locations)")
+        }
+        else {
+            let distance = startLoc.distanceFromLocation(locations.last!)
+            let lastDist = lastLoc.distanceFromLocation(locations.last!)
+            
+            print("dist: \(distance)")
+            print("lastDist: \(lastDist)")
+            
+            self.distance += lastDist
+        }
+        self.lastLoc = locations.last
+        
     }
     
     func monitorUserLocation() {
@@ -202,14 +219,12 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: self.duration)
         self.duration++
         
         let object = PFObject(className:"CheererLocations")
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
         object["distance"] = self.metersToMiles(self.distance)
-        object["pace"] = pace
         object["duration"] = self.stringFromSeconds(self.duration)
         object["time"] = NSDate()
         
@@ -232,7 +247,6 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func metersToMiles(meters: Double) -> Double {
         let km = meters/1000
         let mi = km*0.62137119
-        print("%f miles", mi)
         return mi
     }
 }
