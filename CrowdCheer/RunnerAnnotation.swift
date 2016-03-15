@@ -15,7 +15,7 @@ enum RunnerType: Int {
     case MyRunner
 }
 
-class RunnerAnnotation: NSObject, MKAnnotation {
+class TrackRunnerAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
@@ -28,5 +28,20 @@ class RunnerAnnotation: NSObject, MKAnnotation {
         self.subtitle = subtitle
         self.type = type
         self.image = image
+    }
+}
+
+
+class PickRunnerAnnotation: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var type: RunnerType
+    var runnerObjID: String?
+    
+    init(coordinate: CLLocationCoordinate2D, title: String, type: RunnerType, runnerObjID: String) {
+        self.coordinate = coordinate
+        self.title = title
+        self.type = type
+        self.runnerObjID = runnerObjID
     }
 }

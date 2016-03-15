@@ -9,7 +9,7 @@
 #import "DefaultSettingsViewController.h"
 #import "MySignUpViewController.h"
 //#import "AppDelegate.h"
-#import "NewRunViewController.h"
+//#import "NewRunViewController.h"
 
 @interface DefaultSettingsViewController ()
 
@@ -132,13 +132,13 @@
 
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    UIViewController *nextController = [segue destinationViewController];
-    if ([nextController isKindOfClass:[NewRunViewController class]]) {
-        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    UIViewController *nextController = [segue destinationViewController];
+//    if ([nextController isKindOfClass:[NewRunViewController class]]) {
+//        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
+//    }
+//}
 
 
 /*

@@ -7,7 +7,7 @@
 //
 
 #import "CommonalityViewController.h"
-#import "NewRunViewController.h"
+//   s#import "NewRunViewController.h"
 
 @interface CommonalityViewController () <UIAlertViewDelegate>
 
@@ -395,13 +395,13 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    UIViewController *nextController = [segue destinationViewController];
-    if ([nextController isKindOfClass:[NewRunViewController class]]) {
-        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    UIViewController *nextController = [segue destinationViewController];
+//    if ([nextController isKindOfClass:[NewRunViewController class]]) {
+//        ((NewRunViewController *) nextController).managedObjectContext = self.managedObjectContext;
+//    }
+//}
 
 
 /*

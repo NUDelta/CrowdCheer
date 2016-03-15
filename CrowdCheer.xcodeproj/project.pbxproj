@@ -86,7 +86,6 @@
 		E2F4818D1C8E8B0C00D3FBC8 /* apple-icon-76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = E2F481721C8E8B0C00D3FBC8 /* apple-icon-76x76.png */; };
 		E2F4818E1C8E8B0C00D3FBC8 /* apple-icon-precomposed.png in Resources */ = {isa = PBXBuildFile; fileRef = E2F481731C8E8B0C00D3FBC8 /* apple-icon-precomposed.png */; };
 		E2F4818F1C8E8B0C00D3FBC8 /* apple-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2F481741C8E8B0C00D3FBC8 /* apple-icon.png */; };
-		E2F4819D1C8F25E200D3FBC8 /* PostrunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4819A1C8F25E200D3FBC8 /* PostrunViewController.swift */; };
 		E2F4819E1C8F25E200D3FBC8 /* PrerunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */; };
 		E2F4819F1C8F25E200D3FBC8 /* RunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */; };
 		E2F481A11C8F2D3300D3FBC8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */; };
@@ -207,7 +206,6 @@
 		E2F481721C8E8B0C00D3FBC8 /* apple-icon-76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-76x76.png"; sourceTree = "<group>"; };
 		E2F481731C8E8B0C00D3FBC8 /* apple-icon-precomposed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-precomposed.png"; sourceTree = "<group>"; };
 		E2F481741C8E8B0C00D3FBC8 /* apple-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon.png"; sourceTree = "<group>"; };
-		E2F4819A1C8F25E200D3FBC8 /* PostrunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostrunViewController.swift; path = CrowdCheer/Views/PostrunViewController.swift; sourceTree = "<group>"; };
 		E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrerunViewController.swift; path = CrowdCheer/Views/PrerunViewController.swift; sourceTree = "<group>"; };
 		E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunViewController.swift; path = CrowdCheer/Views/RunViewController.swift; sourceTree = "<group>"; };
 		E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = CrowdCheer/Views/ProfileViewController.swift; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 				E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */,
 				E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */,
 				E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */,
-				E2F4819A1C8F25E200D3FBC8 /* PostrunViewController.swift */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
 				E254BEB31C74F26100C9FD8B /* CheerViewController.swift */,
@@ -679,7 +676,6 @@
 				E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */,
 				E29375F61BEBF20F003FC150 /* RoleViewController.m in Sources */,
 				E254BEB21C6E3A7000C9FD8B /* AppDelegate.m in Sources */,
-				E2F4819D1C8F25E200D3FBC8 /* PostrunViewController.swift in Sources */,
 				E254BE6D1C6BCB1000C9FD8B /* AppDelegate.swift in Sources */,
 				E254BEA91C6D0D3F00C9FD8B /* SignUpViewController.swift in Sources */,
 				E29375DE1BEBF1BC003FC150 /* MotivatorViewController.m in Sources */,
@@ -825,9 +821,9 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.B;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c2c16fb5-c096-467f-b5c5-500afa6c5f49";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -855,9 +851,9 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.B;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c2c16fb5-c096-467f-b5c5-500afa6c5f49";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				"TEST_HOST[sdk=iphoneos*]" = "";

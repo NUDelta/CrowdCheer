@@ -141,7 +141,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
         let subtitle = ("Bib #:" + self.runnerBib)
         let image = self.runnerPic
-        let annotation = RunnerAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, type: type!, image: image)
+        let annotation = TrackRunnerAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, type: type!, image: image)
 
         let annotationsToRemove = self.mapView.annotations.filter { $0 !== self.mapView.userLocation }
         self.mapView.removeAnnotations(annotationsToRemove)
@@ -166,7 +166,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             return nil
         }
         else {
-            let annotationView = RunnerAnnotationView(annotation: annotation, reuseIdentifier: "Runner")
+            let annotationView = TrackRunnerAnnotationView(annotation: annotation, reuseIdentifier: "Runner")
             annotationView.canShowCallout = true
             
             

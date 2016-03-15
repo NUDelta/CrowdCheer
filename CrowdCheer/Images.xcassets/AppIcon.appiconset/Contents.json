@@ -9,19 +9,19 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "apple-icon-60x60-1.png",
+      "filename" : "apple-icon-76x76-1.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "apple-icon-72x72.png",
+      "filename" : "apple-icon-76x76.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "apple-icon-76x76.png",
+      "filename" : "apple-icon-120x120-1.png",
       "scale" : "3x"
     },
     {
@@ -33,7 +33,7 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "apple-icon-144x144.png",
+      "filename" : "apple-icon-180x180.png",
       "scale" : "3x"
     }
   ],
