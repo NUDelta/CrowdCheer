@@ -125,18 +125,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         }
     }
 
-//    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
-//        
-//        if (mapView.annotations.first is MKUserLocation) {
-//            mapView.selectAnnotation(mapView.annotations.last!, animated: true)
-//        }
-//            
-//        else {
-//            mapView.selectAnnotation(mapView.annotations.first!, animated: true)
-//        }
-//        
-//        
-//    }
     
     func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
         var newMode: MKUserTrackingMode = MKUserTrackingMode.None

@@ -156,6 +156,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 self.nearBanner.hidden = false
                 self.lookBanner.hidden = true
                 self.cheerBanner.hidden = true
+                
+                if distanceCurr > 75 {
+                    
+                    self.runnerTrackerTimer.invalidate()
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
+                    self.presentViewController(vc, animated: true, completion: nil)
+                }
             }
                 
             else {
