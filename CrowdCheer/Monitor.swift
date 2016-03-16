@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 import Parse
 
 
@@ -23,6 +24,7 @@ protocol Monitor: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func monitorUserLocation()
     func updateUserPath()
+    func enableBackgroundLoc()
     
 }
 
@@ -145,6 +147,23 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+    func enableBackgroundLoc() {
+        
+        var player = AVAudioPlayer()
+        let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
+        
+        do {
+            player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
+            player.numberOfLoops = -1
+            player.prepareToPlay()
+            player.play()
+            print ("playing silent audio in background")
+        }
+        catch _ {
+            return print("silence sound file not found")
+        }
+    }
+    
     func stringFromSeconds(sec: NSInteger) -> String {
         let seconds = sec % 60
         let minutes = (sec / 60) % 60
@@ -234,6 +253,22 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             {
                 print("location saved")
             }
+        }
+    }
+    
+    func enableBackgroundLoc() {
+        var player = AVAudioPlayer()
+        let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
+        
+        do {
+            player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
+            player.numberOfLoops = -1
+            player.prepareToPlay()
+            player.play()
+            print ("playing silent audio in background")
+        }
+        catch _ {
+            return print("silence sound file not found")
         }
     }
     

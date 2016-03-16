@@ -27,12 +27,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     
     let locationMgr: CLLocationManager = CLLocationManager()
+    var userMonitorTimer: NSTimer = NSTimer()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
+    var cheererMonitor: CheererMonitor = CheererMonitor()
     
     
     
@@ -52,9 +54,19 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         
         //every second, update the distance and map with the runner's location
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
+        self.cheererMonitor = CheererMonitor()
         
         
+    }
+    
+    func monitorUser() {
+        
+        //start cheerer tracker
+        self.cheererMonitor.monitorUserLocation()
+        self.cheererMonitor.updateUserPath()
+        self.cheererMonitor.enableBackgroundLoc()
     }
     
     func trackRunner() {

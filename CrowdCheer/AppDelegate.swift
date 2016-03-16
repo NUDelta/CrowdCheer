@@ -23,14 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate 
         Parse.setApplicationId("QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf", clientKey: "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ")
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
-        //Initialize Beacons
-        self.beaconManager.delegate = self
-        self.beaconManager.requestAlwaysAuthorization()
-        self.beaconManager.startMonitoringForRegion(CLBeaconRegion(
-            proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!,
-            major: 62145, minor: 6639, identifier: "monitored region"))
-        
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+//        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         
         
         return true
@@ -57,16 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate 
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    func beaconManager(manager: AnyObject, didEnterRegion region: CLBeaconRegion) {
-        let notification = UILocalNotification()
-        notification.alertBody =
-            "Your gate closes in 47 minutes. " +
-            "Current security wait time is 15 minutes, " +
-            "and it's a 5 minute walk from security to the gate. " +
-        "Looks like you've got plenty of time!"
-        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {

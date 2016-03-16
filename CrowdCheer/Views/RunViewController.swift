@@ -66,6 +66,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.runnerMonitor.monitorUserLocation()
         self.runnerMonitor.updateUserPath()
         self.runnerMonitor.updateUserLocation()
+        self.runnerMonitor.enableBackgroundLoc()
         
         distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
         let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
@@ -87,23 +88,6 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if(self.runnerPath.count > 1) {
             let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
             self.mapView.addOverlay(polyline)
-        }
-    }
-    
-    
-    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
-        var newMode: MKUserTrackingMode = MKUserTrackingMode.None
-        if CLLocationManager.headingAvailable() {
-            newMode = MKUserTrackingMode.FollowWithHeading
-        }
-        else {
-            newMode = MKUserTrackingMode.Follow
-        }
-        
-        if mode != newMode {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
-            })
         }
     }
     

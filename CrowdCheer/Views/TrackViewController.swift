@@ -18,6 +18,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
+    var userMonitorTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
@@ -26,6 +27,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
+    var cheererMonitor: CheererMonitor = CheererMonitor()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
@@ -47,9 +49,18 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
+        self.cheererMonitor = CheererMonitor()
         
+    }
+    
+    func monitorUser() {
         
+        //start cheerer tracker
+        self.cheererMonitor.monitorUserLocation()
+        self.cheererMonitor.updateUserPath()
+        self.cheererMonitor.enableBackgroundLoc()
     }
     
     func trackRunner() {
@@ -84,6 +95,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             
             if distance<100 {
                 self.runnerTrackerTimer.invalidate()
+                self.userMonitorTimer.invalidate()
                 self.performSegueWithIdentifier("runnerNear", sender: nil)
             }
         }

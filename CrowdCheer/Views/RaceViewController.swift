@@ -24,7 +24,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
-    var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
@@ -42,7 +41,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         self.locationMgr.requestWhenInUseAuthorization()
         self.cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.cheer.enabled = false
-        self.runnerMonitor = RunnerMonitor()
         self.cheererMonitor = CheererMonitor()
         
         
@@ -64,6 +62,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         //start cheerer tracker
         self.cheererMonitor.monitorUserLocation()
         self.cheererMonitor.updateUserPath()
+        self.cheererMonitor.enableBackgroundLoc()
     }
     
     

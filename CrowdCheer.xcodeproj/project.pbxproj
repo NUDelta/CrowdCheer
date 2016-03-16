@@ -67,6 +67,7 @@
 		E2E652EB1AB2B97400561710 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E71AB2B97400561710 /* icon_58.png */; };
 		E2E652EC1AB2B97400561710 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E81AB2B97400561710 /* icon_80.png */; };
 		E2E652ED1AB2B97400561710 /* icon_87.png in Resources */ = {isa = PBXBuildFile; fileRef = E2E652E91AB2B97400561710 /* icon_87.png */; };
+		E2ED438F1C99BA690056AC47 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E2ED438E1C99BA690056AC47 /* silence.mp3 */; };
 		E2EFA7C51C4EC3D000974475 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */; };
 		E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C61C5A77C700974475 /* Monitor.swift */; };
 		E2EFA7C91C5A79FA00974475 /* Identify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C81C5A79FA00974475 /* Identify.swift */; };
@@ -187,6 +188,7 @@
 		E2E652E71AB2B97400561710 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 		E2E652E81AB2B97400561710 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
 		E2E652E91AB2B97400561710 /* icon_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_87.png; sourceTree = "<group>"; };
+		E2ED438E1C99BA690056AC47 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		E2EFA7C41C4EC3D000974475 /* RaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewModel.swift; path = CrowdCheer/Views/RaceViewModel.swift; sourceTree = "<group>"; };
 		E2EFA7C61C5A77C700974475 /* Monitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Monitor.swift; path = CrowdCheer/Monitor.swift; sourceTree = "<group>"; };
 		E2EFA7C81C5A79FA00974475 /* Identify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Identify.swift; path = CrowdCheer/Identify.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 		E2CA511D1A89219900C2BB03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2ED438E1C99BA690056AC47 /* silence.mp3 */,
 				E2F481631C8E8B0C00D3FBC8 /* icons */,
 				E2D6B3D81BA0C3E000D1B8BB /* myrunner.png */,
 				E265087E1B8B9DE600D726F0 /* runner.png */,
@@ -579,6 +582,7 @@
 				E2CA51831A89537200C2BB03 /* icon.png in Resources */,
 				E2CA516E1A89219900C2BB03 /* success.wav in Resources */,
 				E240F47A1B6BCF3C008C9580 /* 1438375376_wooman.png in Resources */,
+				E2ED438F1C99BA690056AC47 /* silence.mp3 in Resources */,
 				E2F4818B1C8E8B0C00D3FBC8 /* apple-icon-60x60.png in Resources */,
 				E2E652EC1AB2B97400561710 /* icon_80.png in Resources */,
 				E2E652EB1AB2B97400561710 /* icon_58.png in Resources */,
