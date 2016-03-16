@@ -66,7 +66,12 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         //start cheerer tracker
         self.cheererMonitor.monitorUserLocation()
         self.cheererMonitor.updateUserPath()
-        self.cheererMonitor.enableBackgroundLoc()
+        
+        if UIApplication.sharedApplication().applicationState == .Background {
+            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            
+            self.cheererMonitor.enableBackgroundLoc()
+        }
     }
     
     func trackRunner() {

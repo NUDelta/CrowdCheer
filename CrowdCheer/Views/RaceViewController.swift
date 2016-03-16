@@ -62,7 +62,12 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         //start cheerer tracker
         self.cheererMonitor.monitorUserLocation()
         self.cheererMonitor.updateUserPath()
-        self.cheererMonitor.enableBackgroundLoc()
+        
+        if UIApplication.sharedApplication().applicationState == .Background {
+            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            
+            self.cheererMonitor.enableBackgroundLoc()
+        }
     }
     
     
