@@ -66,7 +66,12 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.runnerMonitor.monitorUserLocation()
         self.runnerMonitor.updateUserPath()
         self.runnerMonitor.updateUserLocation()
-        self.runnerMonitor.enableBackgroundLoc()
+        
+        if UIApplication.sharedApplication().applicationState == .Background {
+            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            
+            self.runnerMonitor.enableBackgroundLoc()
+        }
         
         distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
         let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
