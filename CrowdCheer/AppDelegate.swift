@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate 
         Parse.setApplicationId("QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf", clientKey: "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ")
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
-//        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         
         
         return true

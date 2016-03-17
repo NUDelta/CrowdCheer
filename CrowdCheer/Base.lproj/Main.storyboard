@@ -173,6 +173,7 @@
                     <navigationItem key="navigationItem" title="Start Your Run" id="vka-dz-s9B"/>
                     <connections>
                         <outlet property="beacon" destination="rQ3-kX-89c" id="I7U-cw-yCO"/>
+                        <outlet property="beaconLabel" destination="eHg-Iy-4JH" id="H4m-hg-AH0"/>
                         <outlet property="bibNo" destination="0Fn-gF-q2G" id="7Yv-mq-2uc"/>
                         <outlet property="outfit" destination="0SK-r2-I8b" id="Xpq-jt-NIG"/>
                         <outlet property="raceTimeGoal" destination="4ia-J6-QT4" id="p7m-gq-2je"/>

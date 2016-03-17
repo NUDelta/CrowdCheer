@@ -22,6 +22,7 @@ class PrerunViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var raceTimeGoal: UITextField!
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var beacon: UITextField!
+    @IBOutlet weak var beaconLabel: UILabel!
     @IBOutlet weak var outfit: UITextField!
     @IBOutlet weak var start: UIButton!
     
@@ -33,6 +34,8 @@ class PrerunViewController: UIViewController, CLLocationManagerDelegate {
         
         self.start.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.start.enabled = false
+        self.beacon.hidden = true
+        self.beaconLabel.hidden = true
         
         targetPace.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         raceTimeGoal.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)

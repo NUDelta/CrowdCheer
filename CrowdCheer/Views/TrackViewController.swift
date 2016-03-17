@@ -42,7 +42,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
-        self.distanceLabel.hidden = true
+        self.distanceLabel.text = "Loading location..."
         self.myLocation = self.locationMgr.location!
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
@@ -98,7 +98,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
             self.distanceLabel.hidden = false
             
-            if distance<100 {
+            if (distance >= 100 && distance <= 150) {
+                self.sendLocalNotification(self.runnerName)
+            }
+            
+            else if distance<100 {
                 self.runnerTrackerTimer.invalidate()
                 self.userMonitorTimer.invalidate()
                 self.performSegueWithIdentifier("runnerNear", sender: nil)
@@ -129,7 +133,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             }
             self.runnerName = (name as? String)!
             self.runnerBib = (bib as? String)!
-            self.sendLocalNotification(name as! String)
         }
     }
     
