@@ -153,7 +153,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DuckOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
@@ -264,7 +264,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DuckOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
