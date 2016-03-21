@@ -84,6 +84,11 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
+        
+        // track & register changes in audio output routes
+        let route = AVAudioSession.sharedInstance().currentRoute.outputs
+        print("audio route: \(route)")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "audioSessionRouteChanged:", name: AVAudioSessionRouteChangeNotification, object: nil)
     }
     
     func updateUserLocation() {
@@ -118,6 +123,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             }
         }
     }
+    
     func updateUserPath(){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
@@ -127,11 +133,10 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
-        print (user)
+        print (user.objectId)
         print(self.distance)
         print(self.duration)
         print(self.pace)
-        print(NSDate())
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
         object["distance"] = self.metersToMiles(self.distance)
@@ -147,13 +152,24 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+    func audioSessionRouteChanged(notification: NSNotification) {
+        var userInfo = notification.userInfo
+        let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
+        print ("audio route change reason: \(routeChangeReason)")
+    }
+    
     func enableBackgroundLoc() {
         
         var player = AVAudioPlayer()
         let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+
+            if AVAudioSession.sharedInstance().otherAudioPlaying {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+            }
+            
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
