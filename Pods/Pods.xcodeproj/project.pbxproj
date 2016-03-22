@@ -23,12 +23,12 @@
 		BE0EBB1821E7EBBAB037C876B806F288 /* SocketIOClientStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F7AA05A6DAB2D8EF9BFC55D355C6A /* SocketIOClientStatus.swift */; };
 		D6ED04F7503D8CFE262660EFF14EB4D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
 		E22A76C08EF7FC6B3225EA420DCB6732 /* SocketFixUTF8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DE4E20BC298F3EE5417A7C7A452DD5 /* SocketFixUTF8.swift */; };
+		E2ED43911CA06A240056AC47 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ED43901CA06A240056AC47 /* Foundation.framework */; };
 		E51531650BBF10F44994C41862D49224 /* SocketPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0052F017C7939FF62F8FF70840BFCEC /* SocketPacket.swift */; };
 		E66EE993A26A9FF996C5C0BA5C785629 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1574E91EADFC72E4BC99B57041E1A03 /* WebSocket.swift */; };
 		EA78B8B53D31471A6894DA5432320A2E /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5DA93A9F359521A89826BE6DA777 /* Pods-dummy.m */; };
 		EA93EA5FD16C65FF63940250C9974090 /* SocketParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB78907509510551A79EE58C47BF0209 /* SocketParser.swift */; };
 		EC260FAB2DB66B42EC0646F41A821EFA /* SocketLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D8788A97E392ACE67CD8881E2ECFF0 /* SocketLogger.swift */; };
-		F0A92AEA8B6BE6612DCA2F0084194F90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
 		F1A39BBBC735AE0D9C7D47BF27171234 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB12F57407FD34C019C5349525CDD4 /* SocketAckManager.swift */; };
 		FAC735654D7100C2401C556B3962C74E /* Pods-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BCC458FDD5F692BBB2BFC64BB5701FC /* Pods-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FE5853D2A631AF7A2449DDF721B80F7A /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3363600F8E5020BEE6F8AFA3E86ABF22 /* SwiftRegex.swift */; };
@@ -110,6 +110,7 @@
 		D2B13D03EEF30482EF21335F7B1EF4AB /* ESTMotionRule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ESTMotionRule.h; path = EstimoteSDK/EstimoteSDK.framework/Versions/A/Headers/ESTMotionRule.h; sourceTree = "<group>"; };
 		DA312349A49333542E6F4B36B329960E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
 		DB921399CCCFE4FE444DC5D1AE75DC2C /* Socket.IO-Client-Swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Socket.IO-Client-Swift-dummy.m"; sourceTree = "<group>"; };
+		E2ED43901CA06A240056AC47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E7F21354943D9F42A70697D5A5EF72E9 /* Pods-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-frameworks.sh"; sourceTree = "<group>"; };
 		E83616A89CF93F6E959FAFA7A46308FD /* ESTBulkUpdater.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ESTBulkUpdater.h; path = EstimoteSDK/EstimoteSDK.framework/Versions/A/Headers/ESTBulkUpdater.h; sourceTree = "<group>"; };
 		E8446514FBAD26C0E18F24A5715AEF67 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,7 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0A92AEA8B6BE6612DCA2F0084194F90 /* Foundation.framework in Frameworks */,
+				E2ED43911CA06A240056AC47 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +201,7 @@
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2ED43901CA06A240056AC47 /* Foundation.framework */,
 				BF6342C8B29F4CEEA088EFF7AB4DE362 /* iOS */,
 			);
 			name = Frameworks;

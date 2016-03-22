@@ -1,18 +1,18 @@
+////
+////  DetailViewController.h
+////  CrowdCheer
+////
+////  Created by Leesha Maliakal on 2/8/15.
+////  Copyright (c) 2015 Delta Lab. All rights reserved.
+////
 //
-//  DetailViewController.h
-//  CrowdCheer
+//#import <UIKit/UIKit.h>
 //
-//  Created by Leesha Maliakal on 2/8/15.
-//  Copyright (c) 2015 Delta Lab. All rights reserved.
+//@class Run;
 //
-
-#import <UIKit/UIKit.h>
-
-@class Run;
-
-@interface DetailViewController : UIViewController
-
-@property (strong, nonatomic) Run *run;
-
-@end
-
+//@interface DetailViewController : UIViewController
+//
+//@property (strong, nonatomic) Run *run;
+//
+//@end
+//
