@@ -24,7 +24,6 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var updatePicture: UIButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var infoButton: UIButton!
     
     
     override func viewDidLoad() {

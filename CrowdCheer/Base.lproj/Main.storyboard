@@ -21,7 +21,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2909" y="260"/>
+            <point key="canvasLocation" x="-2843" y="260"/>
         </scene>
         <!--Race Information-->
         <scene sceneID="CzK-37-icO">
@@ -182,7 +182,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gau-40-1Eu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-978" y="260"/>
+            <point key="canvasLocation" x="-1248" y="260"/>
         </scene>
         <!--signUpViewController-->
         <scene sceneID="leH-dO-Rjs">
@@ -395,7 +395,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="76W-gK-E4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1482" y="1016"/>
+            <point key="canvasLocation" x="-1650" y="942"/>
         </scene>
         <!--Update Profile-->
         <scene sceneID="Ndf-c1-sWN">
@@ -412,7 +412,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="month" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDA-Jw-UAf">
                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" id="tzN-ud-M9U"/>
+                                    <constraint firstAttribute="width" id="t7g-NS-hFo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -420,7 +420,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update your picture so people can spot you on the race course." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="b65-9f-ZYc">
                                 <rect key="frame" x="20" y="72" width="280" height="51"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="b4e-EE-OEp"/>
+                                    <constraint firstAttribute="height" constant="51" id="69L-1q-ccO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -429,6 +429,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wiE-xL-7Kf">
                                 <rect key="frame" x="70" y="441" width="180" height="46"/>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.74509803919999995" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="iuy-gt-tea"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
                                 <size key="titleShadowOffset" width="1" height="0.0"/>
                                 <state key="normal" title="update picture">
@@ -447,44 +450,32 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="OOr-um-zFI">
                                 <rect key="frame" x="48" y="131" width="224" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="4z3-ZF-I2J"/>
+                                    <constraint firstAttribute="height" constant="30" id="R9i-pr-gRC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ww6-5V-zk0">
-                                <rect key="frame" x="258" y="446" width="22" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="156-ew-AiC"/>
-                                </constraints>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1438375376_wooman.png" translatesAutoresizingMaskIntoConstraints="NO" id="vBD-cI-dt0">
                                 <rect key="frame" x="66" y="185" width="188" height="232"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.95612185849999998" green="0.95612185849999998" blue="0.95612185849999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Ww6-5V-zk0" firstAttribute="leading" secondItem="wiE-xL-7Kf" secondAttribute="trailing" constant="8" symbolic="YES" id="6dT-5C-4Ai"/>
-                            <constraint firstItem="OOr-um-zFI" firstAttribute="top" secondItem="b65-9f-ZYc" secondAttribute="bottom" constant="8" symbolic="YES" id="CqC-IQ-pZJ"/>
-                            <constraint firstItem="vBD-cI-dt0" firstAttribute="centerX" secondItem="OOr-um-zFI" secondAttribute="centerX" id="F4V-06-78e"/>
-                            <constraint firstItem="OOr-um-zFI" firstAttribute="centerX" secondItem="blk-JG-yrS" secondAttribute="centerX" id="FHD-Eb-rGq"/>
-                            <constraint firstItem="wiE-xL-7Kf" firstAttribute="centerY" secondItem="Ww6-5V-zk0" secondAttribute="centerY" id="FOf-Tv-ZSF"/>
-                            <constraint firstItem="vBD-cI-dt0" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="50" id="Hnp-jL-6QK"/>
-                            <constraint firstItem="b65-9f-ZYc" firstAttribute="top" secondItem="EAz-pW-Eby" secondAttribute="bottom" constant="8" symbolic="YES" id="Ib4-n8-OYd"/>
-                            <constraint firstItem="HDA-Jw-UAf" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leading" id="Idf-zu-kEd"/>
-                            <constraint firstItem="HDA-Jw-UAf" firstAttribute="top" secondItem="blk-JG-yrS" secondAttribute="top" id="Idi-d7-y5g"/>
-                            <constraint firstItem="vBD-cI-dt0" firstAttribute="top" secondItem="OOr-um-zFI" secondAttribute="bottom" constant="24" id="RbQ-Jx-Zgk"/>
-                            <constraint firstItem="2he-7X-ULa" firstAttribute="top" secondItem="wiE-xL-7Kf" secondAttribute="bottom" constant="37" id="Xnf-aR-0ts"/>
-                            <constraint firstItem="OOr-um-zFI" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="32" id="dJU-Z2-0SU"/>
-                            <constraint firstItem="OOr-um-zFI" firstAttribute="centerX" secondItem="b65-9f-ZYc" secondAttribute="centerX" id="db5-C6-SnH"/>
-                            <constraint firstItem="wiE-xL-7Kf" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="54" id="fv0-KB-QNJ"/>
-                            <constraint firstItem="vBD-cI-dt0" firstAttribute="centerX" secondItem="wiE-xL-7Kf" secondAttribute="centerX" id="fwm-F7-WIo"/>
-                            <constraint firstItem="wiE-xL-7Kf" firstAttribute="top" secondItem="vBD-cI-dt0" secondAttribute="bottom" constant="24" id="j41-XI-PYd"/>
-                            <constraint firstItem="2he-7X-ULa" firstAttribute="top" secondItem="Ww6-5V-zk0" secondAttribute="bottom" constant="43" id="xsX-WZ-WT5"/>
-                            <constraint firstItem="b65-9f-ZYc" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="4" id="zyv-96-W8E"/>
+                            <constraint firstItem="HDA-Jw-UAf" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leading" id="1ql-9A-Zxe"/>
+                            <constraint firstItem="2he-7X-ULa" firstAttribute="top" secondItem="wiE-xL-7Kf" secondAttribute="bottom" constant="37" id="563-2O-Ekn"/>
+                            <constraint firstItem="OOr-um-zFI" firstAttribute="centerX" secondItem="vBD-cI-dt0" secondAttribute="centerX" id="DxK-Q4-2qO"/>
+                            <constraint firstItem="b65-9f-ZYc" firstAttribute="top" secondItem="EAz-pW-Eby" secondAttribute="bottom" constant="8" symbolic="YES" id="GJ3-pC-RiH"/>
+                            <constraint firstItem="b65-9f-ZYc" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="4" id="GXo-zK-6Nn"/>
+                            <constraint firstItem="vBD-cI-dt0" firstAttribute="top" secondItem="OOr-um-zFI" secondAttribute="bottom" constant="24" id="J7y-hQ-5h3"/>
+                            <constraint firstItem="wiE-xL-7Kf" firstAttribute="top" secondItem="vBD-cI-dt0" secondAttribute="bottom" constant="24" id="ZAp-Y7-914"/>
+                            <constraint firstItem="OOr-um-zFI" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="32" id="a3N-z2-Mzj"/>
+                            <constraint firstItem="b65-9f-ZYc" firstAttribute="centerX" secondItem="blk-JG-yrS" secondAttribute="centerX" id="h5Z-zK-lzc"/>
+                            <constraint firstItem="HDA-Jw-UAf" firstAttribute="top" secondItem="blk-JG-yrS" secondAttribute="top" id="jYT-z2-s9a"/>
+                            <constraint firstItem="OOr-um-zFI" firstAttribute="top" secondItem="b65-9f-ZYc" secondAttribute="bottom" constant="8" symbolic="YES" id="pHb-L6-qQp"/>
+                            <constraint firstItem="vBD-cI-dt0" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="50" id="pxj-1J-3SU"/>
+                            <constraint firstItem="OOr-um-zFI" firstAttribute="centerX" secondItem="b65-9f-ZYc" secondAttribute="centerX" id="sDn-IF-tvk"/>
+                            <constraint firstItem="vBD-cI-dt0" firstAttribute="centerX" secondItem="wiE-xL-7Kf" secondAttribute="centerX" id="twX-JJ-H0D"/>
+                            <constraint firstItem="wiE-xL-7Kf" firstAttribute="leading" secondItem="blk-JG-yrS" secondAttribute="leadingMargin" constant="54" id="xKH-8o-wMd"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -497,7 +488,6 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Update Profile" id="Q67-Rg-tOB"/>
                     <connections>
-                        <outlet property="infoButton" destination="Ww6-5V-zk0" id="4SX-rR-vry"/>
                         <outlet property="nameField" destination="OOr-um-zFI" id="bAG-7k-7Ot"/>
                         <outlet property="profilePicView" destination="vBD-cI-dt0" id="Kah-1Z-9s1"/>
                         <outlet property="saveButton" destination="84d-1T-F46" id="HRU-cG-fpw"/>
@@ -506,7 +496,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1966" y="260"/>
+            <point key="canvasLocation" x="-2046" y="260"/>
         </scene>
         <!--Getting Started-->
         <scene sceneID="84m-de-lis">
@@ -603,7 +593,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1482" y="260"/>
+            <point key="canvasLocation" x="-1650" y="260"/>
         </scene>
         <!--Track My Run-->
         <scene sceneID="ffh-gm-bon">
@@ -760,7 +750,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgk-qh-RUe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-502" y="260"/>
+            <point key="canvasLocation" x="-850" y="260"/>
         </scene>
         <!--Track a Runner-->
         <scene sceneID="yii-jB-kYF">
@@ -814,7 +804,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dAT-08-fBq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-958" y="1016"/>
+            <point key="canvasLocation" x="-1248" y="942"/>
         </scene>
         <!--Cheer for a Runner-->
         <scene sceneID="Cc8-47-wAe">
@@ -937,7 +927,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nlq-8s-0ai" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-424" y="1016"/>
+            <point key="canvasLocation" x="-850" y="942"/>
         </scene>
     </scenes>
     <resources>
