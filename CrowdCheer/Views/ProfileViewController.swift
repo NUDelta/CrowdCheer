@@ -97,15 +97,15 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     @IBAction func updatePicture(sender: UIButton) {
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         imagePicker.sourceType = .Camera
         
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-        
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
-        image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        image = info[UIImagePickerControllerEditedImage] as? UIImage
         profilePicView.image = image
         
         let imageData = UIImageJPEGRepresentation(self.image!, 0.50)
