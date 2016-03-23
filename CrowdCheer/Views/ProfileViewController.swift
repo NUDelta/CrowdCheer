@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var updatePicture: UIButton!
+    @IBOutlet weak var logOut: UIButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
@@ -31,6 +32,7 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         
         user = PFUser.currentUser()
         nameField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        self.navigationItem.setHidesBackButton(true, animated:true);
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
@@ -68,23 +70,36 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     
     func getProfileInfo() {
         
-        let name = (user.valueForKey("name"))! as! String
-        let userImageFile = user["profilePic"] as? PFFile
-        userImageFile!.getDataInBackgroundWithBlock {
-            (imageData: NSData?, error: NSError?) -> Void in
-            if error == nil {
-                if let imageData = imageData {
-                    let image = UIImage(data:imageData)
-                    self.profilePicView.image = image
-                }
-            }
-            else {
-                print("could not download photo: \(error)")
-            }
+        var name: String
+        var userImageFile: PFFile
+        
+        
+        if user.valueForKey("name") == nil {
+            //don't retrieve name
+        }
+        else {
+            name = (user.valueForKey("name"))! as! String
+            self.nameField.text = name
         }
         
-        self.nameField.text = name
-        
+        if user.valueForKey("profilePic") == nil {
+            //don't retrieve profile picture
+        }
+        else {
+            userImageFile = user["profilePic"] as! PFFile
+            userImageFile.getDataInBackgroundWithBlock {
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        let image = UIImage(data:imageData)
+                        self.profilePicView.image = image
+                    }
+                }
+                else {
+                    print("could not download photo: \(error)")
+                }
+            }
+        }
     }
     
     func displayPhotoAlert() {
@@ -112,6 +127,14 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         let imageFile = PFFile.fileWithName("image.jpeg", data: imageData!)
         user["profilePic"] = imageFile
         user.saveInBackground()
+    }
+    
+    @IBAction func logOut(sender: UIButton) {
+        PFUser.logOut()
+        let sb = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let loginView = sb.instantiateViewControllerWithIdentifier("signUpViewController")
+        self.presentViewController(loginView, animated: true, completion: nil)
+//        self.performSegueWithIdentifier("logInOut", sender: self)
     }
 }
 

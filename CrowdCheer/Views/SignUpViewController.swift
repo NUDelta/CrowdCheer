@@ -38,7 +38,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
 
         //if already logged in, segue to next VC
         if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("loggedIn", sender: nil)
+            self.performSegueWithIdentifier("logInOut", sender: nil)
         }
     }
     
@@ -77,7 +77,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Successful login
-                self.performSegueWithIdentifier("loggedIn", sender: nil)
+                self.performSegueWithIdentifier("logInOut", sender: nil)
                 
             } else {
                 // failed login, error displayed to user
@@ -113,7 +113,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
             } else {
                 //Successful signup
-                self.performSegueWithIdentifier("loggedIn", sender: nil)
+                print(user)
+                self.performSegueWithIdentifier("logInOut", sender: nil)
             }
         }
     }
