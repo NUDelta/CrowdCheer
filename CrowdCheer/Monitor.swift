@@ -165,11 +165,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
-
-            if AVAudioSession.sharedInstance().otherAudioPlaying {
-                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
-            }
-            
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
@@ -182,6 +177,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             return print("silence sound file not found")
         }
     }
+
     
     func stringFromSeconds(sec: NSInteger) -> String {
         let seconds = sec % 60
@@ -288,11 +284,6 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
-            
-            if AVAudioSession.sharedInstance().otherAudioPlaying {
-                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
-            }
-            
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
