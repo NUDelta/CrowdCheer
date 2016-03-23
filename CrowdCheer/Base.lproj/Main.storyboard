@@ -267,6 +267,9 @@
                                                 <integer key="value" value="5"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="logIn:" destination="HAW-fB-p8Q" eventType="touchUpInside" id="ety-7y-9Ta"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Helping motivate runners when they need it most" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="3y6-zq-cj5">
                                         <rect key="frame" x="56" y="139" width="208" height="44"/>
@@ -315,6 +318,7 @@
                     <navigationItem key="navigationItem" id="QXg-ba-k0O"/>
                     <connections>
                         <outlet property="emailField" destination="xb9-fP-JfU" id="CcC-gG-PZQ"/>
+                        <outlet property="logInButton" destination="fbt-8S-DRE" id="SLO-sd-6bA"/>
                         <outlet property="passwordField" destination="TTL-59-pxG" id="uza-IM-Fpz"/>
                         <outlet property="scrollView" destination="wEL-of-2zw" id="Bov-vY-QXL"/>
                         <outlet property="signUpButton" destination="lDi-Ps-66o" id="b0i-zg-lCx"/>
