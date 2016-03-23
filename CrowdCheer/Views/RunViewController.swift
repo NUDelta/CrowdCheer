@@ -19,6 +19,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var runnerPath: Array<CLLocationCoordinate2D> = []
+    var needIndex: Int = 0
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
@@ -37,10 +38,16 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
         self.runnerMonitor = RunnerMonitor()
+        self.needIndex = 0
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
+        
+        
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTap.numberOfTapsRequired = 2
+        self.view.addGestureRecognizer(doubleTap)
         
         //initialize map
         //update the runner profile info
@@ -56,6 +63,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
         
         
+        
     }
     
     func monitorUser() {
@@ -68,9 +76,10 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.runnerMonitor.updateUserLocation()
         
         if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            print("app status: \(UIApplication.sharedApplication().applicationState)")
             
             self.runnerMonitor.enableBackgroundLoc()
+//            self.runnerMonitor.needCounter()
         }
         
         distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
@@ -106,6 +115,11 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return polyLineRenderer
         
+    }
+    
+    func handleDoubleTap() {
+        self.needIndex++
+        print("needIndex: \(needIndex)")
     }
     
     @IBAction func stop(sender: UIButton) {

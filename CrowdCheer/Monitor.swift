@@ -183,6 +183,12 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+//    func needCounter() {
+//        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+//        doubleTap.numberOfTapsRequired = 2
+//        self.view.addGestureRecognizer(doubleTap)
+//    }
+    
     func stringFromSeconds(sec: NSInteger) -> String {
         let seconds = sec % 60
         let minutes = (sec / 60) % 60
