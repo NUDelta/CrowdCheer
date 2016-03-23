@@ -32,7 +32,8 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         
         user = PFUser.currentUser()
         nameField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        self.navigationItem.setHidesBackButton(true, animated:true);
+//        self.navigationItem.setHidesBackButton(true, animated:true);
+        self.logOut.hidden = true
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
@@ -134,7 +135,6 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         let sb = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         let loginView = sb.instantiateViewControllerWithIdentifier("signUpViewController")
         self.presentViewController(loginView, animated: true, completion: nil)
-//        self.performSegueWithIdentifier("logInOut", sender: self)
     }
 }
 
