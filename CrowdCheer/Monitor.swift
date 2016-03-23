@@ -275,12 +275,24 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+    func audioSessionRouteChanged(notification: NSNotification) {
+        var userInfo = notification.userInfo
+        let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
+        print ("audio route change reason: \(routeChangeReason)")
+    }
+    
     func enableBackgroundLoc() {
+        
         var player = AVAudioPlayer()
         let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            
+            if AVAudioSession.sharedInstance().otherAudioPlaying {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+            }
+            
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
