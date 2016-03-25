@@ -14,7 +14,7 @@ class RoleViewController: UIViewController {
     @IBOutlet weak var running: UIButton!
     @IBOutlet weak var cheering: UIButton!
     
-    var user: PFUser = PFUser()
+    var user: PFUser = PFUser.currentUser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +27,8 @@ class RoleViewController: UIViewController {
     @IBAction func running(sender: UIButton) {
         user["role"] = "runner"
         user.saveInBackground()
+        print(user.valueForKey("role")!)
+        self.performSegueWithIdentifier("run", sender: nil)
     }
     
     
@@ -34,5 +36,7 @@ class RoleViewController: UIViewController {
     @IBAction func cheering(sender: UIButton) {
         user["role"] = "cheerer"
         user.saveInBackground()
+        print(user.valueForKey("role")!)
+        self.performSegueWithIdentifier("cheer", sender: nil)
     }
 }

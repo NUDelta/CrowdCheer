@@ -554,7 +554,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="running:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="YX4-lw-c20"/>
-                                    <segue destination="Pwj-he-eYY" kind="push" id="lcx-ah-eX9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8az-j4-Xt5">
@@ -576,7 +575,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="cheering:" destination="bu8-Nc-PHu" eventType="touchUpInside" id="f3D-jY-w1X"/>
-                                    <segue destination="AWe-3X-XCa" kind="push" id="b2R-Nl-s0D"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="i5S-da-s9x">
@@ -605,6 +603,8 @@
                     <connections>
                         <outlet property="cheering" destination="8az-j4-Xt5" id="5IS-hL-tjs"/>
                         <outlet property="running" destination="LcS-tK-kQk" id="wjt-AU-eVb"/>
+                        <segue destination="Pwj-he-eYY" kind="push" identifier="run" id="fD3-Vd-bPi"/>
+                        <segue destination="AWe-3X-XCa" kind="push" identifier="cheer" id="KJF-ad-QLi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>

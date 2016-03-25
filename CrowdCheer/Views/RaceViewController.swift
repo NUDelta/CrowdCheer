@@ -57,6 +57,11 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        self.userMonitorTimer.invalidate()
+        self.nearbyRunnersTimer.invalidate()
+    }
+    
     func monitorUser() {
         
         //start cheerer tracker
