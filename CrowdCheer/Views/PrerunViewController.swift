@@ -14,7 +14,6 @@ import Parse
 
 class PrerunViewController: UIViewController, CLLocationManagerDelegate {
     
-    let locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser.currentUser()
     
     
@@ -29,8 +28,6 @@ class PrerunViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.locationMgr.requestAlwaysAuthorization()
-        self.locationMgr.requestWhenInUseAuthorization()
         
         self.start.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.start.enabled = false

@@ -14,11 +14,14 @@ class RoleViewController: UIViewController {
     @IBOutlet weak var running: UIButton!
     @IBOutlet weak var cheering: UIButton!
     
+    let locationMgr: CLLocationManager = CLLocationManager()
     var user: PFUser = PFUser.currentUser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.locationMgr.requestAlwaysAuthorization()
+        self.locationMgr.requestWhenInUseAuthorization()
         user = PFUser.currentUser()
     }
     
