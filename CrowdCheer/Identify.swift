@@ -76,6 +76,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             if error == nil {
                 // Found at least one runner
                 print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
+                
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         

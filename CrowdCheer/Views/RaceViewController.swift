@@ -24,8 +24,10 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
+    var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
+    var areRunnersNearby: Bool = Bool()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -54,6 +56,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         })
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(120.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
     
@@ -87,6 +90,14 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             
             for (runnerObj, runnerLoc) in runnerLocations! {
                 
+                if runnerLocations?.isEmpty == false {
+                    self.areRunnersNearby = true
+                }
+                
+                else {
+                    self.areRunnersNearby = false
+                }
+                
                 let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
                 let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                 self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
@@ -103,6 +114,15 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
         let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID)
         self.mapView.addAnnotation(annotation)
+    }
+    
+    func sendLocalNotification() {
+        let localNotification = UILocalNotification()
+        localNotification.alertBody = "Cheer for runners near you!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -158,6 +178,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         self.selectedRunners.selectRunner(self.runner)
         self.userMonitorTimer.invalidate()
         self.nearbyRunnersTimer.invalidate()
+        self.nearbyRunnersNotifyTimer.invalidate()
     }
 }
 
