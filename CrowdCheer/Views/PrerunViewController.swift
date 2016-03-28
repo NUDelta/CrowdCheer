@@ -34,14 +34,14 @@ class PrerunViewController: UIViewController, CLLocationManagerDelegate {
         self.beacon.hidden = true
         self.beaconLabel.hidden = true
         
-        targetPace.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        raceTimeGoal.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        bibNo.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        beacon.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        outfit.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        beacon.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         
         //set up rules for keyboard
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PrerunViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "") {

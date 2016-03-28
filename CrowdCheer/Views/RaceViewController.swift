@@ -52,8 +52,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
-        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "updateNearbyRunners", userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
+        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
     }
     

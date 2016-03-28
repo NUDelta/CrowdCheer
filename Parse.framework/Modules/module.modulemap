@@ -1,6 +1,38 @@
 framework module Parse {
-  umbrella header "Parse.h"
-
-  export *
-  module * { export * }
+    umbrella header "Parse.h"
+    
+    export *
+    module * { export * }
+    
+    explicit module PF_MBProgressHUD {
+        header "PF_MBProgressHUD.h"
+        link "PF_MBProgressHUD"
+        export *
+    }
+    
+    explicit module PFConfig {
+        header "PFConfig.h"
+        link "PFConfig"
+        export *
+    }
+    
+    explicit module PFNetworkActivityIndicatorManager {
+        header "PFNetworkActivityIndicatorManager.h"
+        link "PFNetworkActivityIndicatorManager"
+        export *
+    }
+    
+    explicit module PFObject_Subclass {
+        header "PFObject+Subclass.h"
+        link "PFObject+Subclass"
+        export *
+    }
+    
+    explicit module PFPurchaseTableViewCell {
+        header "PFPurchaseTableViewCell.h"
+        link "PFPurchaseTableViewCell"
+        export *
+    }
+    
+    
 }

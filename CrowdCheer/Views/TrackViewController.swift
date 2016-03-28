@@ -48,8 +48,8 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
+        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         self.cheererMonitor = CheererMonitor()
         

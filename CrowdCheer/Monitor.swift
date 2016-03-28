@@ -88,7 +88,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         // track & register changes in audio output routes
         let route = AVAudioSession.sharedInstance().currentRoute.outputs
         print("audio route: \(route)")
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "audioSessionRouteChanged:", name: AVAudioSessionRouteChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RunnerMonitor.audioSessionRouteChanged(_:)), name: AVAudioSessionRouteChangeNotification, object: nil)
     }
     
     func updateUserLocation() {
@@ -129,7 +129,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: duration)
-        self.duration++
+        self.duration += 1
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
@@ -253,7 +253,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.duration++
+        self.duration += 1
         
         let object = PFObject(className:"CheererLocations")
         object["location"] = geoPoint

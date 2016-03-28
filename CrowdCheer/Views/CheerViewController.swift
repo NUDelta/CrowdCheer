@@ -53,8 +53,8 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         
         
         //every second, update the distance and map with the runner's location
-        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "trackRunner", userInfo: nil, repeats: true)
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "monitorUser", userInfo: nil, repeats: true)
+        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
         self.contextPrimer = ContextPrimer()
         self.cheererMonitor = CheererMonitor()
         

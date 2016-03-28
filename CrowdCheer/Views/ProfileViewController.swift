@@ -31,12 +31,12 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         super.viewDidLoad()
         
         user = PFUser.currentUser()
-        nameField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
 //        self.navigationItem.setHidesBackButton(true, animated:true);
         self.logOut.hidden = true
         
         //set up rules for keyboard
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         displayPhotoAlert()
