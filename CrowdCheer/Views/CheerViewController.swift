@@ -68,7 +68,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         self.cheererMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            print("app status: \(UIApplication.sharedApplication().applicationState)")
             
             self.cheererMonitor.enableBackgroundLoc()
         }
@@ -179,7 +179,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                     self.runnerTrackerTimer.invalidate()
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
-                    self.presentViewController(vc, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
                 
