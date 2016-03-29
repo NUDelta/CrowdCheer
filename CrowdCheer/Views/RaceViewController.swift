@@ -27,7 +27,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
-    var areRunnersNearby: Bool = Bool()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -90,14 +89,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             
             for (runnerObj, runnerLoc) in runnerLocations! {
                 
-                if runnerLocations?.isEmpty == false {
-                    self.areRunnersNearby = true
-                }
-                
-                else {
-                    self.areRunnersNearby = false
-                }
-                
                 let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
                 let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                 self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
@@ -117,12 +108,20 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     }
     
     func sendLocalNotification() {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "Cheer for runners near you!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
-        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+        print("bool \(self.nearbyRunners.areRunnersNearby)")
+        if self.nearbyRunners.areRunnersNearby == true {
+            let localNotification = UILocalNotification()
+            localNotification.alertBody = "Cheer for runners near you!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            
+            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+        }
+            
+        else {
+            print("local notification: no runners nearby")
+        }
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

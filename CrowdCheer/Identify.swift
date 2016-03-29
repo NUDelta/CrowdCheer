@@ -14,6 +14,7 @@ protocol Trigger: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
+    var areRunnersNearby: Bool {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
@@ -36,11 +37,13 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation
+    var areRunnersNearby: Bool
     
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
+        self.areRunnersNearby = false
         
         //initialize location manager
         super.init()
@@ -87,6 +90,16 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                     }
                 }
                 print ("Runner dictionary: ", runnerLocs)
+                
+                if runnerLocs.isEmpty != true {
+                    print("runnerLocs has a runner")
+                    self.areRunnersNearby = true
+                }
+                else {
+                    print("runnerLocs is empty")
+                    self.areRunnersNearby = false
+                }
+                
                 result(runnerLocations: runnerUpdates)
             }
             else {
