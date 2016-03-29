@@ -72,7 +72,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 1.0) //runners within 500 meters of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 2.0) //runners within 2 km of me
         query.findObjectsInBackgroundWithBlock {
             (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
             

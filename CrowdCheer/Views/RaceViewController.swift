@@ -25,6 +25,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
+    var areRunnersNearby: Bool = Bool()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
@@ -43,6 +44,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         self.cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.cheer.enabled = false
         self.cheererMonitor = CheererMonitor()
+        self.areRunnersNearby = false
         
         
         //initialize mapview
@@ -55,7 +57,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         })
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(120.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
+        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(60.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
     
@@ -71,7 +73,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         self.cheererMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            print("app status: \(UIApplication.sharedApplication().applicationState)")
             
             self.cheererMonitor.enableBackgroundLoc()
         }
@@ -87,13 +89,22 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         self.nearbyRunners = NearbyRunners()
         self.nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
             
+            if ((runnerLocations?.isEmpty) == true) {
+                self.areRunnersNearby = false
+            }
+            else {
+                self.areRunnersNearby = true
+            }
+            
             for (runnerObj, runnerLoc) in runnerLocations! {
                 
                 let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
                 let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                 self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                
             }
         }
+        
     }
     
     func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D) {
@@ -109,8 +120,9 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     func sendLocalNotification() {
         
-        print("bool \(self.nearbyRunners.areRunnersNearby)")
-        if self.nearbyRunners.areRunnersNearby == true {
+        print("bool from identify \(self.nearbyRunners.areRunnersNearby)")
+        print("bool from VC \(self.areRunnersNearby)")
+        if self.areRunnersNearby == true {
             let localNotification = UILocalNotification()
             localNotification.alertBody = "Cheer for runners near you!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
