@@ -82,7 +82,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         self.runnerObjID = self.runner.objectId
                     }
                 }
-                result(runnerObjectID: self.runnerObjID)
+                result(runnerObjectID: self.runnerObjID) //NOTE: EMPTY RUNNER
             }
             else {
                 // Query failed, load error

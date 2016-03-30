@@ -184,12 +184,24 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     @IBAction func cheer(sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
-        
+        var isCheerSaved = true
         self.selectedRunners = SelectedRunners()
-        self.selectedRunners.selectRunner(self.runner)
-        self.userMonitorTimer.invalidate()
-        self.nearbyRunnersTimer.invalidate()
-        self.nearbyRunnersNotifyTimer.invalidate()
+        self.selectedRunners.selectRunner(self.runner) { (cheerSaved) -> Void in
+
+            isCheerSaved = cheerSaved
+        }
+        
+        if isCheerSaved == true {
+            self.userMonitorTimer.invalidate()
+            self.nearbyRunnersTimer.invalidate()
+            self.nearbyRunnersNotifyTimer.invalidate()
+            self.performSegueWithIdentifier("trackRunner", sender: nil)
+        }
+        else {
+            //do nothing
+        }
+        
+        
     }
 }
 

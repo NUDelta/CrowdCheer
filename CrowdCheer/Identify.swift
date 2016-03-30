@@ -27,7 +27,7 @@ protocol Select: Any {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
-    func selectRunner(runner: PFUser)
+    func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void)
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -143,19 +143,20 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
     }
     
-    func selectRunner(runner: PFUser) {
+    func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void ) {
         //save runner/cheerer pair as a cheer object to parse
         
         let cheer = PFObject(className:"Cheers")
+        var isCheerSaved = Bool()
         cheer["runner"] = runner
         cheer["cheerer"] = PFUser.currentUser()
         cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {
-                print("cheer object saved")
+                isCheerSaved = true
+                print("cheer object saved: \(isCheerSaved)")
+                result(cheerSaved: isCheerSaved)
             }
         }
-        
     }
-    
 }

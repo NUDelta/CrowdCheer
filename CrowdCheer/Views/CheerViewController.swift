@@ -174,7 +174,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 self.lookBanner.hidden = true
                 self.cheerBanner.hidden = true
                 
-                if distanceCurr > 75 {
+                if distanceCurr > 50 {
                     
                     self.runnerTrackerTimer.invalidate()
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
