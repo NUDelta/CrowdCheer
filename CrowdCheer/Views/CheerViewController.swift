@@ -169,17 +169,28 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             }
                 
             else if distancePrev < distanceCurr {
-                self.nearBanner.text = self.runnerName + " has passed by."
-                self.nearBanner.hidden = false
-                self.lookBanner.hidden = true
-                self.cheerBanner.hidden = true
+                //runner is moving away
                 
-                if distanceCurr > 50 {
+                if distanceCurr <= 20 {
+                    //if error in location, add 20m buffer for cheering
+                    self.cheerBanner.text = "CHEER FOR " + self.runnerName.uppercaseString + "!"
+                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                    self.nearBanner.hidden = true
+                    self.lookBanner.hidden = true
+                    self.cheerBanner.hidden = false
+                }
+                
+                else if distanceCurr<=50 && distanceCurr>20 {
+                    self.nearBanner.text = self.runnerName + " has passed by."
+                    self.nearBanner.hidden = false
+                    self.lookBanner.hidden = true
+                    self.cheerBanner.hidden = true
+                }
+                
+                else if distanceCurr>50 {
                     
                     self.runnerTrackerTimer.invalidate()
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    continueCheeringAlert()
                 }
             }
                 
@@ -197,5 +208,26 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             self.lookBanner.hidden = true
             self.cheerBanner.hidden = true
         }
+    }
+    
+    func continueCheeringAlert() {
+        let alertTitle = "Thank you for supporting " + self.runnerName + "!"
+        let alertController = UIAlertController(title: alertTitle, message: "Would you like to cheer for another runner?", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: cheerAgain))
+        alertController.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: doneCheering))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func cheerAgain(alert: UIAlertAction!) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func doneCheering(alert: UIAlertAction!) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

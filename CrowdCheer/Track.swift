@@ -59,11 +59,11 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         self.runner = PFUser()
         let now = NSDate()
-        let seconds:NSTimeInterval = -600 //NOTE: called every second when tracking, so we get an empty query after 60 seconds. ideally, interval would last as long as you are committed to a runner, but then the query might find your last committed runner and your current, so then pull the most recent of the list?
+        let seconds:NSTimeInterval = -1200 //NOTE: called every second when tracking, so we get an empty query after 10min - this means that if you selected a runner to cheer more than ten min ago, the query doesn't find that runner. ideally, interval would last as long as you are committed to a runner, but then the query might find your last committed runner and your current, so then pull the most recent of the list?
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "Cheers")
         
-        //NOTE: query just uses last runner on list of commitments, maybe should cleverly select a runner if we support multiple commitments, like if you check of all the people you want to cheer for, what if we display the ones in the ideal "start" range?
+        //NOTE: query just uses last runner (aka most recent runner you said you would cheer) on list of commitments, maybe should cleverly select a runner if we support multiple commitments, like if you check of all the people you want to cheer for, what if we display the ones in the ideal "start" range?
         query.orderByAscending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //cheers updated in the last 10 minutes
         query.whereKey("cheerer", equalTo: self.user)

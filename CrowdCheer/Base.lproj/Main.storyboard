@@ -187,7 +187,7 @@
         <!--signUpViewController-->
         <scene sceneID="leH-dO-Rjs">
             <objects>
-                <viewController storyboardIdentifier="signUpViewController" title="signUpViewController" id="HAW-fB-p8Q" customClass="SignUpViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" title="signUpViewController" id="HAW-fB-p8Q" customClass="SignUpViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="955-gb-Lgv"/>
                         <viewControllerLayoutGuide type="bottom" id="OOq-Tp-ycm"/>
@@ -404,7 +404,7 @@
         <!--Update Profile-->
         <scene sceneID="Ndf-c1-sWN">
             <objects>
-                <viewController storyboardIdentifier="profileViewController" title="Update Profile" id="uDh-vD-uKF" customClass="ProfileViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" title="Update Profile" id="uDh-vD-uKF" customClass="ProfileViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EAz-pW-Eby"/>
                         <viewControllerLayoutGuide type="bottom" id="2he-7X-ULa"/>
@@ -517,7 +517,7 @@
         <!--Getting Started-->
         <scene sceneID="84m-de-lis">
             <objects>
-                <viewController storyboardIdentifier="roleViewController" title="Getting Started" id="bu8-Nc-PHu" customClass="RoleViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RoleViewController" title="Getting Started" id="bu8-Nc-PHu" customClass="RoleViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qKG-E7-6gP"/>
                         <viewControllerLayoutGuide type="bottom" id="3yH-WO-efh"/>

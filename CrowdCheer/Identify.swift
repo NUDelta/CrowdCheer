@@ -42,7 +42,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        self.location = self.locationMgr.location! //NOTE: occasionally returns nil
         self.areRunnersNearby = false
         
         //initialize location manager
