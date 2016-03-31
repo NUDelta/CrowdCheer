@@ -190,6 +190,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 else if distanceCurr>50 {
                     
                     self.runnerTrackerTimer.invalidate()
+                    self.userMonitorTimer.invalidate()
                     continueCheeringAlert()
                 }
             }
