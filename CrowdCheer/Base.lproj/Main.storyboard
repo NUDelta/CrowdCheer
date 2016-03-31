@@ -389,9 +389,16 @@
                             <constraint firstItem="g2B-vn-G0x" firstAttribute="top" secondItem="fr2-HO-uf5" secondAttribute="bottom" constant="8" symbolic="YES" id="vCm-5B-lJq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Pick a Runner" id="9qf-rh-Z4n"/>
+                    <navigationItem key="navigationItem" title="Pick a Runner" id="9qf-rh-Z4n">
+                        <barButtonItem key="leftBarButtonItem" title="Home" id="Tfg-FK-Ei1">
+                            <connections>
+                                <action selector="home:" destination="AWe-3X-XCa" id="Rms-DH-Amd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cheer" destination="vSJ-v7-EmF" id="VQZ-Ql-7Bb"/>
+                        <outlet property="home" destination="Tfg-FK-Ei1" id="EQJ-97-dZH"/>
                         <outlet property="mapView" destination="fr2-HO-uf5" id="wsA-WR-tEN"/>
                         <outlet property="runnerLabel" destination="g2B-vn-G0x" id="KbC-UN-kGV"/>
                         <segue destination="x3m-YV-U7c" kind="push" identifier="trackRunner" id="K6z-sU-QjJ"/>

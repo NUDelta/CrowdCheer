@@ -31,7 +31,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     var selectedRunners: SelectedRunners = SelectedRunners()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
-    
+    @IBOutlet weak var home: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var runnerLabel: UILabel!
     @IBOutlet weak var cheer: UIButton!
@@ -202,6 +202,12 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         }
         
         
+    }
+    
+    @IBAction func home(sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
