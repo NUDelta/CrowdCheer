@@ -138,21 +138,21 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             
             if distancePrev >= distanceCurr {
                 
-                if distanceCurr>50 {
+                if distanceCurr>75 {
                     self.nearBanner.text = self.runnerName + " is nearby!"
                     self.nearBanner.hidden = false
                     self.lookBanner.hidden = true
                     self.cheerBanner.hidden = true
                 }
                     
-                else if distanceCurr<=50 && distanceCurr>25 {
+                else if distanceCurr<=75 && distanceCurr>40 {
                     self.lookBanner.text = "LOOK FOR " + self.runnerName.uppercaseString + "!"
                     self.nearBanner.hidden = true
                     self.lookBanner.hidden = false
                     self.cheerBanner.hidden = true
                 }
                     
-                else if distanceCurr<=25 {
+                else if distanceCurr<=40 {
                     self.cheerBanner.text = "CHEER FOR " + self.runnerName.uppercaseString + "!"
                     AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     self.nearBanner.hidden = true

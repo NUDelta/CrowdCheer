@@ -36,7 +36,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.runner = PFUser()
-        self.runnerObjID = ""
+        self.runnerObjID = "dummy"
         self.locationMgr = CLLocationManager()
         self.location = self.locationMgr.location!
         
