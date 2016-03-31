@@ -52,7 +52,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         self.congrats.hidden = true
         self.resume.hidden = true
-        self.pause.hidden = true
+        self.pause.enabled = false
         
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         
