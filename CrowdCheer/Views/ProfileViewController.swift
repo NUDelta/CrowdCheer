@@ -128,6 +128,10 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         let imageFile = PFFile.fileWithName("image.jpeg", data: imageData!)
         user["profilePic"] = imageFile
         user.saveInBackground()
+        
+        if user.valueForKey("profilePic") != nil {
+            self.saveButton.enabled = true
+        }
     }
     
     @IBAction func logOut(sender: UIButton) {
