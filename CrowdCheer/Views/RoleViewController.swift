@@ -13,6 +13,8 @@ class RoleViewController: UIViewController {
     
     @IBOutlet weak var running: UIButton!
     @IBOutlet weak var cheering: UIButton!
+    @IBOutlet weak var admin: UIButton!
+    
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var user: PFUser = PFUser.currentUser()
@@ -23,6 +25,13 @@ class RoleViewController: UIViewController {
         self.locationMgr.requestAlwaysAuthorization()
         self.locationMgr.requestWhenInUseAuthorization()
         user = PFUser.currentUser()
+        
+        self.admin.hidden = true
+        
+        let role = user.valueForKey("role")!
+        if role as! String == "admin" {
+            self.admin.hidden = false
+        }
     }
     
     
@@ -41,5 +50,11 @@ class RoleViewController: UIViewController {
         user.saveInBackground()
         print(user.valueForKey("role")!)
         self.performSegueWithIdentifier("cheer", sender: nil)
+    }
+    
+    //Segue to admin view
+    @IBAction func admin(sender: UIButton) {
+        print(user.valueForKey("role")!)
+        self.performSegueWithIdentifier("admin", sender: nil)
     }
 }
