@@ -14,7 +14,7 @@ import Parse
 
 class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let locationMgr: CLLocationManager = CLLocationManager()
+    var locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
@@ -34,8 +34,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.locationMgr.requestAlwaysAuthorization()
-        self.locationMgr.requestWhenInUseAuthorization()
+        self.locationMgr = CLLocationManager()
         self.runnerMonitor = RunnerMonitor()
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({

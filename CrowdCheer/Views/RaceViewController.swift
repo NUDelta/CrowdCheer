@@ -14,7 +14,7 @@ import Parse
 
 class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let locationMgr: CLLocationManager = CLLocationManager()
+    var locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
@@ -38,9 +38,9 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        self.locationMgr.requestAlwaysAuthorization()
-        self.locationMgr.requestWhenInUseAuthorization()
+        self.locationMgr = CLLocationManager()
         self.cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.cheer.enabled = false
         self.cheererMonitor = CheererMonitor()
@@ -56,7 +56,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
-        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(120.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
