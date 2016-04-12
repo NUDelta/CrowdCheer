@@ -30,18 +30,20 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Initialize user, profile info
         user = PFUser.currentUser()
+        getProfileInfo()
+        
+        //Prompt user to take new photo & add listener for changes in name field
+        displayPhotoAlert()
         nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-//        self.navigationItem.setHidesBackButton(true, animated:true);
-        self.logOut.hidden = true
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        displayPhotoAlert()
-        getProfileInfo()
-        
+        //Ensure profile pic and name are saved before enabling segue
+        self.logOut.hidden = true
         if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil)  {
             self.saveButton.enabled = false
         }

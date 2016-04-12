@@ -16,7 +16,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    let locationMgr: CLLocationManager = CLLocationManager()
+    var locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var userMonitorTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
@@ -43,6 +43,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
         self.distanceLabel.text = "Loading location..."
+        self.locationMgr = CLLocationManager()
         self.myLocation = self.locationMgr.location!
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({

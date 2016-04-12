@@ -44,7 +44,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         //initialize map
         //update the runner profile info
-        //every second, update the distance label and map with the runner's location
+        //every 3 seconds, update the distance label and map with the runner's location
         
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
@@ -54,7 +54,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.resume.hidden = true
         self.pause.enabled = false
         
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         
         
     }

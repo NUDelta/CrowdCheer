@@ -26,7 +26,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var nearBanner: UILabel!
     
     
-    let locationMgr: CLLocationManager = CLLocationManager()
+    var locationMgr: CLLocationManager = CLLocationManager()
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var runner: PFUser = PFUser()
@@ -40,6 +40,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.locationMgr = CLLocationManager()
         self.navigationItem.setHidesBackButton(true, animated:true);
         self.distanceLabel.hidden = true
         self.nearBanner.hidden = false
