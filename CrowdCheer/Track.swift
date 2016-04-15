@@ -17,7 +17,7 @@ protocol Prime: Any {
     var user: PFUser {get}
     var runner: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation {get set}
+    var location: CLLocation! {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner(result:(runnerObjectID: String) -> Void)
@@ -31,7 +31,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var runner: PFUser
     var runnerObjID: String
     var locationMgr: CLLocationManager
-    var location: CLLocation
+    var location: CLLocation!
     
     override init(){
         self.user = PFUser.currentUser()
@@ -51,7 +51,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        self.location = manager.location!
     }
     
     func getRunner(result:(runnerObjectID: String) -> Void) {

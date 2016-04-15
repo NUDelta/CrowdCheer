@@ -15,7 +15,7 @@ import Parse
 protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation {get set}
+    var location: CLLocation! {get set}
     var startLoc: CLLocation! {get set}
     var lastLoc: CLLocation! {get set}
     var distance: Double {get set}
@@ -34,7 +34,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation
+    var location: CLLocation!
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
@@ -199,7 +199,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation
+    var location: CLLocation!
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
@@ -208,7 +208,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        self.location = self.locationMgr.location! //NOTE: occasionally returns nil
         self.distance = 0.0
         self.duration = 0
         

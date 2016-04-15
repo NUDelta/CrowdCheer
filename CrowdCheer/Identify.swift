@@ -13,7 +13,7 @@ import Parse
 protocol Trigger: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation {get set}
+    var location: CLLocation! {get set}
     var areRunnersNearby: Bool {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -23,7 +23,7 @@ protocol Trigger: Any {
 protocol Select: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation {get set}
+    var location: CLLocation! {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
@@ -36,7 +36,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation
+    var location: CLLocation!
     var areRunnersNearby: Bool
     
     override init(){
@@ -116,7 +116,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation
+    var location: CLLocation!
     
     override init(){
         self.user = PFUser.currentUser()
