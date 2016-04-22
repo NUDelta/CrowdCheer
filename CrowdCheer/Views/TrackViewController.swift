@@ -106,7 +106,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             else if distance<100 {
                 self.runnerTrackerTimer.invalidate()
                 self.userMonitorTimer.invalidate()
-                self.performSegueWithIdentifier("runnerNear", sender: nil)
+                self.performSegueWithIdentifier("runnerNear", sender: nil) //NOTE: Race testing errored here
             }
         }
         
@@ -119,7 +119,20 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         self.contextPrimer.getRunner(){ (runnerObjectID) -> Void in
             //update runner name, bib #, picture
             print("runnerObjID: ", runnerObjectID)
-            self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
+            
+            do {
+                self.runner = try PFQuery.getUserObjectWithId(runnerObjectID, error: ())
+            }
+                
+            catch _ {
+                let loggedError = PFObject(className: "ErrorLog")
+                loggedError["event"] = "TrackVC: getRunnerProfile"
+                loggedError["error"] = "runnerObjectID query: \(runnerObjectID)"
+                loggedError.saveInBackground()
+
+                return print("ERROR: runnerObjectID \(runnerObjectID) not found")
+            }
+            
             let name = (self.runner.valueForKey("name"))!
             let bib = (self.runner.valueForKey("bibNumber"))!
             let userImageFile = self.runner["profilePic"] as? PFFile
@@ -136,6 +149,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             self.runnerBib = (bib as? String)!
         }
     }
+    
     
     func sendLocalNotification(name: String) {
         let localNotification = UILocalNotification()

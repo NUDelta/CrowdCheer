@@ -104,7 +104,19 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         self.contextPrimer.getRunner(){ (runnerObjectID) -> Void in
             //update runner name, bib #, picture
             print("runnerObjID: ", runnerObjectID)
-            self.runner = PFQuery.getUserObjectWithId(runnerObjectID)
+            do {
+                self.runner = try PFQuery.getUserObjectWithId(runnerObjectID, error: ())
+            }
+                
+            catch _ {
+                let loggedError = PFObject(className: "ErrorLog")
+                loggedError["event"] = "TrackVC: getRunnerProfile"
+                loggedError["error"] = "runenrObjectID query: \(runnerObjectID)"
+                loggedError.saveInBackground()
+                
+                return print("ERROR: runnerObjectID \(runnerObjectID) not found")
+            }
+            
             self.runnerName = (self.runner.valueForKey("name"))! as! String
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
             let runnerOutfit = (self.runner.valueForKey("outfit"))!

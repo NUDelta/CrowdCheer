@@ -1,5 +1,5 @@
 //
-//  Identify.swift
+//  Match.swift
 //  CrowdCheer
 //
 //  Created by Leesha Maliakal on 11/17/15.
