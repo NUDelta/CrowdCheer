@@ -35,6 +35,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
+    let appDel = NSUserDefaults()
     
     
     
@@ -105,7 +106,9 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             //update runner name, bib #, picture
             print("runnerObjID: ", runnerObjectID)
             do {
-                self.runner = try PFQuery.getUserObjectWithId(runnerObjectID, error: ())
+                let pairDict = self.appDel.dictionaryForKey(dictKey)
+                let runnerID = pairDict![PFUser.currentUser().objectId] as! String
+                self.runner = try PFQuery.getUserObjectWithId(runnerID, error: ())
             }
                 
             catch _ {

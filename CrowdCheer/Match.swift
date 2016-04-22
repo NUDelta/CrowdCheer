@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 import Parse
 
 
@@ -117,6 +118,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation!
+    let appDel = NSUserDefaults()
     
     override init(){
         self.user = PFUser.currentUser()
@@ -148,6 +150,13 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
         let cheer = PFObject(className:"Cheers")
         var isCheerSaved = Bool()
+        var cheerPair = [String: String]()
+        
+        cheerPair[PFUser.currentUser().objectId] = runner.objectId
+        
+        self.appDel.setObject(cheerPair, forKey: dictKey)
+        self.appDel.synchronize()
+        
         cheer["runner"] = runner
         cheer["cheerer"] = PFUser.currentUser()
         cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in

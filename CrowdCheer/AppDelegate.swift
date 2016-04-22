@@ -9,11 +9,16 @@
 import UIKit
 import Parse
 
+let dictKey = "key"
+
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate {
     
     var window: UIWindow?
     let beaconManager = ESTBeaconManager()
+    
+    let userDefault = NSUserDefaults.init()
     
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

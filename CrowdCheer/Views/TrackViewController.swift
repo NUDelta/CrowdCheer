@@ -29,6 +29,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var contextPrimer = ContextPrimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
+    let appDel = NSUserDefaults()
     
     
     
@@ -121,7 +122,9 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             print("runnerObjID: ", runnerObjectID)
             
             do {
-                self.runner = try PFQuery.getUserObjectWithId(runnerObjectID, error: ())
+                let pairDict = self.appDel.dictionaryForKey(dictKey)
+                let runnerID = pairDict![PFUser.currentUser().objectId] as! String
+                self.runner = try PFQuery.getUserObjectWithId(runnerID, error: ())
             }
                 
             catch _ {
