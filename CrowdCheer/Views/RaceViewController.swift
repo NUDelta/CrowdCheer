@@ -57,7 +57,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         })
         self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(300.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
+        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
     
