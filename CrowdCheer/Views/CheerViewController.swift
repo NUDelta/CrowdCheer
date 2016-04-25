@@ -113,7 +113,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                 
             catch _ {
                 let loggedError = PFObject(className: "ErrorLog")
-                loggedError["event"] = "TrackVC: getRunnerProfile"
+                loggedError["event"] = "CheerVC: getRunnerProfile"
                 loggedError["error"] = "runenrObjectID query: \(runnerObjectID)"
                 loggedError.saveInBackground()
                 
@@ -237,6 +237,13 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func cheerAgain(alert: UIAlertAction!) {
+        
+        var cheerPair = [String: String]()
+        cheerPair[PFUser.currentUser().objectId] = ""
+        
+        self.appDel.setObject(cheerPair, forKey: dictKey)
+        self.appDel.synchronize()
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
