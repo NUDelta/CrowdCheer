@@ -20,8 +20,8 @@ protocol Prime: Any {
     var location: CLLocation! {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func getRunner(result:(runnerObjectID: String) -> Void)
-    func getRunnerLocation(trackedRunnerID: String, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
+    func getRunner() -> PFUser
+    func getRunnerLocation(trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
     
 }
 
@@ -32,6 +32,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var runnerObjID: String
     var locationMgr: CLLocationManager
     var location: CLLocation!
+    let appDel = NSUserDefaults()
     
     override init(){
         self.user = PFUser.currentUser()
@@ -54,47 +55,23 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         self.location = manager.location!
     }
     
-    func getRunner(result:(runnerObjectID: String) -> Void) {
-        //query Cheers class for spectator's runner commitment and retrieve runner object
+    func getRunner() -> PFUser {
         
-        self.runner = PFUser()
-        let now = NSDate()
-        let seconds:NSTimeInterval = -1200 //NOTE: called every second when tracking, so we get an empty query after 10min - this means that if you selected a runner to cheer more than ten min ago, the query doesn't find that runner. ideally, interval would last as long as you are committed to a runner, but then the query might find your last committed runner and your current, so then pull the most recent of the list?
-        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
-        let query = PFQuery(className: "Cheers")
-        
-        //NOTE: query just uses last runner (aka most recent runner you said you would cheer) on list of commitments, maybe should cleverly select a runner if we support multiple commitments, like if you check of all the people you want to cheer for, what if we display the ones in the ideal "start" range?
-        query.orderByAscending("updatedAt")
-        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //cheers updated in the last 10 minutes
-        query.whereKey("cheerer", equalTo: self.user)
-        
-        query.findObjectsInBackgroundWithBlock {
-            (cheerObjects: [AnyObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // Found at least one runner
-                print("Successfully retrieved \(cheerObjects!.count) cheers.")
-                if let cheerObjects = cheerObjects {
-                    for cheer in cheerObjects {
-                        
-                        let runnerObject = (cheer as! PFObject)["runner"] as! PFUser
-                        self.runner = runnerObject
-                        self.runnerObjID = self.runner.objectId
-                    }
-                }
-                result(runnerObjectID: self.runnerObjID) //NOTE: EMPTY RUNNER
-            }
-            else {
-                // Query failed, load error
-                print("ERROR: \(error!) \(error!.userInfo)")
-                result(runnerObjectID: self.runnerObjID)
-            }
-        }
+        let pairDict = self.appDel.dictionaryForKey(dictKey)
+        runnerObjID = pairDict![PFUser.currentUser().objectId] as! String
+        runner = PFQuery.getUserObjectWithId(runnerObjID)
+        return runner
     }
     
-    func getRunnerLocation(trackedRunnerID: String, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
+    func resetRunner() {
+        var cheerPair = [String: String]()
+        cheerPair[PFUser.currentUser().objectId] = ""
+        self.appDel.setObject(cheerPair, forKey: dictKey)
+        self.appDel.synchronize()
+    }
+    
+    func getRunnerLocation(trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
         
-        let trackedRunner = PFQuery.getUserObjectWithId(trackedRunnerID)
         var runnerUpdate = CLLocationCoordinate2D()
         let now = NSDate()
         let seconds:NSTimeInterval = -60

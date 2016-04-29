@@ -35,7 +35,6 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
-    let appDel = NSUserDefaults()
     
     
     
@@ -80,9 +79,8 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         //get latest loc and update map and distance label
         
         print("Tracking runner")
-        let trackedRunnerID: String = self.runner.objectId
-        
-        self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
+    
+        self.contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
             
             self.runnerLastLoc = runnerLoc
         }
@@ -102,24 +100,9 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func getRunnerProfile() {
         
-        self.contextPrimer.getRunner(){ (runnerObjectID) -> Void in
+        runner = self.contextPrimer.getRunner()
             //update runner name, bib #, picture
-            print("runnerObjID: ", runnerObjectID)
-            do {
-                let pairDict = self.appDel.dictionaryForKey(dictKey)
-                let runnerID = pairDict![PFUser.currentUser().objectId] as! String
-                self.runner = try PFQuery.getUserObjectWithId(runnerID, error: ())
-            }
-                
-            catch _ {
-                let loggedError = PFObject(className: "ErrorLog")
-                loggedError["event"] = "CheerVC: getRunnerProfile"
-                loggedError["error"] = "runenrObjectID query: \(runnerObjectID)"
-                loggedError.saveInBackground()
-                
-                return print("ERROR: runnerObjectID \(runnerObjectID) not found")
-            }
-            
+            print("runnerObjID: ", runner.objectId)
             self.runnerName = (self.runner.valueForKey("name"))! as! String
             let runnerBib = (self.runner.valueForKey("bibNumber"))!
             let runnerOutfit = (self.runner.valueForKey("outfit"))!
@@ -133,12 +116,9 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 }
             }
-            
             self.nameLabel.text = self.runnerName
             self.bibLabel.text = "Bib #: " + (runnerBib as! String)
             self.outfit.text = "Wearing: " + (runnerOutfit as! String)
-            
-        }
     }
     
     func updateBanner(location: CLLocation) {
@@ -238,11 +218,8 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func cheerAgain(alert: UIAlertAction!) {
         
-        var cheerPair = [String: String]()
-        cheerPair[PFUser.currentUser().objectId] = ""
-        
-        self.appDel.setObject(cheerPair, forKey: dictKey)
-        self.appDel.synchronize()
+        //reset pair
+        contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController

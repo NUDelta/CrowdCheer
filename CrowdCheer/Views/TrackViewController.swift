@@ -29,7 +29,6 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var contextPrimer = ContextPrimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
-    let appDel = NSUserDefaults()
     
     
     
@@ -83,9 +82,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             print(self.myLocation)
         }
         
-        let trackedRunnerID: String = self.runner.objectId //NOTE: runner is empty, check getRunnerProfile
-        
-        self.contextPrimer.getRunnerLocation(trackedRunnerID) { (runnerLoc) -> Void in
+        self.contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
 
             self.runnerLastLoc = runnerLoc
         }
@@ -117,40 +114,21 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func getRunnerProfile() {
         
-        self.contextPrimer.getRunner(){ (runnerObjectID) -> Void in
-            //update runner name, bib #, picture
-            print("runnerObjID: ", runnerObjectID)
-            
-            do {
-                let pairDict = self.appDel.dictionaryForKey(dictKey)
-                let runnerID = pairDict![PFUser.currentUser().objectId] as! String
-                self.runner = try PFQuery.getUserObjectWithId(runnerID, error: ())
-            }
-                
-            catch _ {
-                let loggedError = PFObject(className: "ErrorLog")
-                loggedError["event"] = "TrackVC: getRunnerProfile"
-                loggedError["error"] = "runnerObjectID query: \(runnerObjectID)"
-                loggedError.saveInBackground()
-
-                return print("ERROR: runnerObjectID \(runnerObjectID) not found")
-            }
-            
-            let name = (self.runner.valueForKey("name"))!
-            let bib = (self.runner.valueForKey("bibNumber"))!
-            let userImageFile = self.runner["profilePic"] as? PFFile
-            userImageFile!.getDataInBackgroundWithBlock {
-                (imageData: NSData?, error: NSError?) -> Void in
-                if error == nil {
-                    if let imageData = imageData {
-                        let image = UIImage(data:imageData)
-                        self.runnerPic = image!
-                    }
+        runner = self.contextPrimer.getRunner()
+        let name = (self.runner.valueForKey("name"))!
+        let bib = (self.runner.valueForKey("bibNumber"))!
+        let userImageFile = self.runner["profilePic"] as? PFFile
+        userImageFile!.getDataInBackgroundWithBlock {
+            (imageData: NSData?, error: NSError?) -> Void in
+            if error == nil {
+                if let imageData = imageData {
+                    let image = UIImage(data:imageData)
+                    self.runnerPic = image!
                 }
             }
-            self.runnerName = (name as? String)!
-            self.runnerBib = (bib as? String)!
         }
+        self.runnerName = (name as? String)!
+        self.runnerBib = (bib as? String)!
     }
     
     

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 import Parse
 
 
@@ -146,17 +145,18 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     }
     
     func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void ) {
-        //save runner/cheerer pair as a cheer object to parse
         
-        let cheer = PFObject(className:"Cheers")
-        var isCheerSaved = Bool()
+        
+        //save runner/cheerer pair to global dictionary
         var cheerPair = [String: String]()
-        
         cheerPair[PFUser.currentUser().objectId] = runner.objectId
-        
         self.appDel.setObject(cheerPair, forKey: dictKey)
         self.appDel.synchronize()
         
+        
+        //save runner/cheerer pair as a cheer object to parse
+        let cheer = PFObject(className:"Cheers")
+        var isCheerSaved = Bool()
         cheer["runner"] = runner
         cheer["cheerer"] = PFUser.currentUser()
         cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
