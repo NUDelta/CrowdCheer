@@ -29,6 +29,7 @@ class PrerunViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //set up view
         self.start.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         self.start.enabled = false
         self.beacon.hidden = true
