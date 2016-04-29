@@ -40,42 +40,42 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.locationMgr = CLLocationManager()
-        self.cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
-        self.cheer.enabled = false
-        self.cheererMonitor = CheererMonitor()
-        self.areRunnersNearby = false
+        locationMgr = CLLocationManager()
+        cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
+        cheer.enabled = false
+        cheererMonitor = CheererMonitor()
+        areRunnersNearby = false
         
         
         //initialize mapview
-        self.mapView.delegate = self
-        self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
-        self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        self.nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.userMonitorTimer.invalidate()
-        self.nearbyRunnersTimer.invalidate()
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
     }
     
     func monitorUser() {
         
         //start cheerer tracker
-        self.cheererMonitor.monitorUserLocation()
-        self.cheererMonitor.updateUserPath()
+        cheererMonitor.monitorUserLocation()
+        cheererMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")
             
-            self.cheererMonitor.enableBackgroundLoc()
+            cheererMonitor.enableBackgroundLoc()
         }
     }
     
@@ -83,11 +83,11 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     func updateNearbyRunners() {
         //every x seconds, clear map, update array of nearby runners and pin those runners
         
-        let annotationsToRemove = self.mapView.annotations.filter { $0 !== self.mapView.userLocation }
-        self.mapView.removeAnnotations(annotationsToRemove)
+        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
+        mapView.removeAnnotations(annotationsToRemove)
         
-        self.nearbyRunners = NearbyRunners()
-        self.nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
+        nearbyRunners = NearbyRunners()
+        nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
             
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
@@ -115,14 +115,14 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         let runnerObjID = runner.objectId
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
         let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID)
-        self.mapView.addAnnotation(annotation)
+        mapView.addAnnotation(annotation)
     }
     
     func sendLocalNotification() {
         
-        print("bool from identify \(self.nearbyRunners.areRunnersNearby)")
-        print("bool from VC \(self.areRunnersNearby)")
-        if self.areRunnersNearby == true {
+        print("bool from identify \(nearbyRunners.areRunnersNearby)")
+        print("bool from VC \(areRunnersNearby)")
+        if areRunnersNearby == true {
             let localNotification = UILocalNotification()
             localNotification.alertBody = "Cheer for runners near you!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
@@ -153,15 +153,15 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         print("\(view.annotation?.title) has been tapped")
         if (view is PickRunnerAnnotationView) {
             
-            self.cheer.enabled = true
+            cheer.enabled = true
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             var runnerDescription: String = ""
-            self.runner = PFQuery.getUserObjectWithId(runnerObjID)
-            let runnerName = (self.runner.valueForKey("name"))!
+            runner = PFQuery.getUserObjectWithId(runnerObjID)
+            let runnerName = (runner.valueForKey("name"))!
             print("Selected runner: \(runnerName)")
             runnerDescription = String(runnerName) + " needs help!"
-            self.runnerLabel.text = runnerDescription
+            runnerLabel.text = runnerDescription
         }
     }
 
@@ -177,7 +177,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         
         if mode != newMode {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+                mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
             })
         }
     }
@@ -185,17 +185,17 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     @IBAction func cheer(sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
         var isCheerSaved = true
-        self.selectedRunners = SelectedRunners()
-        self.selectedRunners.selectRunner(self.runner) { (cheerSaved) -> Void in
+        selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(runner) { (cheerSaved) -> Void in
 
             isCheerSaved = cheerSaved
         }
         
         if isCheerSaved == true {
-            self.userMonitorTimer.invalidate()
-            self.nearbyRunnersTimer.invalidate()
-            self.nearbyRunnersNotifyTimer.invalidate()
-            self.performSegueWithIdentifier("trackRunner", sender: nil)
+            userMonitorTimer.invalidate()
+            nearbyRunnersTimer.invalidate()
+            nearbyRunnersNotifyTimer.invalidate()
+            performSegueWithIdentifier("trackRunner", sender: nil)
         }
         else {
             //do nothing
@@ -207,7 +207,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     @IBAction func home(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

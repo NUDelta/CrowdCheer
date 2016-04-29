@@ -35,29 +35,29 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     let appDel = NSUserDefaults()
     
     override init(){
-        self.user = PFUser.currentUser()
-        self.runner = PFUser()
-        self.runnerObjID = "dummy"
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        user = PFUser.currentUser()
+        runner = PFUser()
+        runnerObjID = "dummy"
+        locationMgr = CLLocationManager()
+        location = locationMgr.location!
         
         //initialize location manager
         super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
         
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
+        location = manager.location!
     }
     
     func getRunner() -> PFUser {
         
-        let pairDict = self.appDel.dictionaryForKey(dictKey)
+        let pairDict = appDel.dictionaryForKey(dictKey)
         runnerObjID = pairDict![PFUser.currentUser().objectId] as! String
         runner = PFQuery.getUserObjectWithId(runnerObjID)
         return runner
@@ -66,8 +66,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     func resetRunner() {
         var cheerPair = [String: String]()
         cheerPair[PFUser.currentUser().objectId] = ""
-        self.appDel.setObject(cheerPair, forKey: dictKey)
-        self.appDel.synchronize()
+        appDel.setObject(cheerPair, forKey: dictKey)
+        appDel.synchronize()
     }
     
     func getRunnerLocation(trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {

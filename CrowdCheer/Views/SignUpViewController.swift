@@ -22,9 +22,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         
-        self.usernameField.delegate = self
-        self.emailField.delegate = self
-        self.passwordField.delegate = self
+        usernameField.delegate = self
+        emailField.delegate = self
+        passwordField.delegate = self
         
         
         //set up rules for keyboard
@@ -105,16 +105,16 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         var userInfo = notification.userInfo!
         var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
+        keyboardFrame = view.convertRect(keyboardFrame, fromView: nil)
         
-        var contentInset:UIEdgeInsets = self.scrollView.contentInset
+        var contentInset:UIEdgeInsets = scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height
-        self.scrollView.contentInset = contentInset
+        scrollView.contentInset = contentInset
     }
     
     func keyboardWillHide(notification:NSNotification){
         
         let contentInset:UIEdgeInsets = UIEdgeInsetsZero
-        self.scrollView.contentInset = contentInset
+        scrollView.contentInset = contentInset
     }
 }

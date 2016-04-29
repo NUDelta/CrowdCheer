@@ -34,8 +34,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.locationMgr = CLLocationManager()
-        self.runnerMonitor = RunnerMonitor()
+        locationMgr = CLLocationManager()
+        runnerMonitor = RunnerMonitor()
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -45,15 +45,15 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //update the runner profile info
         //every 3 seconds, update the distance label and map with the runner's location
         
-        self.mapView.delegate = self
-        self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         
-        self.congrats.hidden = true
-        self.resume.hidden = true
-        self.pause.enabled = false
+        congrats.hidden = true
+        resume.hidden = true
+        pause.enabled = false
         
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         
         
     }
@@ -63,26 +63,26 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         print("monitoring runner...")
         
         //start runner monitor
-        self.runnerMonitor.monitorUserLocation()
-        self.runnerMonitor.updateUserPath()
-        self.runnerMonitor.updateUserLocation()
+        runnerMonitor.monitorUserLocation()
+        runnerMonitor.updateUserPath()
+        runnerMonitor.updateUserLocation()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState))")
             
-            self.runnerMonitor.enableBackgroundLoc()
+            runnerMonitor.enableBackgroundLoc()
         }
         
-        distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
-        let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
+        distance.text = "Distance: " + String(format: " %.02f", runnerMonitor.metersToMiles(runnerMonitor.distance)) + "mi"
+        let timeString = runnerMonitor.stringFromSeconds(runnerMonitor.duration)
         time.text = "Time: " + timeString + " s"
-        pace.text = "Pace: " + (self.runnerMonitor.pace as String)
+        pace.text = "Pace: " + (runnerMonitor.pace as String)
         
         if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {
             print("skipping coordinate")
         }
         else {
-            self.runnerPath.append((locationMgr.location?.coordinate)!)
+            runnerPath.append((locationMgr.location?.coordinate)!)
         }
         drawPath()
     }
@@ -90,9 +90,9 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func drawPath() {
         
-        if(self.runnerPath.count > 1) {
-            let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
-            self.mapView.addOverlay(polyline)
+        if(runnerPath.count > 1) {
+            let polyline = MKPolyline(coordinates: &runnerPath[0] , count: runnerPath.count)
+            mapView.addOverlay(polyline)
         }
     }
     
@@ -111,25 +111,25 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBAction func stop(sender: UIButton) {
         //suspend runner monitor when you hit stop
         
-        self.userMonitorTimer.invalidate()
-        self.pause.hidden = true
-        self.stop.hidden = true
-        self.congrats.hidden = false
+        userMonitorTimer.invalidate()
+        pause.hidden = true
+        stop.hidden = true
+        congrats.hidden = false
     }
     
     @IBAction func pause(sender: UIButton) {
         //suspend runner monitor when you hit pause
         
-        self.userMonitorTimer.invalidate()
-        self.pause.hidden = true
-        self.resume.hidden = false
+        userMonitorTimer.invalidate()
+        pause.hidden = true
+        resume.hidden = false
     }
     
     @IBAction func resume(sender: UIButton) {
         //resume runner monitor when you hit resume
         
-        self.userMonitorTimer.fire()
-        self.pause.hidden = false
-        self.resume.hidden = true
+        userMonitorTimer.fire()
+        pause.hidden = false
+        resume.hidden = true
     }
 }

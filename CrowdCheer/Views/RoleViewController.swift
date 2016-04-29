@@ -20,8 +20,8 @@ class RoleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.locationMgr.requestAlwaysAuthorization()
-        self.locationMgr.requestWhenInUseAuthorization()
+        locationMgr.requestAlwaysAuthorization()
+        locationMgr.requestWhenInUseAuthorization()
         
         if isWiFiConnected()==false {
             turnOnWiFiAlert()

@@ -43,12 +43,12 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         view.addGestureRecognizer(tap)
         
         //Ensure profile pic and name are saved before enabling segue
-        self.logOut.hidden = true
+        logOut.hidden = true
         if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil)  {
-            self.saveButton.enabled = false
+            saveButton.enabled = false
         }
         else {
-            self.saveButton.enabled = true
+            saveButton.enabled = true
         }
     }
     
@@ -64,8 +64,8 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     
     func textFieldDidChange(textField: UITextField) {
         //save profile info to Parse
-        if (textField == self.nameField){
-            user["name"] = self.nameField.text
+        if (textField == nameField){
+            user["name"] = nameField.text
         }
         
         user.saveInBackground()
@@ -82,7 +82,7 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         }
         else {
             name = (user.valueForKey("name"))! as! String
-            self.nameField.text = name
+            nameField.text = name
         }
         
         if user.valueForKey("profilePic") == nil {
@@ -126,13 +126,13 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
         image = info[UIImagePickerControllerEditedImage] as? UIImage
         profilePicView.image = image
         
-        let imageData = UIImageJPEGRepresentation(self.image!, 0.50)
+        let imageData = UIImageJPEGRepresentation(image!, 0.50)
         let imageFile = PFFile.fileWithName("image.jpeg", data: imageData!)
         user["profilePic"] = imageFile
         user.saveInBackground()
         
         if user.valueForKey("profilePic") != nil {
-            self.saveButton.enabled = true
+            saveButton.enabled = true
         }
     }
     

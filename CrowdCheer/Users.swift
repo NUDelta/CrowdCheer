@@ -23,14 +23,14 @@ class Runner: NSObject, User {
     var user: PFUser
     
     override init(){
-        self.user = PFUser.currentUser()
+        user = PFUser.currentUser()
     }
 
     
     func getsUser(objectID: String) -> PFUser {
         
-        self.user = PFQuery.getUserObjectWithId(objectID)
-        return self.user
+        user = PFQuery.getUserObjectWithId(objectID)
+        return user
     }
     
     func setsUser(runner: PFUser) {

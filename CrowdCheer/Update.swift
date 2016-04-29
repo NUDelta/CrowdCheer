@@ -25,17 +25,17 @@ class updateRunner: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        self.user = PFUser.currentUser()
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        location = locationMgr.location!
         
         //initialize location manager
         super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
         
     }
     
@@ -57,17 +57,17 @@ class updateCheerer: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        self.user = PFUser.currentUser()
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        location = locationMgr.location!
         
         //initialize location manager
         super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
         
     }
     

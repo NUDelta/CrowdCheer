@@ -38,34 +38,34 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         //update the runner profile info
         //every second, update the distance label and map with the runner's location
 
-        self.mapView.delegate = self
-        self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         getRunnerProfile()
-        self.distanceLabel.text = "Loading location..."
-        self.locationMgr = CLLocationManager()
-        self.myLocation = self.locationMgr.location!
+        distanceLabel.text = "Loading location..."
+        locationMgr = CLLocationManager()
+        myLocation = locationMgr.location!
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        self.runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
-        self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
-        self.contextPrimer = ContextPrimer()
-        self.cheererMonitor = CheererMonitor()
+        runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
+        contextPrimer = ContextPrimer()
+        cheererMonitor = CheererMonitor()
         
     }
     
     func monitorUser() {
         
         //start cheerer tracker
-        self.cheererMonitor.monitorUserLocation()
-        self.cheererMonitor.updateUserPath()
+        cheererMonitor.monitorUserLocation()
+        cheererMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState))")
             
-            self.cheererMonitor.enableBackgroundLoc()
+            cheererMonitor.enableBackgroundLoc()
         }
     }
     
@@ -74,37 +74,37 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         print("Tracking runner")
         
-        if self.locationMgr.location != nil {
-            self.myLocation = self.locationMgr.location!
+        if locationMgr.location != nil {
+            myLocation = locationMgr.location!
         }
         else {
-            print(self.locationMgr.location)
-            print(self.myLocation)
+            print(locationMgr.location)
+            print(myLocation)
         }
         
-        self.contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
 
             self.runnerLastLoc = runnerLoc
         }
         
-        if (self.runnerLastLoc.latitude == 0.0 && self.runnerLastLoc.longitude == 0.0) {
+        if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
         }
         else {
-            self.runnerPath.append(self.runnerLastLoc)
-            let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
-            let distance = (self.myLocation.distanceFromLocation(runnerCLLoc))
-            self.distanceLabel.text = String(format: " %.02f", distance) + "m away"
-            self.distanceLabel.hidden = false
+            runnerPath.append(runnerLastLoc)
+            let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+            let distance = (myLocation.distanceFromLocation(runnerCLLoc))
+            distanceLabel.text = String(format: " %.02f", distance) + "m away"
+            distanceLabel.hidden = false
             
             if (distance >= 100 && distance <= 150) {
-                self.sendLocalNotification(self.runnerName)
+                sendLocalNotification(runnerName)
             }
             
             else if distance<100 {
-                self.runnerTrackerTimer.invalidate()
-                self.userMonitorTimer.invalidate()
-                self.performSegueWithIdentifier("runnerNear", sender: nil) //NOTE: Race testing errored here
+                runnerTrackerTimer.invalidate()
+                userMonitorTimer.invalidate()
+                performSegueWithIdentifier("runnerNear", sender: nil) //NOTE: Race testing errored here
             }
         }
         
@@ -114,10 +114,10 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func getRunnerProfile() {
         
-        runner = self.contextPrimer.getRunner()
-        let name = (self.runner.valueForKey("name"))!
-        let bib = (self.runner.valueForKey("bibNumber"))!
-        let userImageFile = self.runner["profilePic"] as? PFFile
+        runner = contextPrimer.getRunner()
+        let name = (runner.valueForKey("name"))!
+        let bib = (runner.valueForKey("bibNumber"))!
+        let userImageFile = runner["profilePic"] as? PFFile
         userImageFile!.getDataInBackgroundWithBlock {
             (imageData: NSData?, error: NSError?) -> Void in
             if error == nil {
@@ -127,8 +127,8 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
                 }
             }
         }
-        self.runnerName = (name as? String)!
-        self.runnerBib = (bib as? String)!
+        runnerName = (name as? String)!
+        runnerBib = (bib as? String)!
     }
     
     
@@ -143,25 +143,25 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     
     func drawPath() {
         
-        if(self.runnerPath.count > 1) {
-            let polyline = MKPolyline(coordinates: &self.runnerPath[0] , count: self.runnerPath.count)
-            self.mapView.addOverlay(polyline)
+        if(runnerPath.count > 1) {
+            let polyline = MKPolyline(coordinates: &runnerPath[0] , count: runnerPath.count)
+            mapView.addOverlay(polyline)
         }
         
     }
     
     func updateRunnerPin() {
         
-        let coordinate = self.runnerLastLoc
-        let title = self.runnerName
+        let coordinate = runnerLastLoc
+        let title = runnerName
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
-        let subtitle = ("Bib #:" + self.runnerBib)
-        let image = self.runnerPic
+        let subtitle = ("Bib #:" + runnerBib)
+        let image = runnerPic
         let annotation = TrackRunnerAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, type: type!, image: image)
 
-        let annotationsToRemove = self.mapView.annotations.filter { $0 !== self.mapView.userLocation }
-        self.mapView.removeAnnotations(annotationsToRemove)
-        self.mapView.addAnnotation(annotation)
+        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
+        mapView.removeAnnotations(annotationsToRemove)
+        mapView.addAnnotation(annotation)
     }
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
@@ -186,7 +186,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
             annotationView.canShowCallout = true
             
             
-            let runnerPicView = UIImageView.init(image: self.runnerPic)
+            let runnerPicView = UIImageView.init(image: runnerPic)
             let frameSize = CGSizeMake(60, 60)
             
             var picFrame = runnerPicView.frame
@@ -221,7 +221,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         if mode != newMode {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+                mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
             })
         }
     }

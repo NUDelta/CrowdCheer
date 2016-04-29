@@ -40,23 +40,23 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var areRunnersNearby: Bool
     
     override init(){
-        self.user = PFUser.currentUser()
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location! //NOTE: occasionally returns nil
-        self.areRunnersNearby = false
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        location = locationMgr.location! //NOTE: occasionally returns nil
+        areRunnersNearby = false
         
         //initialize location manager
         super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
         
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
+        location = manager.location!
     }
     
     func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
@@ -120,22 +120,22 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     let appDel = NSUserDefaults()
     
     override init(){
-        self.user = PFUser.currentUser()
-        self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        location = locationMgr.location!
         
         //initialize location manager
         super.init()
-        self.locationMgr.delegate = self
-        self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
-        self.locationMgr.distanceFilter = 1;
-        self.locationMgr.startUpdatingLocation()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
         
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
+        location = manager.location!
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
@@ -150,8 +150,8 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         //save runner/cheerer pair to global dictionary
         var cheerPair = [String: String]()
         cheerPair[PFUser.currentUser().objectId] = runner.objectId
-        self.appDel.setObject(cheerPair, forKey: dictKey)
-        self.appDel.synchronize()
+        appDel.setObject(cheerPair, forKey: dictKey)
+        appDel.synchronize()
         
         
         //save runner/cheerer pair as a cheer object to parse
