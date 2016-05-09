@@ -106,7 +106,7 @@ class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavi
     }
     
     func displayPhotoAlert() {
-        let alertController = UIAlertController(title: "Race Day Photo", message: "Take a new pic in your race day outfit so CrowdCheer users can easily find you on the race course.", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Update Your Photo", message: "Take a photo in your race day outfit so people can spot you during the race.", preferredStyle: UIAlertControllerStyle.Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)

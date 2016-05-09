@@ -390,7 +390,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Pick a Runner" id="9qf-rh-Z4n">
-                        <barButtonItem key="leftBarButtonItem" title="Home" id="Tfg-FK-Ei1">
+                        <barButtonItem key="leftBarButtonItem" title="Leave Race" id="Tfg-FK-Ei1">
                             <connections>
                                 <action selector="home:" destination="AWe-3X-XCa" id="Rms-DH-Amd"/>
                             </connections>
