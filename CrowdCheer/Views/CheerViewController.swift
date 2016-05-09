@@ -223,7 +223,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func didNotCheer(alert: UIAlertAction!) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
     }
 }
