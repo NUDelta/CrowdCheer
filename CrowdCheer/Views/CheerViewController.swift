@@ -92,7 +92,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             let distance = (locationMgr.location?.distanceFromLocation(runnerCLLoc))!
             updateBanner(runnerCLLoc)
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
-            distanceLabel.hidden = false
+//            distanceLabel.hidden = false
         }
     }
     
@@ -117,6 +117,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
             nameLabel.text = runnerName
             bibLabel.text = "Bib #: " + (runnerBib as! String)
             outfit.text = "Wearing: " + (runnerOutfit as! String)
+            nearBanner.text = runnerName + " is nearby!"
     }
     
     func updateBanner(location: CLLocation) {
