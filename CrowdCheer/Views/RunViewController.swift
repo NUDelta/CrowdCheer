@@ -48,6 +48,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
+        self.navigationItem.rightBarButtonItem = headingBtn
         
         congrats.hidden = true
         resume.hidden = true

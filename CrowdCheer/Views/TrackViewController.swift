@@ -41,6 +41,9 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
+        self.navigationItem.rightBarButtonItem = headingBtn
+        
         getRunnerProfile()
         distanceLabel.text = "Loading location..."
         locationMgr = CLLocationManager()
@@ -208,21 +211,5 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         }
         
         
-    }
-    
-    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
-        var newMode: MKUserTrackingMode = MKUserTrackingMode.None
-        if CLLocationManager.headingAvailable() {
-            newMode = MKUserTrackingMode.FollowWithHeading
-        }
-        else {
-            newMode = MKUserTrackingMode.Follow
-        }
-        
-        if mode != newMode {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
-            })
-        }
     }
 }

@@ -51,6 +51,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
+        self.navigationItem.rightBarButtonItem = headingBtn
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -165,22 +167,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         }
     }
 
-    
-    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
-        var newMode: MKUserTrackingMode = MKUserTrackingMode.None
-        if CLLocationManager.headingAvailable() {
-            newMode = MKUserTrackingMode.FollowWithHeading
-        }
-        else {
-            newMode = MKUserTrackingMode.Follow
-        }
-        
-        if mode != newMode {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
-            })
-        }
-    }
     
     @IBAction func cheer(sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
