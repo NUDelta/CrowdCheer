@@ -35,6 +35,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     var cheererMonitor: CheererMonitor = CheererMonitor()
+    var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     
     
     
@@ -56,6 +57,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
         contextPrimer = ContextPrimer()
         cheererMonitor = CheererMonitor()
+        verifiedDelivery = VerifiedDelivery()
         
         
     }
@@ -214,17 +216,25 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func didCheer(alert: UIAlertAction!) {
         
-        //reset pair
+        //verify cheer & reset pair
+        verifiedDelivery.spectatorDidCheer(runner, didCheer: true)
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
+        //save didCheer in Cheers as true
     }
     
     func didNotCheer(alert: UIAlertAction!) {
+        
+        //verify cheer & reset pair
+        verifiedDelivery.spectatorDidCheer(runner, didCheer: false)
+        contextPrimer.resetRunner()
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
+        //save didCheer in Cheers as false
     }
 }

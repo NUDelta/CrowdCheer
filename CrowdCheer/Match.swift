@@ -158,7 +158,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         let cheer = PFObject(className:"Cheers")
         var isCheerSaved = Bool()
         cheer["runner"] = runner
-        cheer["cheerer"] = PFUser.currentUser()
+        cheer["spectator"] = PFUser.currentUser()
         cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {

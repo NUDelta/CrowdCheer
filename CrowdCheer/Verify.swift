@@ -16,7 +16,8 @@ protocol Deliver: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func recordCheererAudio()
+    func spectatorDidCheer(runner: PFUser, didCheer: Bool)
+    func recordSpectatorAudio()
 }
 
 protocol Receive: Any {
@@ -37,7 +38,7 @@ protocol React: Any {
     func trackPerformanceChange()
 }
 
-class verifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
+class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
     
     var user: PFUser
     var locationMgr: CLLocationManager
@@ -61,12 +62,37 @@ class verifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
-    func recordCheererAudio() {
+    
+    func spectatorDidCheer(runner: PFUser, didCheer: Bool) {
+        
+        //query Cheer object using spectatorID, runnerID, maybe time?
+        //update object with field didCheer & corresponding value
+        
+//        let now = NSDate()
+//        let seconds:NSTimeInterval = -1200
+//        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+        let query = PFQuery(className: "Cheers")
+        
+        query.whereKey("runner", equalTo: runner)
+        query.whereKey("spectator", equalTo: user)
+//        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
+        query.getFirstObjectInBackgroundWithBlock {
+            (cheer: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+            } else if let cheer = cheer {
+                cheer["didCheer"] = didCheer
+                cheer.saveInBackground()
+            }
+        }
+    }
+    
+    func recordSpectatorAudio() {
         
     }
 }
 
-class verifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
+class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     
     var user: PFUser
     var locationMgr: CLLocationManager
@@ -95,7 +121,7 @@ class verifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     }
 }
 
-class verifiedReaction: NSObject, React, CLLocationManagerDelegate {
+class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
     
     var user: PFUser
     var locationMgr: CLLocationManager
