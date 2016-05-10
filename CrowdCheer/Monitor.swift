@@ -22,6 +22,7 @@ protocol Monitor: Any {
     var duration: NSInteger {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func isNetworkReachable() -> Bool
     func monitorUserLocation()
     func updateUserPath()
     func enableBackgroundLoc()
@@ -77,6 +78,29 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
         self.lastLoc = locations.last
         
+    }
+    
+    func isNetworkReachable() -> Bool {
+        let reachability: Reachability
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return false
+        }
+        
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                print("Reachable via WiFi")
+                return true
+            } else {
+                print("Reachable via Cellular")
+                return true
+            }
+        } else {
+            print("Network not reachable")
+            return false
+        }
     }
     
     func monitorUserLocation() {
@@ -240,6 +264,29 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
         self.lastLoc = locations.last
         
+    }
+    
+    func isNetworkReachable() -> Bool {
+        let reachability: Reachability
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return false
+        }
+        
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                print("Reachable via WiFi")
+                return true
+            } else {
+                print("Reachable via Cellular")
+                return true
+            }
+        } else {
+            print("Network not reachable")
+            return false
+        }
     }
     
     func monitorUserLocation() {

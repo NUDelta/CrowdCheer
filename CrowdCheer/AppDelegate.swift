@@ -13,10 +13,9 @@ let dictKey = "key"
 
 @UIApplicationMain
 
-class AppDelegate: UIResponder, UIApplicationDelegate, ESTBeaconManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    let beaconManager = ESTBeaconManager()
     
     let userDefault = NSUserDefaults.init()
     
