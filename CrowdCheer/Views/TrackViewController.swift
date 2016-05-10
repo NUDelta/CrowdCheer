@@ -27,7 +27,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
-    var cheererMonitor: CheererMonitor = CheererMonitor()
+    var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
@@ -55,20 +55,20 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
         contextPrimer = ContextPrimer()
-        cheererMonitor = CheererMonitor()
+        spectatorMonitor = SpectatorMonitor()
         
     }
     
     func monitorUser() {
         
         //start cheerer tracker
-        cheererMonitor.monitorUserLocation()
-        cheererMonitor.updateUserPath()
+        spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState))")
             
-            cheererMonitor.enableBackgroundLoc()
+            spectatorMonitor.enableBackgroundLoc()
         }
     }
     
