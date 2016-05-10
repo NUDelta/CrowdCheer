@@ -26,7 +26,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
-    var cheererMonitor: CheererMonitor = CheererMonitor()
+    var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
@@ -43,7 +43,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         locationMgr = CLLocationManager()
         cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         cheer.enabled = false
-        cheererMonitor = CheererMonitor()
+        spectatorMonitor = SpectatorMonitor()
         areRunnersNearby = false
         
         
@@ -70,14 +70,14 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     func monitorUser() {
         
-        //start cheerer tracker
-        cheererMonitor.monitorUserLocation()
-        cheererMonitor.updateUserPath()
+        //start spectator tracker
+        spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")
             
-            cheererMonitor.enableBackgroundLoc()
+            spectatorMonitor.enableBackgroundLoc()
         }
     }
     
@@ -169,7 +169,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
 
     
     @IBAction func cheer(sender: UIButton) {
-        //call a function that will save a "cheer" object to parse, that keeps track of the runner:cheerer pairing
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
         selectedRunners.selectRunner(runner) { (cheerSaved) -> Void in

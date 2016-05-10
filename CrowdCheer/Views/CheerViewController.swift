@@ -34,7 +34,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
-    var cheererMonitor: CheererMonitor = CheererMonitor()
+    var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     
     
@@ -56,7 +56,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
         contextPrimer = ContextPrimer()
-        cheererMonitor = CheererMonitor()
+        spectatorMonitor = SpectatorMonitor()
         verifiedDelivery = VerifiedDelivery()
         
         
@@ -64,14 +64,14 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func monitorUser() {
         
-        //start cheerer tracker
-        cheererMonitor.monitorUserLocation()
-        cheererMonitor.updateUserPath()
+        //start spectator tracker
+        spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")
             
-            cheererMonitor.enableBackgroundLoc()
+            spectatorMonitor.enableBackgroundLoc()
         }
     }
     

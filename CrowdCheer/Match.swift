@@ -31,7 +31,7 @@ protocol Select: Any {
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
-//This class handles how a cheerer monitors any runners around them
+//This class handles how a spectator monitors any runners around them
     
     
     var user: PFUser = PFUser.currentUser()
@@ -112,7 +112,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
 }
 
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
-//This class handles how a cheerer monitors any runners around them
+//This class handles how a spectator monitors any runners around them
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
@@ -147,14 +147,14 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void ) {
         
         
-        //save runner/cheerer pair to global dictionary
+        //save runner/spectator pair to global dictionary
         var cheerPair = [String: String]()
         cheerPair[PFUser.currentUser().objectId] = runner.objectId
         appDel.setObject(cheerPair, forKey: dictKey)
         appDel.synchronize()
         
         
-        //save runner/cheerer pair as a cheer object to parse
+        //save runner/spectator pair as a cheer object to parse
         let cheer = PFObject(className:"Cheers")
         var isCheerSaved = Bool()
         cheer["runner"] = runner

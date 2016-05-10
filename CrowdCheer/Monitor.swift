@@ -218,8 +218,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
 }
 
 
-//the CheererMonitor Class specifically monitors cheerer stats (movement)
-class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
+//the SpectatorMonitor Class specifically monitors Spectator stats (movement)
+class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
@@ -302,7 +302,7 @@ class CheererMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.duration += 1
         
-        let object = PFObject(className:"CheererLocations")
+        let object = PFObject(className:"SpectatorLocations")
         object["location"] = geoPoint
         object["user"] = PFUser.currentUser()
         object["distance"] = self.metersToMiles(self.distance)
