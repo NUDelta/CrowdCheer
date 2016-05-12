@@ -83,7 +83,20 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         
-                        let runner = (object as! PFObject)["user"] as! PFUser
+                        let runnerObj = (object as! PFObject)["user"] as! PFUser
+                        let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
+//                        var runner = PFUser()
+//                        let query = PFUser.query()
+//                        query.getObjectInBackgroundWithId(runnerObj.objectId, block: { (fullRunner, error: NSError?) in
+//                            
+//                            if error == nil {
+//                                runner = fullRunner as! PFUser
+//                            }
+//                            else {
+//                                print("ERROR: \(error!) \(error!.userInfo)")
+//                            }
+//                            
+//                        })
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)

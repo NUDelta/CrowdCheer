@@ -98,9 +98,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
                 self.areRunnersNearby = true
             }
             
-            for (runnerObj, runnerLoc) in runnerLocations! {
+            for (runner, runnerLoc) in runnerLocations! {
                 
-                let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
                 let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                 self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                 
