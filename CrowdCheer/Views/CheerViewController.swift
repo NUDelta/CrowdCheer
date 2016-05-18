@@ -66,6 +66,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         
         //start spectator tracker
         spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserLocation()
         spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {

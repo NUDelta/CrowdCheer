@@ -63,6 +63,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         //start cheerer tracker
         spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserLocation()
         spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {

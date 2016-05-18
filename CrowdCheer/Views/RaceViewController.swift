@@ -72,6 +72,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         
         //start spectator tracker
         spectatorMonitor.monitorUserLocation()
+        spectatorMonitor.updateUserLocation()
         spectatorMonitor.updateUserPath()
         
         if UIApplication.sharedApplication().applicationState == .Background {
@@ -89,7 +90,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         mapView.removeAnnotations(annotationsToRemove)
         
         nearbyRunners = NearbyRunners()
-        nearbyRunners.checkCheerZone(){ (runnerLocations) -> Void in
+        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
@@ -121,7 +122,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     
     func sendLocalNotification() {
         
-        print("bool from identify \(nearbyRunners.areRunnersNearby)")
+        print("bool from identify \(nearbyRunners.areUsersNearby)")
         print("bool from VC \(areRunnersNearby)")
         if areRunnersNearby == true {
             let localNotification = UILocalNotification()

@@ -80,7 +80,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (runnerMonitor.pace as String)
         
-        if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {
+        if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {  //NOTE: nil here
             print("skipping coordinate")
         }
         else {

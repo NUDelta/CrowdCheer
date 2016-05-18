@@ -25,6 +25,7 @@ protocol Monitor: Any {
     func isNetworkReachable() -> Bool
     func monitorUserLocation()
     func updateUserPath()
+    func updateUserLocation()
     func enableBackgroundLoc()
     
 }
@@ -45,7 +46,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!
+        self.location = self.locationMgr.location!  //NOTE crashed here
         self.distance = 0.0
         self.pace = ""
         self.duration = 0
@@ -294,6 +295,36 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         print(self.location.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
         print("current location is: ", currentLoc)
+    }
+    
+    func updateUserLocation() {
+        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+        
+        let query = PFQuery(className: "CurrSpectatorLocation")
+        query.whereKey("user", equalTo: self.user)
+        query.getFirstObjectInBackgroundWithBlock {
+            (currLoc: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+                //add runner
+                let newCurrLoc = PFObject(className: "CurrSpectatorLocation")
+                newCurrLoc["location"] = geoPoint
+                newCurrLoc["user"] = PFUser.currentUser()
+                newCurrLoc["distance"] = self.metersToMiles(self.distance)
+                newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
+                newCurrLoc["time"] = NSDate()
+                newCurrLoc.saveInBackground()
+                
+            } else if let currLoc = currLoc {
+                currLoc["location"] = geoPoint
+                currLoc["user"] = PFUser.currentUser()
+                currLoc["distance"] = self.metersToMiles(self.distance)
+                currLoc["duration"] = self.stringFromSeconds(self.duration)
+                currLoc["time"] = NSDate()
+                currLoc.saveInBackground()
+            }
+        }
     }
     
     func updateUserPath(){

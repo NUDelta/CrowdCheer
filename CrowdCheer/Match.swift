@@ -14,10 +14,10 @@ protocol Trigger: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     var location: CLLocation! {get set}
-    var areRunnersNearby: Bool {get set}
+    var areUsersNearby: Bool {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
+    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
 protocol Select: Any {
@@ -28,6 +28,7 @@ protocol Select: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
     func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void)
+    func findMatch()
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -37,13 +38,13 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var location: CLLocation!
-    var areRunnersNearby: Bool
+    var areUsersNearby: Bool
     
     override init(){
         user = PFUser.currentUser()
         locationMgr = CLLocationManager()
         location = locationMgr.location! //NOTE: occasionally returns nil
-        areRunnersNearby = false
+        areUsersNearby = false
         
         //initialize location manager
         super.init()
@@ -59,7 +60,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         location = manager.location!
     }
     
-    func checkCheerZone(result:(runnerLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
         let geoPoint = PFGeoPoint(location: location)
@@ -85,18 +86,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                         
                         let runnerObj = (object as! PFObject)["user"] as! PFUser
                         let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
-//                        var runner = PFUser()
-//                        let query = PFUser.query()
-//                        query.getObjectInBackgroundWithId(runnerObj.objectId, block: { (fullRunner, error: NSError?) in
-//                            
-//                            if error == nil {
-//                                runner = fullRunner as! PFUser
-//                            }
-//                            else {
-//                                print("ERROR: \(error!) \(error!.userInfo)")
-//                            }
-//                            
-//                        })
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
@@ -106,23 +95,113 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 
                 if runnerLocs.isEmpty != true {
                     print("runnerLocs has a runner")
-                    self.areRunnersNearby = true
+                    self.areUsersNearby = true
                 }
                 else {
                     print("runnerLocs is empty")
-                    self.areRunnersNearby = false
+                    self.areUsersNearby = false
                 }
                 
-                result(runnerLocations: runnerUpdates)
+                result(userLocations: runnerUpdates)
             }
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \(error!.userInfo)")
-                result(runnerLocations: runnerUpdates)
+                result(userLocations: runnerUpdates)
             }
         }
     }
 }
+
+
+class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
+    //This class handles how a spectator monitors any runners around them
+    
+    
+    var user: PFUser = PFUser.currentUser()
+    var locationMgr: CLLocationManager
+    var location: CLLocation!
+    var areUsersNearby: Bool
+    
+    override init(){
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        location = locationMgr.location! //NOTE: occasionally returns nil
+        areUsersNearby = false
+        
+        //initialize location manager
+        super.init()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        locationMgr.startUpdatingLocation()
+        
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = manager.location!
+    }
+    
+    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+        
+        
+        //first look inside Cheers for spectators cheering for me
+        //then look up their current location
+        //create dictionary of spectators + their locations
+        
+        //query & return runners' locations from parse (recently updated & near me)
+        let geoPoint = PFGeoPoint(location: location)
+        var runnerUpdates = [PFUser: PFGeoPoint]()
+        var spectatorLocs:Array<AnyObject> = []
+        let now = NSDate()
+        let seconds:NSTimeInterval = -60
+        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+        
+        let query = PFQuery(className: "CurrSpectatorLocation")
+        
+        query.orderByDescending("updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 2.0) //runners within 2 km of me
+        query.findObjectsInBackgroundWithBlock {
+            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // Found at least one runner
+                print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
+                
+                if let runnerObjects = runnerObjects {
+                    for object in runnerObjects {
+                        
+                        let runnerObj = (object as! PFObject)["user"] as! PFUser
+                        let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
+                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        runnerUpdates[runner] = location
+                        spectatorLocs.append(location)
+                    }
+                }
+                print ("Runner dictionary: ", spectatorLocs)
+                
+                if spectatorLocs.isEmpty != true {
+                    print("runnerLocs has a runner")
+                    self.areUsersNearby = true
+                }
+                else {
+                    print("runnerLocs is empty")
+                    self.areUsersNearby = false
+                }
+                
+                result(userLocations: runnerUpdates)
+            }
+            else {
+                // Query failed, load error
+                print("ERROR: \(error!) \(error!.userInfo)")
+                result(userLocations: runnerUpdates)
+            }
+        }
+    }
+}
+
 
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
@@ -180,5 +259,10 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
                 result(cheerSaved: isCheerSaved)
             }
         }
+    }
+    
+    func findMatch() {
+        
+        //query Cheers for
     }
 }
