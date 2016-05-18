@@ -17,7 +17,10 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
+    var nearbySpectatorsTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
+    var nearbySpectators: NearbySpectators = NearbySpectators()
+    var areSpectatorsNearby: Bool = Bool()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -36,6 +39,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         super.viewDidLoad()
         locationMgr = CLLocationManager()
         runnerMonitor = RunnerMonitor()
+        areSpectatorsNearby = false
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -54,8 +58,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         congrats.hidden = true
         resume.hidden = true
         pause.enabled = false
-        
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
         
     }
@@ -89,6 +93,22 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         drawPath()
     }
     
+    func updateNearbySpectators() {
+        //every x seconds, update array of nearby spectators and change location frequency accordingly
+        
+        nearbySpectators = NearbySpectators()
+        nearbySpectators.checkProximityZone(){ (spectatorLocations) -> Void in
+            
+            if ((spectatorLocations?.isEmpty) == true) {
+                self.areSpectatorsNearby = false
+            }
+            else {
+                self.areSpectatorsNearby = true
+                self.userMonitorTimer.invalidate()
+                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+            }
+        }
+    }
     
     func drawPath() {
         
