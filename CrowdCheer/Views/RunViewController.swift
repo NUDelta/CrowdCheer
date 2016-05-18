@@ -103,6 +103,11 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             if ((spectatorLocations?.isEmpty) == true) {
                 self.areSpectatorsNearby = false
+                if self.userMonitorTimer.timeInterval == 3 {
+                    self.userMonitorTimer.invalidate()
+                    self.interval = 30
+                    self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                }
             }
             else {
                 self.areSpectatorsNearby = true

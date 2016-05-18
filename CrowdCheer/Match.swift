@@ -152,7 +152,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         var spectatorUpdates = [PFUser: PFGeoPoint]()
         var spectatorLocs:Array<AnyObject> = []
         let now = NSDate()
-        let seconds:NSTimeInterval = -300 //5min
+        let seconds:NSTimeInterval = -60 //5min
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         
         let query = PFQuery(className: "CurrSpectatorLocation")
