@@ -24,7 +24,7 @@ protocol Monitor: Any {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func isNetworkReachable() -> Bool
     func monitorUserLocation()
-    func updateUserPath()
+    func updateUserPath(interval: Int)
     func updateUserLocation()
     func enableBackgroundLoc()
     
@@ -149,12 +149,12 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
-    func updateUserPath(){
+    func updateUserPath(interval: Int){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: duration)
-        self.duration += 1
+        self.duration += interval
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
@@ -327,11 +327,11 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
-    func updateUserPath(){
+    func updateUserPath(interval: Int){
         
         let loc:CLLocationCoordinate2D =  self.location.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.duration += 1
+        self.duration += interval
         
         let object = PFObject(className:"SpectatorLocations")
         object["location"] = geoPoint

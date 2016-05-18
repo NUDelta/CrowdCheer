@@ -21,6 +21,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var nearbySpectators: NearbySpectators = NearbySpectators()
     var areSpectatorsNearby: Bool = Bool()
+    var interval: Int = Int()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -40,6 +41,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationMgr = CLLocationManager()
         runnerMonitor = RunnerMonitor()
         areSpectatorsNearby = false
+        interval = 30
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -58,8 +60,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         congrats.hidden = true
         resume.hidden = true
         pause.enabled = false
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
         
     }
@@ -70,7 +72,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         //start runner monitor
         runnerMonitor.monitorUserLocation()
-        runnerMonitor.updateUserPath()
+        runnerMonitor.updateUserPath(interval)
         runnerMonitor.updateUserLocation()
         
         if UIApplication.sharedApplication().applicationState == .Background {
@@ -105,7 +107,8 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             else {
                 self.areSpectatorsNearby = true
                 self.userMonitorTimer.invalidate()
-                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                self.interval = 3
+                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
             }
         }
     }

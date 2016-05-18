@@ -180,7 +180,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                 print ("Spectator dictionary: ", spectatorLocs)
                 
                 if spectatorLocs.isEmpty != true {
-                    print("spectatorLocs has a runner")
+                    print("spectatorLocs has a spectator")
                     self.areUsersNearby = true
                 }
                 else {

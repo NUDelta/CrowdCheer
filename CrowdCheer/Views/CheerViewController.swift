@@ -29,6 +29,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     var locationMgr: CLLocationManager = CLLocationManager()
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerTrackerTimer: NSTimer = NSTimer()
+    var interval: Int = Int()
     var runner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
@@ -51,10 +52,11 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         
         //update the runner profile info & notify
         getRunnerProfile()
+        interval = 1
         
         //every second, update the distance and map with the runner's location
-        runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
+        runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
         verifiedDelivery = VerifiedDelivery()
@@ -67,7 +69,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         //start spectator tracker
         spectatorMonitor.monitorUserLocation()
         spectatorMonitor.updateUserLocation()
-        spectatorMonitor.updateUserPath()
+        spectatorMonitor.updateUserPath(interval)
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")

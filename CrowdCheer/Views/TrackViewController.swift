@@ -19,6 +19,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
     var locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var userMonitorTimer: NSTimer = NSTimer()
+    var interval: Int = Int()
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
@@ -48,12 +49,13 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         distanceLabel.text = "Loading location..."
         locationMgr = CLLocationManager()
         myLocation = locationMgr.location!
+        interval = 5
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
+        runnerTrackerTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
         
@@ -64,7 +66,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         //start cheerer tracker
         spectatorMonitor.monitorUserLocation()
         spectatorMonitor.updateUserLocation()
-        spectatorMonitor.updateUserPath()
+        spectatorMonitor.updateUserPath(interval)
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState))")

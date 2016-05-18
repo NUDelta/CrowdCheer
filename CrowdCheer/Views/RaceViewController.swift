@@ -26,6 +26,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
+    var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
@@ -45,7 +46,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         cheer.enabled = false
         spectatorMonitor = SpectatorMonitor()
         areRunnersNearby = false
-        
+        interval = 30
         
         //initialize mapview
         mapView.delegate = self
@@ -57,8 +58,8 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
         
     }
@@ -73,7 +74,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         //start spectator tracker
         spectatorMonitor.monitorUserLocation()
         spectatorMonitor.updateUserLocation()
-        spectatorMonitor.updateUserPath()
+        spectatorMonitor.updateUserPath(interval)
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")
