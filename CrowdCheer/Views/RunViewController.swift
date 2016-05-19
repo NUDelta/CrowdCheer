@@ -38,7 +38,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         runnerMonitor = RunnerMonitor()
         areSpectatorsNearby = false
-        interval = 30
+        interval = 1
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -57,6 +57,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         congrats.hidden = true
         resume.hidden = true
         pause.enabled = false
+        
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
@@ -100,7 +101,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             
             if ((spectatorLocations?.isEmpty) == true) {
                 self.areSpectatorsNearby = false
-                if self.userMonitorTimer.timeInterval == 3 {
+                if self.userMonitorTimer.timeInterval < 30 {
                     self.userMonitorTimer.invalidate()
                     self.interval = 30
                     self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)

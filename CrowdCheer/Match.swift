@@ -142,7 +142,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         //create dictionary of spectators + their locations
         
         //query & return spectators' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: locationMgr.location!)
+        let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: nil here
         var spectatorUpdates = [PFUser: PFGeoPoint]()
         var spectatorLocs:Array<AnyObject> = []
         let now = NSDate()
