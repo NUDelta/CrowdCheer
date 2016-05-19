@@ -8,13 +8,11 @@
 
 import UIKit
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 
-class ProfileViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    let locationMgr: CLLocationManager = CLLocationManager()
     var user: PFUser = PFUser()
     var imagePicker: UIImagePickerController!
     var image: UIImage?

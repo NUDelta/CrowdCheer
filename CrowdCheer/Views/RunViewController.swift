@@ -86,11 +86,11 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (runnerMonitor.pace as String)
         
-        if (locationMgr.location!.coordinate.latitude == 0.0 && locationMgr.location!.coordinate.longitude == 0.0) {  //NOTE: nil here
+        if (runnerMonitor.locationMgr.location!.coordinate.latitude == 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude == 0.0) {  //NOTE: nil here
             print("skipping coordinate")
         }
         else {
-            runnerPath.append((locationMgr.location?.coordinate)!)
+            runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
         }
         drawPath()
     }
@@ -142,6 +142,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //suspend runner monitor when you hit stop
         
         userMonitorTimer.invalidate()
+        nearbySpectatorsTimer.invalidate()
         pause.hidden = true
         stop.hidden = true
         congrats.hidden = false
@@ -151,6 +152,7 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //suspend runner monitor when you hit pause
         
         userMonitorTimer.invalidate()
+        nearbySpectatorsTimer.invalidate()
         pause.hidden = true
         resume.hidden = false
     }

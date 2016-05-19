@@ -8,11 +8,10 @@
 
 import UIKit
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 
-class PrerunViewController: UIViewController, CLLocationManagerDelegate {
+class PrerunViewController: UIViewController {
     
     var runner: PFUser = PFUser.currentUser()
     
