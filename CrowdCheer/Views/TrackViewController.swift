@@ -45,7 +45,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         getRunnerProfile()
         distanceLabel.text = "Loading location..."
-        myLocation = contextPrimer.location
+        myLocation = contextPrimer.locationMgr.location!
         interval = 5
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
@@ -77,8 +77,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         print("Tracking runner")
         
-        if contextPrimer.location != nil {
-            myLocation = contextPrimer.location
+        if contextPrimer.locationMgr.location != nil {
+            myLocation = contextPrimer.locationMgr.location!
         }
         else {
             print(contextPrimer.locationMgr.location)

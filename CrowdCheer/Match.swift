@@ -13,7 +13,6 @@ import Parse
 protocol Trigger: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation! {get set}
     var areUsersNearby: Bool {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -23,7 +22,6 @@ protocol Trigger: Any {
 protocol Select: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation! {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
@@ -36,13 +34,11 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation!
     var areUsersNearby: Bool
     
     override init(){
         user = PFUser.currentUser()
         locationMgr = CLLocationManager()
-        location = locationMgr.location! //NOTE: occasionally returns nil
         areUsersNearby = false
         
         //initialize location manager
@@ -56,13 +52,13 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = manager.location!
+        print(manager.location!)
     }
     
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: location)
+        let geoPoint = PFGeoPoint(location: locationMgr.location!)
         var runnerUpdates = [PFUser: PFGeoPoint]()
         var runnerLocs:Array<AnyObject> = []
         let now = NSDate()
@@ -119,13 +115,11 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation!
     var areUsersNearby: Bool
     
     override init(){
         user = PFUser.currentUser()
         locationMgr = CLLocationManager()
-        location = locationMgr.location! //NOTE: occasionally returns nil
         areUsersNearby = false
         
         //initialize location manager
@@ -139,7 +133,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = manager.location!
+        print(manager.location!)
     }
     
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
@@ -148,7 +142,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         //create dictionary of spectators + their locations
         
         //query & return spectators' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: location)
+        let geoPoint = PFGeoPoint(location: locationMgr.location!)
         var spectatorUpdates = [PFUser: PFGeoPoint]()
         var spectatorLocs:Array<AnyObject> = []
         let now = NSDate()
@@ -205,13 +199,11 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation!
     let appDel = NSUserDefaults()
     
     override init(){
         user = PFUser.currentUser()
         locationMgr = CLLocationManager()
-        location = locationMgr.location!
         
         //initialize location manager
         super.init()
@@ -224,7 +216,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = manager.location!
+        print(manager.location!)
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {

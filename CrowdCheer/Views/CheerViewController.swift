@@ -90,7 +90,7 @@ class CheerViewController: UIViewController {
         else {
             runnerPath.append(runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-            let distance = (contextPrimer.location?.distanceFromLocation(runnerCLLoc))!
+            let distance = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
             updateBanner(runnerCLLoc)
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
 //            distanceLabel.hidden = false
@@ -123,11 +123,11 @@ class CheerViewController: UIViewController {
     
     func updateBanner(location: CLLocation) {
         
-        let distanceCurr = (contextPrimer.location?.distanceFromLocation(location))!
+        let distanceCurr = (contextPrimer.locationMgr.location!.distanceFromLocation(location))
         if runnerPath.count > 1 {
             let coordinatePrev = runnerPath[runnerPath.count-2]
             let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
-            let distancePrev = (contextPrimer.location?.distanceFromLocation(locationPrev))!
+            let distancePrev = (contextPrimer.locationMgr.location!.distanceFromLocation(locationPrev))
             
             print("prev: ", distancePrev)
             print("curr: ", distanceCurr)

@@ -16,7 +16,6 @@ import Parse
 protocol Monitor: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
-    var location: CLLocation! {get set}
     var startLoc: CLLocation! {get set}
     var lastLoc: CLLocation! {get set}
     var distance: Double {get set}
@@ -37,7 +36,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation!
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
@@ -47,7 +45,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location!  //NOTE crashed here
         self.distance = 0.0
         self.pace = ""
         self.duration = 0
@@ -63,7 +60,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
         
         if self.startLoc == nil {
             startLoc = locations.first!
@@ -107,8 +103,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func monitorUserLocation() {
         
-        print(self.location.coordinate)
-        let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
+        print(self.locationMgr.location!.coordinate)
+        let currentLoc:CLLocationCoordinate2D =  (self.locationMgr.location!.coordinate)
         print("current location is: ", currentLoc)
         
         // track & register changes in audio output routes
@@ -118,7 +114,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserLocation() {
-        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime:self.duration)
         
@@ -152,7 +148,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func updateUserPath(interval: Int){
         
-        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: duration)
         self.duration += interval
@@ -225,7 +221,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
-    var location: CLLocation!
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
@@ -234,7 +229,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
-        self.location = self.locationMgr.location! //NOTE: occasionally returns nil
         self.distance = 0.0
         self.duration = 0
         
@@ -249,7 +243,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location!
         
         if self.startLoc == nil {
             startLoc = locations.first!
@@ -293,13 +286,13 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func monitorUserLocation() {
         
-        print(self.location.coordinate)
-        let currentLoc:CLLocationCoordinate2D =  (self.location.coordinate)
+        print(self.locationMgr.location!.coordinate)
+        let currentLoc:CLLocationCoordinate2D =  (self.locationMgr.location!.coordinate)
         print("current location is: ", currentLoc)
     }
     
     func updateUserLocation() {
-        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         
         let query = PFQuery(className: "CurrSpectatorLocation")
@@ -330,7 +323,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func updateUserPath(interval: Int){
         
-        let loc:CLLocationCoordinate2D =  self.location.coordinate
+        let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.duration += interval
         
