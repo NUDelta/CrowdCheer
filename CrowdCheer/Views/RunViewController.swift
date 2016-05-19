@@ -8,13 +8,11 @@
 
 import UIKit
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 
-class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class RunViewController: UIViewController, MKMapViewDelegate {
     
-    var locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbySpectatorsTimer: NSTimer = NSTimer()
@@ -38,7 +36,6 @@ class RunViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationMgr = CLLocationManager()
         runnerMonitor = RunnerMonitor()
         areSpectatorsNearby = false
         interval = 30
