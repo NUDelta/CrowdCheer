@@ -25,8 +25,6 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var cheerBanner: UILabel!
     @IBOutlet weak var nearBanner: UILabel!
     
-    
-    var locationMgr: CLLocationManager = CLLocationManager()
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var interval: Int = Int()
@@ -42,7 +40,6 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationMgr = CLLocationManager()
         navigationItem.setHidesBackButton(true, animated:true);
         distanceLabel.hidden = true
         nearBanner.hidden = false
@@ -94,7 +91,7 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
         else {
             runnerPath.append(runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-            let distance = (locationMgr.location?.distanceFromLocation(runnerCLLoc))!
+            let distance = (contextPrimer.location?.distanceFromLocation(runnerCLLoc))!
             updateBanner(runnerCLLoc)
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
 //            distanceLabel.hidden = false
@@ -127,11 +124,11 @@ class CheerViewController: UIViewController, CLLocationManagerDelegate {
     
     func updateBanner(location: CLLocation) {
         
-        let distanceCurr = (locationMgr.location?.distanceFromLocation(location))!
+        let distanceCurr = (contextPrimer.location?.distanceFromLocation(location))!
         if runnerPath.count > 1 {
             let coordinatePrev = runnerPath[runnerPath.count-2]
             let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
-            let distancePrev = (locationMgr.location?.distanceFromLocation(locationPrev))!
+            let distancePrev = (contextPrimer.location?.distanceFromLocation(locationPrev))!
             
             print("prev: ", distancePrev)
             print("curr: ", distanceCurr)

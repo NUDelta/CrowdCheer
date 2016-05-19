@@ -8,13 +8,11 @@
 
 import UIKit
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 
-class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class RaceViewController: UIViewController, MKMapViewDelegate {
     
-    var locationMgr: CLLocationManager = CLLocationManager()
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
@@ -41,7 +39,6 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        locationMgr = CLLocationManager()
         cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         cheer.enabled = false
         spectatorMonitor = SpectatorMonitor()
@@ -67,6 +64,7 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
     override func viewWillDisappear(animated: Bool) {
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
+        
     }
     
     func monitorUser() {
@@ -178,17 +176,11 @@ class RaceViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             isCheerSaved = cheerSaved
         }
         
-        if isCheerSaved == true {
-            userMonitorTimer.invalidate()
-            nearbyRunnersTimer.invalidate()
-            nearbyRunnersNotifyTimer.invalidate()
-            performSegueWithIdentifier("trackRunner", sender: nil)
-        }
-        else {
-            //do nothing
-        }
-        
-        
+        print("isCheerSaved? \(isCheerSaved)")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        nearbyRunnersNotifyTimer.invalidate()
+        performSegueWithIdentifier("trackRunner", sender: nil)
     }
     
     @IBAction func home(sender: UIBarButtonItem) {

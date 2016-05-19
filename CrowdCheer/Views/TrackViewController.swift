@@ -7,16 +7,14 @@
 //
 
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 
-class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class TrackViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    var locationMgr: CLLocationManager = CLLocationManager()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var userMonitorTimer: NSTimer = NSTimer()
     var interval: Int = Int()
@@ -47,8 +45,7 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         getRunnerProfile()
         distanceLabel.text = "Loading location..."
-        locationMgr = CLLocationManager()
-        myLocation = locationMgr.location!
+        myLocation = contextPrimer.location
         interval = 5
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
@@ -80,11 +77,11 @@ class TrackViewController: UIViewController, CLLocationManagerDelegate, MKMapVie
         
         print("Tracking runner")
         
-        if locationMgr.location != nil {
-            myLocation = locationMgr.location!
+        if contextPrimer.location != nil {
+            myLocation = contextPrimer.location
         }
         else {
-            print(locationMgr.location)
+            print(contextPrimer.locationMgr.location)
             print(myLocation)
         }
         
