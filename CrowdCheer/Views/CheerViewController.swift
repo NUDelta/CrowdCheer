@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import CoreLocation
 import MapKit
 import Parse
 import AudioToolbox
 
-class CheerViewController: UIViewController, CLLocationManagerDelegate {
+class CheerViewController: UIViewController {
     
 
     @IBOutlet weak var profilePic: UIImageView!
