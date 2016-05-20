@@ -27,7 +27,6 @@ protocol Monitor: Any {
     func updateUserPath(interval: Int)
     func updateUserLocation()
     func enableBackgroundLoc()
-    
 }
 
 
@@ -55,6 +54,10 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         self.locationMgr.activityType = CLActivityType.Fitness
         self.locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            self.locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        self.locationMgr.pausesLocationUpdatesAutomatically = true
         self.locationMgr.startUpdatingLocation()
         
     }
@@ -235,6 +238,10 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         //initialize location manager
         super.init()
         self.locationMgr.delegate = self
+        if #available(iOS 9.0, *) {
+            self.locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        self.locationMgr.pausesLocationUpdatesAutomatically = true
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         self.locationMgr.activityType = CLActivityType.Fitness
         self.locationMgr.distanceFilter = 1;

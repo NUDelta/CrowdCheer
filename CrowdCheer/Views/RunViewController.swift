@@ -105,6 +105,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                     self.userMonitorTimer.invalidate()
                     self.interval = 30
                     self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                    self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
                 }
             }
             else {
@@ -112,6 +113,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 self.userMonitorTimer.invalidate()
                 self.interval = 3
                 self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
     }
