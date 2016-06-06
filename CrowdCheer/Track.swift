@@ -47,6 +47,10 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }

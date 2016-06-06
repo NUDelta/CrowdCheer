@@ -55,6 +55,10 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }
@@ -109,6 +113,10 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }
@@ -138,6 +146,10 @@ class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }

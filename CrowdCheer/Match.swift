@@ -19,6 +19,16 @@ protocol Trigger: Any {
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
+protocol Optimize: Any {
+    var user: PFUser {get}
+    var locationMgr: CLLocationManager {get}
+    
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Double>
+    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int>
+    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int>
+
+}
+
 protocol Select: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
@@ -47,6 +57,10 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }
@@ -128,6 +142,10 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }
@@ -194,6 +212,57 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
 }
 
 
+class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
+//This class evaluates the convenience, affinity, and need associated with each possible pairing
+    
+    var user: PFUser = PFUser.currentUser()
+    var locationMgr: CLLocationManager
+    
+    override init(){
+        user = PFUser.currentUser()
+        locationMgr = CLLocationManager()
+        
+        //initialize location manager
+        super.init()
+        locationMgr.delegate = self
+        locationMgr.desiredAccuracy = kCLLocationAccuracyBest
+        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
+        locationMgr.startUpdatingLocation()
+        
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(manager.location!)
+    }
+    
+    
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Double> {
+        let conveniences = [PFUser: Double]()
+        return conveniences
+    }
+    
+    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int> {
+        let needs = [PFUser: Int]()
+        return needs
+    }
+    
+    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int> {
+        let affinities = [PFUser: Int]()
+        return affinities
+    }
+    
+    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
+        let selectedRunners = runnerLocations
+        return selectedRunners
+        
+    }
+}
+
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
     
@@ -211,6 +280,10 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
         locationMgr.activityType = CLActivityType.Fitness
         locationMgr.distanceFilter = 1;
+        if #available(iOS 9.0, *) {
+            locationMgr.allowsBackgroundLocationUpdates = true
+        }
+        locationMgr.pausesLocationUpdatesAutomatically = true
         locationMgr.startUpdatingLocation()
         
     }
