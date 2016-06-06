@@ -19,6 +19,7 @@
 		E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BEB31C74F26100C9FD8B /* CheerViewController.swift */; };
 		E25A5E841CC572E80046C809 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A5E831CC572E80046C809 /* Match.swift */; };
 		E265087F1B8B9DE600D726F0 /* runner.png in Resources */ = {isa = PBXBuildFile; fileRef = E265087E1B8B9DE600D726F0 /* runner.png */; };
+		E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E52901D01EB6C001324C8 /* AffinityViewController.swift */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
 		E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E292A3AD1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld */; };
@@ -108,6 +109,7 @@
 		E254BEB31C74F26100C9FD8B /* CheerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheerViewController.swift; path = CrowdCheer/Views/CheerViewController.swift; sourceTree = "<group>"; };
 		E25A5E831CC572E80046C809 /* Match.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Match.swift; path = CrowdCheer/Match.swift; sourceTree = "<group>"; };
 		E265087E1B8B9DE600D726F0 /* runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runner.png; sourceTree = "<group>"; };
+		E26E52901D01EB6C001324C8 /* AffinityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AffinityViewController.swift; path = CrowdCheer/Views/AffinityViewController.swift; sourceTree = "<group>"; };
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
 		E292A3AE1CCAAECA0061B19A /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */,
 				E2ED43921CA193C20056AC47 /* RoleViewController.swift */,
 				E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */,
+				E26E52901D01EB6C001324C8 /* AffinityViewController.swift */,
 				E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
@@ -594,6 +597,7 @@
 				E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */,
 				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
+				E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */,
 				E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
 				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
@@ -729,7 +733,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Northwestern University";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -740,9 +744,9 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.B;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c2c16fb5-c096-467f-b5c5-500afa6c5f49";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -756,7 +760,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Northwestern University";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -767,9 +771,9 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.B;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c2c16fb5-c096-467f-b5c5-500afa6c5f49";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 				"TEST_HOST[sdk=iphoneos*]" = "";
