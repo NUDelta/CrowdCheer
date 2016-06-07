@@ -265,10 +265,61 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void) {
-        let needs = [PFUser: Int]()
-        result(needs: needs)
+        var needs = [PFUser: Int]()
+        
+        //for each runner, retrieve all cheers
+        //for each cheer, increment the runner's cheers
+        //for cheer count between x and y, set need index for runner as z
+        
+        for (runner, location) in userLocations {
+            
+            print(runner.username, location)
+            
+            let query = PFQuery(className: "Cheers")
+            //NOTE: currently counting all possible cheers, not spectator verified cheers
+            query.whereKey("runner", equalTo: runner)
+            query.findObjectsInBackgroundWithBlock{
+                (cheerObjects: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    // Found at least one cheer
+                    print("Successfully retrieved \(cheerObjects!.count) cheers.")
+                    switch cheerObjects?.count {
+                        
+                    case 10?:
+                        needs[runner] = 0
+                    case 9?:
+                        needs[runner] = 1
+                    case 8?:
+                        needs[runner] = 2
+                    case 7?:
+                        needs[runner] = 3
+                    case 6?:
+                        needs[runner] = 4
+                    case 5?:
+                        needs[runner] = 5
+                    case 4?:
+                        needs[runner] = 6
+                    case 3?:
+                        needs[runner] = 7
+                    case 2?:
+                        needs[runner] = 8
+                    case 1?:
+                        needs[runner] = 9
+                    case 0?:
+                        needs[runner] = 10
+                    default:
+                        needs[runner] = -1
+                    }
+                }
+                else {
+                    // Query failed, load error
+                    print("ERROR: \(error!) \(error!.userInfo)")
+                }
+                result(needs: needs)
+            }
+        }
     }
-    
+
     func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
         var affinities = [PFUser: Int]()
         var targetRunner: PFUser = PFUser()

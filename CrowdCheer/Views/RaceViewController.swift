@@ -119,6 +119,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
                 print("conveniences \(conveniences)")
             }
+            
+            self.optimizedRunners.considerNeed(runnerLocations!) { (needs) -> Void in
+                print("needs \(needs)")
+            }
         }
     }
     
