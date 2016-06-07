@@ -23,7 +23,7 @@ protocol Optimize: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Double>) -> Void)
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void)
     func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void)
     func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void)
 
@@ -238,8 +238,29 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Double>) -> Void){
-        let conveniences = [PFUser: Double]()
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void){
+        var conveniences = [PFUser: Int]()
+        
+        for (runner, location) in userLocations {
+            
+            print(runner.username, location)
+            let loc = CLLocation(latitude: location.latitude, longitude: location.longitude)
+            
+            //if runner is closer than 500m, set -1
+            //if runner is between 500m-1000m, set to 10
+            //if runner is between 1000m-2000m, set to 5
+            
+            if loc.distanceFromLocation(locationMgr.location!) < 500 {
+                conveniences[runner] = -1
+            }
+            else if (loc.distanceFromLocation(locationMgr.location!) > 500) && (loc.distanceFromLocation(locationMgr.location!) < 1000) {
+                conveniences[runner] = 10
+            }
+            else if (loc.distanceFromLocation(locationMgr.location!) > 1000) && (loc.distanceFromLocation(locationMgr.location!) < 500) {
+                conveniences[runner] = 5
+            }
+        }
+        
         result(conveniences: conveniences)
     }
     
