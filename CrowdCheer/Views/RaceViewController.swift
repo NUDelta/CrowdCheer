@@ -27,6 +27,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
+    var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -42,6 +43,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         cheer.enabled = false
         spectatorMonitor = SpectatorMonitor()
+        optimizedRunners = OptimizedRunners()
         areRunnersNearby = false
         interval = 30
         
@@ -51,6 +53,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
+        
         
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
@@ -104,8 +107,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                 self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                 
             }
+            
+            //TESTING//
+            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+                print("affinities \(affinities)")
+            }
         }
-        
     }
     
     func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D) {

@@ -23,9 +23,9 @@ protocol Optimize: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Double>
-    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int>
-    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int>
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Double>) -> Void)
+    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void)
+    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void)
 
 }
 
@@ -66,7 +66,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location!)
     }
     
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
@@ -151,7 +150,6 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location!)
     }
     
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
@@ -170,8 +168,8 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         let query = PFQuery(className: "CurrSpectatorLocation")
         
         query.orderByDescending("updatedAt")
-        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.75) //runners within 750m of me
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.75) //spectators within 750m of me
         query.findObjectsInBackgroundWithBlock {
             (spectatorObjects: [AnyObject]?, error: NSError?) -> Void in
             
@@ -237,23 +235,38 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location!)
     }
     
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Double> {
+    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Double>) -> Void){
         let conveniences = [PFUser: Double]()
-        return conveniences
+        result(conveniences: conveniences)
     }
     
-    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int> {
+    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void) {
         let needs = [PFUser: Int]()
-        return needs
+        result(needs: needs)
     }
     
-    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, Int> {
+    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
         let affinities = [PFUser: Int]()
-        return affinities
+        var targetRunner: PFUser = PFUser()
+        
+        let targetRunnerBib = user.valueForKey("targetRunnerBib")
+        let query = PFUser.query()
+        query.whereKey("bibNumber", equalTo: targetRunnerBib)
+        query.getFirstObjectInBackgroundWithBlock { (targetRunners, error: NSError?) in
+            targetRunner = targetRunners as! PFUser
+            print("affinity runner username: \(targetRunner.username)")
+        }
+        
+        for (runner, location) in userLocations {
+            print ("userLocs entry in affinity: \(runner, location)")
+//            print("affinity runner username: \(targetRunner.username)")
+        }
+        
+        
+        result(affinities: affinities)
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
@@ -289,7 +302,6 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location!)
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
