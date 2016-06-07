@@ -34,7 +34,7 @@ protocol Select: Any {
     var locationMgr: CLLocationManager {get}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint>
+    func preselectRunners(userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint>
     func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void)
 }
 
@@ -338,6 +338,9 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                 if runner.objectId == targetRunner.objectId {
                     affinities[runner] = 10
                 }
+                else {
+                    affinities[runner] = 0
+                }
             }
             result(affinities: affinities)
         }
@@ -378,8 +381,8 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
-        let selectedRunners = runnerLocations
+    func preselectRunners(userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint> {
+        let selectedRunners = userLocations
         return selectedRunners
         
     }
