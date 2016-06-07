@@ -267,11 +267,8 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     affinities[runner] = 10
                 }
             }
-            
             result(affinities: affinities)
         }
-        
-        
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
