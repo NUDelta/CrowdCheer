@@ -249,7 +249,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
-        let affinities = [PFUser: Int]()
+        var affinities = [PFUser: Int]()
         var targetRunner: PFUser = PFUser()
         
         let targetRunnerBib = user.valueForKey("targetRunnerBib")
@@ -257,16 +257,21 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         query.whereKey("bibNumber", equalTo: targetRunnerBib)
         query.getFirstObjectInBackgroundWithBlock { (targetRunners, error: NSError?) in
             targetRunner = targetRunners as! PFUser
-            print("affinity runner username: \(targetRunner.username)")
+            
+            for (runner, location) in userLocations {
+                
+                print(runner.username, location)
+                
+                //if runner = target runner, +10 affinity
+                if runner.objectId == targetRunner.objectId {
+                    affinities[runner] = 10
+                }
+            }
+            
+            result(affinities: affinities)
         }
         
-        for (runner, location) in userLocations {
-            print ("userLocs entry in affinity: \(runner, location)")
-//            print("affinity runner username: \(targetRunner.username)")
-        }
         
-        
-        result(affinities: affinities)
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
