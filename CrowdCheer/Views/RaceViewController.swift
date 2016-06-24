@@ -25,6 +25,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var nearbyRunnersNotifyTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
     var interval: Int = Int()
+    var affinityDict: Dictionary<PFUser, Int> = [:]
+    var convenienceDict: Dictionary<PFUser, Int> = [:]
+    var needDict: Dictionary<PFUser, Int> = [:]
+    var nearbyRunnersDict: Dictionary<PFUser, PFGeoPoint> = [:]
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
@@ -46,6 +50,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         optimizedRunners = OptimizedRunners()
         areRunnersNearby = false
         interval = 30
+        
+        // TESTING //
+        affinityDict = [:]
+        convenienceDict = [:]
+        needDict = [:]
+        nearbyRunnersDict = [:]
         
         //initialize mapview
         mapView.delegate = self
@@ -102,6 +112,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             }
             else {
                 self.areRunnersNearby = true
+                print("runnerLocations: \(runnerLocations!)")
+                self.nearbyRunnersDict = runnerLocations!
             }
             
             for (runner, runnerLoc) in runnerLocations! {
@@ -113,15 +125,26 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             
             //TESTING//
             self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
-                print("affinities \(affinities)")
+                print("affinities \(affinities.count)")
+                self.affinityDict = affinities
+                
             }
             
             self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
-                print("conveniences \(conveniences)")
+                print("conveniences \(conveniences.count)")
+                self.convenienceDict = conveniences
             }
             
             self.optimizedRunners.considerNeed(runnerLocations!) { (needs) -> Void in
-                print("needs \(needs)")
+                print("needs \(needs.count)")
+                self.needDict = needs
+            }
+            
+            if (self.nearbyRunnersDict.isEmpty || self.needDict.isEmpty || self.affinityDict.isEmpty || self.convenienceDict.isEmpty) {
+                print("delay preselect until all dictionaries have entries")
+            }
+            else {
+                self.selectedRunners.preselectRunners(runnerLocations!, conveniences: self.convenienceDict, needs: self.needDict, affinities: self.affinityDict)
             }
         }
     }

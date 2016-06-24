@@ -345,12 +345,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             result(affinities: affinities)
         }
     }
-    
-    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
-        let selectedRunners = runnerLocations
-        return selectedRunners
-        
-    }
 }
 
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
@@ -383,6 +377,76 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     
     func preselectRunners(userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint> {
         let selectedRunners = userLocations
+        
+        var optimizationMatrix = [String : [PFUser: Int]]()
+        var runnerSums = [PFUser : Int]()
+        optimizationMatrix["convenienceDict"] = conveniences
+        optimizationMatrix["needsDict"] = needs
+        optimizationMatrix["affinitiesDict"] = affinities
+        
+        for user in userLocations {
+            var sum = 0
+            sum += optimizationMatrix["convenienceDict"]![user.0]!
+            print("bug \(optimizationMatrix["needsDict"]![user.0]!)")
+            sum += optimizationMatrix["needsDict"]![user.0]!
+            sum += optimizationMatrix["affinitiesDict"]![user.0]!
+            runnerSums[user.0] = sum
+        }
+        print("runnerSums: \(runnerSums)")
+        print("opt matrix: \(optimizationMatrix)")
+    
+
+//        let NumColumns = userLocations.count
+//        let NumRows = 3
+//        var runnerCount = -1
+//        
+//        var optimizationMatrix = Array(count: NumColumns, repeatedValue: Array(count:NumRows, repeatedValue: Int()))
+//        
+//        for user in userLocations {
+//            runnerCount += 1
+//            for convenience in conveniences {
+//                optimizationMatrix[runnerCount][0] = convenience.1
+//            }
+//            for need in needs {
+//                optimizationMatrix[runnerCount][1] = need.1
+//            }
+//            for affinity in affinities {
+//                optimizationMatrix[runnerCount][2] = affinity.1
+//            }
+//        }
+        
+        
+        
+        
+//        var optimizationMatrix:[[Int]] = [[Int]]()
+//        var transposed: [[Int]] = [[Int]]()
+//        var convenienceVals = [Int]()
+//        var needVals = [Int]()
+//        var affinityVals = [Int]()
+//        
+//        for convenience in conveniences.values {
+//            convenienceVals.append(convenience)
+//        }
+//        
+//        for need in needs.values {
+//            needVals.append(need)
+//        }
+//        
+//        for affinity in affinities.values {
+//            affinityVals.append(affinity)
+//        }
+//        
+//        optimizationMatrix.append(convenienceVals)
+//        optimizationMatrix.append(needVals)
+//        optimizationMatrix.append(affinityVals)
+//        
+//        for measure in optimizationMatrix {
+//            for value in measure {
+//                transposed.append(measure)
+//            }
+//        }
+        
+        
         return selectedRunners
         
     }
