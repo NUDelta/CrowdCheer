@@ -611,7 +611,7 @@
                         <outlet property="cheering" destination="8az-j4-Xt5" id="5IS-hL-tjs"/>
                         <outlet property="running" destination="LcS-tK-kQk" id="wjt-AU-eVb"/>
                         <segue destination="Pwj-he-eYY" kind="push" identifier="run" id="fD3-Vd-bPi"/>
-                        <segue destination="zUr-da-CH6" kind="push" identifier="cheer" id="Tjq-wR-zyL"/>
+                        <segue destination="AWe-3X-XCa" kind="push" identifier="cheer" id="MhC-Ez-wVl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -961,11 +961,11 @@
                         <viewControllerLayoutGuide type="bottom" id="036-xR-fDq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Mgt-DS-SeI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="get this from the runner" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4gA-dJ-XRU">
-                                <rect key="frame" x="20" y="230" width="280" height="30"/>
+                                <rect key="frame" x="20" y="274" width="280" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="FHa-7x-RCX"/>
                                 </constraints>
@@ -979,7 +979,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLF-1w-02k">
-                                <rect key="frame" x="68" y="336" width="185" height="54"/>
+                                <rect key="frame" x="68" y="380" width="185" height="54"/>
                                 <color key="backgroundColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="54" id="jnX-bQ-07Q"/>
@@ -995,12 +995,9 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="AWe-3X-XCa" kind="push" id="kMn-96-qK0"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runner Bib # (optional):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ndr-oc-WNk">
-                                <rect key="frame" x="20" y="186" width="280" height="36"/>
+                                <rect key="frame" x="20" y="230" width="280" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="QZJ-75-Qlb"/>
                                 </constraints>
