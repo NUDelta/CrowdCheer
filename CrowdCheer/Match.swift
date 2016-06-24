@@ -45,11 +45,15 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
+    var possibleRunners = [String : String]()
+    var possibleRunnerCount: Int
     
     override init(){
         user = PFUser.currentUser()
         locationMgr = CLLocationManager()
         areUsersNearby = false
+        possibleRunnerCount = 0
+        possibleRunners = [:]
         
         //initialize location manager
         super.init()
@@ -97,6 +101,8 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
+                        self.possibleRunners[runner.objectId] = runner.username
+                        
                     }
                 }
                 print ("Runner dictionary: ", runnerLocs)
@@ -104,6 +110,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 if runnerLocs.isEmpty != true {
                     print("runnerLocs has a runner")
                     self.areUsersNearby = true
+                    self.saveRunnerCount()
                 }
                 else {
                     print("runnerLocs is empty")
@@ -118,6 +125,17 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 result(userLocations: runnerUpdates)
             }
         }
+    }
+    
+    func saveRunnerCount() {
+        possibleRunnerCount = possibleRunners.count
+        let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
+        newRunnerCount["spectator"] = user
+        newRunnerCount["nearbyRunners"] = possibleRunnerCount
+        
+        user["possibleRunnerCount"] = possibleRunnerCount
+        user.saveInBackground()
+        newRunnerCount.saveInBackground()
     }
 }
 
