@@ -741,10 +741,17 @@
                             <constraint firstItem="CQP-0x-xzO" firstAttribute="trailing" secondItem="RvS-i7-rap" secondAttribute="trailing" id="zfh-x3-whS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X"/>
+                    <navigationItem key="navigationItem" title="Track Your Run" id="IjB-Ys-f9X">
+                        <barButtonItem key="leftBarButtonItem" title="Leave Race" id="VaB-CG-eQB">
+                            <connections>
+                                <action selector="home:" destination="Pm9-0g-7IT" id="FL8-Pe-zra"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="congrats" destination="j1f-hB-9Rm" id="HDu-mN-sLU"/>
                         <outlet property="distance" destination="4FK-Vx-3FF" id="Hp0-hH-nL6"/>
+                        <outlet property="home" destination="VaB-CG-eQB" id="Gvq-tU-HVf"/>
                         <outlet property="mapView" destination="1sg-Ga-944" id="DVm-Xh-nyN"/>
                         <outlet property="pace" destination="BiV-ig-TSI" id="qpe-Z3-kmh"/>
                         <outlet property="pause" destination="CQP-0x-xzO" id="cSy-R0-dkB"/>
@@ -1009,6 +1016,6 @@
         <image name="icon.png" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fvg-Uh-rO8"/>
+        <segue reference="5lS-kl-sz8"/>
     </inferredMetricsTieBreakers>
 </document>

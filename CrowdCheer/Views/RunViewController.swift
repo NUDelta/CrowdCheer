@@ -32,6 +32,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var stop: UIButton!
     @IBOutlet weak var congrats: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var home: UIBarButtonItem!
     
     
     override func viewDidLoad() {
@@ -61,6 +62,12 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        userMonitorTimer.invalidate()
+        nearbySpectatorsTimer.invalidate()
         
     }
     
@@ -163,5 +170,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer.fire()
         pause.hidden = false
         resume.hidden = true
+    }
+    
+    @IBAction func home(sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
