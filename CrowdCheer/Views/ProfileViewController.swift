@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var updatePicture: UIButton!
     @IBOutlet weak var logOut: UIButton!
+    @IBOutlet weak var roleButton: UISegmentedControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
@@ -42,12 +43,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         //Ensure profile pic and name are saved before enabling segue
         logOut.hidden = true
-        if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil)  {
+        if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil || user.valueForKey("role")==nil)  {
             saveButton.enabled = false
         }
         else {
             saveButton.enabled = true
         }
+        
+        let font = UIFont.systemFontOfSize(17)
+        roleButton.setTitleTextAttributes([NSFontAttributeName: font],
+                                                forState: UIControlState.Normal)
+        roleButton.selected = false
     }
     
     //keyboard behavior
@@ -132,6 +138,34 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         if user.valueForKey("profilePic") != nil {
             saveButton.enabled = true
         }
+    }
+    
+    @IBAction func selectRole(sender:UISegmentedControl) {
+        switch roleButton.selectedSegmentIndex {
+        case 0:
+            user["role"] = "runner"
+            user.saveInBackground()
+            print(user.valueForKey("role")!)
+
+        case 1:
+            user["role"] = "cheerer"
+            user.saveInBackground()
+            print(user.valueForKey("role")!)
+        default:
+            break
+        }
+    }
+    
+    @IBAction func saveProfile(sender: UIBarButtonItem) {
+        switch roleButton.selectedSegmentIndex {
+        case 0:
+            self.performSegueWithIdentifier("run", sender: nil)
+        case 1:
+            self.performSegueWithIdentifier("cheer", sender: nil)
+        default:
+            break
+        }
+
     }
     
     @IBAction func logOut(sender: UIButton) {

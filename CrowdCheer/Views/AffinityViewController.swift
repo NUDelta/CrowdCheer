@@ -17,7 +17,7 @@ class AffinityViewController: UIViewController {
     var spectator: PFUser = PFUser.currentUser()
     
     @IBOutlet weak var bibNo: UITextField!
-    @IBOutlet weak var start: UIButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
     override func viewDidLoad() {

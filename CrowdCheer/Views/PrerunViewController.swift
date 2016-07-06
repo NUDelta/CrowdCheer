@@ -19,25 +19,19 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var targetPace: UITextField!
     @IBOutlet weak var raceTimeGoal: UITextField!
     @IBOutlet weak var bibNo: UITextField!
-    @IBOutlet weak var beacon: UITextField!
-    @IBOutlet weak var beaconLabel: UILabel!
     @IBOutlet weak var outfit: UITextField!
-    @IBOutlet weak var start: UIButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //set up view
-        start.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
-        start.enabled = false
-        beacon.hidden = true
-        beaconLabel.hidden = true
+        saveButton.enabled = false
         
         targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        beacon.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         
         //set up rules for keyboard
@@ -45,7 +39,7 @@ class PrerunViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "") {
-            start.enabled = true
+            saveButton.enabled = true
         }
         
         
@@ -86,10 +80,10 @@ class PrerunViewController: UIViewController {
             currUser.valueForKey("raceTimeGoal")==nil ||
             currUser.valueForKey("bibNumber")==nil ||
             currUser.valueForKey("outfit")==nil) {
-                start.enabled = false
+                saveButton.enabled = false
         }
         else {
-            start.enabled = true
+            saveButton.enabled = true
         }
     }
 }
