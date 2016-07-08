@@ -104,18 +104,23 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                 self.areRunnersNearby = true
             }
             
-            for (runner, runnerLoc) in runnerLocations! {
-                
-                let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-                self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-                
-            }
             
-//            //TESTING//
+            
             self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
                 print("affinities \(affinities)")
+                
+                for (runner, runnerLoc) in runnerLocations! {
+                    
+                    for affinity in affinities {
+                        if runner == affinity.0 {
+                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                        }
+                    }
+                }
             }
-//
+
+//            //TESTING//
 //            self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
 //                print("conveniences \(conveniences)")
 //            }
