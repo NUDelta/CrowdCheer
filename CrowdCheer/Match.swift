@@ -340,28 +340,28 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
 
     func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
         var affinities = [PFUser: Int]()
-        var targetRunner: PFUser = PFUser()
         
-        let targetRunnerBib = user.valueForKey("targetRunnerBib")
+        let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String
+        print("targetRunnerBibString: \(targetRunnerBibString)")
+        let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
+        print("bib array: \(targetRunnerBibArr)")
+        
         let query = PFUser.query()
-        query.whereKey("bibNumber", equalTo: targetRunnerBib)
-        query.getFirstObjectInBackgroundWithBlock { (targetRunners, error: NSError?) in
-            targetRunner = targetRunners as! PFUser
-            
+        query.whereKey("bibNumber", containedIn: targetRunnerBibArr)
+        query.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
             for (runner, location) in userLocations {
-                
-                print(runner.username, location)
-                
-                //if runner = target runner, +10 affinity
-                if runner.objectId == targetRunner.objectId {
-                    affinities[runner] = 10
-                }
-                else {
-                    affinities[runner] = 0
+                for targetRunner in targetRunners {
+                    print(runner.username, location)
+                    
+                    //if runner = target runner, +10 affinity
+                    if runner.objectId == targetRunner.objectId {
+                        affinities[runner] = 10
+                        break
+                    }
                 }
             }
             result(affinities: affinities)
-        }
+        })
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {

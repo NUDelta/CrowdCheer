@@ -78,8 +78,22 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func getProfileInfo() {
         
         var name: String
+        var role: String
         var userImageFile: PFFile
         
+        
+        if user.valueForKey("role") == nil {
+            //don't retrieve name
+        }
+        else {
+            role = (user.valueForKey("role"))! as! String
+            if role == "runner" {
+                roleButton.selectedSegmentIndex = 0
+            }
+            else {
+                roleButton.selectedSegmentIndex = 1
+            }
+        }
         
         if user.valueForKey("name") == nil {
             //don't retrieve name

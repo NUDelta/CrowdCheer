@@ -112,10 +112,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             }
             
 //            //TESTING//
-//            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
-//                print("affinities \(affinities)")
-//            }
-//            
+            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+                print("affinities \(affinities)")
+            }
+//
 //            self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
 //                print("conveniences \(conveniences)")
 //            }
