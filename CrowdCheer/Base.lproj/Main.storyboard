@@ -144,7 +144,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gau-40-1Eu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1613" y="-83"/>
+            <point key="canvasLocation" x="-1613" y="-75"/>
         </scene>
         <!--signUpViewController-->
         <scene sceneID="leH-dO-Rjs">
@@ -368,7 +368,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="76W-gK-E4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-735" y="585"/>
+            <point key="canvasLocation" x="-735" y="633"/>
         </scene>
         <!--Update Profile-->
         <scene sceneID="Ndf-c1-sWN">
@@ -496,12 +496,12 @@
                         <outlet property="saveButton" destination="84d-1T-F46" id="HRU-cG-fpw"/>
                         <outlet property="updatePicture" destination="wiE-xL-7Kf" id="kIC-5x-dkY"/>
                         <segue destination="Pwj-he-eYY" kind="push" identifier="run" id="4k8-Ny-Hac"/>
-                        <segue destination="zUr-da-CH6" kind="push" identifier="cheer" id="rfo-DY-XSW"/>
+                        <segue destination="bu8-Nc-PHu" kind="push" identifier="cheer" id="CCe-6U-FR3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2046" y="260"/>
+            <point key="canvasLocation" x="-2043" y="260"/>
         </scene>
         <!--Getting Started-->
         <scene sceneID="84m-de-lis">
@@ -598,7 +598,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehs-ph-1rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1178" y="255"/>
+            <point key="canvasLocation" x="-1174" y="260"/>
         </scene>
         <!--Track My Run-->
         <scene sceneID="ffh-gm-bon">
@@ -816,7 +816,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dAT-08-fBq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-321" y="585"/>
+            <point key="canvasLocation" x="-317" y="633"/>
         </scene>
         <!--Cheer for a Runner-->
         <scene sceneID="Cc8-47-wAe">
@@ -939,7 +939,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nlq-8s-0ai" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="79" y="585"/>
+            <point key="canvasLocation" x="98" y="633"/>
         </scene>
         <!--Race Information-->
         <scene sceneID="XU6-2J-1HT">
@@ -950,7 +950,7 @@
                         <viewControllerLayoutGuide type="bottom" id="036-xR-fDq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Mgt-DS-SeI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="get this from the runner" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4gA-dJ-XRU">
@@ -992,11 +992,7 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem systemItem="flexibleSpace" id="hjj-Kd-kla"/>
-                        <barButtonItem systemItem="save" id="q2j-ep-fkE">
-                            <connections>
-                                <segue destination="bu8-Nc-PHu" kind="push" id="fvg-Uh-rO8"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="save" id="q2j-ep-fkE"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Getting Started" id="JCT-M3-04A">
                         <barButtonItem key="backBarButtonItem" title="Home" id="8KY-01-6v1"/>
@@ -1008,7 +1004,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qs8-Q4-sW3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1613" y="577"/>
+            <point key="canvasLocation" x="-1613" y="633"/>
         </scene>
     </scenes>
     <resources>
