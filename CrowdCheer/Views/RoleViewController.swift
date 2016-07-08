@@ -13,6 +13,7 @@ class RoleViewController: UIViewController {
     
     @IBOutlet weak var running: UIButton!
     @IBOutlet weak var cheering: UIButton!
+    @IBOutlet weak var editProfile: UIBarButtonItem!
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var user: PFUser = PFUser.currentUser()
@@ -45,6 +46,17 @@ class RoleViewController: UIViewController {
         user.saveInBackground()
         print(user.valueForKey("role")!)
         self.performSegueWithIdentifier("cheer", sender: nil)
+    }
+    
+    @IBAction func editProfile(sender: UIBarButtonItem) {
+        let sb = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        var controllers =  self.navigationController?.viewControllers
+        let profileView = sb.instantiateViewControllerWithIdentifier("ProfileViewController")
+        let prerunView = sb.instantiateViewControllerWithIdentifier("prerunViewController")
+        controllers?.append(prerunView)
+        controllers?.append(profileView)
+        self.navigationController?.setViewControllers(controllers!, animated: true)
+//        self.presentViewController(profileView, animated: true, completion: nil)
     }
     
     
