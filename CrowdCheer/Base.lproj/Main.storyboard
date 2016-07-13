@@ -497,6 +497,7 @@
                         <outlet property="updatePicture" destination="wiE-xL-7Kf" id="kIC-5x-dkY"/>
                         <segue destination="Pwj-he-eYY" kind="push" identifier="run" id="4k8-Ny-Hac"/>
                         <segue destination="zUr-da-CH6" kind="push" identifier="cheer" id="qnt-ZT-stb"/>
+                        <segue destination="bu8-Nc-PHu" kind="push" identifier="rCondition" id="6Mk-Rj-G3v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLP-U0-1Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1060,6 +1061,6 @@
         <image name="icon.png" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YsX-0h-TUW"/>
+        <segue reference="6Mk-Rj-G3v"/>
     </inferredMetricsTieBreakers>
 </document>
