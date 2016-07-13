@@ -93,6 +93,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         mapView.removeAnnotations(annotationsToRemove)
+        var runnerCount = 0
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -105,21 +106,59 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             }
             
             
+            //R Condition
+//            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+//                print("affinities \(affinities)")
+//                
+//                for (runner, runnerLoc) in runnerLocations! {
+//                    
+//                    for affinity in affinities {
+//                        if runner == affinity.0 {
+//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+//                            runnerCount += 1
+//                        }
+//                    }
+//                }
+//                self.nearbyRunners.saveRunnerCount(runnerCount)
+//            }
             
+            //R* Condition
             self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
                 print("affinities \(affinities)")
                 
                 for (runner, runnerLoc) in runnerLocations! {
                     
                     for affinity in affinities {
-                        if runner == affinity.0 {
+                        if runner == affinity.0 && affinity.1 == 10 {
                             let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                             self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                            runnerCount += 1
                         }
                     }
                 }
+                self.nearbyRunners.saveRunnerCount(runnerCount)
             }
-
+//
+            //R+R* Condition
+//            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+//                print("affinities \(affinities)")
+//                
+//                for (runner, runnerLoc) in runnerLocations! {
+//                    
+//                    for affinity in affinities {
+//                        if runner == affinity.0 && affinity.1 == 10 {
+//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+//                        }
+//                        else if runner == affinity.0 && affinity.1 != 10 {
+//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+//                        }
+//                    }
+//                }
+//            }
+            
 //            //TESTING//
 //            self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
 //                print("conveniences \(conveniences)")

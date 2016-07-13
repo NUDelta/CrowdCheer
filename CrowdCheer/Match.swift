@@ -110,7 +110,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 if runnerLocs.isEmpty != true {
                     print("runnerLocs has a runner")
                     self.areUsersNearby = true
-                    self.saveRunnerCount()
                 }
                 else {
                     print("runnerLocs is empty")
@@ -127,8 +126,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
-    func saveRunnerCount() {
-        possibleRunnerCount = possibleRunners.count
+    func saveRunnerCount(possibleRunnerCount: Int) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user
         newRunnerCount["nearbyRunners"] = possibleRunnerCount
@@ -357,6 +355,9 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     if runner.objectId == targetRunner.objectId {
                         affinities[runner] = 10
                         break
+                    }
+                    else {
+                        affinities[runner] = 0
                     }
                 }
             }
