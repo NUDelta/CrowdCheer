@@ -24,9 +24,6 @@ class RoleViewController: UIViewController {
         locationMgr.requestAlwaysAuthorization()
         locationMgr.requestWhenInUseAuthorization()
         
-        if isWiFiConnected()==false {
-            turnOnWiFiAlert()
-        }
         user = PFUser.currentUser()
     }
     
@@ -57,43 +54,5 @@ class RoleViewController: UIViewController {
         controllers?.append(profileView)
         self.navigationController?.setViewControllers(controllers!, animated: true)
 //        self.presentViewController(profileView, animated: true, completion: nil)
-    }
-    
-    
-    //Prompt user to turn on WiFi
-    func turnOnWiFiAlert() {
-        let alertTitle = "Location Accuracy"
-        let alertController = UIAlertController(title: alertTitle, message: "Turning on your Wi-Fi is required for accurate location data.", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Go to Wi-Fi Settings", style: UIAlertActionStyle.Default, handler: openSettings))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    func openSettings(alert: UIAlertAction!) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"prefs:root=WIFI")!)
-    }
-    
-    func isWiFiConnected() -> Bool {
-        
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return false
-        }
-        
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
-                print("Reachable via WiFi")
-                return true
-            } else {
-                print("Reachable via Cellular")
-                return false
-            }
-        } else {
-            print("Network not reachable")
-            return false
-        }
     }
 }
