@@ -829,7 +829,7 @@
         <!--Cheer for a Runner-->
         <scene sceneID="Cc8-47-wAe">
             <objects>
-                <viewController title="Cheer for a Runner" id="3xr-dc-zTt" customClass="CheerViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheerViewController" title="Cheer for a Runner" id="3xr-dc-zTt" customClass="CheerViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Pwm-u3-DTj"/>
                         <viewControllerLayoutGuide type="bottom" id="ugJ-pf-NRP"/>

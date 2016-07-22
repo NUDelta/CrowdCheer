@@ -107,7 +107,10 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             else if distance<100 {
                 runnerTrackerTimer.invalidate()
                 userMonitorTimer.invalidate()
-                performSegueWithIdentifier("runnerNear", sender: nil) //NOTE: Race testing errored here
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
         
