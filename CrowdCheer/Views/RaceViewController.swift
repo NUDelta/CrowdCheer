@@ -107,21 +107,21 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             
             
             //R Condition
-            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
-                print("affinities \(affinities)")
-                
-                for (runner, runnerLoc) in runnerLocations! {
-                    
-                    for affinity in affinities {
-                        if runner == affinity.0 {
-                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-                            runnerCount += 1
-                        }
-                    }
-                }
-                self.nearbyRunners.saveRunnerCount(runnerCount)
-            }
+//            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+//                print("affinities \(affinities)")
+//                
+//                for (runner, runnerLoc) in runnerLocations! {
+//                    
+//                    for affinity in affinities {
+//                        if runner == affinity.0 {
+//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+//                            runnerCount += 1
+//                        }
+//                    }
+//                }
+//                self.nearbyRunners.saveRunnerCount(runnerCount)
+//            }
             
             //R* Condition
 //            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
@@ -141,23 +141,26 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
 //            }
 
             //R+R* Condition
-//            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
-//                print("affinities \(affinities)")
-//                
-//                for (runner, runnerLoc) in runnerLocations! {
-//                    
-//                    for affinity in affinities {
-//                        if runner == affinity.0 && affinity.1 == 10 {
-//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-//                        }
-//                        else if runner == affinity.0 && affinity.1 != 10 {
-//                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-//                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-//                        }
-//                    }
-//                }
-//            }
+            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
+                print("affinities \(affinities)")
+                
+                for (runner, runnerLoc) in runnerLocations! {
+                    
+                    for affinity in affinities {
+                        if runner == affinity.0 && affinity.1 == 10 {
+                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                            runnerCount += 1
+                        }
+                        else if runner == affinity.0 && affinity.1 != 10 {
+                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                            runnerCount += 1
+                        }
+                    }
+                }
+                self.nearbyRunners.saveRunnerCount(runnerCount)
+            }
             
 //            //TESTING//
 //            self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
@@ -186,12 +189,15 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         print("bool from identify \(nearbyRunners.areUsersNearby)")
         print("bool from VC \(areRunnersNearby)")
         if areRunnersNearby == true {
-            let localNotification = UILocalNotification()
-            localNotification.alertBody = "Cheer for runners near you!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
             
-            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            if UIApplication.sharedApplication().applicationState == .Background {
+                let localNotification = UILocalNotification()
+                localNotification.alertBody = "Cheer for runners near you!"
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            }
         }
             
         else {

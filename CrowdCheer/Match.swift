@@ -339,30 +339,37 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
         var affinities = [PFUser: Int]()
         
-        let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String
-        print("targetRunnerBibString: \(targetRunnerBibString)")
-        let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
-        print("bib array: \(targetRunnerBibArr)")
+        if user.valueForKey("targetRunnerBib") == nil {
+            print("no target runner")
+        }
         
-        let query = PFUser.query()
-        query.whereKey("bibNumber", containedIn: targetRunnerBibArr)
-        query.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
-            for (runner, location) in userLocations {
-                for targetRunner in targetRunners {
-                    print(runner.username, location)
-                    
-                    //if runner = target runner, +10 affinity
-                    if runner.objectId == targetRunner.objectId {
-                        affinities[runner] = 10
-                        break
-                    }
-                    else {
-                        affinities[runner] = 0
+        else {
+            let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String //NOTE: need to handle if there's no target runner!
+            
+            print("targetRunnerBibString: \(targetRunnerBibString)")
+            let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
+            print("bib array: \(targetRunnerBibArr)")
+            
+            let query = PFUser.query()
+            query.whereKey("bibNumber", containedIn: targetRunnerBibArr)
+            query.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
+                for (runner, location) in userLocations {
+                    for targetRunner in targetRunners {
+                        print(runner.username, location)
+                        
+                        //if runner = target runner, +10 affinity
+                        if runner.objectId == targetRunner.objectId {
+                            affinities[runner] = 10
+                            break
+                        }
+                        else {
+                            affinities[runner] = 0
+                        }
                     }
                 }
-            }
-            result(affinities: affinities)
-        })
+                result(affinities: affinities)
+            })
+        }
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {

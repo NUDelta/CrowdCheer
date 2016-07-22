@@ -175,8 +175,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         case 0:
             self.performSegueWithIdentifier("run", sender: nil)
         case 1:
-//            self.performSegueWithIdentifier("cheer", sender: nil)
-            self.performSegueWithIdentifier("rCondition", sender: nil)
+            self.performSegueWithIdentifier("cheer", sender: nil)
+//            self.performSegueWithIdentifier("rCondition", sender: nil)
         default:
             break
         }
