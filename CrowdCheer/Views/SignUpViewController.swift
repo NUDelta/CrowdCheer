@@ -17,6 +17,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    var setupDate: NSDate = NSDate()
+    var useDate: NSDate = NSDate()
+    var setupTimer: NSTimer = NSTimer()
+    var useTimer: NSTimer = NSTimer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,17 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         usernameField.delegate = self
         emailField.delegate = self
         passwordField.delegate = self
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        setupDate = dateFormatter.dateFromString("2016-07-26T16:26:30-05:00")!
+        useDate = dateFormatter.dateFromString("2016-07-26T16:27:00-05:00")!
+        
+        sendLocalNotification_setup()
+        sendLocalNotification_use()
+        
+        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
+        useTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_use), userInfo: nil, repeats: false)
         
         
         //set up rules for keyboard
@@ -38,7 +53,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         if isWiFiConnected()==false {
             turnOnWiFiAlert()
         }
-
+        
         //if already logged in, segue to next VC
         if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("logInOut", sender: nil)
@@ -157,5 +172,27 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             return false
         }
     }
-
+    
+    func sendLocalNotification_setup() {
+        let localNotification = UILocalNotification()
+        localNotification.alertBody = "Set up your profile before the race!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.fireDate = setupDate
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    }
+    
+    func sendLocalNotification_use() {
+        let localNotification = UILocalNotification()
+        localNotification.alertBody = "The race is about to start! Hit 'START' to enable tracking."
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.fireDate = useDate
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    }
+    
 }
