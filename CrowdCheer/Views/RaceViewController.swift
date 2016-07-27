@@ -63,7 +63,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification), userInfo: nil, repeats: true)
+        nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         
     }
     
@@ -152,7 +152,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     
                     for affinity in affinities {
                         if runner == affinity.0 {
-                            if dist > 200 { //if runner is more than 1km away
+                            if dist > 1000 { //if runner is more than 1km away
                                 if affinity.1 == 10 { //if runner is one of my runners, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
@@ -162,10 +162,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     runnerCount += 1
                                 }
                             }
-                            else if dist <= 200 { //if runner is less than 1km away
-                                if affinity.1 == 10 { //if the runner is one of my runners, add them to the map
+                            else if dist <= 1000 { //if runner is less than 1km away
+                                if affinity.1 == 10 { //if the runner is one of my runners, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
+                                    let name = runner.valueForKey("name") as! String
+                                    self.sendLocalNotification_target(name)
                                 }
                                 else if affinity.1 != 10 { //if the runner is not one of my runners, don't add them
                                     //do nothing
@@ -199,7 +201,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation)
     }
     
-    func sendLocalNotification() {
+    func sendLocalNotification_any() {
         
         print("bool from identify \(nearbyRunners.areUsersNearby)")
         print("bool from VC \(areRunnersNearby)")
@@ -218,6 +220,16 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         else {
             print("local notification: no runners nearby")
         }
+    }
+    
+    func sendLocalNotification_target(name: String) {
+        
+        let localNotification = UILocalNotification()
+        localNotification.alertBody =  name + " is near you, get ready to cheer!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
