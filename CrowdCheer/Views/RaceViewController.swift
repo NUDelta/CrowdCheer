@@ -152,7 +152,16 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     
                     for affinity in affinities {
                         if runner == affinity.0 {
-                            if dist > 1000 { //if runner is more than 1km away
+                            if dist > 2000 { //if runner is more than 2km away
+                                if affinity.1 == 10 { //if runner is one of my runners, add them to the map
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    runnerCount += 1
+                                }
+                                else if affinity.1 != 10 { //if the runner isn't one of my runners, don't add them yet
+                                    //do nothing
+                                }
+                            }
+                            else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away
                                 if affinity.1 == 10 { //if runner is one of my runners, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
