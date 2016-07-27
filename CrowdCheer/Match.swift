@@ -185,7 +185,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         
         query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.75) //spectators within 750m of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.40) //spectators within 400m of me
         query.findObjectsInBackgroundWithBlock {
             (spectatorObjects: [AnyObject]?, error: NSError?) -> Void in
             
