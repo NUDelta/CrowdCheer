@@ -82,9 +82,9 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
         
-        query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 30 seconds
         query.whereKey("user", equalTo: trackedRunner)
+        query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
             (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
             

@@ -83,9 +83,9 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
         let query = PFQuery(className: "CurrRunnerLocation")
         
-        query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 2.0) //runners within 2 km of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 1.0) //runners within 1 km of me
+        query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
             (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
             
@@ -183,9 +183,9 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         
         let query = PFQuery(className: "CurrSpectatorLocation")
         
-        query.orderByDescending("updatedAt")
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
         query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.40) //spectators within 400m of me
+        query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
             (spectatorObjects: [AnyObject]?, error: NSError?) -> Void in
             
