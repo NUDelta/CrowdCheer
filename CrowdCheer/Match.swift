@@ -84,7 +84,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         let query = PFQuery(className: "CurrRunnerLocation")
         
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 1.0) //runners within 1 km of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 25.0) //runners within 25 km (~15mi) of me
         query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
             (runnerObjects: [AnyObject]?, error: NSError?) -> Void in

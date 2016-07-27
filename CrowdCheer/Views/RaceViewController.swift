@@ -146,16 +146,31 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                 
                 for (runner, runnerLoc) in runnerLocations! {
                     
+                    let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
+                    let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                    let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
+                    
                     for affinity in affinities {
-                        if runner == affinity.0 && affinity.1 == 10 {
-                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-                            runnerCount += 1
-                        }
-                        else if runner == affinity.0 && affinity.1 != 10 {
-                            let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
-                            self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
-                            runnerCount += 1
+                        if runner == affinity.0 {
+                            if dist > 200 { //if runner is more than 1km away
+                                if affinity.1 == 10 { //if runner is one of my runners, add them to the map
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    runnerCount += 1
+                                }
+                                else if affinity.1 != 10 { //if the runner isn't one of my runners, also add them to the map
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    runnerCount += 1
+                                }
+                            }
+                            else if dist <= 200 { //if runner is less than 1km away
+                                if affinity.1 == 10 { //if the runner is one of my runners, add them to the map
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    runnerCount += 1
+                                }
+                                else if affinity.1 != 10 { //if the runner is not one of my runners, don't add them
+                                    //do nothing
+                                }
+                            }
                         }
                     }
                 }
