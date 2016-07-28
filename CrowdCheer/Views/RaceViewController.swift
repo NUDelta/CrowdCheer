@@ -63,7 +63,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyRunnersNotifyTimer = NSTimer.scheduledTimerWithTimeInterval(180.0, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         
     }
     
@@ -149,6 +148,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                     let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                     let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
+                    print(runner.username, dist)
                     
                     for affinity in affinities {
                         if runner == affinity.0 {
@@ -169,6 +169,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 else if affinity.1 != 10 { //if the runner isn't one of my runners, also add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
+                                    self.sendLocalNotification_any()
                                 }
                             }
                             else if dist <= 1000 { //if runner is less than 1km away
