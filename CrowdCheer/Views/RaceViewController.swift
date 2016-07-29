@@ -151,36 +151,50 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     print(runner.username, dist)
                     
                     for affinity in affinities {
+                        var isTargetRunnerNear = false
                         if runner == affinity.0 {
-                            if dist > 2000 { //if runner is more than 2km away
-                                if affinity.1 == 10 { //if runner is one of my runners, add them to the map
+                            //Goal: Show target runners throughout the race
+                            if dist > 400 { //if runner is more than 2km away
+                                if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
                                 }
-                                else if affinity.1 != 10 { //if the runner isn't one of my runners, don't add them yet
+                                else if affinity.1 != 10 { //if general runner, don't add them yet
                                     //do nothing
                                 }
                             }
-                            else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away
-                                if affinity.1 == 10 { //if runner is one of my runners, add them to the map
+                            
+                            //Goal: Show all runners near me, including target runners
+                            else if dist > 200 && dist <= 400 { //if runner is between 1-2km away
+                                if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
                                 }
-                                else if affinity.1 != 10 { //if the runner isn't one of my runners, also add them to the map
+                                else if affinity.1 != 10 { //if general runner, also add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
                                     self.sendLocalNotification_any()
                                 }
                             }
-                            else if dist <= 1000 { //if runner is less than 1km away
-                                if affinity.1 == 10 { //if the runner is one of my runners, add them to the map & notify
+                                
+                            //Goal: If target runner is close, only show them. If not, then continue to show all runners
+                            else if dist <= 200 { //if runner is less than 1km away
+                                if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
                                     self.sendLocalNotification_target(name)
+                                    isTargetRunnerNear = true
+                                    print("isTargetRunnerNear: \(isTargetRunnerNear)")
                                 }
-                                else if affinity.1 != 10 { //if the runner is not one of my runners, don't add them
-                                    //do nothing
+                                else if affinity.1 != 10 { //if general runner, check if target runner is nearby
+                                    if isTargetRunnerNear {
+                                        //do nothing
+                                    }
+                                    else {
+                                        self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                        runnerCount += 1
+                                    }
                                 }
                             }
                         }
@@ -234,12 +248,24 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     
     func sendLocalNotification_target(name: String) {
         
-        let localNotification = UILocalNotification()
-        localNotification.alertBody =  name + " is near you, get ready to cheer!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        if UIApplication.sharedApplication().applicationState == .Background {
+            
+            let localNotification = UILocalNotification()
+            localNotification.alertBody =  name + " is near you, get ready to cheer!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            
+            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+        }
         
-        UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+        else if UIApplication.sharedApplication().applicationState == .Active {
+            
+            let alertTitle = name + " is nearby!"
+            let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
