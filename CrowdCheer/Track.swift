@@ -107,4 +107,21 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             }
         }
     }
+    
+    func retrieveLoc(distance: Double) {
+        
+        let retrievedLoc = PFObject(className:"RetrievedLocs")
+        retrievedLoc["location"] = geoPoint
+        retrievedLoc["user"] = user
+        retrievedLoc["runner"] = self.metersToMiles(self.distance)
+        retrievedLoc["distance"] = distance
+        object["time"] = NSDate()
+        
+        object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+            if _error == nil
+            {
+                print("location saved")
+            }
+        }
+    }
 }

@@ -100,6 +100,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
             distanceLabel.hidden = false
             
+            contextPrimer.retrieveLoc(dist)
+            
             if (distance >= 100 && distance <= 150) {
                 sendLocalNotification(runnerName)
             }
