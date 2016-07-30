@@ -154,9 +154,9 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                         var isTargetRunnerNear = false
                         if runner == affinity.0 {
                             //Goal: Show target runners throughout the race
-                            if dist > 400 { //if runner is more than 2km away
+                            if dist > 2000 { //if runner is more than 2km away
                                 if affinity.1 == 10 { //if target runner, add them to the map
-                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
@@ -165,22 +165,22 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                             
                             //Goal: Show all runners near me, including target runners
-                            else if dist > 200 && dist <= 400 { //if runner is between 1-2km away
+                            else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away
                                 if affinity.1 == 10 { //if target runner, add them to the map
-                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
-                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
                                     runnerCount += 1
                                     self.sendLocalNotification_any()
                                 }
                             }
                                 
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                            else if dist <= 200 { //if runner is less than 1km away
+                            else if dist <= 1000 { //if runner is less than 1km away
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
-                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
                                     self.sendLocalNotification_target(name)
@@ -188,11 +188,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     print("isTargetRunnerNear: \(isTargetRunnerNear)")
                                 }
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                    if isTargetRunnerNear {
-                                        //do nothing
-                                    }
-                                    else {
-                                        self.addRunnerPin(runner, runnerLoc: runnerLastLoc)
+                                    if !isTargetRunnerNear {
+                                        self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
                                         runnerCount += 1
                                     }
                                 }
@@ -214,13 +211,13 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D) {
+    func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
         
         let name = runner.valueForKey("name")
         let coordinate = runnerLoc
         let title = (name as? String)
         let runnerObjID = runner.objectId
-        let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
+        let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
         let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID)
         mapView.addAnnotation(annotation)
     }

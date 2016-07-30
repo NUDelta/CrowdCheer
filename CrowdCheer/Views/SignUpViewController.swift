@@ -32,8 +32,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        setupDate = dateFormatter.dateFromString("2016-07-26T16:26:30-05:00")!
-        useDate = dateFormatter.dateFromString("2016-07-26T16:27:00-05:00")!
+        setupDate = dateFormatter.dateFromString("2016-07-30T20:00:00-05:00")! //hardcoded dates for race day notifications
+        useDate = dateFormatter.dateFromString("2016-07-31T07:25:00-05:00")!
         
         sendLocalNotification_setup()
         sendLocalNotification_use()
@@ -140,7 +140,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     func turnOnWiFiAlert() {
         let alertTitle = "Location Accuracy"
         let alertController = UIAlertController(title: alertTitle, message: "Turning on your Wi-Fi is required for accurate location data.", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Go to Wi-Fi Settings", style: UIAlertActionStyle.Default, handler: openSettings))
+        alertController.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: openSettings))
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
