@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
             endingLineNumber = "133"
-            landmarkName = "logLatency(_:actualTime:setTime:getTime:showTime:)"
+            landmarkName = "handleLatency(_:actualTime:setTime:getTime:showTime:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

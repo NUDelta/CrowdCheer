@@ -118,7 +118,15 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let setTime = contextPrimer.setTime
         let getTime = contextPrimer.getTime
         let showTime = NSDate()
-        contextPrimer.logLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+        
+        if latencyData.delay < 3 {
+            //do nothing
+        }
+        else {
+            runnerLastLoc = latencyData.calculatedRunnerLoc
+        }
+        latencyData.delay
         drawPath()
         updateRunnerPin()
     }

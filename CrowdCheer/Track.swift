@@ -119,17 +119,28 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         }
     }
     
-    func logLatency(runner: PFUser, actualTime: NSDate, setTime: NSDate, getTime: NSDate, showTime: NSDate) {
-        
+    func handleLatency(runner: PFUser, actualTime: NSDate, setTime: NSDate, getTime: NSDate, showTime: NSDate) -> (delay: NSTimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) {
+    
         let latency = PFObject(className:"Latency")
+        
+        let now = NSDate()
+        let delay = now.timeIntervalSinceDate(actualTime)
+        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+        
+        //calculate additional distance based on second delay + pace
+        //calculate heading based on last x points
+        //generate new loc point based on distance + heading
+        
         latency["spectator"] = self.user
         latency["runner"] = runner
         latency["actualTime"] = actualTime
         latency["setTime"] = setTime
         latency["getTime"] = getTime
-        latency["showTime"] = showTime
-        latency["totalDelay"] = showTime.timeIntervalSinceDate(actualTime)
+        latency["showTime"] = now
+        latency["totalDelay"] = delay
         
         latency.save()
+        
+        return (delay, calcRunnerLoc)
     }
 }
