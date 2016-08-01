@@ -128,6 +128,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         latency["setTime"] = setTime
         latency["getTime"] = getTime
         latency["showTime"] = showTime
+        latency["totalDelay"] = showTime.timeIntervalSinceDate(actualTime)
         
         latency.save()
     }
