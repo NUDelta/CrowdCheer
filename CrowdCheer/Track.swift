@@ -34,7 +34,9 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var location: CLLocation!
     let appDel = NSUserDefaults()
     
-    //for Latency logging
+    //for Latency handling
+    var currLoc = PFGeoPoint()
+    var prevLoc = PFGeoPoint()
     var actualTime = NSDate()
     var setTime = NSDate()
     var getTime = NSDate()
@@ -99,15 +101,15 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 print("Successfully retrieved \(runnerObjects!.count) updates.")
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
-                        let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        
+                        self.currLoc = (object as! PFObject)["location"] as! PFGeoPoint
+                        self.prevLoc = (object as! PFObject)["prevLoc"] as! PFGeoPoint
                         self.speed = (object as! PFObject)["speed"] as! Double
                         self.actualTime = (object as! PFObject)["time"] as! NSDate
                         self.setTime = object.updatedAt
                         self.getTime = NSDate()
                         
-                        print("location: ", location)
-                        runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+                        print("location: ", self.currLoc)
+                        runnerUpdate = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
                     }
                 }
                 
@@ -127,12 +129,13 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         let now = NSDate()
         let delay = now.timeIntervalSinceDate(actualTime)
-        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+        let previousLoc = CLLocationCoordinate2DMake(self.prevLoc.latitude, self.prevLoc.longitude)
+        let currentLoc = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
+        var calcRunnerLoc: CLLocationCoordinate2D = currentLoc
         
         let distTraveled = calculateDistTraveled(delay, speed: self.speed)
-//        let bearing = calculateBearing(CLLocationCoordinate2D, coorB: CLLocationCoordinate2D)
-    
-        //generate new loc point based on original loc + distance + bearing
+        let bearing = calculateBearing(previousLoc, coorB: currentLoc)
+        calcRunnerLoc = calculateLocation(currentLoc, bearing: bearing, distance: distTraveled)
         
         
         latency["spectator"] = self.user
@@ -164,6 +167,14 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         return bearing
     }
     
+    func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: CLLocationDirection, distance: Double) -> CLLocationCoordinate2D {
+        //generate new loc point based on original loc + distance + bearing
+        
+        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+        
+        return calcRunnerLoc
+    }
+    
     func DegreesToRadians(degrees: Double ) -> Double {
         return degrees * M_PI / 180
     }
@@ -192,11 +203,5 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     func bearingDegrees(locA: CLLocation, locB:CLLocation) -> Double{
         return   RadiansToDegrees(bearingRadian(locA, locB: locB))
-    }
-    
-    func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: CLLocationDirection, distance: Double) -> CLLocationCoordinate2D {
-        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
-        
-        return calcRunnerLoc
     }
 }

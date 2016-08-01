@@ -317,6 +317,9 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc.saveInBackground()
                 
             } else if let currLoc = currLoc {
+                
+                let prevLoc = (currLoc )["location"] as! PFGeoPoint
+                currLoc["prevLoc"] = prevLoc
                 currLoc["location"] = geoPoint
                 currLoc["user"] = PFUser.currentUser()
                 currLoc["distance"] = self.metersToMiles(self.distance)
