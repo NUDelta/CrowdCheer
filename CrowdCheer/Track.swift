@@ -34,6 +34,11 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var location: CLLocation!
     let appDel = NSUserDefaults()
     
+    //for Latency logging
+    var actualTime = NSDate()
+    var setTime = NSDate()
+    var getTime = NSDate()
+    
     override init(){
         user = PFUser.currentUser()
         runner = PFUser()
@@ -94,10 +99,16 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        
+                        self.actualTime = (object as! PFObject)["time"] as! NSDate
+                        self.setTime = object.updatedAt
+                        self.getTime = NSDate()
+                        
                         print("location: ", location)
                         runnerUpdate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
                     }
                 }
+                
                 result(runnerLoc: runnerUpdate)
             }
             else {
@@ -108,20 +119,16 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         }
     }
     
-    func retrieveLoc(distance: Double) {
+    func logLatency(runner: PFUser, actualTime: NSDate, setTime: NSDate, getTime: NSDate, showTime: NSDate) {
         
-        let retrievedLoc = PFObject(className:"RetrievedLocs")
-        retrievedLoc["location"] = geoPoint
-        retrievedLoc["user"] = user
-        retrievedLoc["runner"] = self.metersToMiles(self.distance)
-        retrievedLoc["distance"] = distance
-        object["time"] = NSDate()
+        let latency = PFObject(className:"Latency")
+        latency["spectator"] = self.user
+        latency["runner"] = runner
+        latency["actualTime"] = actualTime
+        latency["setTime"] = setTime
+        latency["getTime"] = getTime
+        latency["showTime"] = showTime
         
-        object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
-            if _error == nil
-            {
-                print("location saved")
-            }
-        }
+        latency.save()
     }
 }

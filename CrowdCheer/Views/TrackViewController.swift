@@ -100,22 +100,25 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
             distanceLabel.hidden = false
             
-            contextPrimer.retrieveLoc(dist)
-            
             if (distance >= 100 && distance <= 150) {
                 sendLocalNotification(runnerName)
             }
             
-            else if distance<100 {
-                runnerTrackerTimer.invalidate()
-                userMonitorTimer.invalidate()
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
-                navigationController?.pushViewController(vc, animated: true)
-            }
+//            else if distance<100 {
+//                runnerTrackerTimer.invalidate()
+//                userMonitorTimer.invalidate()
+//                
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
+//                navigationController?.pushViewController(vc, animated: true)
+//            }
         }
         
+        let actualTime = contextPrimer.actualTime
+        let setTime = contextPrimer.setTime
+        let getTime = contextPrimer.getTime
+        let showTime = NSDate()
+        contextPrimer.logLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         drawPath()
         updateRunnerPin()
     }
