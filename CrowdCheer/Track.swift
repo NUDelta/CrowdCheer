@@ -38,6 +38,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var actualTime = NSDate()
     var setTime = NSDate()
     var getTime = NSDate()
+    var speed = 0.0
     
     override init(){
         user = PFUser.currentUser()
@@ -100,6 +101,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                     for object in runnerObjects {
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
                         
+                        self.speed = (object as! PFObject)["speed"] as! Double
                         self.actualTime = (object as! PFObject)["time"] as! NSDate
                         self.setTime = object.updatedAt
                         self.getTime = NSDate()
@@ -127,9 +129,11 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         let delay = now.timeIntervalSinceDate(actualTime)
         var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
         
-        //calculate additional distance based on second delay + pace
-        //calculate heading based on last x points
-        //generate new loc point based on distance + heading
+        let distTraveled = calculateDistTraveled(delay, speed: self.speed)
+//        let bearing = calculateBearing(CLLocationCoordinate2D, coorB: CLLocationCoordinate2D)
+    
+        //generate new loc point based on original loc + distance + bearing
+        
         
         latency["spectator"] = self.user
         latency["runner"] = runner
@@ -142,5 +146,57 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         latency.save()
         
         return (delay, calcRunnerLoc)
+    }
+    
+    func calculateDistTraveled(delay: NSTimeInterval, speed: Double) -> Double {
+        
+        //calculate additional distance based on second delay + pace
+        let distTraveled = speed*delay
+        print("distance traveled: \(distTraveled)")
+        return distTraveled
+    }
+    
+    func calculateBearing(coorA: CLLocationCoordinate2D, coorB: CLLocationCoordinate2D) -> Double {
+        let locA = CLLocation(latitude: coorA.latitude, longitude: coorA.longitude)
+        let locB = CLLocation(latitude: coorB.latitude, longitude: coorB.longitude)
+        
+        let bearing = bearingDegrees(locA, locB: locB)
+        return bearing
+    }
+    
+    func DegreesToRadians(degrees: Double ) -> Double {
+        return degrees * M_PI / 180
+    }
+    
+    func RadiansToDegrees(radians: Double) -> Double {
+        return radians * 180 / M_PI
+    }
+    
+    
+    func bearingRadian(locA: CLLocation, locB:CLLocation) -> Double {
+        
+        let lat1 = DegreesToRadians(locA.coordinate.latitude)
+        let lon1 = DegreesToRadians(locA.coordinate.longitude)
+        
+        let lat2 = DegreesToRadians(locB.coordinate.latitude);
+        let lon2 = DegreesToRadians(locB.coordinate.longitude);
+        
+        let dLon = lon2 - lon1
+        
+        let y = sin(dLon) * cos(lat2);
+        let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon);
+        let radiansBearing = atan2(y, x)
+        
+        return radiansBearing
+    }
+    
+    func bearingDegrees(locA: CLLocation, locB:CLLocation) -> Double{
+        return   RadiansToDegrees(bearingRadian(locA, locB: locB))
+    }
+    
+    func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: CLLocationDirection, distance: Double) -> CLLocationCoordinate2D {
+        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+        
+        return calcRunnerLoc
     }
 }

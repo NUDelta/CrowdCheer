@@ -124,9 +124,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             //do nothing
         }
         else {
-            runnerLastLoc = latencyData.calculatedRunnerLoc
+//            runnerLastLoc = latencyData.calculatedRunnerLoc
         }
-        latencyData.delay
         drawPath()
         updateRunnerPin()
     }
