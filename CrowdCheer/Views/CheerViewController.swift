@@ -84,6 +84,19 @@ class CheerViewController: UIViewController {
             self.runnerLastLoc = runnerLoc
         }
         
+        let actualTime = contextPrimer.actualTime
+        let setTime = contextPrimer.setTime
+        let getTime = contextPrimer.getTime
+        let showTime = NSDate()
+        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+        
+        if latencyData.delay < 3 {
+            //do nothing
+        }
+        else {
+            runnerLastLoc = latencyData.calculatedRunnerLoc
+        }
+        
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
         }
