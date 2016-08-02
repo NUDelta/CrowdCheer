@@ -36,7 +36,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     //for Latency handling
     var currLoc = PFGeoPoint()
-    var prevLoc = PFGeoPoint()
+    var prevLocLat = 0.0
+    var prevLocLon = 0.0
     var actualTime = NSDate()
     var setTime = NSDate()
     var getTime = NSDate()
@@ -102,7 +103,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         self.currLoc = (object as! PFObject)["location"] as! PFGeoPoint
-                        self.prevLoc = (object as! PFObject)["prevLoc"] as! PFGeoPoint
+                        self.prevLocLat = (object as! PFObject)["prevLocLat"] as! Double
+                        self.prevLocLon = (object as! PFObject)["prevLocLon"] as! Double
                         self.speed = (object as! PFObject)["speed"] as! Double
                         self.actualTime = (object as! PFObject)["time"] as! NSDate
                         self.setTime = object.updatedAt
@@ -129,7 +131,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         let now = NSDate()
         let delay = now.timeIntervalSinceDate(actualTime)
-        let previousLoc = CLLocationCoordinate2DMake(self.prevLoc.latitude, self.prevLoc.longitude)
+        let previousLoc = CLLocationCoordinate2DMake(self.prevLocLat, self.prevLocLon)
         let currentLoc = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
         var calcRunnerLoc: CLLocationCoordinate2D = currentLoc
         
@@ -170,7 +172,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: CLLocationDirection, distance: Double) -> CLLocationCoordinate2D {
         //generate new loc point based on original loc + distance + bearing
         
-        var calcRunnerLoc: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+        var calcRunnerLoc = runnerLoc
         
         return calcRunnerLoc
     }

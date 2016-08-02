@@ -128,6 +128,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 print(error)
                 //add runner
                 let newCurrLoc = PFObject(className: "CurrRunnerLocation")
+                newCurrLoc["prevLocLat"] = geoPoint.latitude
+                newCurrLoc["prevLocLon"] = geoPoint.longitude
                 newCurrLoc["location"] = geoPoint
                 newCurrLoc["user"] = PFUser.currentUser()
                 newCurrLoc["distance"] = self.metersToMiles(self.distance)
@@ -138,6 +140,9 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc.saveInBackground()
                 
             } else if let currLoc = currLoc {
+                let prevLoc = (currLoc)["location"] as! PFGeoPoint
+                currLoc["prevLocLat"] = prevLoc.latitude
+                currLoc["prevLocLon"] = prevLoc.longitude
                 currLoc["location"] = geoPoint
                 currLoc["user"] = PFUser.currentUser()
                 currLoc["distance"] = self.metersToMiles(self.distance)
@@ -309,6 +314,8 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 print(error)
                 //add runner
                 let newCurrLoc = PFObject(className: "CurrSpectatorLocation")
+                newCurrLoc["prevLocLat"] = geoPoint.latitude
+                newCurrLoc["prevLocLon"] = geoPoint.longitude
                 newCurrLoc["location"] = geoPoint
                 newCurrLoc["user"] = PFUser.currentUser()
                 newCurrLoc["distance"] = self.metersToMiles(self.distance)
@@ -318,8 +325,11 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 
             } else if let currLoc = currLoc {
                 
-                let prevLoc = (currLoc )["location"] as! PFGeoPoint
-                currLoc["prevLoc"] = prevLoc
+                let prevLoc = (currLoc)["location"] as! PFGeoPoint
+                print("currLoc: \(currLoc)")
+                print("prevLoc: \(prevLoc)")
+                currLoc["prevLocLat"] = prevLoc.latitude
+                currLoc["prevLocLon"] = prevLoc.longitude
                 currLoc["location"] = geoPoint
                 currLoc["user"] = PFUser.currentUser()
                 currLoc["distance"] = self.metersToMiles(self.distance)
