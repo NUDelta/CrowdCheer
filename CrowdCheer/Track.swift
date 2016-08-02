@@ -169,10 +169,22 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         return bearing
     }
     
-    func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: CLLocationDirection, distance: Double) -> CLLocationCoordinate2D {
+    func calculateLocation(runnerLoc: CLLocationCoordinate2D, bearing: Double, distance: Double) -> CLLocationCoordinate2D {
         //generate new loc point based on original loc + distance + bearing
         
         var calcRunnerLoc = runnerLoc
+        let earthRadius = 6372797.6
+        
+        let lat1 = DegreesToRadians(runnerLoc.latitude)
+        let lon1 = DegreesToRadians(runnerLoc.longitude)
+        
+        var lat2 = asin(sin(lat1)*cos(distance/earthRadius) + cos(lat1)*sin(distance/earthRadius)*cos(bearing))
+        var lon2 = lon1 + atan2(sin(bearing)*sin(distance/earthRadius)*cos(lat1), cos(distance/earthRadius) - sin(lat1)*sin(lat2))
+        
+        lat2 = RadiansToDegrees(lat2)
+        lon2 = RadiansToDegrees(lon2)
+        
+        calcRunnerLoc = CLLocationCoordinate2DMake(lat2, lon2)
         
         return calcRunnerLoc
     }
