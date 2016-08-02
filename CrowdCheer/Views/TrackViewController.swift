@@ -90,6 +90,19 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             self.runnerLastLoc = runnerLoc
         }
         
+        let actualTime = contextPrimer.actualTime
+        let setTime = contextPrimer.setTime
+        let getTime = contextPrimer.getTime
+        let showTime = NSDate()
+        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+        
+        if latencyData.delay < 3 {
+            //do nothing
+        }
+        else {
+            runnerLastLoc = latencyData.calculatedRunnerLoc
+        }
+        
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
         }
@@ -104,28 +117,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 sendLocalNotification(runnerName)
             }
             
-//            else if distance<100 {
-//                runnerTrackerTimer.invalidate()
-//                userMonitorTimer.invalidate()
-//                
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
-//                navigationController?.pushViewController(vc, animated: true)
-//            }
+            else if distance<100 {
+                runnerTrackerTimer.invalidate()
+                userMonitorTimer.invalidate()
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
         
-        let actualTime = contextPrimer.actualTime
-        let setTime = contextPrimer.setTime
-        let getTime = contextPrimer.getTime
-        let showTime = NSDate()
-        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
-        
-        if latencyData.delay < 3 {
-            //do nothing
-        }
-        else {
-//            runnerLastLoc = latencyData.calculatedRunnerLoc
-        }
         drawPath()
         updateRunnerPin()
     }
