@@ -96,7 +96,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let showTime = NSDate()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        if latencyData.delay < 3 {
+        if latencyData.delay < 10 {
             //do nothing
         }
         else {
@@ -113,11 +113,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
             distanceLabel.hidden = false
             
-            if (distance >= 100 && distance <= 150) {
+            if (distance >= 150 && distance <= 200) {
                 sendLocalNotification(runnerName)
             }
             
-            else if distance<100 {
+            else if distance<150 {
                 runnerTrackerTimer.invalidate()
                 userMonitorTimer.invalidate()
                 
