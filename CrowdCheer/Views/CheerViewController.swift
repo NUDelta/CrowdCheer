@@ -89,13 +89,7 @@ class CheerViewController: UIViewController {
         let getTime = contextPrimer.getTime
         let showTime = NSDate()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
-        
-        if latencyData.delay < 10 {
-            //do nothing
-        }
-        else {
-            runnerLastLoc = latencyData.calculatedRunnerLoc
-        }
+        runnerLastLoc = latencyData.calculatedRunnerLoc
         
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
@@ -147,14 +141,14 @@ class CheerViewController: UIViewController {
             
             if distancePrev >= distanceCurr {
                 
-                if distanceCurr>100 {
+                if distanceCurr>75 {
                     nearBanner.text = runnerName + " is nearby!"
                     nearBanner.hidden = false
                     lookBanner.hidden = true
                     cheerBanner.hidden = true
                 }
                     
-                else if distanceCurr<=100 && distanceCurr>50 {
+                else if distanceCurr<=75 && distanceCurr>40 {
                     lookBanner.text = "LOOK FOR " + runnerName.uppercaseString + "!"
                     AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     nearBanner.hidden = true
@@ -162,7 +156,7 @@ class CheerViewController: UIViewController {
                     cheerBanner.hidden = true
                 }
                     
-                else if distanceCurr<=50 {
+                else if distanceCurr<=40 {
                     cheerBanner.text = "CHEER FOR " + runnerName.uppercaseString + "!"
                     nearBanner.hidden = true
                     lookBanner.hidden = true
@@ -180,7 +174,7 @@ class CheerViewController: UIViewController {
             else if distancePrev < distanceCurr {
                 //runner is moving away
                 
-                if distanceCurr <= 10 {
+                if distanceCurr <= 20 {
                     //if error in location, add 20m buffer for cheering
                     cheerBanner.text = "CHEER FOR " + runnerName.uppercaseString + "!"
                     nearBanner.hidden = true
@@ -188,7 +182,7 @@ class CheerViewController: UIViewController {
                     cheerBanner.hidden = false
                 }
                 
-                else if distanceCurr>20 {
+                else if distanceCurr>50 {
                     nearBanner.text = runnerName + " has passed by."
                     nearBanner.hidden = false
                     lookBanner.hidden = true
