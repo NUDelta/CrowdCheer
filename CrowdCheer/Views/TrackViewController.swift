@@ -24,7 +24,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerBib: String = ""
     var myLocation = CLLocation()
     var runnerLastLoc = CLLocationCoordinate2D()
-    var runnerCalcLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
@@ -96,33 +95,31 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let getTime = contextPrimer.getTime
         let showTime = NSDate()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
-        runnerCalcLoc = latencyData.calculatedRunnerLoc
         
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
         }
         else {
             runnerPath.append(runnerLastLoc)
-            let runnerCLLoc = CLLocation(latitude: runnerCalcLoc.latitude, longitude: runnerCalcLoc.longitude)
-            let runnerCLLocLast = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude) //TESTING
-            let distance = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
-            let distanceLast = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLocLast)) //TESTING
+            let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+            let distanceLast = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
+            let distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
 //            distanceLabel.text = String(format: " %.02f", distance) + "m away"
-            distanceLabel.text = String(format: "last: %.02f", distanceLast) + String(format: "calc: %.02f", distance)
+            distanceLabel.text = String(format: "last: %.02f", distanceLast) + String(format: "calc: %.02f", distanceCalc)
             distanceLabel.hidden = false
             
-            if (distance >= 100 && distance <= 150) {
+            if (distanceCalc >= 100 && distanceCalc <= 150) {
                 sendLocalNotification(runnerName)
             }
             
-            else if distance<100 {
-                runnerTrackerTimer.invalidate()
-                userMonitorTimer.invalidate()
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
-                navigationController?.pushViewController(vc, animated: true)
-            }
+//            else if distance<100 {
+//                runnerTrackerTimer.invalidate()
+//                userMonitorTimer.invalidate()
+//                
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
+//                navigationController?.pushViewController(vc, animated: true)
+//            }
         }
         
         drawPath()
@@ -169,7 +166,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func updateRunnerPin() {
         
-        let coordinate = runnerCalcLoc
+        let coordinate = runnerLastLoc
         let title = runnerName
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
         let subtitle = ("Bib #:" + runnerBib)
