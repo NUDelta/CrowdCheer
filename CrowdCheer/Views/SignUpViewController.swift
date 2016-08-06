@@ -32,8 +32,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        setupDate = dateFormatter.dateFromString("2016-07-30T20:00:00-05:00")! //hardcoded dates for race day notifications
-        useDate = dateFormatter.dateFromString("2016-07-31T07:25:00-05:00")!
+        setupDate = dateFormatter.dateFromString("2016-08-05T20:00:00-05:00")! //hardcoded dates for race day notifications
+        useDate = dateFormatter.dateFromString("2016-08-06T06:55:00-05:00")!
         
         sendLocalNotification_setup()
         sendLocalNotification_use()

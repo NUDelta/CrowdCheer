@@ -103,23 +103,26 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             runnerPath.append(runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
             let distanceLast = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
-            let distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
-//            distanceLabel.text = String(format: " %.02f", distance) + "m away"
-            distanceLabel.text = String(format: "last: %.02f", distanceLast) + String(format: "calc: %.02f", distanceCalc)
+            var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+            if distanceCalc < 0 {
+                distanceCalc = 0.01
+            }
+            distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
+//            distanceLabel.text = String(format: "last: %.02f", distanceLast) + String(format: "calc: %.02f", distanceCalc)
             distanceLabel.hidden = false
             
             if (distanceCalc >= 100 && distanceCalc <= 150) {
                 sendLocalNotification(runnerName)
             }
             
-//            else if distance<100 {
-//                runnerTrackerTimer.invalidate()
-//                userMonitorTimer.invalidate()
-//                
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
-//                navigationController?.pushViewController(vc, animated: true)
-//            }
+            else if distanceCalc<100 {
+                runnerTrackerTimer.invalidate()
+                userMonitorTimer.invalidate()
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("CheerViewController") as UIViewController
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
         
         drawPath()
