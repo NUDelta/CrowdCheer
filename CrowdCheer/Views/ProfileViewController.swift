@@ -22,7 +22,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var updatePicture: UIButton!
     @IBOutlet weak var logOut: UIButton!
-    @IBOutlet weak var roleButton: UISegmentedControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
@@ -34,7 +33,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         getProfileInfo()
         
         //Prompt user to take new photo & add listener for changes in name field
-        displayPhotoAlert()
         nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         
         //set up rules for keyboard
@@ -42,18 +40,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         view.addGestureRecognizer(tap)
         
         //Ensure profile pic and name are saved before enabling segue
-        logOut.hidden = true
-        if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil || user.valueForKey("role")==nil)  {
+        if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil )  {
             saveButton.enabled = false
         }
         else {
             saveButton.enabled = true
         }
-        
-        let font = UIFont.systemFontOfSize(17)
-        roleButton.setTitleTextAttributes([NSFontAttributeName: font],
-                                                forState: UIControlState.Normal)
-        roleButton.selected = false
     }
     
     //keyboard behavior
@@ -78,22 +70,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func getProfileInfo() {
         
         var name: String
-        var role: String
         var userImageFile: PFFile
-        
-        
-        if user.valueForKey("role") == nil {
-            //don't retrieve name
-        }
-        else {
-            role = (user.valueForKey("role"))! as! String
-            if role == "runner" {
-                roleButton.selectedSegmentIndex = 0
-            }
-            else {
-                roleButton.selectedSegmentIndex = 1
-            }
-        }
         
         if user.valueForKey("name") == nil {
             //don't retrieve name
@@ -123,13 +100,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    func displayPhotoAlert() {
-        let alertController = UIAlertController(title: "Update Your Photo", message: "Take a photo in your race day outfit so people can spot you during the race.", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     @IBAction func updatePicture(sender: UIButton) {
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
@@ -152,35 +122,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         if user.valueForKey("profilePic") != nil {
             saveButton.enabled = true
         }
-    }
-    
-    @IBAction func selectRole(sender:UISegmentedControl) {
-        switch roleButton.selectedSegmentIndex {
-        case 0:
-            user["role"] = "runner"
-            user.saveInBackground()
-            print(user.valueForKey("role")!)
-
-        case 1:
-            user["role"] = "cheerer"
-            user.saveInBackground()
-            print(user.valueForKey("role")!)
-        default:
-            break
-        }
-    }
-    
-    @IBAction func saveProfile(sender: UIBarButtonItem) {
-        switch roleButton.selectedSegmentIndex {
-        case 0:
-            self.performSegueWithIdentifier("run", sender: nil)
-        case 1:
-            self.performSegueWithIdentifier("cheer", sender: nil)
-//            self.performSegueWithIdentifier("rCondition", sender: nil)
-        default:
-            break
-        }
-
     }
     
     @IBAction func logOut(sender: UIButton) {

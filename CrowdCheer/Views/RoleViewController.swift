@@ -11,9 +11,9 @@ import Parse
 
 class RoleViewController: UIViewController {
     
-    @IBOutlet weak var running: UIButton!
-    @IBOutlet weak var cheering: UIButton!
-    @IBOutlet weak var editProfile: UIBarButtonItem!
+    @IBOutlet weak var roleButton: UISegmentedControl!
+    @IBOutlet weak var nextButton: UIBarButtonItem!
+
     
     let locationMgr: CLLocationManager = CLLocationManager()
     var user: PFUser = PFUser.currentUser()
@@ -25,34 +25,60 @@ class RoleViewController: UIViewController {
         locationMgr.requestWhenInUseAuthorization()
         
         user = PFUser.currentUser()
+        getProfileInfo()
+        
+        let font = UIFont.systemFontOfSize(20)
+        roleButton.setTitleTextAttributes([NSFontAttributeName: font],
+                                          forState: UIControlState.Normal)
+        roleButton.selected = false
+        
     }
     
     
-    //Set user's role as runner
-    @IBAction func running(sender: UIButton) {
-        user["role"] = "runner"
-        user.saveInBackground()
-        print(user.valueForKey("role")!)
-        self.performSegueWithIdentifier("run", sender: nil)
+    func getProfileInfo() {
+        
+        var role: String
+        
+        
+        if user.valueForKey("role") == nil {
+            //don't retrieve role
+        }
+        else {
+            role = (user.valueForKey("role"))! as! String
+            if role == "runner" {
+                roleButton.selectedSegmentIndex = 0
+            }
+            else {
+                roleButton.selectedSegmentIndex = 1
+            }
+        }
     }
     
-    
-    //Set user's role as spectator
-    @IBAction func cheering(sender: UIButton) {
-        user["role"] = "cheerer"
-        user.saveInBackground()
-        print(user.valueForKey("role")!)
-        self.performSegueWithIdentifier("cheer", sender: nil)
+    @IBAction func selectRole(sender:UISegmentedControl) {
+        switch roleButton.selectedSegmentIndex {
+        case 0:
+            user["role"] = "runner"
+            user.saveInBackground()
+            print(user.valueForKey("role")!)
+            
+        case 1:
+            user["role"] = "cheerer"
+            user.saveInBackground()
+            print(user.valueForKey("role")!)
+        default:
+            break
+        }
     }
     
-    @IBAction func editProfile(sender: UIBarButtonItem) {
-        let sb = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        var controllers =  self.navigationController?.viewControllers
-        let profileView = sb.instantiateViewControllerWithIdentifier("ProfileViewController")
-        let prerunView = sb.instantiateViewControllerWithIdentifier("prerunViewController")
-        controllers?.append(prerunView)
-        controllers?.append(profileView)
-        self.navigationController?.setViewControllers(controllers!, animated: true)
-//        self.presentViewController(profileView, animated: true, completion: nil)
+    @IBAction func saveRole(sender: UIBarButtonItem) {
+        switch roleButton.selectedSegmentIndex {
+        case 0:
+            self.performSegueWithIdentifier("run", sender: nil)
+        case 1:
+            self.performSegueWithIdentifier("cheer", sender: nil)
+        default:
+            break
+        }
+        
     }
 }

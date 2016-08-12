@@ -171,10 +171,4 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.hidden = false
         resume.hidden = true
     }
-    
-    @IBAction func home(sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
-        navigationController?.pushViewController(vc, animated: true)
-    }
 }
