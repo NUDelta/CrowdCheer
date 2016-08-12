@@ -38,8 +38,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         sendLocalNotification_setup()
         sendLocalNotification_use()
         
-        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
-        useTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_use), userInfo: nil, repeats: false)
+//        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
+//        useTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_use), userInfo: nil, repeats: false)
         
         
         //set up rules for keyboard
@@ -56,7 +56,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         //if already logged in, segue to next VC
         if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("logInOut", sender: nil)
+            self.performSegueWithIdentifier("intro", sender: nil)
         }
     }
     
@@ -67,7 +67,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Successful login
-                self.performSegueWithIdentifier("logInOut", sender: nil)
+                self.performSegueWithIdentifier("intro", sender: nil)
                 
             } else {
                 // failed login, error displayed to user
@@ -104,7 +104,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             } else {
                 //Successful signup
                 print(user)
-                self.performSegueWithIdentifier("logInOut", sender: nil)
+                self.performSegueWithIdentifier("intro", sender: nil)
             }
         }
     }
