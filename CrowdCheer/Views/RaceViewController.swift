@@ -119,7 +119,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                         var isTargetRunnerNear = false
                         if runner == affinity.0 {
                             //Goal: Show target runners throughout the race
-                            if dist > 2000 { //if runner is more than 2km away
+                            if dist > 400 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
@@ -130,7 +130,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                             
                             //Goal: Show all runners near me, including target runners
-                            else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away
+                            else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
@@ -143,7 +143,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                                 
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                            else if dist <= 1000 { //if runner is less than 1km away
+                            else if dist <= 200 { //if runner is less than 1km away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     runnerCount += 1
