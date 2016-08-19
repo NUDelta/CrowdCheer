@@ -24,8 +24,8 @@ class AffinityViewController: UIViewController {
         super.viewDidLoad()
     
         //set up rules for keyboard
-        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PrerunViewController.dismissKeyboard))
+        bibNo.addTarget(self, action: #selector(AffinityViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AffinityViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
     

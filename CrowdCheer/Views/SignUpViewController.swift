@@ -18,9 +18,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     var setupDate: NSDate = NSDate()
-    var useDate: NSDate = NSDate()
     var setupTimer: NSTimer = NSTimer()
-    var useTimer: NSTimer = NSTimer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +31,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         setupDate = dateFormatter.dateFromString("2016-08-05T20:00:00-05:00")! //hardcoded dates for race day notifications
-        useDate = dateFormatter.dateFromString("2016-08-06T06:55:00-05:00")!
-        
-        sendLocalNotification_setup()
-        sendLocalNotification_use()
-        
-//        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
-//        useTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_use), userInfo: nil, repeats: false)
+        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
         
         
         //set up rules for keyboard
@@ -184,16 +176,4 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
     }
-    
-    func sendLocalNotification_use() {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "The race is about to start! Hit 'START' to enable tracking."
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.fireDate = useDate
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-    }
-    
 }

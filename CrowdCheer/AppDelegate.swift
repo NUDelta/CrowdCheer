@@ -60,9 +60,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         
         application.applicationIconBadgeNumber = 0
-    
+        
+        if (notification.userInfo?["source"] as? NSString) != nil {
+            
+            if (notification.userInfo?["source"])! as! String == "start" {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let navigationController = self.window?.rootViewController as! UINavigationController
+                let vc = storyboard.instantiateViewControllerWithIdentifier("runViewController") as UIViewController
+                navigationController.pushViewController(vc, animated: true)
+            }
+        }
     }
-    
-    
 }
 

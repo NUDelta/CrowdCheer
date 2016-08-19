@@ -127,9 +127,10 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem systemItem="flexibleSpace" id="45Y-d0-Nic"/>
-                        <barButtonItem title="START YOUR RUN" id="rIP-Ye-sVF">
+                        <barButtonItem title="START TRACKING" id="rIP-Ye-sVF">
+                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="Pm9-0g-7IT" kind="push" id="bEu-F7-3ei"/>
+                                <segue destination="Pm9-0g-7IT" kind="push" identifier="start" id="bEu-F7-3ei"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -460,6 +461,7 @@
                     <toolbarItems>
                         <barButtonItem systemItem="flexibleSpace" id="isG-fp-Q2y"/>
                         <barButtonItem title="Next" id="84d-1T-F46">
+                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="saveProfile:" destination="uDh-vD-uKF" id="6V6-Gq-7FL"/>
                                 <segue destination="Pwj-he-eYY" kind="push" id="Rcb-DF-XA7"/>
@@ -959,6 +961,7 @@
                     <toolbarItems>
                         <barButtonItem systemItem="flexibleSpace" id="hjj-Kd-kla"/>
                         <barButtonItem title="GO TO RACE MAP" id="q2j-ep-fkE">
+                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="AWe-3X-XCa" kind="push" id="jY4-6F-n9b"/>
                             </connections>
@@ -1047,6 +1050,7 @@
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="sa2-Nw-1U2"/>
                         <barButtonItem title="Next" id="n34-oD-B4Q">
+                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="saveRole:" destination="Ixl-Xt-fBa" id="etq-yb-n6f"/>
                             </connections>
