@@ -109,8 +109,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         self.actualTime = (object as! PFObject)["time"] as! NSDate
                         self.setTime = object.updatedAt
                         self.getTime = NSDate()
-                        
-                        print("location: ", self.currLoc)
+
                         runnerUpdate = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
                     }
                 }
@@ -157,7 +156,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         //calculate additional distance based on second delay + pace
         let distTraveled = speed*delay
-        print("distance traveled: \(distTraveled)")
+        print("calculated distance traveled: \(distTraveled)")
         return distTraveled
     }
     

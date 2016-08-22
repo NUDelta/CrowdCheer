@@ -105,7 +105,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                         
                     }
                 }
-                print ("Runner dictionary: ", runnerLocs)
                 
                 if runnerLocs.isEmpty != true {
                     print("runnerLocs has a runner")
@@ -203,7 +202,6 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                         spectatorLocs.append(location)
                     }
                 }
-                print ("Spectator dictionary: ", spectatorLocs)
                 
                 if spectatorLocs.isEmpty != true {
                     print("spectatorLocs has a spectator")
@@ -259,8 +257,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         var conveniences = [PFUser: Int]()
         
         for (runner, location) in userLocations {
-            
-            print(runner.username, location)
+
             let loc = CLLocation(latitude: location.latitude, longitude: location.longitude)
             
             //if runner is closer than 500m, set -1
@@ -289,8 +286,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         //for cheer count between x and y, set need index for runner as z
         
         for (runner, location) in userLocations {
-            
-            print(runner.username, location)
             
             let query = PFQuery(className: "Cheers")
             //NOTE: currently counting all possible cheers, not spectator verified cheers
@@ -347,7 +342,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         else {
             let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String
             
-            print("targetRunnerBibString: \(targetRunnerBibString)")
             let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
             print("bib array: \(targetRunnerBibArr)")
             
@@ -358,7 +352,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     for targetRunner in targetRunners {
                         
                         self.targetRunners[targetRunner.objectId] = false
-                        print(runner.username, location)
                         
                         //if runner = target runner, +10 affinity
                         if runner.objectId == targetRunner.objectId {

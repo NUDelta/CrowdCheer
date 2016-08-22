@@ -81,8 +81,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             myLocation = contextPrimer.locationMgr.location!
         }
         else {
-            print(contextPrimer.locationMgr.location)
-            print(myLocation)
+            //do nothing
         }
         
         contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in

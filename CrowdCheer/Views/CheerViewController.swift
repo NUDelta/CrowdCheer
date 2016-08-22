@@ -100,7 +100,6 @@ class CheerViewController: UIViewController {
             let distance = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
             updateBanner(runnerCLLoc)
             distanceLabel.text = String(format: " %.02f", distance) + "m away"
-//            distanceLabel.hidden = false
         }
     }
     
@@ -108,7 +107,6 @@ class CheerViewController: UIViewController {
         
         runner = contextPrimer.getRunner()
             //update runner name, bib #, picture
-            print("runnerObjID: ", runner.objectId)
             runnerName = (runner.valueForKey("name"))! as! String
             let runnerBib = (runner.valueForKey("bibNumber"))!
             let runnerOutfit = (runner.valueForKey("outfit"))!
@@ -135,9 +133,6 @@ class CheerViewController: UIViewController {
             let coordinatePrev = runnerPath[runnerPath.count-2]
             let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
             let distancePrev = (contextPrimer.locationMgr.location!.distanceFromLocation(locationPrev))
-            
-            print("prev: ", distancePrev)
-            print("curr: ", distanceCurr)
             
             if distancePrev >= distanceCurr {
                 

@@ -156,7 +156,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     let name = runner.valueForKey("name") as! String
                                     self.sendLocalNotification_target(name)
                                     isTargetRunnerNear = true
-                                    print("isTargetRunnerNear: \(isTargetRunnerNear)")
                                 }
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                     if !isTargetRunnerNear {
@@ -169,7 +168,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     }
                 }
                 //if target runners are not showing up, notify target runners to start tracking
-                print("target runner tracking status after: \(targetRunnerTrackingStatus)")
                 self.notifyTargetRunners(targetRunnerTrackingStatus)
                 
                 self.nearbyRunners.saveRunnerCount(runnerCount)
@@ -242,9 +240,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     }
     
     func sendLocalNotification_any() {
-        
-        print("bool from identify \(nearbyRunners.areUsersNearby)")
-        print("bool from VC \(areRunnersNearby)")
         if areRunnersNearby == true {
             
             if UIApplication.sharedApplication().applicationState == .Background {

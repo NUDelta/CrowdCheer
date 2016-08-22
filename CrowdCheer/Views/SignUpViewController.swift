@@ -95,7 +95,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
             } else {
                 //Successful signup
-                print(user)
                 self.performSegueWithIdentifier("intro", sender: nil)
             }
         }

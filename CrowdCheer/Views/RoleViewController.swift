@@ -59,12 +59,11 @@ class RoleViewController: UIViewController {
         case 0:
             user["role"] = "runner"
             user.saveInBackground()
-            print(user.valueForKey("role")!)
             
         case 1:
             user["role"] = "cheerer"
             user.saveInBackground()
-            print(user.valueForKey("role")!)
+            
         default:
             break
         }

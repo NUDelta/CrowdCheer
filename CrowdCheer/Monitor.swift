@@ -297,7 +297,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func monitorUserLocation() {
         
-        print(self.locationMgr.location!.coordinate)
         let currentLoc:CLLocationCoordinate2D =  (self.locationMgr.location!.coordinate)
         print("current location is: ", currentLoc)
     }
@@ -326,8 +325,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             } else if let currLoc = currLoc {
                 
                 let prevLoc = (currLoc)["location"] as! PFGeoPoint
-                print("currLoc: \(currLoc)")
-                print("prevLoc: \(prevLoc)")
                 currLoc["prevLocLat"] = prevLoc.latitude
                 currLoc["prevLocLon"] = prevLoc.longitude
                 currLoc["location"] = geoPoint
