@@ -168,6 +168,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                 }
+                //if target runners are not showing up, notify target runners to start tracking
+                print("target runner tracking status after: \(targetRunnerTrackingStatus)")
+                self.notifyTargetRunners(targetRunnerTrackingStatus)
+                
                 self.nearbyRunners.saveRunnerCount(runnerCount)
             }
             
@@ -181,9 +185,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
 //            }
         }
         
-        //if target runners are not showing up, notify target runners to start tracking
-        print("target runner tracking status after: \(targetRunnerTrackingStatus)")
-        notifyTargetRunners(targetRunnerTrackingStatus)
+        
     }
     
     func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
