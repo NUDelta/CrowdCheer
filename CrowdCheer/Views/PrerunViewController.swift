@@ -48,8 +48,8 @@ class PrerunViewController: UIViewController {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        prestartDate = dateFormatter.dateFromString("2016-08-19T13:51:00-05:00")! //hardcoded 5 min before race
-        startDate = dateFormatter.dateFromString("2016-08-19T13:52:00-05:00")! //hardcoded 5 min after race
+        prestartDate = dateFormatter.dateFromString("2016-08-22T09:31:00-05:00")! //hardcoded 5 min before race
+        startDate = dateFormatter.dateFromString("2016-08-22T09:32:00-05:00")! //hardcoded 5 min after race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
         startTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_start), userInfo: nil, repeats: false)
     }

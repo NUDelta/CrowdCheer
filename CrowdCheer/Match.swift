@@ -231,6 +231,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
+    var targetRunners = [PFUser]()
     
     override init(){
         user = PFUser.currentUser()
@@ -344,7 +345,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         }
         
         else {
-            let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String //NOTE: need to handle if there's no target runner!
+            let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String
             
             print("targetRunnerBibString: \(targetRunnerBibString)")
             let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
@@ -355,6 +356,8 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             query.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
                 for (runner, location) in userLocations {
                     for targetRunner in targetRunners {
+                        
+                        self.targetRunners.append(targetRunner as! PFUser)
                         print(runner.username, location)
                         
                         //if runner = target runner, +10 affinity

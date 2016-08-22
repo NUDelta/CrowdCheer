@@ -93,6 +93,14 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         mapView.removeAnnotations(annotationsToRemove)
         var runnerCount = 0
+        let targetRunners = self.optimizedRunners.targetRunners
+        var targetRunnerTrackingStatus = [PFUser: Bool]()
+        
+        for targetRunner in targetRunners {
+            targetRunnerTrackingStatus[targetRunner] = false
+        }
+        print("target runner tracking status: \(targetRunnerTrackingStatus)")
+        
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -116,12 +124,14 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     print(runner.username, dist)
                     
                     for affinity in affinities {
+                        
                         var isTargetRunnerNear = false
                         if runner == affinity.0 {
                             //Goal: Show target runners throughout the race
                             if dist > 400 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
+                                    targetRunnerTrackingStatus[runner] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
@@ -133,6 +143,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
+                                    targetRunnerTrackingStatus[runner] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
@@ -146,6 +157,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist <= 200 { //if runner is less than 1km away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
+                                    targetRunnerTrackingStatus[runner] = true
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
                                     self.sendLocalNotification_target(name)
@@ -174,6 +186,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
 //                print("needs \(needs)")
 //            }
         }
+        
+        //if target runners are not showing up, notify target runners to start tracking
+        print("target runner tracking status after: \(targetRunnerTrackingStatus)")
+        notifyTargetRunners(targetRunnerTrackingStatus)
     }
     
     func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
@@ -185,6 +201,45 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
         let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID)
         mapView.addAnnotation(annotation)
+    }
+    
+    func notifyTargetRunners(targetRunnersStatus: [PFUser: Bool]) {
+        for targetRunner in targetRunnersStatus {
+            if targetRunner.1 == false {
+                
+                let name = targetRunner.0.valueForKey("name") as! String
+                
+                if UIApplication.sharedApplication().applicationState == .Background {
+                    
+                    let localNotification = UILocalNotification()
+                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to use the app!"
+                    localNotification.soundName = UILocalNotificationDefaultSoundName
+                    localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                    
+                    UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                }
+                    
+                else if UIApplication.sharedApplication().applicationState == .Active {
+                    
+                    let alertTitle = name + "'s phone isn't active!"
+                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text them to remind them to use the app!", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
+                    alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
+                
+            }
+        }
+    }
+    
+    func openPhone(alert: UIAlertAction!) {
+        UIApplication.sharedApplication().openURL(NSURL(string:"tel:1")!)
+    }
+    
+    func openMessages(alert: UIAlertAction!) {
+        UIApplication.sharedApplication().openURL(NSURL(string:"sms:")!)
     }
     
     func sendLocalNotification_any() {
