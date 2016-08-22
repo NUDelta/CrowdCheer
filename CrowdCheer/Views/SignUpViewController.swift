@@ -131,7 +131,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     //Prompt user to turn on WiFi
     func turnOnWiFiAlert() {
         let alertTitle = "Location Accuracy"
-        let alertController = UIAlertController(title: alertTitle, message: "Turning on your Wi-Fi is required for accurate location data.", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: alertTitle, message: "Turn on Wi-Fi to improve location accuracy", preferredStyle: UIAlertControllerStyle.Alert)
         alertController.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: openSettings))
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
