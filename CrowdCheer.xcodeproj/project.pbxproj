@@ -63,6 +63,7 @@
 		E2CA51791A8928BF00C2BB03 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */; };
 		E2CA517B1A8928C800C2BB03 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */; };
 		E2CA51881A89D51100C2BB03 /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA51871A89D51100C2BB03 /* MathController.m */; };
+		E2E0C7181D6DE1D6005CCF4D /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0C7171D6DE1D5005CCF4D /* DashboardViewController.swift */; };
 		E2ED438F1C99BA690056AC47 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E2ED438E1C99BA690056AC47 /* silence.mp3 */; };
 		E2ED43931CA193C20056AC47 /* RoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2ED43921CA193C20056AC47 /* RoleViewController.swift */; };
 		E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFA7C61C5A77C700974475 /* Monitor.swift */; };
@@ -161,6 +162,7 @@
 		E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E2CA51861A89D51100C2BB03 /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathController.h; path = CrowdCheer/MathController.h; sourceTree = "<group>"; };
 		E2CA51871A89D51100C2BB03 /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathController.m; path = CrowdCheer/MathController.m; sourceTree = "<group>"; };
+		E2E0C7171D6DE1D5005CCF4D /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardViewController.swift; path = CrowdCheer/Views/DashboardViewController.swift; sourceTree = "<group>"; };
 		E2ED438E1C99BA690056AC47 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		E2ED43921CA193C20056AC47 /* RoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoleViewController.swift; path = CrowdCheer/Views/RoleViewController.swift; sourceTree = "<group>"; };
 		E2EFA7C61C5A77C700974475 /* Monitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Monitor.swift; path = CrowdCheer/Monitor.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */,
 				E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */,
 				E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */,
+				E2E0C7171D6DE1D5005CCF4D /* DashboardViewController.swift */,
 				E26E52901D01EB6C001324C8 /* AffinityViewController.swift */,
 				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
@@ -602,6 +605,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2EFA7CD1C5A802C00974475 /* Verify.swift in Sources */,
+				E2E0C7181D6DE1D6005CCF4D /* DashboardViewController.swift in Sources */,
 				E2F481A11C8F2D3300D3FBC8 /* ProfileViewController.swift in Sources */,
 				E2F4819F1C8F25E200D3FBC8 /* RunViewController.swift in Sources */,
 				E2CA51881A89D51100C2BB03 /* MathController.m in Sources */,

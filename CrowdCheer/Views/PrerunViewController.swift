@@ -23,8 +23,10 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     var prestartDate: NSDate = NSDate()
     var prestartTimer: NSTimer = NSTimer()
-    var startTimer: NSTimer = NSTimer()
     var startDate: NSDate = NSDate()
+    var startTimer: NSTimer = NSTimer()
+    var poststartTimer: NSTimer = NSTimer()
+    var poststartDate: NSDate = NSDate()
     
     
     override func viewDidLoad() {
@@ -49,9 +51,11 @@ class PrerunViewController: UIViewController {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         prestartDate = dateFormatter.dateFromString("2016-08-22T09:31:00-05:00")! //hardcoded 5 min before race
-        startDate = dateFormatter.dateFromString("2016-08-22T09:32:00-05:00")! //hardcoded 5 min after race
+        startDate = dateFormatter.dateFromString("2016-08-22T09:32:00-05:00")! //hardcoded race start time
+        poststartDate = dateFormatter.dateFromString("2016-08-22T09:32:00-05:00")! //hardcoded 5 min after race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
-        startTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_start), userInfo: nil, repeats: false)
+        startTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.startTracking), userInfo: nil, repeats: false)
+        poststartTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(PrerunViewController.sendLocalNotification_poststart), userInfo: nil, repeats: false)
     }
     
     //keyboard behavior
@@ -111,7 +115,11 @@ class PrerunViewController: UIViewController {
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
     }
     
-    func sendLocalNotification_start() {
+    func startTracking() {
+        self.performSegueWithIdentifier("start", sender: nil)
+    }
+    
+    func sendLocalNotification_poststart() {
         let localNotification = UILocalNotification()
         var userInfo = [String:String]()
         let source = "start"
@@ -120,7 +128,7 @@ class PrerunViewController: UIViewController {
         localNotification.alertBody = "The race started! Start tracking so your supporters can find you!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.fireDate = startDate
+        localNotification.fireDate = poststartDate
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
