@@ -53,6 +53,13 @@ class DashboardViewController: UIViewController {
         targetRunnerETA.hidden = true
         targetRunnerTimeToCheer.hidden = true
         
+        targetRunnerPic.hidden = true
+        targetRunnerName.hidden = true
+        targetRunnerTime.hidden = true
+        targetRunnerPace.hidden = true
+        targetRunnerDistance.hidden = true
+        targetRunnerTrack.hidden = true
+        
         general1RunnerPic.hidden = true
         general1RunnerName.hidden = true
         general1RunnerTrack.hidden = true
@@ -220,8 +227,9 @@ class DashboardViewController: UIViewController {
         
         else if runnerType == "general" {
             
-            var generalRunners = self.optimizedRunners.generalRunners
-            if generalRunners.isEmpty {
+            let generalRunners = self.optimizedRunners.generalRunners
+            let generalRunnerKeys = Array(generalRunners.keys)
+            if generalRunnerKeys.count == 0 {
                 
                 //hide all labels
                 general1RunnerPic.hidden = true
@@ -237,11 +245,11 @@ class DashboardViewController: UIViewController {
                 general3RunnerTrack.hidden = true
                 
             }
-            else {
+            else if generalRunnerKeys.count == 1 {
                 //update general 1
-                let runner = generalRunners.popFirst()?.0
-                let name = (runner!.valueForKey("name"))!
-                let userImageFile = runner!["profilePic"] as? PFFile
+                let runner = generalRunnerKeys[0]
+                let name = (runner.valueForKey("name"))!
+                let userImageFile = runner["profilePic"] as? PFFile
                 userImageFile!.getDataInBackgroundWithBlock {
                     (imageData: NSData?, error: NSError?) -> Void in
                     if error == nil {
@@ -255,71 +263,47 @@ class DashboardViewController: UIViewController {
                 general1RunnerPic.hidden = false
                 general1RunnerName.hidden = false
                 general1RunnerTrack.hidden = false
-                
-                if generalRunners.isEmpty {
-                    
-                    //hide g2 and g3 labels
-                    general2RunnerPic.hidden = true
-                    general2RunnerName.hidden = true
-                    general2RunnerTrack.hidden = true
-                    
-                    general3RunnerPic.hidden = true
-                    general3RunnerName.hidden = true
-                    general3RunnerTrack.hidden = true
-                    
-                }
-                
-                else {
-                    //update general 2
-                    let runner = generalRunners.popFirst()?.0
-                    let name = (runner!.valueForKey("name"))!
-                    let userImageFile = runner!["profilePic"] as? PFFile
-                    userImageFile!.getDataInBackgroundWithBlock {
-                        (imageData: NSData?, error: NSError?) -> Void in
-                        if error == nil {
-                            if let imageData = imageData {
-                                let image = UIImage(data:imageData)
-                                self.general2RunnerPic.image = image!
-                            }
-                        }
-                    }
-                    general2RunnerName.text = (name as? String)!
-                    general2RunnerPic.hidden = false
-                    general2RunnerName.hidden = false
-                    general2RunnerTrack.hidden = false
-                    
-                    if generalRunners.isEmpty {
-                        
-                        //hide g3 labels
-                        general3RunnerPic.hidden = true
-                        general3RunnerName.hidden = true
-                        general3RunnerTrack.hidden = true
-                        
-                    }
-                    
-                    else {
-                        //update general 3
-                        let runner = generalRunners.popFirst()?.0
-                        let name = (runner!.valueForKey("name"))!
-                        let userImageFile = runner!["profilePic"] as? PFFile
-                        userImageFile!.getDataInBackgroundWithBlock {
-                            (imageData: NSData?, error: NSError?) -> Void in
-                            if error == nil {
-                                if let imageData = imageData {
-                                    let image = UIImage(data:imageData)
-                                    self.general3RunnerPic.image = image!
-                                }
-                            }
-                        }
-                        general3RunnerName.text = (name as? String)!
-                        general3RunnerPic.hidden = false
-                        general3RunnerName.hidden = false
-                        general3RunnerTrack.hidden = false
-                    }
-                }
-                
             }
             
+            else if generalRunnerKeys.count == 2 {
+                //update general 2
+                let runner = generalRunnerKeys[1]
+                let name = (runner.valueForKey("name"))!
+                let userImageFile = runner["profilePic"] as? PFFile
+                userImageFile!.getDataInBackgroundWithBlock {
+                    (imageData: NSData?, error: NSError?) -> Void in
+                    if error == nil {
+                        if let imageData = imageData {
+                            let image = UIImage(data:imageData)
+                            self.general2RunnerPic.image = image!
+                        }
+                    }
+                }
+                general2RunnerName.text = (name as? String)!
+                general2RunnerPic.hidden = false
+                general2RunnerName.hidden = false
+                general2RunnerTrack.hidden = false
+            }
+                
+            else if generalRunnerKeys.count > 2 {
+                //update general 3
+                let runner = generalRunnerKeys[2]
+                let name = (runner.valueForKey("name"))!
+                let userImageFile = runner["profilePic"] as? PFFile
+                userImageFile!.getDataInBackgroundWithBlock {
+                    (imageData: NSData?, error: NSError?) -> Void in
+                    if error == nil {
+                        if let imageData = imageData {
+                            let image = UIImage(data:imageData)
+                            self.general3RunnerPic.image = image!
+                        }
+                    }
+                }
+                general3RunnerName.text = (name as? String)!
+                general3RunnerPic.hidden = false
+                general3RunnerName.hidden = false
+                general3RunnerTrack.hidden = false
+            }
         }
     }
     
@@ -342,10 +326,14 @@ class DashboardViewController: UIViewController {
             self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
             self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
             self.targetRunnerETA.text = "runner ETA here"
+            
             self.targetRunnerPace.hidden = false
             self.targetRunnerDistance.hidden = false
             self.targetRunnerTime.hidden = false
             self.targetRunnerETA.hidden = false
+            self.targetRunnerPic.hidden = false
+            self.targetRunnerName.hidden = false
+            self.targetRunnerTrack.hidden = false
         }
     }
     
