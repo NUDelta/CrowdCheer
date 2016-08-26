@@ -12,10 +12,36 @@ import Parse
 
 class DashboardViewController: UIViewController {
     
+    @IBOutlet weak var targetRunnerPic: UIImageView!
+    @IBOutlet weak var targetRunnerName: UILabel!
+    @IBOutlet weak var targetRunnerPace: UILabel!
+    @IBOutlet weak var targetRunnerTime: UILabel!
+    @IBOutlet weak var targetRunnerDistance: UILabel!
+    @IBOutlet weak var targetRunnerLoading: UILabel!
+    @IBOutlet weak var targetRunnerETA: UILabel!
+    @IBOutlet weak var targetRunnerTimeToCheer: UILabel!
+    @IBOutlet weak var targetRunnerTrack: UIButton!
+    
+    @IBOutlet weak var general1RunnerPic: UIImageView!
+    @IBOutlet weak var general1RunnerName: UILabel!
+    @IBOutlet weak var general1RunnerTrack: UIButton!
+    
+    @IBOutlet weak var general2RunnerPic: UIImageView!
+    @IBOutlet weak var general2RunnerName: UILabel!
+    @IBOutlet weak var general2RunnerTrack: UIButton!
+    
+    @IBOutlet weak var general3RunnerPic: UIImageView!
+    @IBOutlet weak var general3RunnerName: UILabel!
+    @IBOutlet weak var general3RunnerTrack: UIButton!
+
+    
+    
+    
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
+    var runnerLastLoc = CLLocationCoordinate2D()
     
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
@@ -25,13 +51,19 @@ class DashboardViewController: UIViewController {
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
+    var contextPrimer: ContextPrimer = ContextPrimer()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        targetRunnerETA.hidden = true
+        targetRunnerTimeToCheer.hidden = true
+        
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
+        contextPrimer = ContextPrimer()
         areRunnersNearby = false
         interval = 30
         
@@ -73,6 +105,7 @@ class DashboardViewController: UIViewController {
         var targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
         
         
+        
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
@@ -89,7 +122,6 @@ class DashboardViewController: UIViewController {
                 
                 for (runner, runnerLoc) in runnerLocations! {
                     
-                    let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                     let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                     let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
                     print(runner.username, dist)
@@ -102,6 +134,8 @@ class DashboardViewController: UIViewController {
                             if dist > 400 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, display runner
                                     //TODO: display target runner
+                                    self.getRunnerProfile(runner, runnerType: "target")
+                                    self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                 }
@@ -114,11 +148,14 @@ class DashboardViewController: UIViewController {
                             else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     //TODO: display target runner
+                                    self.getRunnerProfile(runner, runnerType: "target")
+                                    self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
                                     //TODO: display general runner
+//                                    self.getRunnerProfile(runner, runnerType: "general1")
                                     runnerCount += 1
                                     self.sendLocalNotification_any()
                                 }
@@ -128,6 +165,8 @@ class DashboardViewController: UIViewController {
                             else if dist <= 200 { //if runner is less than 1km away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     //TODO: display target runner
+                                    self.getRunnerProfile(runner, runnerType: "target")
+                                    self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
@@ -137,6 +176,7 @@ class DashboardViewController: UIViewController {
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                     if !isTargetRunnerNear {
                                         //TODO: display general runner
+//                                        self.getRunnerProfile(runner, runnerType: "general1")
                                         runnerCount += 1
                                     }
                                 }
@@ -146,6 +186,8 @@ class DashboardViewController: UIViewController {
                 }
                 //if target runners are not showing up, notify target runners to start tracking
                 self.notifyTargetRunners(targetRunnerTrackingStatus)
+                
+                //update general runners you can cheer for
                 
                 self.nearbyRunners.saveRunnerCount(runnerCount)
             }
@@ -161,6 +203,52 @@ class DashboardViewController: UIViewController {
         }
         
         
+    }
+    
+    
+    func getRunnerProfile(runner: PFUser, runnerType: String) {
+        
+        if runnerType == "target" {
+            
+            let name = (runner.valueForKey("name"))!
+            let userImageFile = runner["profilePic"] as? PFFile
+            userImageFile!.getDataInBackgroundWithBlock {
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        let image = UIImage(data:imageData)
+                        self.targetRunnerPic.image = image!
+                    }
+                }
+            }
+            targetRunnerName.text = (name as? String)!
+        }
+    }
+    
+    func getTargetRunnerStatus(runner: PFUser) {
+        
+        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+            
+            self.runnerLastLoc = runnerLoc
+        }
+        
+        if contextPrimer.pace == "" {
+            self.targetRunnerPace.hidden = true
+            self.targetRunnerDistance.hidden = true
+            self.targetRunnerTime.hidden = true
+        }
+        
+        else {
+            self.targetRunnerLoading.hidden = true
+            self.targetRunnerPace.text = (contextPrimer.pace as String)
+            self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
+            self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
+            self.targetRunnerETA.text = "runner ETA here"
+            self.targetRunnerPace.hidden = false
+            self.targetRunnerDistance.hidden = false
+            self.targetRunnerTime.hidden = false
+            self.targetRunnerETA.hidden = false
+        }
     }
     
     func sendLocalNotification_any() {

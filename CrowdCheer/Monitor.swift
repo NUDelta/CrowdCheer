@@ -70,7 +70,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             startLoc = locations.first!
         }
         else {
-            let distance = startLoc.distanceFromLocation(locations.last!)
             let lastDist = lastLoc.distanceFromLocation(locations.last!)
             
             self.distance += lastDist
@@ -263,7 +262,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             startLoc = locations.first!
         }
         else {
-            let distance = startLoc.distanceFromLocation(locations.last!)
             let lastDist = lastLoc.distanceFromLocation(locations.last!)
             
             self.distance += lastDist

@@ -230,6 +230,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var targetRunners = [String: Bool]()
+    var generalRunners = [String: Bool]()
     
     override init(){
         user = PFUser.currentUser()
@@ -352,6 +353,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     for targetRunner in targetRunners {
                         
                         self.targetRunners[targetRunner.objectId] = false
+
                         
                         //if runner = target runner, +10 affinity
                         if runner.objectId == targetRunner.objectId {
@@ -360,6 +362,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                         }
                         else {
                             affinities[runner] = 0
+                            self.generalRunners[runner.objectId] = false
                         }
                     }
                 }

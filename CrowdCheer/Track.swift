@@ -43,6 +43,12 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var getTime = NSDate()
     var speed = 0.0
     
+    //for runner details
+    var pace = ""
+    var distance = 0.0
+    var duration = ""
+    
+    
     override init(){
         user = PFUser.currentUser()
         runner = PFUser()
@@ -109,6 +115,9 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                         self.actualTime = (object as! PFObject)["time"] as! NSDate
                         self.setTime = object.updatedAt
                         self.getTime = NSDate()
+                        self.distance = (object as! PFObject)["distance"] as! Double
+                        self.duration = (object as! PFObject)["duration"] as! String
+                        self.pace = (object as! PFObject)["pace"] as! String
 
                         runnerUpdate = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
                     }
