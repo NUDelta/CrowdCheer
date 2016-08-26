@@ -34,15 +34,7 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var general3RunnerName: UILabel!
     @IBOutlet weak var general3RunnerTrack: UIButton!
 
-    
-    
-    
-    var runner: PFUser = PFUser()
-    var runnerPic: UIImage = UIImage()
-    var runnerName: String = ""
-    var runnerBib: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
-    
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
@@ -60,6 +52,18 @@ class DashboardViewController: UIViewController {
         
         targetRunnerETA.hidden = true
         targetRunnerTimeToCheer.hidden = true
+        
+        general1RunnerPic.hidden = true
+        general1RunnerName.hidden = true
+        general1RunnerTrack.hidden = true
+        
+        general2RunnerPic.hidden = true
+        general2RunnerName.hidden = true
+        general2RunnerTrack.hidden = true
+        
+        general3RunnerPic.hidden = true
+        general3RunnerName.hidden = true
+        general3RunnerTrack.hidden = true
         
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
@@ -99,12 +103,10 @@ class DashboardViewController: UIViewController {
     }
     
     func updateNearbyRunners() {
-        //every x seconds, update array of nearby runners and display those runners
+        //every x seconds, monitor target runners, find nearby runners and display those runners
         
         var runnerCount = 0
         var targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-        
-        
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -133,7 +135,6 @@ class DashboardViewController: UIViewController {
                             //Goal: Show target runners throughout the race
                             if dist > 400 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, display runner
-                                    //TODO: display target runner
                                     self.getRunnerProfile(runner, runnerType: "target")
                                     self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
@@ -146,16 +147,14 @@ class DashboardViewController: UIViewController {
                                 
                                 //Goal: Show all runners near me, including target runners
                             else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
-                                if affinity.1 == 10 { //if target runner, add them to the map
-                                    //TODO: display target runner
+                                if affinity.1 == 10 { //if target runner, display runner
                                     self.getRunnerProfile(runner, runnerType: "target")
                                     self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                 }
-                                else if affinity.1 != 10 { //if general runner, also add them to the map
-                                    //TODO: display general runner
-//                                    self.getRunnerProfile(runner, runnerType: "general1")
+                                else if affinity.1 != 10 { //if general runner, display runner
+                                    self.getRunnerProfile(runner, runnerType: "general")
                                     runnerCount += 1
                                     self.sendLocalNotification_any()
                                 }
@@ -163,8 +162,7 @@ class DashboardViewController: UIViewController {
                                 
                                 //Goal: If target runner is close, only show them. If not, then continue to show all runners
                             else if dist <= 200 { //if runner is less than 1km away (demo: 200)
-                                if affinity.1 == 10 { //if target runner, add them to the map & notify
-                                    //TODO: display target runner
+                                if affinity.1 == 10 { //if target runner, display runner & notify
                                     self.getRunnerProfile(runner, runnerType: "target")
                                     self.getTargetRunnerStatus(runner)
                                     targetRunnerTrackingStatus[runner.objectId] = true
@@ -175,8 +173,7 @@ class DashboardViewController: UIViewController {
                                 }
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                     if !isTargetRunnerNear {
-                                        //TODO: display general runner
-//                                        self.getRunnerProfile(runner, runnerType: "general1")
+                                        self.getRunnerProfile(runner, runnerType: "general")
                                         runnerCount += 1
                                     }
                                 }
@@ -186,9 +183,6 @@ class DashboardViewController: UIViewController {
                 }
                 //if target runners are not showing up, notify target runners to start tracking
                 self.notifyTargetRunners(targetRunnerTrackingStatus)
-                
-                //update general runners you can cheer for
-                
                 self.nearbyRunners.saveRunnerCount(runnerCount)
             }
             
@@ -222,6 +216,110 @@ class DashboardViewController: UIViewController {
                 }
             }
             targetRunnerName.text = (name as? String)!
+        }
+        
+        else if runnerType == "general" {
+            
+            var generalRunners = self.optimizedRunners.generalRunners
+            if generalRunners.isEmpty {
+                
+                //hide all labels
+                general1RunnerPic.hidden = true
+                general1RunnerName.hidden = true
+                general1RunnerTrack.hidden = true
+                
+                general2RunnerPic.hidden = true
+                general2RunnerName.hidden = true
+                general2RunnerTrack.hidden = true
+                
+                general3RunnerPic.hidden = true
+                general3RunnerName.hidden = true
+                general3RunnerTrack.hidden = true
+                
+            }
+            else {
+                //update general 1
+                let runner = generalRunners.popFirst()?.0
+                let name = (runner!.valueForKey("name"))!
+                let userImageFile = runner!["profilePic"] as? PFFile
+                userImageFile!.getDataInBackgroundWithBlock {
+                    (imageData: NSData?, error: NSError?) -> Void in
+                    if error == nil {
+                        if let imageData = imageData {
+                            let image = UIImage(data:imageData)
+                            self.general1RunnerPic.image = image!
+                        }
+                    }
+                }
+                general1RunnerName.text = (name as? String)!
+                general1RunnerPic.hidden = false
+                general1RunnerName.hidden = false
+                general1RunnerTrack.hidden = false
+                
+                if generalRunners.isEmpty {
+                    
+                    //hide g2 and g3 labels
+                    general2RunnerPic.hidden = true
+                    general2RunnerName.hidden = true
+                    general2RunnerTrack.hidden = true
+                    
+                    general3RunnerPic.hidden = true
+                    general3RunnerName.hidden = true
+                    general3RunnerTrack.hidden = true
+                    
+                }
+                
+                else {
+                    //update general 2
+                    let runner = generalRunners.popFirst()?.0
+                    let name = (runner!.valueForKey("name"))!
+                    let userImageFile = runner!["profilePic"] as? PFFile
+                    userImageFile!.getDataInBackgroundWithBlock {
+                        (imageData: NSData?, error: NSError?) -> Void in
+                        if error == nil {
+                            if let imageData = imageData {
+                                let image = UIImage(data:imageData)
+                                self.general2RunnerPic.image = image!
+                            }
+                        }
+                    }
+                    general2RunnerName.text = (name as? String)!
+                    general2RunnerPic.hidden = false
+                    general2RunnerName.hidden = false
+                    general2RunnerTrack.hidden = false
+                    
+                    if generalRunners.isEmpty {
+                        
+                        //hide g3 labels
+                        general3RunnerPic.hidden = true
+                        general3RunnerName.hidden = true
+                        general3RunnerTrack.hidden = true
+                        
+                    }
+                    
+                    else {
+                        //update general 3
+                        let runner = generalRunners.popFirst()?.0
+                        let name = (runner!.valueForKey("name"))!
+                        let userImageFile = runner!["profilePic"] as? PFFile
+                        userImageFile!.getDataInBackgroundWithBlock {
+                            (imageData: NSData?, error: NSError?) -> Void in
+                            if error == nil {
+                                if let imageData = imageData {
+                                    let image = UIImage(data:imageData)
+                                    self.general3RunnerPic.image = image!
+                                }
+                            }
+                        }
+                        general3RunnerName.text = (name as? String)!
+                        general3RunnerPic.hidden = false
+                        general3RunnerName.hidden = false
+                        general3RunnerTrack.hidden = false
+                    }
+                }
+                
+            }
+            
         }
     }
     
