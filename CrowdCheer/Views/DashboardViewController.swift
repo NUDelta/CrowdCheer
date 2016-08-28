@@ -189,6 +189,7 @@ class DashboardViewController: UIViewController {
                                 let name = runner.valueForKey("name") as! String
                                 self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
                                 self.targetRunnerTimeToCheer.hidden = false
+                                self.targetRunnerTrack.setTitle("CHEER", forState: UIControlState.Normal)
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
