@@ -134,7 +134,6 @@ class DashboardViewController: UIViewController {
         }
         targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
         print("targetRunnerTrackingStatus: \(targetRunnerTrackingStatus)")
-        notifyTargetRunners(targetRunnerTrackingStatus)
     }
     
     func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {
@@ -341,12 +340,13 @@ class DashboardViewController: UIViewController {
         }
         
         if contextPrimer.pace == "" {
-            self.targetRunnerPace.hidden = true
+            let name = runner.valueForKey("name") as! String
+            self.targetRunnerPace.hidden = false
+            self.targetRunnerPace.text = "Loading " + (name) + "'s location"
             self.targetRunnerDistance.hidden = true
             self.targetRunnerTime.hidden = true
             self.targetRunnerLoading.hidden = true
             self.targetRunnerETA.hidden = false
-            let name = runner.valueForKey("name") as! String
             self.targetRunnerETA.text = (name) + " is more than 10 min away"
         }
         
