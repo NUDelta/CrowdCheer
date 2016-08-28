@@ -56,6 +56,7 @@ class DashboardViewController: UIViewController {
         
         super.viewDidLoad()
         
+        targetRunnerLoading.hidden = false
         targetRunnerETA.hidden = true
         targetRunnerTimeToCheer.hidden = true
         
@@ -184,11 +185,14 @@ class DashboardViewController: UIViewController {
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
                         else if dist <= 200 { //if runner is less than 1km away (demo: 200)
                             if affinity.1 == 10 { //if target runner, display runner & notify
+                                self.targetRunnerETA.hidden = true
+                                let name = runner.valueForKey("name") as! String
+                                self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
+                                self.targetRunnerTimeToCheer.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
                                 runnerCount += 1
-                                let name = runner.valueForKey("name") as! String
                                 self.sendLocalNotification_target(name)
                                 isTargetRunnerNear = true
                             }
@@ -234,6 +238,10 @@ class DashboardViewController: UIViewController {
                 }
             }
             targetRunnerName.text = (name as? String)!
+            targetRunnerPic.hidden = false
+            targetRunnerName.hidden = false
+            targetRunnerTrack.hidden = false
+
         }
         
         else if runnerType == "general" {
@@ -335,22 +343,20 @@ class DashboardViewController: UIViewController {
             self.targetRunnerPace.hidden = true
             self.targetRunnerDistance.hidden = true
             self.targetRunnerTime.hidden = true
+            self.targetRunnerLoading.hidden = true
+            self.targetRunnerETA.hidden = false
+            let name = runner.valueForKey("name") as! String
+            self.targetRunnerETA.text = (name) + " is more than 10 min away"
         }
         
         else {
-            self.targetRunnerLoading.hidden = true
             self.targetRunnerPace.text = (contextPrimer.pace as String)
             self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
             self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
-            self.targetRunnerETA.text = "runner ETA here"
             
             self.targetRunnerPace.hidden = false
             self.targetRunnerDistance.hidden = false
             self.targetRunnerTime.hidden = false
-            self.targetRunnerETA.hidden = false
-            self.targetRunnerPic.hidden = false
-            self.targetRunnerName.hidden = false
-            self.targetRunnerTrack.hidden = false
         }
     }
     

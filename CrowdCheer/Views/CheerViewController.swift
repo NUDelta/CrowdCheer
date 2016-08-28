@@ -222,7 +222,7 @@ class CheerViewController: UIViewController {
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
         //save didCheer in Cheers as true
     }
@@ -234,7 +234,7 @@ class CheerViewController: UIViewController {
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("RaceViewController") as UIViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
         //save didCheer in Cheers as false
     }
