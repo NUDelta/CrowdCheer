@@ -1620,11 +1620,12 @@
                         <outlet property="targetRunnerTime" destination="8Y7-zd-E7O" id="9iW-Sf-JYY"/>
                         <outlet property="targetRunnerTimeToCheer" destination="zYe-q6-pYn" id="NLV-B0-dIo"/>
                         <outlet property="targetRunnerTrack" destination="2Lc-1G-IoS" id="lgG-Aa-HtX"/>
+                        <segue destination="x3m-YV-U7c" kind="push" identifier="trackRunner" id="if7-3j-oJN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Img-e3-Gqo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2484" y="1397"/>
+            <point key="canvasLocation" x="-2484" y="1410"/>
         </scene>
     </scenes>
     <resources>
@@ -1640,5 +1641,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="aHl-lV-C0k"/>
+        <segue reference="if7-3j-oJN"/>
     </inferredMetricsTieBreakers>
 </document>
