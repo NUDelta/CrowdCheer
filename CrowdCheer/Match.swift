@@ -353,17 +353,20 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     for targetRunner in targetRunners {
                         
                         self.targetRunners[targetRunner.objectId] = false
+                        print("targetRunners within considerAffinity after parse query: \(self.targetRunners)")
 
                         
                         //if runner = target runner, +10 affinity
                         if runner.objectId == targetRunner.objectId {
                             affinities[runner] = 10
+                            self.targetRunners[targetRunner.objectId] = true
                             break
                         }
                         else {
                             affinities[runner] = 0
                             self.generalRunners[runner] = false
                         }
+                        print("targetRunners within considerAffinity tagging as target or not: \(self.targetRunners)")
                     }
                 }
                 result(affinities: affinities)

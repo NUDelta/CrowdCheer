@@ -21,23 +21,29 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var targetRunnerETA: UILabel!
     @IBOutlet weak var targetRunnerTimeToCheer: UILabel!
     @IBOutlet weak var targetRunnerTrack: UIButton!
+    var targetRunner: PFUser = PFUser()
     
     @IBOutlet weak var general1RunnerPic: UIImageView!
     @IBOutlet weak var general1RunnerName: UILabel!
     @IBOutlet weak var general1RunnerTrack: UIButton!
+    var general1Runner: PFUser = PFUser()
     
     @IBOutlet weak var general2RunnerPic: UIImageView!
     @IBOutlet weak var general2RunnerName: UILabel!
     @IBOutlet weak var general2RunnerTrack: UIButton!
+    var general2Runner: PFUser = PFUser()
     
     @IBOutlet weak var general3RunnerPic: UIImageView!
     @IBOutlet weak var general3RunnerName: UILabel!
     @IBOutlet weak var general3RunnerTrack: UIButton!
+    var general3Runner: PFUser = PFUser()
 
     var runnerLastLoc = CLLocationCoordinate2D()
+    var runnerLocations = [PFUser: PFGeoPoint]()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
+    var targetRunnerTrackingStatus = [String: Bool]()
     var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
@@ -82,6 +88,7 @@ class DashboardViewController: UIViewController {
             UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
+        
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
@@ -111,10 +118,7 @@ class DashboardViewController: UIViewController {
     
     func updateNearbyRunners() {
         //every x seconds, monitor target runners, find nearby runners and display those runners
-        
-        var runnerCount = 0
-        var targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-        
+    
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
@@ -123,94 +127,101 @@ class DashboardViewController: UIViewController {
             }
             else {
                 self.areRunnersNearby = true
+                self.runnerLocations = runnerLocations!
+                self.considerRunnerAffinity(self.runnerLocations)
             }
+        }
+        targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
+        print("targetRunnerTrackingStatus: \(targetRunnerTrackingStatus)")
+        notifyTargetRunners(targetRunnerTrackingStatus)
+    }
+    
+    func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {
+        //R+R* Condition
+        var runnerCount = 0
+        
+        self.optimizedRunners.considerAffinity(runnerLocations) { (affinities) -> Void in
+            print("affinities \(affinities)")
             
-            //R+R* Condition
-            self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
-                print("affinities \(affinities)")
+            for (runner, runnerLoc) in runnerLocations {
                 
-                for (runner, runnerLoc) in runnerLocations! {
+                let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
+                print(runner.username, dist)
+                
+                for affinity in affinities {
                     
-                    let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                    let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
-                    print(runner.username, dist)
-                    
-                    for affinity in affinities {
-                        
-                        var isTargetRunnerNear = false
-                        if runner == affinity.0 {
-                            //Goal: Show target runners throughout the race
-                            if dist > 400 { //if runner is more than 2km away (demo: 400)
-                                if affinity.1 == 10 { //if target runner, display runner
-                                    self.getRunnerProfile(runner, runnerType: "target")
-                                    self.getTargetRunnerStatus(runner)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
-                                    runnerCount += 1
-                                }
-                                else if affinity.1 != 10 { //if general runner, don't add them yet
-                                    //do nothing
-                                }
+                    var isTargetRunnerNear = false
+                    if runner == affinity.0 {
+                        //Goal: Show target runners throughout the race
+                        if dist > 400 { //if runner is more than 2km away (demo: 400)
+                            if affinity.1 == 10 { //if target runner, display runner
+                                self.getRunnerProfile(runner, runnerType: "target")
+                                self.getTargetRunnerStatus(runner)
+                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                runnerCount += 1
                             }
-                                
-                                //Goal: Show all runners near me, including target runners
-                            else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
-                                if affinity.1 == 10 { //if target runner, display runner
-                                    self.getRunnerProfile(runner, runnerType: "target")
-                                    self.getTargetRunnerStatus(runner)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
-                                    runnerCount += 1
-                                }
-                                else if affinity.1 != 10 { //if general runner, display runner
+                            else if affinity.1 != 10 { //if general runner, don't add them yet
+                                //do nothing
+                            }
+                        }
+                            
+                            //Goal: Show all runners near me, including target runners
+                        else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
+                            if affinity.1 == 10 { //if target runner, display runner
+                                self.getRunnerProfile(runner, runnerType: "target")
+                                self.getTargetRunnerStatus(runner)
+                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                runnerCount += 1
+                            }
+                            else if affinity.1 != 10 { //if general runner, display runner
+                                self.getRunnerProfile(runner, runnerType: "general")
+                                runnerCount += 1
+                                self.sendLocalNotification_any()
+                            }
+                        }
+                            
+                            //Goal: If target runner is close, only show them. If not, then continue to show all runners
+                        else if dist <= 200 { //if runner is less than 1km away (demo: 200)
+                            if affinity.1 == 10 { //if target runner, display runner & notify
+                                self.getRunnerProfile(runner, runnerType: "target")
+                                self.getTargetRunnerStatus(runner)
+                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                runnerCount += 1
+                                let name = runner.valueForKey("name") as! String
+                                self.sendLocalNotification_target(name)
+                                isTargetRunnerNear = true
+                            }
+                            else if affinity.1 != 10 { //if general runner, check if target runner is nearby
+                                if !isTargetRunnerNear {
                                     self.getRunnerProfile(runner, runnerType: "general")
                                     runnerCount += 1
-                                    self.sendLocalNotification_any()
-                                }
-                            }
-                                
-                                //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                            else if dist <= 200 { //if runner is less than 1km away (demo: 200)
-                                if affinity.1 == 10 { //if target runner, display runner & notify
-                                    self.getRunnerProfile(runner, runnerType: "target")
-                                    self.getTargetRunnerStatus(runner)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
-                                    runnerCount += 1
-                                    let name = runner.valueForKey("name") as! String
-                                    self.sendLocalNotification_target(name)
-                                    isTargetRunnerNear = true
-                                }
-                                else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                    if !isTargetRunnerNear {
-                                        self.getRunnerProfile(runner, runnerType: "general")
-                                        runnerCount += 1
-                                    }
                                 }
                             }
                         }
                     }
                 }
-                //if target runners are not showing up, notify target runners to start tracking
-                self.notifyTargetRunners(targetRunnerTrackingStatus)
-                self.nearbyRunners.saveRunnerCount(runnerCount)
             }
-            
-            //            //TESTING//
-            //            self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
-            //                print("conveniences \(conveniences)")
-            //            }
-            //
-            //            self.optimizedRunners.considerNeed(runnerLocations!) { (needs) -> Void in
-            //                print("needs \(needs)")
-            //            }
+            //if target runners are not showing up, notify target runners to start tracking
+            self.notifyTargetRunners(self.targetRunnerTrackingStatus)
+            self.nearbyRunners.saveRunnerCount(runnerCount)
         }
-        
-        
     }
     
+//    //TESTING//
+//    self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
+//    print("conveniences \(conveniences)")
+//    }
+//    
+//    self.optimizedRunners.considerNeed(runnerLocations!) { (needs) -> Void in
+//    print("needs \(needs)")
+//    }
     
     func getRunnerProfile(runner: PFUser, runnerType: String) {
         
         if runnerType == "target" {
             
+            targetRunner = runner
             let name = (runner.valueForKey("name"))!
             let userImageFile = runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
@@ -247,6 +258,8 @@ class DashboardViewController: UIViewController {
             }
             else if generalRunnerKeys.count == 1 {
                 //update general 1
+                
+                general1Runner = runner
                 let runner = generalRunnerKeys[0]
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
@@ -267,6 +280,8 @@ class DashboardViewController: UIViewController {
             
             else if generalRunnerKeys.count == 2 {
                 //update general 2
+                
+                general2Runner = runner
                 let runner = generalRunnerKeys[1]
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
@@ -287,6 +302,8 @@ class DashboardViewController: UIViewController {
                 
             else if generalRunnerKeys.count > 2 {
                 //update general 3
+                
+                general3Runner = runner
                 let runner = generalRunnerKeys[2]
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
@@ -418,5 +435,69 @@ class DashboardViewController: UIViewController {
     func openMessages(alert: UIAlertAction!) {
         UIApplication.sharedApplication().openURL(NSURL(string:"sms:")!)
     }
+    
+    @IBAction func targetTrack(sender: UIButton) {
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
+        var isCheerSaved = true
+        selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(targetRunner) { (cheerSaved) -> Void in
+            
+            isCheerSaved = cheerSaved
+        }
+        
+        print("isCheerSaved? \(isCheerSaved)")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        performSegueWithIdentifier("trackRunner", sender: nil)
+    }
+    
+    @IBAction func general1Track(sender: UIButton) {
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
+        var isCheerSaved = true
+        selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(general1Runner) { (cheerSaved) -> Void in
+            
+            isCheerSaved = cheerSaved
+        }
+        
+        print("isCheerSaved? \(isCheerSaved)")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        performSegueWithIdentifier("trackRunner", sender: nil)
+    }
+    
+    @IBAction func general2Track(sender: UIButton) {
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
+        var isCheerSaved = true
+        selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(general2Runner) { (cheerSaved) -> Void in
+            
+            isCheerSaved = cheerSaved
+        }
+        
+        print("isCheerSaved? \(isCheerSaved)")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        performSegueWithIdentifier("trackRunner", sender: nil)
+    }
+    
+    @IBAction func general3Track(sender: UIButton) {
+        //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
+        var isCheerSaved = true
+        selectedRunners = SelectedRunners()
+        selectedRunners.selectRunner(general3Runner) { (cheerSaved) -> Void in
+            
+            isCheerSaved = cheerSaved
+        }
+        
+        print("isCheerSaved? \(isCheerSaved)")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        performSegueWithIdentifier("trackRunner", sender: nil)
+    }
+
+
+
+
 
 }
