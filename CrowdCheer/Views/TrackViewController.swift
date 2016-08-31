@@ -107,7 +107,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 distanceCalc = 0.01
             }
             distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
-//            distanceLabel.text = String(format: "last: %.02f", distanceLast) + String(format: "calc: %.02f", distanceCalc)
             distanceLabel.hidden = false
             
             if (distanceCalc >= 100 && distanceCalc <= 150) {
