@@ -361,6 +361,15 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="NP9-sU-K9p"/>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7wO-Ub-Mhi"/>
+                        <barButtonItem title="View Race Dashboard" id="PtO-qD-iYm">
+                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="COo-W5-esK" kind="push" id="1h3-qA-0vn"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Race View" id="9qf-rh-Z4n">
                         <barButtonItem key="leftBarButtonItem" title="Home" id="joF-xi-vVB">
                             <connections>
@@ -1648,6 +1657,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="aHl-lV-C0k"/>
-        <segue reference="if7-3j-oJN"/>
+        <segue reference="1h3-qA-0vn"/>
+        <segue reference="K6z-sU-QjJ"/>
     </inferredMetricsTieBreakers>
 </document>
