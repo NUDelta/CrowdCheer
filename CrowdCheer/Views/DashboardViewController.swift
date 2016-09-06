@@ -188,7 +188,7 @@ class DashboardViewController: UIViewController {
                                 let name = runner.valueForKey("name") as! String
                                 self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
                                 self.targetRunnerTimeToCheer.hidden = false
-                                self.targetRunnerTrack.setTitle("CHEER", forState: UIControlState.Normal)
+                                self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
@@ -240,7 +240,6 @@ class DashboardViewController: UIViewController {
             targetRunnerName.text = (name as? String)!
             targetRunnerPic.hidden = false
             targetRunnerName.hidden = false
-            targetRunnerTrack.hidden = false
 
         }
         
@@ -342,7 +341,7 @@ class DashboardViewController: UIViewController {
         if contextPrimer.pace == "" {
             let name = runner.valueForKey("name") as! String
             self.targetRunnerPace.hidden = false
-            self.targetRunnerPace.text = "Loading " + (name) + "'s location"
+            self.targetRunnerPace.text = "Loading stats..."
             self.targetRunnerDistance.hidden = true
             self.targetRunnerTime.hidden = true
             self.targetRunnerLoading.hidden = true
