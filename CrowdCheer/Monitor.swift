@@ -184,6 +184,13 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+    func resetRunnerData() {
+        self.distance = 0.0
+        self.pace = ""
+        self.speed = 0.0
+        self.duration = 0
+    }
+    
     func audioSessionRouteChanged(notification: NSNotification) {
         var userInfo = notification.userInfo
         let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]

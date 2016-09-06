@@ -52,9 +52,9 @@ class PrerunViewController: UIViewController {
         runnerMonitor = RunnerMonitor()
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        prestartDate = dateFormatter.dateFromString("2016-08-28T07:55:00-05:00")! //hardcoded 5 min before race
-        startDate = dateFormatter.dateFromString("2016-08-28T08:00:00-05:00")! //hardcoded race start time
-        poststartDate = dateFormatter.dateFromString("2016-08-28T08:05:00-05:00")! //hardcoded 5 min after race
+        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded 5 min before race
+        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time
+        poststartDate = dateFormatter.dateFromString(poststartDateString)! //hardcoded 5 min after race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
         startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(PrerunViewController.startTracking), userInfo: nil, repeats: false)
         print("poststart \(startDate.timeIntervalSinceDate(NSDate()))")

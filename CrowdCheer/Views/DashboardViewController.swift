@@ -154,7 +154,7 @@ class DashboardViewController: UIViewController {
                     var isTargetRunnerNear = false
                     if runner == affinity.0 {
                         //Goal: Show target runners throughout the race
-                        if dist > 2000 { //if runner is more than 2km away (demo: 400)
+                        if dist > 400 { //if runner is more than 2km away (demo: 400)
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
@@ -167,7 +167,7 @@ class DashboardViewController: UIViewController {
                         }
                             
                             //Goal: Show all runners near me, including target runners
-                        else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 200-400)
+                        else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
@@ -182,7 +182,7 @@ class DashboardViewController: UIViewController {
                         }
                             
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                        else if dist <= 1000 { //if runner is less than 1km away (demo: 200)
+                        else if dist <= 200 { //if runner is less than 500m away (demo: 200)
                             if affinity.1 == 10 { //if target runner, display runner & notify
                                 self.targetRunnerETA.hidden = true
                                 let name = runner.valueForKey("name") as! String

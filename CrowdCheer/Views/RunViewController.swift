@@ -16,6 +16,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbySpectatorsTimer: NSTimer = NSTimer()
+    var startDate: NSDate = NSDate()
+    var startTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var nearbySpectators: NearbySpectators = NearbySpectators()
     var areSpectatorsNearby: Bool = Bool()
@@ -57,11 +59,16 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         congrats.hidden = true
         resume.hidden = true
-        pause.enabled = false
+        pause.enabled = true
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
         nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
+        //reset race data when race starts
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time
+        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
         
     }
     
@@ -98,6 +105,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
         }
         drawPath()
+    
     }
     
     func updateNearbySpectators() {
@@ -123,6 +131,13 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
+    }
+    
+    func resetTracking() {
+        print("Reset tracking")
+        runnerMonitor = RunnerMonitor()
+        userMonitorTimer.invalidate()
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -158,10 +173,12 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBAction func pause(sender: UIButton) {
         //suspend runner monitor when you hit pause
         
-        userMonitorTimer.invalidate()
-        nearbySpectatorsTimer.invalidate()
-        pause.hidden = true
-        resume.hidden = false
+        resetTracking()
+        distance.text = "Distance: " + String(format: " %.02f", runnerMonitor.metersToMiles(runnerMonitor.distance)) + "mi"
+        let timeString = runnerMonitor.stringFromSeconds(runnerMonitor.duration)
+        time.text = "Time: " + timeString + " s"
+        pace.text = "Pace: " + (runnerMonitor.pace as String)
+        
     }
     
     @IBAction func resume(sender: UIButton) {
