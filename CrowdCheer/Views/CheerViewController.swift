@@ -89,7 +89,6 @@ class CheerViewController: UIViewController {
         let getTime = contextPrimer.getTime
         let showTime = NSDate()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
-        runnerLastLoc = latencyData.calculatedRunnerLoc
         
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
@@ -97,9 +96,14 @@ class CheerViewController: UIViewController {
         else {
             runnerPath.append(runnerLastLoc)
             let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-            let distance = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
+            let distanceLast = (contextPrimer.locationMgr.location!.distanceFromLocation(runnerCLLoc))
+            var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+            if distanceCalc < 0 {
+                distanceCalc = 0.01
+            }
+            
             updateBanner(runnerCLLoc)
-            distanceLabel.text = String(format: " %.02f", distance) + "m away"
+            distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
         }
     }
     
