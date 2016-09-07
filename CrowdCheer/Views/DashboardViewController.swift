@@ -153,9 +153,14 @@ class DashboardViewController: UIViewController {
                     
                     var isTargetRunnerNear = false
                     if runner == affinity.0 {
+                        let name = runner.valueForKey("name") as! String
+                        self.targetRunnerLoading.hidden = true
+                        self.targetRunnerETA.hidden = false
+                        
                         //Goal: Show target runners throughout the race
                         if dist > 400 { //if runner is more than 2km away (demo: 400)
                             if affinity.1 == 10 { //if target runner, display runner
+                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
@@ -167,8 +172,9 @@ class DashboardViewController: UIViewController {
                         }
                             
                             //Goal: Show all runners near me, including target runners
-                        else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
+                        else if dist > 200 && dist <= 400 { //if runner is between 500m-2km away (demo: 200-400)
                             if affinity.1 == 10 { //if target runner, display runner
+                                self.targetRunnerETA.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
@@ -185,7 +191,6 @@ class DashboardViewController: UIViewController {
                         else if dist <= 200 { //if runner is less than 500m away (demo: 200)
                             if affinity.1 == 10 { //if target runner, display runner & notify
                                 self.targetRunnerETA.hidden = true
-                                let name = runner.valueForKey("name") as! String
                                 self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
@@ -344,9 +349,6 @@ class DashboardViewController: UIViewController {
             self.targetRunnerPace.text = "Loading stats..."
             self.targetRunnerDistance.hidden = true
             self.targetRunnerTime.hidden = true
-            self.targetRunnerLoading.hidden = true
-            self.targetRunnerETA.hidden = false
-            self.targetRunnerETA.text = (name) + " is more than 10 min away"
         }
         
         else {
