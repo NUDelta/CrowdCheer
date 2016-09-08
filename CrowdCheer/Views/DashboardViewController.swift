@@ -134,6 +134,29 @@ class DashboardViewController: UIViewController {
             
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
+                
+                self.targetRunnerLoading.hidden = false
+                self.targetRunnerETA.hidden = true
+                self.targetRunnerTimeToCheer.hidden = true
+                
+                self.targetRunnerPic.hidden = true
+                self.targetRunnerName.hidden = true
+                self.targetRunnerTime.hidden = true
+                self.targetRunnerPace.hidden = true
+                self.targetRunnerDistance.hidden = true
+                self.targetRunnerTrack.hidden = true
+                
+                self.general1RunnerPic.hidden = true
+                self.general1RunnerName.hidden = true
+                self.general1RunnerTrack.hidden = true
+                
+                self.general2RunnerPic.hidden = true
+                self.general2RunnerName.hidden = true
+                self.general2RunnerTrack.hidden = true
+                
+                self.general3RunnerPic.hidden = true
+                self.general3RunnerName.hidden = true
+                self.general3RunnerTrack.hidden = true
             }
             else {
                 self.areRunnersNearby = true
