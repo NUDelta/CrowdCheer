@@ -20,6 +20,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     
     var userMonitorTimer: NSTimer = NSTimer()
+    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
     var interval: Int = Int()
@@ -60,6 +61,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
     }
@@ -96,13 +98,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
-            
-            if ((runnerLocations?.isEmpty) == true) {
-                self.areRunnersNearby = false
-            }
-            else {
-                self.areRunnersNearby = true
-            }
 
             //R+R* Condition
             self.optimizedRunners.considerAffinity(runnerLocations!) { (affinities) -> Void in
@@ -132,7 +127,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                             
                             //Goal: Show all runners near me, including target runners
-                            else if dist > 200 && dist <= 400 { //if runner is between 1-2km away (demo: 200-400)
+                            else if dist > 200 && dist <= 400 { //if runner is between 500m-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     targetRunnerTrackingStatus[runner.objectId] = true
@@ -141,12 +136,13 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
                                     runnerCount += 1
+                                    self.areRunnersNearby = true
                                     self.sendLocalNotification_any()
                                 }
                             }
                                 
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                            else if dist <= 200 { //if runner is less than 1km away (demo: 200)
+                            else if dist <= 200 { //if runner is less than 500m away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     targetRunnerTrackingStatus[runner.objectId] = true
@@ -159,6 +155,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     if !isTargetRunnerNear {
                                         self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
                                         runnerCount += 1
+                                        self.areRunnersNearby = true
                                     }
                                 }
                             }

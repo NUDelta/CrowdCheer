@@ -23,8 +23,6 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     var prestartDate: NSDate = NSDate()
     var prestartTimer: NSTimer = NSTimer()
-    var startDate: NSDate = NSDate()
-    var startTimer: NSTimer = NSTimer()
     var poststartTimer: NSTimer = NSTimer()
     var poststartDate: NSDate = NSDate()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
@@ -53,11 +51,8 @@ class PrerunViewController: UIViewController {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded 5 min before race
-        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time
         poststartDate = dateFormatter.dateFromString(poststartDateString)! //hardcoded 5 min after race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
-        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(PrerunViewController.startTracking), userInfo: nil, repeats: false)
-        print("poststart \(startDate.timeIntervalSinceDate(NSDate()))")
         poststartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_poststart), userInfo: nil, repeats: false)
     }
     
@@ -118,16 +113,6 @@ class PrerunViewController: UIViewController {
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
     }
     
-    func startTracking() {
-        //enable background location tracking
-        if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState))")
-            
-            runnerMonitor.enableBackgroundLoc()
-        }
-        
-        self.performSegueWithIdentifier("start", sender: nil)
-    }
     
     func sendLocalNotification_poststart() {
         let localNotification = UILocalNotification()
