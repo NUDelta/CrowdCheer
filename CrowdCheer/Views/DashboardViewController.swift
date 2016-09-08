@@ -94,6 +94,7 @@ class DashboardViewController: UIViewController {
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         
     }
 
@@ -162,7 +163,7 @@ class DashboardViewController: UIViewController {
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.getTargetRunnerStatus(runner)
+//                                self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
                                 runnerCount += 1
                             }
@@ -176,7 +177,7 @@ class DashboardViewController: UIViewController {
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.targetRunnerETA.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.getTargetRunnerStatus(runner)
+//                                self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
                                 runnerCount += 1
                             }
@@ -195,7 +196,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.getTargetRunnerStatus(runner)
+//                                self.getTargetRunnerStatus(runner)
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
                                 runnerCount += 1
                                 self.sendLocalNotification_target(name)
@@ -231,6 +232,7 @@ class DashboardViewController: UIViewController {
         if runnerType == "target" {
             
             targetRunner = runner
+            self.getTargetRunnerStatus(targetRunner)
             let name = (runner.valueForKey("name"))!
             let userImageFile = runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackgroundWithBlock {
@@ -251,8 +253,8 @@ class DashboardViewController: UIViewController {
         else if runnerType == "general" {
             
             let generalRunners = self.optimizedRunners.generalRunners
-            let generalRunnerKeys = Array(generalRunners.keys)
-            if generalRunnerKeys.count == 0 {
+            print("generalRunners in dashboardVC: \(generalRunners)")
+            if generalRunners.count == 0 {
                 
                 //hide all labels
                 general1RunnerPic.hidden = true
@@ -268,11 +270,12 @@ class DashboardViewController: UIViewController {
                 general3RunnerTrack.hidden = true
                 
             }
-            else if generalRunnerKeys.count == 1 {
+            else if generalRunners.count == 1 {
                 //update general 1
                 
                 general1Runner = runner
-                let runner = generalRunnerKeys[0]
+                
+//                let runner = PFQuery.getUserObjectWithId(generalRunners[0])
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
                 userImageFile!.getDataInBackgroundWithBlock {
@@ -290,11 +293,11 @@ class DashboardViewController: UIViewController {
                 general1RunnerTrack.hidden = false
             }
             
-            else if generalRunnerKeys.count == 2 {
+            else if generalRunners.count == 2 {
                 //update general 2
                 
                 general2Runner = runner
-                let runner = generalRunnerKeys[1]
+//                let runner = generalRunners[1]
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
                 userImageFile!.getDataInBackgroundWithBlock {
@@ -312,11 +315,11 @@ class DashboardViewController: UIViewController {
                 general2RunnerTrack.hidden = false
             }
                 
-            else if generalRunnerKeys.count > 2 {
+            else if generalRunners.count > 2 {
                 //update general 3
                 
                 general3Runner = runner
-                let runner = generalRunnerKeys[2]
+//                let runner = generalRunners[2]
                 let name = (runner.valueForKey("name"))!
                 let userImageFile = runner["profilePic"] as? PFFile
                 userImageFile!.getDataInBackgroundWithBlock {

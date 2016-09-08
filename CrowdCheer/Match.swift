@@ -230,7 +230,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
     var targetRunners = [String: Bool]()
-    var generalRunners = [PFUser: Bool]()
+    var generalRunners = [String]()
     
     override init(){
         user = PFUser.currentUser()
@@ -353,8 +353,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     for targetRunner in targetRunners {
                         
                         self.targetRunners[targetRunner.objectId] = false
-                        print("targetRunners within considerAffinity after parse query: \(self.targetRunners)")
-
                         
                         //if runner = target runner, +10 affinity
                         if runner.objectId == targetRunner.objectId {
@@ -364,9 +362,15 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                         }
                         else {
                             affinities[runner] = 0
-                            self.generalRunners[runner] = false
+                            if self.generalRunners.contains(runner.objectId) {
+                                //do nothing
+                            }
+                            else {
+                                self.generalRunners.append(runner.objectId)
+                            }
+                            
                         }
-                        print("targetRunners within considerAffinity tagging as target or not: \(self.targetRunners)")
+                        print("generalRunners within considerAffinity: \(self.generalRunners)")
                     }
                 }
                 result(affinities: affinities)
