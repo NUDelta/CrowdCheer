@@ -137,7 +137,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
                                     runnerCount += 1
                                     self.areRunnersNearby = true
-                                    self.sendLocalNotification_any()
                                 }
                             }
                                 

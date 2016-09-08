@@ -41,6 +41,7 @@ class DashboardViewController: UIViewController {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
     var userMonitorTimer: NSTimer = NSTimer()
+    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
     var targetRunnerTrackingStatus = [String: Bool]()
@@ -93,6 +94,7 @@ class DashboardViewController: UIViewController {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         
@@ -182,7 +184,7 @@ class DashboardViewController: UIViewController {
                             else if affinity.1 != 10 { //if general runner, display runner
                                 self.getRunnerProfile(runner, runnerType: "general")
                                 runnerCount += 1
-                                self.sendLocalNotification_any()
+                                self.areRunnersNearby = true
                             }
                         }
                             
@@ -203,6 +205,7 @@ class DashboardViewController: UIViewController {
                                 if !isTargetRunnerNear {
                                     self.getRunnerProfile(runner, runnerType: "general")
                                     runnerCount += 1
+                                    self.areRunnersNearby = true
                                 }
                             }
                         }
