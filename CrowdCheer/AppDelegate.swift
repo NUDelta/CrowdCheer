@@ -14,6 +14,7 @@ let setupDateString = "2016-09-10T06:00:00-05:00" // 1hr before race
 let prestartDateString = "2016-09-10T06:55:00-05:00" // 5 min before race
 let startDateString = "2016-09-10T07:00:00-05:00" // race start time
 let poststartDateString = "2016-09-10T07:05:00-05:00" //5 min after race start
+var nearbyTargetRunnersTimer: NSTimer = NSTimer()
 
 
 @UIApplicationMain

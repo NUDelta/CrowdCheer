@@ -20,8 +20,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     
     var userMonitorTimer: NSTimer = NSTimer()
-    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
+    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
+    var areTargetRunnersNearby: Bool = Bool()
+    var targetRunnerName: String = ""
     var areRunnersNearby: Bool = Bool()
     var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
@@ -43,6 +45,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         cheer.enabled = false
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
+        areTargetRunnersNearby = false
         areRunnersNearby = false
         interval = 30
         
@@ -61,14 +64,16 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
+        nearbyGeneralRunnersTimer.invalidate()
+        nearbyTargetRunnersTimer.invalidate()
         
     }
     
@@ -147,7 +152,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
-                                    self.sendLocalNotification_target(name)
+                                    self.areTargetRunnersNearby = true
+                                    self.targetRunnerName = name
                                     isTargetRunnerNear = true
                                 }
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
@@ -251,26 +257,39 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func sendLocalNotification_target(name: String) {
+    func sendLocalNotification_target() {
         
-        if UIApplication.sharedApplication().applicationState == .Background {
-            
-            let localNotification = UILocalNotification()
-            localNotification.alertBody =  name + " is near you, get ready to cheer!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-            
-            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
-        }
+        let name = targetRunnerName
         
-        else if UIApplication.sharedApplication().applicationState == .Active {
+        if areTargetRunnersNearby == true {
             
-            let alertTitle = name + " is nearby!"
-            let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+            if UIApplication.sharedApplication().applicationState == .Background {
+                
+                let localNotification = UILocalNotification()
+                localNotification.alertBody =  name + " is near you, get ready to cheer!"
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            }
+                
+            else if UIApplication.sharedApplication().applicationState == .Active {
+                
+                let alertTitle = name + " is nearby!"
+                let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissCheerTarget))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
         }
+        else {
+            print("local notification: no target runners nearby")
+        }
+    }
+    
+    func dismissCheerTarget(alert: UIAlertAction!) {
+        
+        nearbyTargetRunnersTimer.invalidate()
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

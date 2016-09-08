@@ -41,9 +41,11 @@ class DashboardViewController: UIViewController {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
     var userMonitorTimer: NSTimer = NSTimer()
-    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
+    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
+    var areTargetRunnersNearby: Bool = Bool()
+    var targetRunnerNameText: String = ""
     var targetRunnerTrackingStatus = [String: Bool]()
     var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
@@ -83,6 +85,7 @@ class DashboardViewController: UIViewController {
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
+        areTargetRunnersNearby = false
         areRunnersNearby = false
         interval = 30
         
@@ -97,12 +100,15 @@ class DashboardViewController: UIViewController {
         nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
     }
 
     override func viewWillDisappear(animated: Bool) {
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
+        nearbyGeneralRunnersTimer.invalidate()
+        nearbyTargetRunnersTimer.invalidate()
         
     }
     
@@ -173,8 +179,8 @@ class DashboardViewController: UIViewController {
                             }
                         }
                             
-                            //Goal: Show all runners near me, including target runners
-                        else if dist > 200 && dist <= 400 { //if runner is between 500m-2km away (demo: 200-400)
+                        //Goal: Show all runners near me, including target runners
+                        else if dist > 300 && dist <= 400 { //if runner is between 1-2km away (demo: 300-400)
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.targetRunnerETA.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
@@ -187,18 +193,41 @@ class DashboardViewController: UIViewController {
                                 self.areRunnersNearby = true
                             }
                         }
+                        
+                        //Goal: if target runner is close, disable general runners & only show targets.
+                        else if dist > 200 && dist <= 300 { //if runner is between 500m - 1k away (demo: 200-300)
+                            if affinity.1 == 10 { //if target runner, display runner
+                                self.targetRunnerETA.text = (name) + " is less than 5 min away"
+                                self.disableGeneralRunners()
+                                self.getRunnerProfile(runner, runnerType: "target")
+                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                runnerCount += 1
                             
-                            //Goal: If target runner is close, only show them. If not, then continue to show all runners
+                                isTargetRunnerNear = true
+                            }
+                            else if affinity.1 != 10 { //if general runner, check if target runner is nearby
+                                if !isTargetRunnerNear {
+                                    self.getRunnerProfile(runner, runnerType: "general")
+                                    runnerCount += 1
+                                    self.areRunnersNearby = true
+                                }
+                            }
+                        }
+                            
+                        //Goal: If target runner is close, only show them. If not, then continue to show all runners
                         else if dist <= 200 { //if runner is less than 500m away (demo: 200)
                             if affinity.1 == 10 { //if target runner, display runner & notify
                                 self.targetRunnerETA.hidden = true
+                                self.disableGeneralRunners()
                                 self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId] = true
                                 runnerCount += 1
-                                self.sendLocalNotification_target(name)
+                                
+                                self.areTargetRunnersNearby = true
+                                self.targetRunnerNameText = name
                                 isTargetRunnerNear = true
                             }
                             else if affinity.1 != 10 { //if general runner, check if target runner is nearby
@@ -247,6 +276,7 @@ class DashboardViewController: UIViewController {
             targetRunnerName.text = (name as? String)!
             targetRunnerPic.hidden = false
             targetRunnerName.hidden = false
+            self.targetRunnerETA.text = ((name) as! String) + " is more than 10 min away"
 
         }
         
@@ -439,26 +469,48 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func sendLocalNotification_target(name: String) {
+    func disableGeneralRunners() {
+        general1RunnerTrack.enabled = false
+        general2RunnerTrack.enabled = false
+        general3RunnerTrack.enabled = false
+        general1RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
+        general2RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
+        general3RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
+    }
+    
+    func sendLocalNotification_target() {
         
-        if UIApplication.sharedApplication().applicationState == .Background {
-            
-            let localNotification = UILocalNotification()
-            localNotification.alertBody =  name + " is near you, get ready to cheer!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-            
-            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+        let name = targetRunnerNameText
+        
+        if areTargetRunnersNearby == true {
+            if UIApplication.sharedApplication().applicationState == .Background {
+                
+                let localNotification = UILocalNotification()
+                localNotification.alertBody =  name + " is near you, get ready to cheer!"
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            }
+                
+            else if UIApplication.sharedApplication().applicationState == .Active {
+                
+                let alertTitle = name + " is nearby!"
+                let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissCheerTarget))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
         }
             
-        else if UIApplication.sharedApplication().applicationState == .Active {
-            
-            let alertTitle = name + " is nearby!"
-            let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+        else {
+            print("local notification: no target runners nearby")
         }
+    }
+    
+    func dismissCheerTarget(alert: UIAlertAction!) {
+        
+        nearbyTargetRunnersTimer.invalidate()
     }
     
     func notifyTargetRunners(targetRunnersStatus: [String: Bool]) {
@@ -513,6 +565,7 @@ class DashboardViewController: UIViewController {
         }
         
         print("isCheerSaved? \(isCheerSaved)")
+        nearbyTargetRunnersTimer.invalidate()
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
         performSegueWithIdentifier("trackRunner", sender: nil)
