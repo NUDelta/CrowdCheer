@@ -39,7 +39,6 @@ class CheerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.setHidesBackButton(true, animated:true);
         distanceLabel.hidden = true
         nearBanner.hidden = false
         nearBanner.text = "Loading location..."
