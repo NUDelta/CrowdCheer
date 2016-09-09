@@ -253,7 +253,7 @@ class DashboardViewController: UIViewController {
                         else if dist <= 250 { //if runner is less than 500m away (demo: 250)
                             if affinity.1 == 10 { //if target runner, display runner & notify
                                 self.targetRunner5Less.hidden = true
-                                self.targetRunnerTimeToCheer.text = "Time to cheer for " + (name) + "!"
+                                self.targetRunnerTimeToCheer.text = (name) + "is nearby!"
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
