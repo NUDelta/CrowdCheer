@@ -65,11 +65,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
-        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
+        print("viewWillDisappear")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()

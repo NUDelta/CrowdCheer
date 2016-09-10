@@ -103,14 +103,15 @@ class DashboardViewController: UIViewController {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
-        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
     }
 
     override func viewWillDisappear(animated: Bool) {
+        print("viewWillDisappear")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()
