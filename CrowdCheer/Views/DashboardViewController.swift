@@ -104,7 +104,7 @@ class DashboardViewController: UIViewController {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
@@ -492,9 +492,20 @@ class DashboardViewController: UIViewController {
             
             if UIApplication.sharedApplication().applicationState == .Background {
                 let localNotification = UILocalNotification()
+                
+                var spectatorInfo = [String: AnyObject]()
+                spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                spectatorInfo["source"] = "generalRunnerNotification"
+                spectatorInfo["receivedNotification"] = true
+                spectatorInfo["receivedNotificationTimestamp"] = NSDate()
+                
+                
                 localNotification.alertBody = "Cheer for runners near you!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
+                localNotification.userInfo = spectatorInfo
                 
                 UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
             }
@@ -522,9 +533,19 @@ class DashboardViewController: UIViewController {
             if UIApplication.sharedApplication().applicationState == .Background {
                 
                 let localNotification = UILocalNotification()
+                
+                var spectatorInfo = [String: AnyObject]()
+                spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                spectatorInfo["source"] = "targetRunnerNotification"
+                spectatorInfo["receivedNotification"] = true
+                spectatorInfo["receivedNotificationTimestamp"] = NSDate()
+                
                 localNotification.alertBody =  name + " is near you, get ready to cheer!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
+                localNotification.userInfo = spectatorInfo
                 
                 UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
             }
@@ -562,9 +583,19 @@ class DashboardViewController: UIViewController {
                 if UIApplication.sharedApplication().applicationState == .Background {
                     
                     let localNotification = UILocalNotification()
+                    
+                    var spectatorInfo = [String: AnyObject]()
+                    spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                    spectatorInfo["source"] = "targetInactiveNotification"
+                    spectatorInfo["receivedNotification"] = true
+                    spectatorInfo["receivedNotificationTimestamp"] = NSDate()
+                    
                     localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to use the app!"
                     localNotification.soundName = UILocalNotificationDefaultSoundName
                     localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                    
+                    spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
+                    localNotification.userInfo = spectatorInfo
                     
                     UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
                 }
