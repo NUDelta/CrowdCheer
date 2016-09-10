@@ -47,6 +47,7 @@ class DashboardViewController: UIViewController {
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
+    var verifyTargetTrackingTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerNameText: String = ""
@@ -107,6 +108,7 @@ class DashboardViewController: UIViewController {
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: true)
         
     }
 
@@ -116,6 +118,7 @@ class DashboardViewController: UIViewController {
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()
         nearbyTargetRunnersTimer.invalidate()
+        verifyTargetTrackingTimer.invalidate()
         
     }
     
@@ -173,8 +176,6 @@ class DashboardViewController: UIViewController {
                 self.considerRunnerAffinity(self.runnerLocations)
             }
         }
-        targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-        print("targetRunnerTrackingStatus: \(targetRunnerTrackingStatus)")
     }
     
     func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {
@@ -276,8 +277,8 @@ class DashboardViewController: UIViewController {
                     }
                 }
             }
-            //if target runners are not showing up, notify target runners to start tracking
-            self.notifyTargetRunners(self.targetRunnerTrackingStatus)
+            self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
+            print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
             self.nearbyRunners.saveRunnerCount(runnerCount)
         }
     }
@@ -548,11 +549,12 @@ class DashboardViewController: UIViewController {
         nearbyTargetRunnersTimer.invalidate()
     }
     
-    func notifyTargetRunners(targetRunnersStatus: [String: Bool]) {
+    func notifyTargetRunners() {
+        //if target runners are not showing up, notify target runners to start tracking
         
         var runner: PFUser
         
-        for targetRunner in targetRunnersStatus {
+        for targetRunner in targetRunnerTrackingStatus {
             if targetRunner.1 == false {
                 runner = PFQuery.getUserObjectWithId(targetRunner.0)
                 let name = runner.valueForKey("name") as! String
@@ -573,7 +575,7 @@ class DashboardViewController: UIViewController {
                     let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text them to remind them to use the app!", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
                     alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: dismissInactiveTarget))
                     
                     self.presentViewController(alertController, animated: true, completion: nil)
                 }
@@ -588,6 +590,10 @@ class DashboardViewController: UIViewController {
     
     func openMessages(alert: UIAlertAction!) {
         UIApplication.sharedApplication().openURL(NSURL(string:"sms:")!)
+    }
+    
+    func dismissInactiveTarget(alert: UIAlertAction!) {
+        verifyTargetTrackingTimer.invalidate()
     }
     
     @IBAction func targetTrack(sender: UIButton) {

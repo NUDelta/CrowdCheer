@@ -22,6 +22,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
+    var verifyTargetTrackingTimer: NSTimer = NSTimer()
+    var targetRunnerTrackingStatus = [String : Bool]()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerName: String = ""
     var areRunnersNearby: Bool = Bool()
@@ -67,6 +69,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(RaceViewController.notifyTargetRunners), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -75,6 +78,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()
         nearbyTargetRunnersTimer.invalidate()
+        verifyTargetTrackingTimer.invalidate()
         
     }
     
@@ -99,8 +103,6 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         mapView.removeAnnotations(annotationsToRemove)
         var runnerCount = 0
-        var targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-        
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -124,7 +126,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             if dist > 400 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
@@ -136,7 +138,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist > 200 && dist <= 400 { //if runner is between 500m-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
@@ -150,7 +152,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist <= 200 { //if runner is less than 500m away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId] = true
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
                                     self.areTargetRunnersNearby = true
@@ -168,9 +170,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                 }
-                //if target runners are not showing up, notify target runners to start tracking
-                self.notifyTargetRunners(targetRunnerTrackingStatus)
-                
+                self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
                 self.nearbyRunners.saveRunnerCount(runnerCount)
             }
             
@@ -198,11 +198,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation)
     }
     
-    func notifyTargetRunners(targetRunnersStatus: [String: Bool]) {
+    func notifyTargetRunners() {
+        //if target runners are not showing up, notify target runners to start tracking
         
         var runner: PFUser
         
-        for targetRunner in targetRunnersStatus {
+        for targetRunner in targetRunnerTrackingStatus {
             if targetRunner.1 == false {
                 runner = PFQuery.getUserObjectWithId(targetRunner.0)
                 let name = runner.valueForKey("name") as! String
@@ -223,7 +224,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text them to remind them to use the app!", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
                     alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: dismissInactiveTarget))
                     
                     self.presentViewController(alertController, animated: true, completion: nil)
                 }
@@ -238,6 +239,10 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     
     func openMessages(alert: UIAlertAction!) {
         UIApplication.sharedApplication().openURL(NSURL(string:"sms:")!)
+    }
+    
+    func dismissInactiveTarget(alert: UIAlertAction!) {
+        verifyTargetTrackingTimer.invalidate()
     }
     
     func sendLocalNotification_any() {
