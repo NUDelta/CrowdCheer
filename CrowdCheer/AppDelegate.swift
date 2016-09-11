@@ -69,14 +69,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (notification.userInfo != nil) {
             
-            let newNotification = PFObject(className: "SpectatorNotifications")
-            newNotification["spectator"] = notification.userInfo!["spectator"]
-            newNotification["source"] = notification.userInfo!["source"]
-            newNotification["receivedNotification"] = notification.userInfo!["receivedNotification"]
-            newNotification["receivedNotificationTimestamp"] = notification.userInfo!["receivedNotificationTimestamp"]
-            newNotification["unreadNotificationCount"] = notification.userInfo!["unreadNotificationCount"]
-            newNotification.saveInBackground()
+            if (notification.userInfo?["source"])! as! String == "start" {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let navigationController = self.window?.rootViewController as! UINavigationController
+                let vc = storyboard.instantiateViewControllerWithIdentifier("runViewController") as UIViewController
+                navigationController.pushViewController(vc, animated: true)
+            }
             
+            else if (notification.userInfo?["spectator"]) != nil {
+                let newNotification = PFObject(className: "SpectatorNotifications")
+                newNotification["spectator"] = notification.userInfo!["spectator"]
+                newNotification["source"] = notification.userInfo!["source"]
+                newNotification["receivedNotification"] = notification.userInfo!["receivedNotification"]
+                newNotification["receivedNotificationTimestamp"] = notification.userInfo!["receivedNotificationTimestamp"]
+                newNotification["unreadNotificationCount"] = notification.userInfo!["unreadNotificationCount"]
+                newNotification.saveInBackground()
+            }
         }
     }
 }
