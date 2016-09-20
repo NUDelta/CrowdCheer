@@ -10,10 +10,9 @@ import UIKit
 import Parse
 
 let dictKey = "key"
-let setupDateString = "2016-10-11T05:30:00-05:00" // 1hr before race
-let prestartDateString = "2016-10-11T06:55:00-05:00" // 5 min before race
-let startDateString = "2016-10-11T07:00:00-05:00" // race start time
-let poststartDateString = "2016-10-11T07:05:00-05:00" //5 min after race start
+let setupDateString = "2016-09-11T05:30:00-05:00" // 1hr before race
+let startDateString = "2016-09-11T07:00:00-05:00" // race start time
+
 var nearbyTargetRunnersTimer: NSTimer = NSTimer()
 
 
@@ -69,14 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (notification.userInfo != nil) {
             
-            if (notification.userInfo?["source"])! as! String == "start" {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let navigationController = self.window?.rootViewController as! UINavigationController
-                let vc = storyboard.instantiateViewControllerWithIdentifier("runViewController") as UIViewController
-                navigationController.pushViewController(vc, animated: true)
-            }
-            
-            else if (notification.userInfo?["spectator"]) != nil {
+            if (notification.userInfo?["spectator"]) != nil {
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 newNotification["spectator"] = notification.userInfo!["spectator"]
                 newNotification["source"] = notification.userInfo!["source"]
