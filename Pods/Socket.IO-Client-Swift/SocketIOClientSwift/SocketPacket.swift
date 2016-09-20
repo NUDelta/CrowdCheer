@@ -85,7 +85,7 @@ struct SocketPacket {
         }
         
         binary.append(data)
-        currentPlace++
+        currentPlace += 1
         
         if placeholders == currentPlace {
             currentPlace = 0
@@ -201,7 +201,7 @@ struct SocketPacket {
     
     mutating func fillInPlaceholders() {
         for i in 0..<data.count {
-            if let str = data[i] as? String, num = str["~~(\\d)"].groups() {
+            if let str = data[i] as? String, let num = str["~~(\\d)"].groups() {
                 // Fill in binary placeholder with data
                 data[i] = binary[Int(num[1])!]
             } else if data[i] is NSDictionary || data[i] is NSArray {
@@ -265,7 +265,7 @@ extension SocketPacket {
 }
 
 private extension SocketPacket {
-    static func shred(data: AnyObject, inout binary: [NSData]) -> AnyObject {
+    static func shred(data: AnyObject, binary: inout [NSData]) -> AnyObject {
         if let bin = data as? NSData {
             let placeholder = ["_placeholder" :true, "num": binary.count]
             

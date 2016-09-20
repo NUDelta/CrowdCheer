@@ -181,7 +181,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
         }
         addHeader(urlRequest, key: headerWSVersionName, val: headerWSVersionValue)
         addHeader(urlRequest, key: headerWSKeyName, val: generateWebSocketKey())
-        addHeader(urlRequest, key: headerOriginName, val: url.absoluteString)
+        addHeader(urlRequest, key: headerOriginName, val: url.absoluteString!)
         addHeader(urlRequest, key: headerWSHostName, val: "\(url.host!):\(port!)")
         for (key,value) in headers {
             addHeader(urlRequest, key: key, val: value)
@@ -203,7 +203,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
     private func generateWebSocketKey() -> String {
         var key = ""
         let seed = 16
-        for (var i = 0; i < seed; i++) {
+        for (i, in 0 ..< seed) {
             let uni = UnicodeScalar(UInt32(97 + arc4random_uniform(25)))
             key += "\(Character(uni))"
         }
@@ -242,7 +242,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
         }
         if let cipherSuites = self.enabledSSLCipherSuites {
             if let sslContextIn = CFReadStreamCopyProperty(inputStream, kCFStreamPropertySSLContext) as! SSLContextRef?,
-                sslContextOut = CFWriteStreamCopyProperty(outputStream, kCFStreamPropertySSLContext) as! SSLContextRef? {
+                let sslContextOut = CFWriteStreamCopyProperty(outputStream, kCFStreamPropertySSLContext) as! SSLContextRef? {
                     let resIn = SSLSetEnabledCiphers(sslContextIn, cipherSuites, cipherSuites.count)
                     let resOut = SSLSetEnabledCiphers(sslContextOut, cipherSuites, cipherSuites.count)
                     if (resIn != errSecSuccess) {
@@ -271,7 +271,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
     //delegate for the stream methods. Processes incoming bytes
     public func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
         
-        if let sec = security where !certValidated && (eventCode == .HasBytesAvailable || eventCode == .HasSpaceAvailable) {
+        if let sec = security , !certValidated && (eventCode == .HasBytesAvailable || eventCode == .HasSpaceAvailable) {
             let possibleTrust: AnyObject? = aStream.propertyForKey(kCFStreamPropertySSLPeerTrust as String)
             if let trust: AnyObject = possibleTrust {
                 let domain: AnyObject? = aStream.propertyForKey(kCFStreamSSLPeerName as String)
@@ -360,9 +360,9 @@ public class WebSocket : NSObject, NSStreamDelegate {
         let CRLFBytes = [UInt8(ascii: "\r"), UInt8(ascii: "\n"), UInt8(ascii: "\r"), UInt8(ascii: "\n")]
         var k = 0
         var totalSize = 0
-        for var i = 0; i < bufferLen; i++ {
+        for i in 0 ..< bufferLen {
             if buffer[i] == CRLFBytes[k] {
-                k++
+                k += 1
                 if k == 3 {
                     totalSize = i + 1
                     break
@@ -566,7 +566,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
             }
             if response != nil {
                 response!.bytesLeft -= Int(len)
-                response!.frameCount++
+                response!.frameCount += 1
                 response!.isFin = isFin > 0 ? true : false
                 if(isNew) {
                     readStack.append(response!)
@@ -674,7 +674,7 @@ public class WebSocket : NSObject, NSStreamDelegate {
             SecRandomCopyBytes(kSecRandomDefault, Int(sizeof(UInt32)), maskKey)
             offset += sizeof(UInt32)
             
-            for (var i = 0; i < dataLength; i++) {
+            for (i,, in 0 ..< dataLength) {
                 buffer[offset] = bytes[i] ^ maskKey[i % sizeof(UInt32)]
                 offset += 1
             }
@@ -791,7 +791,7 @@ private class SSLSecurity {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), {
                 var collect = Array<SecKeyRef>()
                 for cert in certs {
-                    if let data = cert.certData where cert.key == nil  {
+                    if let data = cert.certData , cert.key == nil  {
                         cert.key = self.extractPublicKey(data)
                     }
                     if let k = cert.key {
@@ -845,7 +845,7 @@ private class SSLSecurity {
                 for serverKey in serverPubKeys as [AnyObject] {
                     for key in keys as [AnyObject] {
                         if serverKey.isEqual(key) {
-                            trustedCount++
+                            trustedCount += 1
                             break
                         }
                     }
@@ -864,12 +864,12 @@ private class SSLSecurity {
             var result: SecTrustResultType = 0
             SecTrustEvaluate(trust,&result)
             let r = Int(result)
-            if r == kSecTrustResultUnspecified || r == kSecTrustResultProceed {
+            if r == SecTrustResultType.Unspecified || r == SecTrustResultType.Proceed {
                 var trustedCount = 0
                 for serverCert in serverCerts {
                     for cert in certs {
                         if cert == serverCert {
-                            trustedCount++
+                            trustedCount += 1
                             break
                         }
                     }
@@ -924,7 +924,7 @@ private class SSLSecurity {
     */
     func certificateChainForTrust(trust: SecTrustRef) -> Array<NSData> {
         var collect = Array<NSData>()
-        for var i = 0; i < SecTrustGetCertificateCount(trust); i++ {
+        for i in 0 ..< SecTrustGetCertificateCount(trust) {
             let cert = SecTrustGetCertificateAtIndex(trust,i)
             collect.append(SecCertificateCopyData(cert!))
         }
@@ -941,7 +941,7 @@ private class SSLSecurity {
     func publicKeyChainForTrust(trust: SecTrustRef) -> Array<SecKeyRef> {
         var collect = Array<SecKeyRef>()
         let policy = SecPolicyCreateBasicX509()
-        for var i = 0; i < SecTrustGetCertificateCount(trust); i++ {
+        for i in 0 ..< SecTrustGetCertificateCount(trust) {
             let cert = SecTrustGetCertificateAtIndex(trust,i)
             if let key = extractPublicKeyFromCert(cert!, policy: policy) {
                 collect.append(key)

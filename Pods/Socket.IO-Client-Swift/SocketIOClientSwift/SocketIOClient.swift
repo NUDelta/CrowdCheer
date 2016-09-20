@@ -172,7 +172,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(timeoutAfter) * Int64(NSEC_PER_SEC))
             
             dispatch_after(time, handleQueue) {[weak self] in
-                if let this = self where this.status != .Connected {
+                if let this = self , this.status != .Connected {
                     this.status = .Closed
                     this.engine?.close()
                     
@@ -182,7 +182,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
     }
     
     private func createOnAck(items: [AnyObject]) -> OnAckCallback {
-        return {[weak self, ack = ++currentAck] timeout, callback in
+        return {[weak self, ack = currentAck += 1] timeout, callback in
             if let this = self {
                 this.ackHandlers.addAck(ack, callback: callback)
                 
@@ -474,7 +474,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.reconnectTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.reconnectWait),
-                    target: self, selector: "_tryReconnect", userInfo: nil, repeats: true)
+                    target: self, selector: #selector(SocketIOClient._tryReconnect), userInfo: nil, repeats: true)
             }
         }
     }
@@ -497,7 +497,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
         handleEvent("reconnectAttempt", data: [reconnectAttempts - currentReconnectAttempt],
             isInternalMessage: true)
         
-        currentReconnectAttempt++
+        currentReconnectAttempt += 1
         connect()
     }
 }

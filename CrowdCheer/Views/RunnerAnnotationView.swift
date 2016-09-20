@@ -17,7 +17,7 @@ class TrackRunnerAnnotationView: MKAnnotationView {
     }
     
     // Called when drawing the RunnerAnnotationView
-    override init(frame: CGRect) {
+    init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -40,7 +40,7 @@ class PickRunnerAnnotationView: MKAnnotationView {
     }
     
     // Called when drawing the RunnerAnnotationView
-    override init(frame: CGRect) {
+    init(frame: CGRect) {
         super.init(frame: frame)
     }
     
