@@ -67,7 +67,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //reset race data when race starts
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time
+        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time in app delegate
         startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
         
     }

@@ -23,11 +23,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        usernameField.delegate = self
-        emailField.delegate = self
-        passwordField.delegate = self
-        
+        //set timer to notify users to set up app on day of race
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         setupDate = dateFormatter.dateFromString(setupDateString)! //hardcoded dates for race day notifications
@@ -35,6 +31,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         
         //set up rules for keyboard
+        usernameField.delegate = self
+        emailField.delegate = self
+        passwordField.delegate = self
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
