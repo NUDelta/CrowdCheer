@@ -221,6 +221,28 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
             }
         }
     }
+    
+    func getRunnerProfile(runnerObjID: String) -> Dictionary<String, AnyObject> {
+        var runnerProfile = [String: AnyObject]()
+        
+        let runner = PFQuery.getUserObjectWithId(runnerObjID)
+        runnerProfile["objectID"] = runnerObjID
+        
+        let name = (runner.valueForKey("name"))!
+        runnerProfile["name"] = name
+        
+        let userImageFile = runner["profilePic"] as? PFFile
+        userImageFile!.getDataInBackgroundWithBlock {
+            (imageData: NSData?, error: NSError?) -> Void in
+            if error == nil {
+                if let imageData = imageData {
+                    let image = UIImage(data:imageData)
+                    runnerProfile["profilePic"] = image
+                }
+            }
+        }
+        return runnerProfile
+    }
 }
 
 
