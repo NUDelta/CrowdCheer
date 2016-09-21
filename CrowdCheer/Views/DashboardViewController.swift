@@ -44,6 +44,7 @@ class DashboardViewController: UIViewController {
 
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
+    var runnerProfiles = [String:[String:AnyObject]]()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
@@ -173,7 +174,28 @@ class DashboardViewController: UIViewController {
             else {
                 self.areRunnersNearby = true
                 self.runnerLocations = runnerLocations!
+                
+                //update profiles of existing runners
+                self.updateRunnerProfiles(self.runnerLocations)
+                
+                
                 self.considerRunnerAffinity(self.runnerLocations)
+            }
+        }
+    }
+    
+    func updateRunnerProfiles(runnerLocations: [PFUser: PFGeoPoint]) {
+        
+        for (runner, runnerLoc) in runnerLocations {
+            
+            if runnerProfiles[runner.objectId] != nil {
+                print("runner profile exists, will not query")
+            }
+            
+            else {
+                runnerProfiles[runner.objectId] = nearbyRunners.getRunnerProfile(runner.objectId)
+                print("runner profile did not exist, added  \(runner.username)")
+                print(runnerProfiles)
             }
         }
     }
