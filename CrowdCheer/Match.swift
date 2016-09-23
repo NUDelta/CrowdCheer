@@ -129,21 +129,26 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         var runnerProfile = [String: AnyObject]()
         
         let runner = PFQuery.getUserObjectWithId(runnerObjID)
-        runnerProfile["objectID"] = runnerObjID
-        
         let name = (runner.valueForKey("name"))!
-        runnerProfile["name"] = name
-        
         let userImageFile = runner["profilePic"] as? PFFile
+        var paths = ""
         userImageFile!.getDataInBackgroundWithBlock {
             (imageData: NSData?, error: NSError?) -> Void in
             if error == nil {
                 if let imageData = imageData {
                     let image = UIImage(data:imageData)
-                    runnerProfile["profilePic"] = image
+                    let fileManager = NSFileManager.defaultManager()
+                    paths = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("\(runner.username).jpg")
+                    print(paths)
+                    fileManager.createFileAtPath(paths as String, contents: imageData, attributes: nil)
                 }
             }
+            
         }
+        
+        runnerProfile["objectID"] = runnerObjID
+        runnerProfile["name"] = name
+        runnerProfile["profilePicPath"] = paths
         return runnerProfile
     }
     
