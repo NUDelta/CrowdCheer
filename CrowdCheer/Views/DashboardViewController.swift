@@ -301,6 +301,12 @@ class DashboardViewController: UIViewController {
                         //Goal: If target runner is close, only show them. If not, then continue to show all runners
                         else if dist <= 500 { //if runner is less than 500m away (demo: 250)
                             if affinity.1 == 10 { //if target runner, display runner & notify
+                                
+                                self.nearbyRunnersTimer.invalidate()
+                                self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+                                nearbyTargetRunnersTimer.invalidate()
+                                nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+                                
                                 self.targetRunner5Less.hidden = true
                                 self.targetRunnerTimeToCheer.text = (name) + "is nearby!"
                                 self.targetRunnerTimeToCheer.hidden = false
