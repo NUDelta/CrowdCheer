@@ -178,7 +178,7 @@ class DashboardViewController: UIViewController {
                 //update profiles of existing runners
                 self.updateRunnerProfiles(self.runnerLocations)
                 
-                
+                //sort out target & general runners
                 self.considerRunnerAffinity(self.runnerLocations)
             }
         }
@@ -202,6 +202,28 @@ class DashboardViewController: UIViewController {
             }
         }
     }
+    
+    func getRunnerImage(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
+        let runnerProfile = runnerProfiles[runnerObjID]
+        let imagePath = runnerProfile!["profilePicPath"] as! String
+        let fileManager = NSFileManager.defaultManager()
+        if fileManager.fileExistsAtPath(imagePath){
+            let image = UIImage(contentsOfFile: imagePath)
+            return image!
+        }
+        else{
+            print("No Image, using generic")
+            let image = UIImage(named: "profile.png")
+            return image!
+        }
+    }
+    
+    func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
+        let runnerProfile = runnerProfiles[runnerObjID]
+        let name = runnerProfile!["name"] as! String
+        return name
+    }
+    
     
     func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {
         //R+R* Condition
@@ -319,26 +341,19 @@ class DashboardViewController: UIViewController {
     
     func getRunnerProfile(runner: PFUser, runnerType: String) {
         
+        let runnerName = getRunnerName(runner.objectId, runnerProfiles: self.runnerProfiles)
+        let runnerImage = getRunnerImage(runner.objectId, runnerProfiles: self.runnerProfiles)
+        
         if runnerType == "target" {
             
             targetRunner = runner
             self.getTargetRunnerStatus(targetRunner)
-            let name = (runner.valueForKey("name"))!
-            let userImageFile = runner["profilePic"] as? PFFile
-            userImageFile!.getDataInBackgroundWithBlock {
-                (imageData: NSData?, error: NSError?) -> Void in
-                if error == nil {
-                    if let imageData = imageData {
-                        let image = UIImage(data:imageData)
-                        self.targetRunnerPic.image = image!
-                    }
-                }
-            }
-            targetRunnerName.text = (name as? String)!
+            self.targetRunnerPic.image = runnerImage
+            
+            targetRunnerName.text = runnerName
             targetRunnerPic.hidden = false
             targetRunnerName.hidden = false
-            self.targetRunnerETA.text = ((name) as! String) + " is more than 10 min away"
-
+            self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
         }
         
         else if runnerType == "general" {
@@ -363,22 +378,12 @@ class DashboardViewController: UIViewController {
             }
             else if generalRunners.count == 1 {
                 //update general 1
+                let runner1ObjID = generalRunners[0]
+                general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                 
-                
-                let runner1 = PFQuery.getUserObjectWithId(generalRunners[0])
-                general1Runner = runner1
-                let name = (runner1.valueForKey("name"))!
-                let userImageFile = runner1["profilePic"] as? PFFile
-                userImageFile!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general1RunnerPic.image = image!
-                        }
-                    }
-                }
-                general1RunnerName.text = (name as? String)!
+                general1RunnerName.text = name
                 general1RunnerPic.hidden = false
                 general1RunnerName.hidden = false
                 general1RunnerTrack.hidden = false
@@ -387,39 +392,23 @@ class DashboardViewController: UIViewController {
             else if generalRunners.count == 2 {
                 
                 //update general 1
-                let runner1 = PFQuery.getUserObjectWithId(generalRunners[0])
-                general1Runner = runner1
-                let name = (runner1.valueForKey("name"))!
-                let userImageFile = runner1["profilePic"] as? PFFile
-                userImageFile!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general1RunnerPic.image = image!
-                        }
-                    }
-                }
-                general1RunnerName.text = (name as? String)!
+                let runner1ObjID = generalRunners[0]
+                general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                
+                general1RunnerName.text = name1
                 general1RunnerPic.hidden = false
                 general1RunnerName.hidden = false
                 general1RunnerTrack.hidden = false
                 
                 //update general 2
-                let runner2 = PFQuery.getUserObjectWithId(generalRunners[1])
-                general2Runner = runner2
-                let name2 = (runner2.valueForKey("name"))!
-                let userImageFile2 = runner2["profilePic"] as? PFFile
-                userImageFile2!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general2RunnerPic.image = image!
-                        }
-                    }
-                }
-                general2RunnerName.text = (name2 as? String)!
+                let runner2ObjID = generalRunners[1]
+                general2Runner = PFQuery.getUserObjectWithId(generalRunners[1])
+                let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                
+                general2RunnerName.text = name2
                 general2RunnerPic.hidden = false
                 general2RunnerName.hidden = false
                 general2RunnerTrack.hidden = false
@@ -428,58 +417,34 @@ class DashboardViewController: UIViewController {
             else if generalRunners.count > 2 {
                 
                 //update general 1
-                let runner1 = PFQuery.getUserObjectWithId(generalRunners[0])
-                general1Runner = runner1
-                let name = (runner1.valueForKey("name"))!
-                let userImageFile = runner1["profilePic"] as? PFFile
-                userImageFile!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general1RunnerPic.image = image!
-                        }
-                    }
-                }
-                general1RunnerName.text = (name as? String)!
+                let runner1ObjID = generalRunners[0]
+                general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                
+                general1RunnerName.text = name1
                 general1RunnerPic.hidden = false
                 general1RunnerName.hidden = false
                 general1RunnerTrack.hidden = false
                 
                 //update general 2
-                let runner2 = PFQuery.getUserObjectWithId(generalRunners[1])
-                general2Runner = runner2
-                let name2 = (runner2.valueForKey("name"))!
-                let userImageFile2 = runner2["profilePic"] as? PFFile
-                userImageFile2!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general2RunnerPic.image = image!
-                        }
-                    }
-                }
-                general2RunnerName.text = (name2 as? String)!
+                let runner2ObjID = generalRunners[1]
+                general2Runner = PFQuery.getUserObjectWithId(generalRunners[1])
+                let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                
+                general2RunnerName.text = name2
                 general2RunnerPic.hidden = false
                 general2RunnerName.hidden = false
                 general2RunnerTrack.hidden = false
                 
                 //update general 3
-                let runner3 = PFQuery.getUserObjectWithId(generalRunners[2])
-                general3Runner = runner3
-                let name3 = (runner3.valueForKey("name"))!
-                let userImageFile3 = runner3["profilePic"] as? PFFile
-                userImageFile3!.getDataInBackgroundWithBlock {
-                    (imageData: NSData?, error: NSError?) -> Void in
-                    if error == nil {
-                        if let imageData = imageData {
-                            let image = UIImage(data:imageData)
-                            self.general3RunnerPic.image = image!
-                        }
-                    }
-                }
-                general3RunnerName.text = (name3 as? String)!
+                let runner3ObjID = generalRunners[2]
+                general3Runner = PFQuery.getUserObjectWithId(generalRunners[2])
+                let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
+                self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
+                
+                general3RunnerName.text = name3
                 general3RunnerPic.hidden = false
                 general3RunnerName.hidden = false
                 general3RunnerTrack.hidden = false

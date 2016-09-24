@@ -139,7 +139,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             (imageData: NSData?, error: NSError?) -> Void in
             if error == nil {
                 if let imageData = imageData {
-                    let image = UIImage(data:imageData)
                     let fileManager = NSFileManager.defaultManager()
                     self.imagePath = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("\(runner.username).jpg")
                     print(self.imagePath)
