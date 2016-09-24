@@ -193,9 +193,12 @@ class DashboardViewController: UIViewController {
             }
             
             else {
-                runnerProfiles[runner.objectId] = nearbyRunners.getRunnerProfile(runner.objectId)
-                print("runner profile did not exist, added  \(runner.username)")
-                print(runnerProfiles)
+                nearbyRunners.getRunnerProfile(runner.objectId) { (runnerProfile) -> Void in
+                    
+                    self.runnerProfiles[runner.objectId] = runnerProfile
+                    print("runner profile did not exist, added  \(runner.username)")
+                    print(self.runnerProfiles)
+                }
             }
         }
     }
