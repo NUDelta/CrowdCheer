@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AAC48DA163158EAFEBF0D7 /* Pods.framework */; };
 		E20803DA1D5E257700F3E2DB /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803CE1D5E257700F3E2DB /* clock.png */; };
 		E20803DB1D5E257700F3E2DB /* gps.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803CF1D5E257700F3E2DB /* gps.png */; };
 		E20803DC1D5E257700F3E2DB /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803D01D5E257700F3E2DB /* heart.png */; };
@@ -23,7 +22,6 @@
 		E20803E71D5E32E700F3E2DB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803E61D5E32E700F3E2DB /* map.png */; };
 		E20803E91D5E4C5900F3E2DB /* tracking.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803E81D5E4C5900F3E2DB /* tracking.png */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
-		E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */; };
 		E240F4781B6BBEB6008C9580 /* Ford.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E240F4771B6BBEB6008C9580 /* Ford.gpx */; };
 		E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */; };
 		E254BE631C6B978200C9FD8B /* RunnerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */; };
@@ -32,7 +30,6 @@
 		E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BEB31C74F26100C9FD8B /* CheerViewController.swift */; };
 		E25A5E841CC572E80046C809 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A5E831CC572E80046C809 /* Match.swift */; };
 		E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E52901D01EB6C001324C8 /* AffinityViewController.swift */; };
-		E272E0C01D96D8BC0007C0C1 /* Socket_IO_Client_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E272E0BF1D96D8BC0007C0C1 /* Socket_IO_Client_Swift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
 		E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E292A3AD1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld */; };
@@ -100,8 +97,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E20803CE1D5E257700F3E2DB /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		E20803CF1D5E257700F3E2DB /* gps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps.png; sourceTree = "<group>"; };
 		E20803D01D5E257700F3E2DB /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
@@ -117,7 +112,6 @@
 		E20803E61D5E32E700F3E2DB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
 		E20803E81D5E4C5900F3E2DB /* tracking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tracking.png; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E240F4771B6BBEB6008C9580 /* Ford.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ford.gpx; sourceTree = "<group>"; };
 		E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotation.swift; path = CrowdCheer/RunnerAnnotation.swift; sourceTree = "<group>"; };
 		E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotationView.swift; path = CrowdCheer/Views/RunnerAnnotationView.swift; sourceTree = "<group>"; };
@@ -195,9 +189,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E272E0C01D96D8BC0007C0C1 /* Socket_IO_Client_Swift.framework in Frameworks */,
 				E2F0C54A1B710D3200EF6B87 /* AVFoundation.framework in Frameworks */,
-				E23A34921B4B01A5000D9CE2 /* EstimoteSDK.framework in Frameworks */,
 				E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */,
 				E2ADB5D91A9D0A72007EC795 /* Social.framework in Frameworks */,
 				E2ADB5D71A9D0A63007EC795 /* Accounts.framework in Frameworks */,
@@ -219,7 +211,6 @@
 				E2CA511A1A886C4600C2BB03 /* UIKit.framework in Frameworks */,
 				E2CA51181A886C3E00C2BB03 /* CoreData.framework in Frameworks */,
 				E2CA51141A886C1D00C2BB03 /* MapKit.framework in Frameworks */,
-				8510A26334ACD6D0D0970694 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,15 +224,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3D8FEAA639501C75D3CF23DB /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */,
-				13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		E20803CD1D5E257700F3E2DB /* appIcons */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,7 +268,6 @@
 			children = (
 				E272E0BF1D96D8BC0007C0C1 /* Socket_IO_Client_Swift.framework */,
 				E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */,
-				E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */,
 				E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */,
 				E2ADB5E61A9E6808007EC795 /* Parse.framework */,
 				E2ADB5D81A9D0A72007EC795 /* Social.framework */,
@@ -334,7 +315,6 @@
 				E2CA50E01A88677A00C2BB03 /* CrowdCheer */,
 				E2CA51001A88677A00C2BB03 /* CrowdCheerTests */,
 				E2CA50DF1A88677A00C2BB03 /* Products */,
-				3D8FEAA639501C75D3CF23DB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -423,12 +403,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2CA51071A88677A00C2BB03 /* Build configuration list for PBXNativeTarget "CrowdCheer" */;
 			buildPhases = (
-				8C5C01844D1EC24B7BF83287 /* Check Pods Manifest.lock */,
 				E2CA50DA1A88677A00C2BB03 /* Sources */,
 				E2CA50DB1A88677A00C2BB03 /* Frameworks */,
 				E2CA50DC1A88677A00C2BB03 /* Resources */,
-				60582DC9965F2C1FC713E259 /* Copy Pods Resources */,
-				DCF47DA22943BE2E2E809BF8 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -471,6 +448,7 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 823S57WQK3;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -555,54 +533,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		60582DC9965F2C1FC713E259 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8C5C01844D1EC24B7BF83287 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		DCF47DA22943BE2E2E809BF8 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2CA50DA1A88677A00C2BB03 /* Sources */ = {
@@ -759,7 +689,6 @@
 		};
 		E2CA51081A88677A00C2BB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91790BBB952F10169AD23C36 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -784,8 +713,6 @@
 					"-framework",
 					"\"CoreLocation\"",
 					"-framework",
-					"\"EstimoteSDK\"",
-					"-framework",
 					"\"Foundation\"",
 					"-framework",
 					"\"MobileCoreServices\"",
@@ -793,8 +720,6 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"Socket_IO_Client_Swift\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -810,7 +735,6 @@
 		};
 		E2CA51091A88677A00C2BB03 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13299CCB30F51547E12CE4BC /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -835,8 +759,6 @@
 					"-framework",
 					"\"CoreLocation\"",
 					"-framework",
-					"\"EstimoteSDK\"",
-					"-framework",
 					"\"Foundation\"",
 					"-framework",
 					"\"MobileCoreServices\"",
@@ -844,8 +766,6 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"Socket_IO_Client_Swift\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
 				PRODUCT_NAME = "$(TARGET_NAME)";
