@@ -304,8 +304,6 @@ class DashboardViewController: UIViewController {
                                 
                                 self.nearbyRunnersTimer.invalidate()
                                 self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-                                nearbyTargetRunnersTimer.invalidate()
-                                nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
                                 
                                 self.targetRunner5Less.hidden = true
                                 self.targetRunnerTimeToCheer.text = (name) + "is nearby!"
