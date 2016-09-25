@@ -65,10 +65,10 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
         //reset race data when race starts
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time in app delegate
-        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+//        startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time in app delegate
+//        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
         
     }
     
@@ -98,7 +98,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (runnerMonitor.pace as String)
         
-        if (runnerMonitor.locationMgr.location!.coordinate.latitude == 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude == 0.0) {  //NOTE: nil here
+        if (runnerMonitor.locationMgr.location!.coordinate.latitude.isZero && runnerMonitor.locationMgr.location!.coordinate.longitude.isZero) {  //NOTE: nil here
             print("skipping coordinate")
         }
         else {

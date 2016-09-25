@@ -95,7 +95,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let showTime = NSDate()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
+        if (runnerLastLoc.latitude.isZero && runnerLastLoc.longitude.isZero) {
             print("skipping coordinate")
         }
         else {
