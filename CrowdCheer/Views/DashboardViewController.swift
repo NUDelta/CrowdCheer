@@ -263,6 +263,7 @@ class DashboardViewController: UIViewController {
                         else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.targetRunnerETA.hidden = true
+                                self.targetRunnerLoading.hidden = true
                                 self.targetRunner5More.hidden = false
                                 self.targetRunner5More.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
@@ -280,6 +281,7 @@ class DashboardViewController: UIViewController {
                         else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                             if affinity.1 == 10 { //if target runner, display runner
                                 self.targetRunner5More.hidden = true
+                                self.targetRunnerLoading.hidden = true
                                 self.targetRunner5Less.hidden = false
                                 self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                 self.disableGeneralRunners()
@@ -306,7 +308,8 @@ class DashboardViewController: UIViewController {
                                 self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                 
                                 self.targetRunner5Less.hidden = true
-                                self.targetRunnerTimeToCheer.text = (name) + "is nearby!"
+                                self.targetRunnerLoading.hidden = true
+                                self.targetRunnerTimeToCheer.text = (name) + " is nearby!"
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
@@ -467,7 +470,7 @@ class DashboardViewController: UIViewController {
         }
         
         if contextPrimer.pace == "" {
-            self.targetRunnerPace.hidden = false
+            self.targetRunnerPace.hidden = true
             self.targetRunnerPace.text = "Loading stats..."
             self.targetRunnerDistance.hidden = true
             self.targetRunnerTime.hidden = true
@@ -571,6 +574,9 @@ class DashboardViewController: UIViewController {
         //if target runners are not showing up, notify target runners to start tracking
         
         var runner: PFUser
+        
+        self.targetRunnerLoading.hidden = false
+        self.targetRunnerLoading.text = "favorite runners inactive"
         
         for targetRunner in targetRunnerTrackingStatus {
             if targetRunner.1 == false {
