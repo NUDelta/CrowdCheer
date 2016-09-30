@@ -23,8 +23,6 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     var prestartDate: NSDate = NSDate()
     var prestartTimer: NSTimer = NSTimer()
-    var poststartTimer: NSTimer = NSTimer()
-    var poststartDate: NSDate = NSDate()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     
     
@@ -51,9 +49,7 @@ class PrerunViewController: UIViewController {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded 5 min before race
-        poststartDate = dateFormatter.dateFromString(poststartDateString)! //hardcoded 5 min after race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
-        poststartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_poststart), userInfo: nil, repeats: false)
     }
     
     //keyboard behavior
@@ -100,10 +96,6 @@ class PrerunViewController: UIViewController {
     
     func sendLocalNotification_prestart() {
         let localNotification = UILocalNotification()
-        var userInfo = [String:String]()
-        let source = "start"
-        userInfo["source"] = source
-        localNotification.userInfo = userInfo
         localNotification.alertBody = "The race is about to begin, start tracking now!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
@@ -113,20 +105,5 @@ class PrerunViewController: UIViewController {
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
     }
     
-    
-    func sendLocalNotification_poststart() {
-        let localNotification = UILocalNotification()
-        var userInfo = [String:String]()
-        let source = "start"
-        userInfo["source"] = source
-        localNotification.userInfo = userInfo
-        localNotification.alertBody = "The race started! Start tracking so your supporters can find you!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.fireDate = poststartDate
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-    }
 
 }
