@@ -16,10 +16,6 @@ class TrackRunnerAnnotationView: MKAnnotationView {
         super.init(coder: aDecoder)
     }
     
-    // Called when drawing the RunnerAnnotationView
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -37,11 +33,6 @@ class PickRunnerAnnotationView: MKAnnotationView {
     // Required for MKAnnotationView
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    // Called when drawing the RunnerAnnotationView
-    override init(frame: CGRect) {
-        super.init(frame: frame)
     }
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
