@@ -159,6 +159,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     func drawPath() {
         
         if(runnerPath.count > 1) {
+            print("runnerPath is \(runnerPath)")
             let polyline = MKPolyline(coordinates: &runnerPath[0] , count: runnerPath.count)
             mapView.addOverlay(polyline)
         }

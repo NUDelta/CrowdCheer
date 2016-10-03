@@ -47,6 +47,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var areUsersNearby: Bool
     var possibleRunners = [String : String]()
     var possibleRunnerCount: Int
+    var imagePath = ""
     
     override init(){
         user = PFUser.currentUser()
@@ -125,6 +126,30 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
+    func getRunnerProfile(runnerObjID: String, result:(runnerProfile: Dictionary<String, AnyObject>) -> Void) {
+        var runnerProfile = [String: AnyObject]()
+        
+        let runner = PFQuery.getUserObjectWithId(runnerObjID)
+        let name = (runner.valueForKey("name"))!
+        runnerProfile["objectID"] = runnerObjID
+        runnerProfile["name"] = name
+        
+        let userImageFile = runner["profilePic"] as? PFFile
+        userImageFile!.getDataInBackgroundWithBlock {
+            (imageData: NSData?, error: NSError?) -> Void in
+            if error == nil {
+                if let imageData = imageData {
+                    let fileManager = NSFileManager.defaultManager()
+                    self.imagePath = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("\(runner.username).jpg")
+                    print(self.imagePath)
+                    runnerProfile["profilePicPath"] = self.imagePath
+                    fileManager.createFileAtPath(self.imagePath as String, contents: imageData, attributes: nil)
+                }
+            }
+            result(runnerProfile: runnerProfile)
+        }
+    }
+    
     func saveRunnerCount(possibleRunnerCount: Int) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user
@@ -183,7 +208,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         let query = PFQuery(className: "CurrSpectatorLocation")
         
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.40) //spectators within 400m of me
+        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
         query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
             (spectatorObjects: [AnyObject]?, error: NSError?) -> Void in
