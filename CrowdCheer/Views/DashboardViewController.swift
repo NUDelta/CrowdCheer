@@ -188,19 +188,18 @@ class DashboardViewController: UIViewController {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            print(runner.objectId)
-//            if runnerProfiles[runner.objectId] != nil {
-//                print("runner profile exists, will not query")
-//            }
-            
-//            else {
+            print("is \(runner.username) missing \(runnerProfiles[runner.objectId])")
+            if runnerProfiles[runner.objectId] == nil {
                 nearbyRunners.getRunnerProfile(runner.objectId) { (runnerProfile) -> Void in
                     
                     self.runnerProfiles[runner.objectId] = runnerProfile
                     print("runner profile did not exist, added  \(runner.username)")
                     print(self.runnerProfiles)
                 }
-//            }
+            }
+            else {
+                print("runner profile exists, will not query")
+            }
         }
     }
     
