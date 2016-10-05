@@ -104,7 +104,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         else {
             runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
         }
-        drawPath()
+//        drawPath()
     
     }
     

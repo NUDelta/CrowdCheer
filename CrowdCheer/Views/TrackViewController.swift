@@ -123,7 +123,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             }
         }
         
-        drawPath()
+//        drawPath()
         updateRunnerPin()
     }
     
