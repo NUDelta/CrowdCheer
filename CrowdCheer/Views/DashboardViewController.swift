@@ -176,7 +176,7 @@ class DashboardViewController: UIViewController {
                 self.runnerLocations = runnerLocations!
                 
                 //update profiles of existing runners
-                self.updateRunnerProfiles(self.runnerLocations)
+                self.updateRunnerProfiles(runnerLocations!)
                 
                 //sort out target & general runners
                 self.considerRunnerAffinity(self.runnerLocations)
@@ -188,18 +188,19 @@ class DashboardViewController: UIViewController {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            if runnerProfiles[runner.objectId] != nil {
-                print("runner profile exists, will not query")
-            }
-                
-            else {
+            print(runner.objectId)
+//            if runnerProfiles[runner.objectId] != nil {
+//                print("runner profile exists, will not query")
+//            }
+            
+//            else {
                 nearbyRunners.getRunnerProfile(runner.objectId) { (runnerProfile) -> Void in
                     
                     self.runnerProfiles[runner.objectId] = runnerProfile
                     print("runner profile did not exist, added  \(runner.username)")
                     print(self.runnerProfiles)
                 }
-            }
+//            }
         }
     }
     
@@ -220,6 +221,7 @@ class DashboardViewController: UIViewController {
     
     func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
         let runnerProfile = runnerProfiles[runnerObjID]
+        print(runnerProfiles)
         let name = runnerProfile!["name"] as! String
         return name
     }
