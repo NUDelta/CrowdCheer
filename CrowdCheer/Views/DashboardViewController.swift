@@ -109,6 +109,7 @@ class DashboardViewController: UIViewController {
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: false)
         verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: true)
         
     }
@@ -594,7 +595,7 @@ class DashboardViewController: UIViewController {
                     spectatorInfo["receivedNotification"] = true
                     spectatorInfo["receivedNotificationTimestamp"] = NSDate()
                     
-                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to use the app!"
+                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to open the app and hit 'Start Tracking' or you won't see them!"
                     localNotification.soundName = UILocalNotificationDefaultSoundName
                     localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
                     
@@ -607,7 +608,7 @@ class DashboardViewController: UIViewController {
                 else if UIApplication.sharedApplication().applicationState == .Active {
                     
                     let alertTitle = name + "'s phone isn't active!"
-                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text them to remind them to use the app!", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text to remind them to open the app and hit 'Start Tracking'!", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
                     alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
                     alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: dismissInactiveTarget))

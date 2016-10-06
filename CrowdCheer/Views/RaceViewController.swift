@@ -211,7 +211,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                 if UIApplication.sharedApplication().applicationState == .Background {
                     
                     let localNotification = UILocalNotification()
-                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to use the app!"
+                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to open the app and hit 'Start Tracking' or you won't see them!"
                     localNotification.soundName = UILocalNotificationDefaultSoundName
                     localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
                     
@@ -221,7 +221,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                 else if UIApplication.sharedApplication().applicationState == .Active {
                     
                     let alertTitle = name + "'s phone isn't active!"
-                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text them to remind them to use the app!", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text to remind them to open the app and hit 'Start Tracking'!", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
                     alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
                     alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: dismissInactiveTarget))

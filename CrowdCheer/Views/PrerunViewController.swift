@@ -48,7 +48,7 @@ class PrerunViewController: UIViewController {
         runnerMonitor = RunnerMonitor()
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded 5 min before race
+        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded x min before race
         prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
     }
     
@@ -96,7 +96,7 @@ class PrerunViewController: UIViewController {
     
     func sendLocalNotification_prestart() {
         let localNotification = UILocalNotification()
-        localNotification.alertBody = "The race is about to begin, start tracking now!"
+        localNotification.alertBody = "Hit 'Start Tracking' now so your supporters can find you during the race!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.fireDate = prestartDate

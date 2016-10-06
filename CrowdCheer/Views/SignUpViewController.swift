@@ -167,7 +167,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func sendLocalNotification_setup() {
         let localNotification = UILocalNotification()
-        localNotification.alertBody = "Set up your profile before the race!"
+        localNotification.alertBody = "The race will start soon. Start tracking now so you don't forget!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.fireDate = setupDate
