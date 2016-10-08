@@ -13,9 +13,9 @@ let dictKey = "key"
 //let setupDateString = "2016-10-06T18:48:00-05:00" // 1.5hr before race
 //let prestartDateString = "2016-10-06T18:50:00-05:00" // 1hr before race
 //let startDateString = "2016-10-06T18:52:00-05:00" // race start time
-let setupDateString = "2016-10-08T06:00:00-05:00" // 1.5hr before race
-let prestartDateString = "2016-10-08T07:00:00-05:00" // 1hr before race
-let startDateString = "2016-10-08T08:00:00-05:00" // race start time
+let setupDateString = "2016-10-09T06:00:00-05:00" // 1.5hr before race
+let prestartDateString = "2016-10-09T07:00:00-05:00" // 1hr before race
+let startDateString = "2016-10-09T08:00:00-05:00" // race start time
 var nearbyTargetRunnersTimer: NSTimer = NSTimer()
 
 
