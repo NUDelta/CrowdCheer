@@ -101,6 +101,73 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
+    
+    func createStartRegion(startLine: CLLocationCoordinate2D) -> CLCircularRegion {
+        let region = CLCircularRegion(center: startLine, radius: 100.0, identifier: "startRegion")
+        region.notifyOnEntry = true
+        return region
+        
+    }
+    
+    func createFinishRegion(finishLine: CLLocationCoordinate2D) -> CLCircularRegion {
+        let region = CLCircularRegion(center: finishLine, radius: 100.0, identifier: "finishRegion")
+        region.notifyOnEntry = true
+        region.notifyOnExit = true
+        return region
+    }
+    
+    func startMonitoringRegion(region: CLCircularRegion) {
+        
+        locationMgr.startMonitoringForRegion(region)
+        
+    }
+    
+    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+        locationMgr.requestStateForRegion(region)
+    }
+    
+    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+        
+        if (state == CLRegionState.Inside) {
+            print("inside region \(region.identifier)")
+            //RunViewController().resetTracking()
+            RunViewController().genericTestingNotification("currently inside region, start tracking")
+        }
+        else if (state == CLRegionState.Outside) {
+            print("outside region \(region.identifier)")
+        }
+        else if (state == CLRegionState.Unknown) {
+            print("unknown region \(region.identifier)")
+            RunViewController().genericTestingNotification("region is unknown")
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        
+        if (region.identifier == "startRegion") {
+            print("start monitoring runner")
+            //RunViewController().resetTracking()
+            RunViewController().genericTestingNotification("just entered region, start tracking")
+        }
+        else if (region.identifier == "finishRegion") {
+            //do nothing
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        
+        if (region.identifier == "startRegion") {
+            print("restart monitoring runner")
+            //RunViewController().resetTracking()
+            RunViewController().genericTestingNotification("just exited region, reset tracking")
+        }
+        else if (region.identifier == "finishRegion") {
+            print("stop monitoring runner")
+            
+        }
+    }
+    
+        
     func monitorUserLocation() {
         
         print(self.locationMgr.location!.coordinate)
@@ -383,7 +450,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             player.numberOfLoops = -1
             player.prepareToPlay()
             player.play()
-            print ("playing silent audio in background")
         }
         catch _ {
             return print("silence sound file not found")

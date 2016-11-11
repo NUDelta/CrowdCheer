@@ -39,7 +39,14 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationTrackingAlert()
         runnerMonitor = RunnerMonitor()
+        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943)
+        let startRegion = runnerMonitor.createStartRegion(startLine)
+        runnerMonitor.startMonitoringRegion(startRegion)
+        
+        
         areSpectatorsNearby = false
         interval = 1
         
@@ -68,7 +75,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         startDate = dateFormatter.dateFromString(startDateString)! //hardcoded race start time
-        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
+//        startTimer = NSTimer.scheduledTimerWithTimeInterval(startDate.timeIntervalSinceDate(NSDate()), target: self, selector: #selector(RunViewController.resetTracking), userInfo: nil, repeats: false)
         
     }
     
@@ -88,7 +95,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor.updateUserLocation()
         
         if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState))")
+            print("app status: \(UIApplication.sharedApplication().applicationState)")
             
             runnerMonitor.enableBackgroundLoc()
         }
@@ -133,11 +140,38 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func locationTrackingAlert() {
+        let alertTitle = "Automatic Runner Tracking"
+        let alertController = UIAlertController(title: alertTitle, message: "You're all set! We will automatically activate runner tracking when you arrive on race day.", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func genericTestingNotification(message: String) {
+        let localNotification = UILocalNotification()
+        if #available(iOS 8.2, *) {
+            localNotification.alertTitle = "Geofence Status"
+        } else {
+            // Fallback on earlier versions
+        }
+        localNotification.alertBody = message
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    }
+    
+    
     func resetTracking() {
         print("Reset tracking")
         runnerMonitor = RunnerMonitor()
         userMonitorTimer.invalidate()
+        nearbySpectatorsTimer.invalidate()
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -160,6 +194,9 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         return polyLineRenderer
         
     }
+    
+    
+    
     
     @IBAction func stop(sender: UIButton) {
         //suspend runner monitor when you hit stop
