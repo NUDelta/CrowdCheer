@@ -35,6 +35,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     var user: PFUser = PFUser.currentUser()
     var locationMgr: CLLocationManager
+    var startRegionState: NSString
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
@@ -45,6 +46,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     override init(){
         self.user = PFUser.currentUser()
         self.locationMgr = CLLocationManager()
+        self.startRegionState = "unknown"
         self.distance = 0.0
         self.pace = ""
         self.speed = 0.0
@@ -127,27 +129,26 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+        //called whenever there is a boundary transition + with requestStateForRegion
         
         if (state == CLRegionState.Inside) {
-            print("inside region \(region.identifier)")
-            //RunViewController().resetTracking()
-            RunViewController().genericTestingNotification("currently inside region, start tracking")
+            print("inside region")
+            startRegionState = "inside"
         }
         else if (state == CLRegionState.Outside) {
-            print("outside region \(region.identifier)")
+            print("outside region")
+            startRegionState = "outside"
         }
         else if (state == CLRegionState.Unknown) {
-            print("unknown region \(region.identifier)")
-            RunViewController().genericTestingNotification("region is unknown")
+            print("unknown region")
+            startRegionState = "unknown"
         }
     }
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
         if (region.identifier == "startRegion") {
-            print("start monitoring runner")
-            //RunViewController().resetTracking()
-            RunViewController().genericTestingNotification("just entered region, start tracking")
+            
         }
         else if (region.identifier == "finishRegion") {
             //do nothing
@@ -157,12 +158,9 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         
         if (region.identifier == "startRegion") {
-            print("restart monitoring runner")
-            //RunViewController().resetTracking()
-            RunViewController().genericTestingNotification("just exited region, reset tracking")
+            
         }
         else if (region.identifier == "finishRegion") {
-            print("stop monitoring runner")
             
         }
     }

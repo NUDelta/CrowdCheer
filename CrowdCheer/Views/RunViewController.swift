@@ -14,10 +14,12 @@ import Parse
 class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
+    var checkRegionTimer: NSTimer = NSTimer()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbySpectatorsTimer: NSTimer = NSTimer()
     var startDate: NSDate = NSDate()
     var startTimer: NSTimer = NSTimer()
+    var startsRegionMonitoringWithinRegion: Bool = Bool()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var nearbySpectators: NearbySpectators = NearbySpectators()
     var areSpectatorsNearby: Bool = Bool()
@@ -55,6 +57,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         })
         
         //initialize map
+        //check whether runner is in the start region or not
         //update the runner profile info
         //every 3 seconds, update the distance label and map with the runner's location
         
@@ -68,8 +71,9 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         resume.hidden = true
         pause.enabled = true
         
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
+        checkRegionTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(RunViewController.checkRegion), userInfo: nil, repeats: false)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
         //reset race data when race starts
         let dateFormatter = NSDateFormatter()
@@ -85,8 +89,44 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    func monitorUser() {
+    func checkRegion() {
+        if runnerMonitor.startRegionState == "inside" {
+            startsRegionMonitoringWithinRegion = true
+        }
+            
+        else if runnerMonitor.startRegionState == "outside" {
+            startsRegionMonitoringWithinRegion = false
+        }
+            
+        else {
+            startsRegionMonitoringWithinRegion = false
+        }
+    }
+    
+    func monitorUserLoop() {
         
+        if startsRegionMonitoringWithinRegion == true { //if user starts inside race region
+            print("runner started inside region")
+            monitorUser() //start tracking
+            
+            if runnerMonitor.startRegionState == "outside" { //if user exits race region
+//                resetTracking() //reset tracking
+            }
+        }
+        
+        else if startsRegionMonitoringWithinRegion == false { //if user starts outside race region, don't track yet
+            print("runner started outside region") //NOTE: if I start outside, enter, and exit, I never enter the second loop to keep tracking
+            if runnerMonitor.startRegionState == "inside" { //user enters race region
+                monitorUser() //start tracking
+                if runnerMonitor.startRegionState == "outside" { //user exits race region
+//                    resetTracking() //reset tracking
+                }
+            }
+        }
+    }
+    
+    func monitorUser() {
+        //monitor runner
         print("monitoring runner...")
         
         //start runner monitor
@@ -111,8 +151,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         else {
             runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
         }
-//        drawPath()
-    
+        //        drawPath()
     }
     
     func updateNearbySpectators() {
@@ -171,7 +210,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer.invalidate()
         nearbySpectatorsTimer.invalidate()
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
+//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -194,9 +233,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         return polyLineRenderer
         
     }
-    
-    
-    
+
     
     @IBAction func stop(sender: UIButton) {
         //suspend runner monitor when you hit stop
