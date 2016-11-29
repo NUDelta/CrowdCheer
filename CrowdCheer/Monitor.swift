@@ -137,7 +137,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
         else if (state == CLRegionState.Outside) {
             print("outside region")
-            startRegionState = "outside"
+//            startRegionState = "outside"
         }
         else if (state == CLRegionState.Unknown) {
             print("unknown region")
@@ -158,7 +158,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         
         if (region.identifier == "startRegion") {
-            
+            startRegionState = "exited" //NOTE: might get set to "outside" after we set it here
+            print("exited region: \(startRegionState)")
         }
         else if (region.identifier == "finishRegion") {
             

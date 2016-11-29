@@ -14,7 +14,6 @@ import Parse
 class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
-    var checkRegionTimer: NSTimer = NSTimer()
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbySpectatorsTimer: NSTimer = NSTimer()
     var startDate: NSDate = NSDate()
@@ -71,7 +70,6 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         resume.hidden = true
         pause.enabled = true
         
-        checkRegionTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(RunViewController.checkRegion), userInfo: nil, repeats: false)
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
 //        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
@@ -89,39 +87,15 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    func checkRegion() {
-        if runnerMonitor.startRegionState == "inside" {
-            startsRegionMonitoringWithinRegion = true
-        }
-            
-        else if runnerMonitor.startRegionState == "outside" {
-            startsRegionMonitoringWithinRegion = false
-        }
-            
-        else {
-            startsRegionMonitoringWithinRegion = false
-        }
-    }
-    
     func monitorUserLoop() {
         
-        if startsRegionMonitoringWithinRegion == true { //if user starts inside race region
-            print("runner started inside region")
-            monitorUser() //start tracking
-            
-            if runnerMonitor.startRegionState == "outside" { //if user exits race region
-//                resetTracking() //reset tracking
-            }
+        
+        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited") {
+            monitorUser()
         }
         
-        else if startsRegionMonitoringWithinRegion == false { //if user starts outside race region, don't track yet
-            print("runner started outside region") //NOTE: if I start outside, enter, and exit, I never enter the second loop to keep tracking
-            if runnerMonitor.startRegionState == "inside" { //user enters race region
-                monitorUser() //start tracking
-                if runnerMonitor.startRegionState == "outside" { //user exits race region
-//                    resetTracking() //reset tracking
-                }
-            }
+        if runnerMonitor.startRegionState == "exited" {
+            resetTracking()
         }
     }
     
