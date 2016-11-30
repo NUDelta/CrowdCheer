@@ -15,7 +15,6 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
-//    var nearbySpectatorsTimer: NSTimer = NSTimer()
     var startDate: NSDate = NSDate()
     var startsRegionMonitoringWithinRegion: Bool = Bool()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
@@ -70,14 +69,10 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.enabled = true
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
-//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
         userMonitorTimer.invalidate()
-//        nearbySpectatorsTimer.invalidate()
-        
     }
     
     func monitorUserLoop() {
@@ -180,9 +175,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor = RunnerMonitor()
         runnerMonitor.startRegionState = "exited" //NOTE: not great to modify model from VC
         userMonitorTimer.invalidate()
-//        nearbySpectatorsTimer.invalidate()
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
-//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -211,7 +204,6 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //suspend runner monitor when you hit stop
         
         userMonitorTimer.invalidate()
-//        nearbySpectatorsTimer.invalidate()
         pause.hidden = true
         stop.hidden = true
         congrats.hidden = false
