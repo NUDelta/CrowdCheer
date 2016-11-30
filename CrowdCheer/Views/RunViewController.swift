@@ -83,12 +83,13 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     func monitorUserLoop() {
         
         
-        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited") {
+        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
             monitorUser()
         }
         
         if runnerMonitor.startRegionState == "exited" {
             resetTracking()
+            runnerMonitor.startRegionState = "monitoring"
         }
     }
     
