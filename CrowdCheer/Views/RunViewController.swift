@@ -15,7 +15,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
     var userMonitorTimer: NSTimer = NSTimer()
-    var nearbySpectatorsTimer: NSTimer = NSTimer()
+//    var nearbySpectatorsTimer: NSTimer = NSTimer()
     var startDate: NSDate = NSDate()
     var startsRegionMonitoringWithinRegion: Bool = Bool()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
@@ -42,7 +42,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         locationTrackingAlert()
         runnerMonitor = RunnerMonitor()
-        let startLine = CLLocationCoordinate2DMake(42.048015, -87.683719)
+//        let startLine = CLLocationCoordinate2DMake(42.048015, -87.683719)
+        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
@@ -75,7 +76,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillDisappear(animated: Bool) {
         userMonitorTimer.invalidate()
-        nearbySpectatorsTimer.invalidate()
+//        nearbySpectatorsTimer.invalidate()
         
     }
     
@@ -176,8 +177,9 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     func resetTracking() {
         print("Reset tracking")
         runnerMonitor = RunnerMonitor()
+        runnerMonitor.startRegionState = "exited" //NOTE: not great to modify model from VC
         userMonitorTimer.invalidate()
-        nearbySpectatorsTimer.invalidate()
+//        nearbySpectatorsTimer.invalidate()
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
 //        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
     }
@@ -208,7 +210,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //suspend runner monitor when you hit stop
         
         userMonitorTimer.invalidate()
-        nearbySpectatorsTimer.invalidate()
+//        nearbySpectatorsTimer.invalidate()
         pause.hidden = true
         stop.hidden = true
         congrats.hidden = false
