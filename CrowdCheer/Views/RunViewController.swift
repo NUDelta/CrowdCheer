@@ -42,7 +42,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         locationTrackingAlert()
         runnerMonitor = RunnerMonitor()
-        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943)
+        let startLine = CLLocationCoordinate2DMake(42.048015, -87.683719)
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
@@ -69,7 +69,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.enabled = true
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
-        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
+//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
         
     }
     
@@ -99,6 +99,9 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor.monitorUserLocation()
         runnerMonitor.updateUserPath(interval)
         runnerMonitor.updateUserLocation()
+        
+        //check for nearby spectators
+        updateNearbySpectators()
         
         if UIApplication.sharedApplication().applicationState == .Background {
             print("app status: \(UIApplication.sharedApplication().applicationState)")
@@ -131,7 +134,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 if self.userMonitorTimer.timeInterval < 30 {
                     self.userMonitorTimer.invalidate()
                     self.interval = 30
-                    self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                    self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
                     self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
                 }
             }
@@ -139,7 +142,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 self.areSpectatorsNearby = true
                 self.userMonitorTimer.invalidate()
                 self.interval = 3
-                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
+                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
                 self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
@@ -175,8 +178,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor = RunnerMonitor()
         userMonitorTimer.invalidate()
         nearbySpectatorsTimer.invalidate()
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
+        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+//        nearbySpectatorsTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(RunViewController.updateNearbySpectators), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
