@@ -64,9 +64,16 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
-        congrats.hidden = true
         resume.hidden = true
         pause.enabled = true
+        
+        //hide labels & buttons until tracking starts
+        congrats.text = "Tracking starts automatically."
+        distance.hidden = true
+        time.hidden = true
+        pace.hidden = true
+        pause.hidden = true
+        stop.hidden = true
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
     }
@@ -80,10 +87,22 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
             monitorUser()
+            congrats.hidden = true
+            distance.hidden = false
+            time.hidden = false
+            pace.hidden = false
+            pause.hidden = false
+            stop.hidden = false
         }
         
         if runnerMonitor.startRegionState == "exited" {
             resetTracking()
+            congrats.hidden = true
+            distance.hidden = false
+            time.hidden = false
+            pace.hidden = false
+            pause.hidden = false
+            stop.hidden = false
             runnerMonitor.startRegionState = "monitoring"
         }
     }
@@ -153,23 +172,6 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    
-    func genericTestingNotification(message: String) {
-        let localNotification = UILocalNotification()
-        if #available(iOS 8.2, *) {
-            localNotification.alertTitle = "Geofence Status"
-        } else {
-            // Fallback on earlier versions
-        }
-        localNotification.alertBody = message
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-    }
-    
-    
     func resetTracking() {
         print("Reset tracking")
         runnerMonitor = RunnerMonitor()
@@ -206,6 +208,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer.invalidate()
         pause.hidden = true
         stop.hidden = true
+        congrats.text = "Congrats! You did it!"
         congrats.hidden = false
     }
     
