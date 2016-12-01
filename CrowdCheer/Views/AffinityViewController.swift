@@ -30,10 +30,10 @@ class AffinityViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AffinityViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded x min before race
-        prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AffinityViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+//        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded x min before race
+//        prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AffinityViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
     }
     
     //keyboard behavior
@@ -56,14 +56,14 @@ class AffinityViewController: UIViewController {
         currUser.saveInBackground()
     }
     
-    func sendLocalNotification_prestart() {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "Try tracking your runner before the race starts! Go to the Race Dashboard to see runners. If you don't see them yet, remind them to open the app and hit 'Start Tracking'."
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.fireDate = prestartDate
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-    }
+//    func sendLocalNotification_prestart() {
+//        let localNotification = UILocalNotification()
+//        localNotification.alertBody = "Try tracking your runner before the race starts! Go to the Race Dashboard to see runners. If you don't see them yet, remind them to set up their app."
+//        localNotification.soundName = UILocalNotificationDefaultSoundName
+//        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+//        localNotification.fireDate = prestartDate
+//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+//        
+//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+//    }
 }

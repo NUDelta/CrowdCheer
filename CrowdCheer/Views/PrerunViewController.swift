@@ -21,8 +21,6 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var outfit: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    var prestartDate: NSDate = NSDate()
-    var prestartTimer: NSTimer = NSTimer()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     
     
@@ -46,10 +44,6 @@ class PrerunViewController: UIViewController {
         }
         
         runnerMonitor = RunnerMonitor()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        prestartDate = dateFormatter.dateFromString(prestartDateString)! //hardcoded x min before race
-        prestartTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(PrerunViewController.sendLocalNotification_prestart), userInfo: nil, repeats: false)
     }
     
     //keyboard behavior
@@ -93,17 +87,4 @@ class PrerunViewController: UIViewController {
             saveButton.enabled = true
         }
     }
-    
-    func sendLocalNotification_prestart() {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "Hit 'Start Tracking' now so your supporters can find you during the race!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.fireDate = prestartDate
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-    }
-    
-
 }
