@@ -76,7 +76,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: locationMgr.location!)
+        let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4)
         var runnerUpdates = [PFUser: PFGeoPoint]()
         var runnerLocs:Array<AnyObject> = []
         let now = NSDate()
@@ -98,7 +98,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                     for object in runnerObjects {
                         
                         let runnerObj = (object as! PFObject)["user"] as! PFUser
-                        let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!)
+                        let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
@@ -223,7 +223,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                         let spectatorObj = (object as! PFObject)["user"] as! PFUser
                         let spectator = PFQuery.getUserObjectWithId(spectatorObj.objectId!)
                         let location = (object as! PFObject)["location"] as! PFGeoPoint
-                        spectatorUpdates[spectator] = location
+                        spectatorUpdates[spectator] = location //NOTE: crashes here - Seg Fault, Kernel Invalid Address (x2)
                         spectatorLocs.append(location)
                     }
                 }
@@ -404,7 +404,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
-        let selectedRunners = runnerLocations
+        let selectedRunners = runnerLocations //NOTE: Crashed here (query)
         return selectedRunners
         
     }

@@ -222,7 +222,7 @@ class DashboardViewController: UIViewController {
     func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
         let runnerProfile = runnerProfiles[runnerObjID]
         print(runnerProfiles)
-        let name = runnerProfile!["name"] as! String
+        let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6)
         return name
     }
     
@@ -404,7 +404,7 @@ class DashboardViewController: UIViewController {
                     
                     //update general 1
                     let runner1ObjID = generalRunners[0]
-                    general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                    general1Runner = PFQuery.getUserObjectWithId(generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -415,7 +415,7 @@ class DashboardViewController: UIViewController {
                     
                     //update general 2
                     let runner2ObjID = generalRunners[1]
-                    general2Runner = PFQuery.getUserObjectWithId(generalRunners[1])
+                    general2Runner = PFQuery.getUserObjectWithId(generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     
