@@ -392,7 +392,12 @@ class DashboardViewController: UIViewController {
                 else if generalRunners.count == 1 {
                     //update general 1
                     let runner1ObjID = generalRunners[0]
-                    general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                    do {
+                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0])
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -406,7 +411,12 @@ class DashboardViewController: UIViewController {
                     
                     //update general 1
                     let runner1ObjID = generalRunners[0]
-                    general1Runner = PFQuery.getUserObjectWithId(generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
+                    do {
+                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -417,7 +427,12 @@ class DashboardViewController: UIViewController {
                     
                     //update general 2
                     let runner2ObjID = generalRunners[1]
-                    general2Runner = PFQuery.getUserObjectWithId(generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
+                    do {
+                        general2Runner = try PFQuery.getUserObjectWithId(generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -584,7 +599,13 @@ class DashboardViewController: UIViewController {
         
         for targetRunner in targetRunnerTrackingStatus {
             if targetRunner.1 == false {
-                runner = PFQuery.getUserObjectWithId(targetRunner.0)
+                do {
+                    runner = try PFQuery.getUserObjectWithId(targetRunner.0)
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                
                 let name = runner.valueForKey("name") as! String
                 
                 if UIApplication.sharedApplication().applicationState == .Background {
