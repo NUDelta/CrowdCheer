@@ -78,7 +78,13 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         let pairDict = appDel.dictionaryForKey(dictKey)
         runnerObjID = pairDict![PFUser.currentUser()!.objectId!] as! String
-        runner = PFQuery.getUserObjectWithId(runnerObjID)
+        do {
+            runner = try PFQuery.getUserObjectWithId(runnerObjID)
+        }
+        catch {
+            print("ERROR: unable to get runner")
+        }
+        
         return runner
     }
     
@@ -156,7 +162,12 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         latency["showTime"] = now
         latency["totalDelay"] = delay
         
-        latency.save()
+        do {
+            try latency.save()
+        }
+        catch {
+            print("ERROR: unable to save latency data")
+        }
         
         return (delay, calcRunnerLoc)
     }

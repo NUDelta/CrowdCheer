@@ -29,7 +29,12 @@ class Runner: NSObject, User {
     
     func getsUser(objectID: String) -> PFUser {
         
-        user = PFQuery.getUserObjectWithId(objectID)
+        do {
+            user = try PFQuery.getUserObjectWithId(objectID)
+        }
+        catch {
+            print("ERROR: unable to get runner")
+        }
         return user
     }
     

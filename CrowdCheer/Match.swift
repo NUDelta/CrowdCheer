@@ -128,8 +128,14 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     
     func getRunnerProfile(runnerObjID: String, result:(runnerProfile: Dictionary<String, AnyObject>) -> Void) {
         var runnerProfile = [String: AnyObject]()
+        var runner: PFUser = PFUser()
         
-        let runner = PFQuery.getUserObjectWithId(runnerObjID)
+        do {
+            runner = try PFQuery.getUserObjectWithId(runnerObjID)
+        }
+        catch {
+            print("ERROR: unable to get runner")
+        }
         let name = (runner.valueForKey("name"))!
         runnerProfile["objectID"] = runnerObjID
         runnerProfile["name"] = name
