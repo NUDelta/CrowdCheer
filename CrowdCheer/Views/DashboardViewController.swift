@@ -446,7 +446,12 @@ class DashboardViewController: UIViewController {
                     
                     //update general 1
                     let runner1ObjID = generalRunners[0]
-                    general1Runner = PFQuery.getUserObjectWithId(generalRunners[0])
+                    do {
+                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0])
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -457,7 +462,12 @@ class DashboardViewController: UIViewController {
                     
                     //update general 2
                     let runner2ObjID = generalRunners[1]
-                    general2Runner = PFQuery.getUserObjectWithId(generalRunners[1])
+                    do {
+                        general2Runner = try PFQuery.getUserObjectWithId(generalRunners[1])
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -468,7 +478,12 @@ class DashboardViewController: UIViewController {
                     
                     //update general 3
                     let runner3ObjID = generalRunners[2]
-                    general3Runner = PFQuery.getUserObjectWithId(generalRunners[2])
+                    do {
+                        general3Runner = try PFQuery.getUserObjectWithId(generalRunners[2])
+                    }
+                    catch {
+                        print("ERROR: unable to get runner")
+                    }
                     let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     
@@ -591,7 +606,7 @@ class DashboardViewController: UIViewController {
     func notifyTargetRunners() {
         //if target runners are not showing up, notify target runners to start tracking
         
-        var runner: PFUser
+        var runner: PFUser = PFUser()
         
         self.targetRunnerLoading.hidden = false
         self.targetRunnerLoading.text = "favorite runners inactive"

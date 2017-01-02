@@ -201,11 +201,16 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     func notifyTargetRunners() {
         //if target runners are not showing up, notify target runners to start tracking
         
-        var runner: PFUser
+        var runner: PFUser = PFUser()
         
         for targetRunner in targetRunnerTrackingStatus {
             if targetRunner.1 == false {
-                runner = PFQuery.getUserObjectWithId(targetRunner.0)
+                do {
+                    runner = try PFQuery.getUserObjectWithId(targetRunner.0)
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
                 let name = runner.valueForKey("name") as! String
                 
                 if UIApplication.sharedApplication().applicationState == .Background {
@@ -319,7 +324,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             var runnerDescription: String = ""
-            runner = PFQuery.getUserObjectWithId(runnerObjID!)
+            do {
+                runner = try PFQuery.getUserObjectWithId(runnerObjID!)
+            }
+            catch {
+                print("ERROR: unable to get runner")
+            }
             let runnerName = (runner.valueForKey("name"))!
             print("Selected runner: \(runnerName)")
             runnerDescription = String(runnerName) + " needs help!"

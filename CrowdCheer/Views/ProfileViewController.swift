@@ -115,7 +115,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         profilePicView.image = image
         
         let imageData = UIImageJPEGRepresentation(image!, 0.50)
-        let imageFile = PFFile.fileWithName("image.jpeg", data: imageData!)
+        let imageFile = PFFile(name: "image.jpeg", data: imageData!)
         user["profilePic"] = imageFile
         user.saveInBackground()
         
