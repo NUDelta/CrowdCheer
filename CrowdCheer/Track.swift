@@ -50,7 +50,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         runner = PFUser()
         runnerObjID = "dummy"
         locationMgr = CLLocationManager()
@@ -77,14 +77,14 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     func getRunner() -> PFUser {
         
         let pairDict = appDel.dictionaryForKey(dictKey)
-        runnerObjID = pairDict![PFUser.currentUser().objectId] as! String
+        runnerObjID = pairDict![PFUser.currentUser()!.objectId!] as! String
         runner = PFQuery.getUserObjectWithId(runnerObjID)
         return runner
     }
     
     func resetRunner() {
         var cheerPair = [String: String]()
-        cheerPair[PFUser.currentUser().objectId] = ""
+        cheerPair[PFUser.currentUser()!.objectId!] = ""
         appDel.setObject(cheerPair, forKey: dictKey)
         appDel.synchronize()
     }

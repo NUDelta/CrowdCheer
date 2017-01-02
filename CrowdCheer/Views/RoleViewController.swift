@@ -16,7 +16,7 @@ class RoleViewController: UIViewController {
 
     
     let locationMgr: CLLocationManager = CLLocationManager()
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class RoleViewController: UIViewController {
         locationMgr.requestAlwaysAuthorization()
         locationMgr.requestWhenInUseAuthorization()
         
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         getProfileInfo()
         
         let font = UIFont.systemFontOfSize(20)

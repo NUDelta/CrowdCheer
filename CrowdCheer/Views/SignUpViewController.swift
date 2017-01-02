@@ -55,7 +55,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     //Check fields, Log In, and segue to next VC
     @IBAction func logIn(sender: UIButton) {
-        PFUser.logInWithUsernameInBackground(usernameField.text, password:passwordField.text) {
+        PFUser.logInWithUsernameInBackground(usernameField.text!, password:passwordField.text!) {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Successful login

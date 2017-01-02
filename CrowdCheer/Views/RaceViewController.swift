@@ -126,7 +126,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    self.targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
@@ -138,7 +138,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist > 500 && dist <= 2000 { //if runner is between 500m-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    self.targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     runnerCount += 1
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
@@ -152,7 +152,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             else if dist <= 500 { //if runner is less than 500m away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
-                                    self.targetRunnerTrackingStatus[runner.objectId] = true
+                                    self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     runnerCount += 1
                                     let name = runner.valueForKey("name") as! String
                                     self.areTargetRunnersNearby = true
@@ -194,7 +194,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         let title = (name as? String)
         let runnerObjID = runner.objectId
         let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
-        let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID)
+        let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID!)
         mapView.addAnnotation(annotation)
     }
     
@@ -319,7 +319,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             var runnerDescription: String = ""
-            runner = PFQuery.getUserObjectWithId(runnerObjID)
+            runner = PFQuery.getUserObjectWithId(runnerObjID!)
             let runnerName = (runner.valueForKey("name"))!
             print("Selected runner: \(runnerName)")
             runnerDescription = String(runnerName) + " needs help!"

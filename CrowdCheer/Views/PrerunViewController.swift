@@ -13,7 +13,7 @@ import Parse
 
 class PrerunViewController: UIViewController {
     
-    var runner: PFUser = PFUser.currentUser()
+    var runner: PFUser = PFUser.currentUser()!
     
     
     @IBOutlet weak var targetPace: UITextField!
@@ -60,27 +60,27 @@ class PrerunViewController: UIViewController {
         //save profile info to Parse
         let currUser = PFUser.currentUser()
         if (textField == targetPace){
-            currUser["targetPace"] = targetPace.text
+            currUser!["targetPace"] = targetPace.text
         }
             
         else if (textField == raceTimeGoal){
-            currUser["raceTimeGoal"] = raceTimeGoal.text
+            currUser!["raceTimeGoal"] = raceTimeGoal.text
         }
             
         else if (textField == bibNo){
-            currUser["bibNumber"] = bibNo.text
+            currUser!["bibNumber"] = bibNo.text
         }
             
         else if (textField == outfit){
-            currUser["outfit"] = outfit.text
+            currUser!["outfit"] = outfit.text
         }
         
-        currUser.saveInBackground()
+        currUser!.saveInBackground()
         
-        if (currUser.valueForKey("targetPace")==nil ||
-            currUser.valueForKey("raceTimeGoal")==nil ||
-            currUser.valueForKey("bibNumber")==nil ||
-            currUser.valueForKey("outfit")==nil) {
+        if (currUser!.valueForKey("targetPace")==nil ||
+            currUser!.valueForKey("raceTimeGoal")==nil ||
+            currUser!.valueForKey("bibNumber")==nil ||
+            currUser!.valueForKey("outfit")==nil) {
                 saveButton.enabled = false
         }
         else {

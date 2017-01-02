@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         super.viewDidLoad()
         
         //Initialize user, profile info
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         getProfileInfo()
         
         //Prompt user to take new photo & add listener for changes in name field

@@ -25,7 +25,7 @@ class updateRunner: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -61,7 +61,7 @@ class updateCheerer: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         

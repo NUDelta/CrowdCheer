@@ -14,7 +14,7 @@ import Parse
 
 class AffinityViewController: UIViewController {
     
-    var spectator: PFUser = PFUser.currentUser()
+    var spectator: PFUser = PFUser.currentUser()!
     
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -50,10 +50,10 @@ class AffinityViewController: UIViewController {
         //save profile info to Parse
         let currUser = PFUser.currentUser()
         if (textField == bibNo){
-            currUser["targetRunnerBib"] = bibNo.text
+            currUser!["targetRunnerBib"] = bibNo.text
         }
         
-        currUser.saveInBackground()
+        currUser!.saveInBackground()
     }
     
 //    func sendLocalNotification_prestart() {

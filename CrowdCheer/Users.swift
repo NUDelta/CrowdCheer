@@ -23,7 +23,7 @@ class Runner: NSObject, User {
     var user: PFUser
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
     }
 
     

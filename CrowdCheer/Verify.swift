@@ -45,7 +45,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -103,7 +103,7 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -136,7 +136,7 @@ class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         

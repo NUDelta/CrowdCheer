@@ -33,7 +33,7 @@ protocol Monitor: Any {
 //the RunnerMonitor Class specifically monitors runner stats (current location, movement, performance)
 class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     var startRegionState: NSString
     var startLoc: CLLocation!
@@ -44,7 +44,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var duration: NSInteger
     
     override init(){
-        self.user = PFUser.currentUser()
+        self.user = PFUser.currentUser()!
         self.locationMgr = CLLocationManager()
         self.startRegionState = "unknown"
         self.distance = 0.0
@@ -301,7 +301,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
 //the SpectatorMonitor Class specifically monitors Spectator stats (movement)
 class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
@@ -309,7 +309,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var duration: NSInteger
     
     override init(){
-        self.user = PFUser.currentUser()
+        self.user = PFUser.currentUser()!
         self.locationMgr = CLLocationManager()
         self.distance = 0.0
         self.duration = 0

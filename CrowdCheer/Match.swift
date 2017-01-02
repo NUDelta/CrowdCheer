@@ -42,7 +42,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
     
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
     var possibleRunners = [String : String]()
@@ -50,7 +50,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var imagePath = ""
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         areUsersNearby = false
         possibleRunnerCount = 0
@@ -166,12 +166,12 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     //This class handles how a spectator monitors any runners around them
     
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         areUsersNearby = false
         
@@ -252,13 +252,13 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
 class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
 //This class evaluates the convenience, affinity, and need associated with each possible pairing
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     var targetRunners = [String: Bool]()
     var generalRunners = [String]()
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         
         //initialize location manager
@@ -372,26 +372,26 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             print("bib array: \(targetRunnerBibArr)")
             
             let query = PFUser.query()
-            query.whereKey("bibNumber", containedIn: targetRunnerBibArr)
-            query.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
+            query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
+            query!.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
                 for (runner, location) in userLocations {
-                    for targetRunner in targetRunners {
+                    for targetRunner in targetRunners! {
                         
-                        self.targetRunners[targetRunner.objectId] = false
+                        self.targetRunners[targetRunner.objectId!] = false
                         
                         //if runner = target runner, +10 affinity
                         if runner.objectId == targetRunner.objectId {
                             affinities[runner] = 10
-                            self.targetRunners[targetRunner.objectId] = true
+                            self.targetRunners[targetRunner.objectId!] = true
                             break
                         }
                         else {
                             affinities[runner] = 0
-                            if self.generalRunners.contains(runner.objectId) {
+                            if self.generalRunners.contains(runner.objectId!) {
                                 //do nothing
                             }
                             else {
-                                self.generalRunners.append(runner.objectId)
+                                self.generalRunners.append(runner.objectId!)
                             }
                             
                         }
@@ -413,12 +413,12 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
     
-    var user: PFUser = PFUser.currentUser()
+    var user: PFUser = PFUser.currentUser()!
     var locationMgr: CLLocationManager
     let appDel = NSUserDefaults()
     
     override init(){
-        user = PFUser.currentUser()
+        user = PFUser.currentUser()!
         locationMgr = CLLocationManager()
         
         //initialize location manager
@@ -449,7 +449,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
         //save runner/spectator pair to global dictionary
         var cheerPair = [String: String]()
-        cheerPair[PFUser.currentUser().objectId] = runner.objectId
+        cheerPair[PFUser.currentUser()!.objectId!] = runner.objectId
         appDel.setObject(cheerPair, forKey: dictKey)
         appDel.synchronize()
         
