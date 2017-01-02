@@ -105,10 +105,12 @@ class DashboardViewController: UIViewController {
         updateNearbyRunners()
         
         userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        
+        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        
         verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: false)
         verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: true)
         
@@ -189,11 +191,11 @@ class DashboardViewController: UIViewController {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            print("is \(runner.username) missing \(runnerProfiles[runner.objectId])")
-            if runnerProfiles[runner.objectId] == nil {
-                nearbyRunners.getRunnerProfile(runner.objectId) { (runnerProfile) -> Void in
+            print("is \(runner.username) missing \(runnerProfiles[runner.objectId!])")
+            if runnerProfiles[runner.objectId!] == nil {
+                nearbyRunners.getRunnerProfile(runner.objectId!) { (runnerProfile) -> Void in
                     
-                    self.runnerProfiles[runner.objectId] = runnerProfile
+                    self.runnerProfiles[runner.objectId!] = runnerProfile
                     print("runner profile did not exist, added  \(runner.username)")
                     print(self.runnerProfiles)
                 }
@@ -252,7 +254,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunnerETA.hidden = false
                                 self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount += 1
                             }
                             else if affinity.1 != 10 { //if general runner, don't add them yet
@@ -268,7 +270,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunner5More.hidden = false
                                 self.targetRunner5More.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount += 1
                             }
                             else if affinity.1 != 10 { //if general runner, display runner
@@ -287,7 +289,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                 self.disableGeneralRunners()
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount += 1
                             
                                 isTargetRunnerNear = true
@@ -314,7 +316,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
-                                self.targetRunnerTrackingStatus[runner.objectId] = true
+                                self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount += 1
                                 
                                 self.areTargetRunnersNearby = true
@@ -352,8 +354,8 @@ class DashboardViewController: UIViewController {
         
         if !self.runnerProfiles.isEmpty {
             
-            let runnerName = getRunnerName(runner.objectId, runnerProfiles: self.runnerProfiles)
-            let runnerImage = getRunnerImage(runner.objectId, runnerProfiles: self.runnerProfiles)
+            let runnerName = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
+            let runnerImage = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
             
             if runnerType == "target" {
                 
@@ -495,7 +497,7 @@ class DashboardViewController: UIViewController {
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
                 spectatorInfo["source"] = "generalRunnerNotification"
                 spectatorInfo["receivedNotification"] = true
                 spectatorInfo["receivedNotificationTimestamp"] = NSDate()
@@ -536,7 +538,7 @@ class DashboardViewController: UIViewController {
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
                 spectatorInfo["source"] = "targetRunnerNotification"
                 spectatorInfo["receivedNotification"] = true
                 spectatorInfo["receivedNotificationTimestamp"] = NSDate()
@@ -590,7 +592,7 @@ class DashboardViewController: UIViewController {
                     let localNotification = UILocalNotification()
                     
                     var spectatorInfo = [String: AnyObject]()
-                    spectatorInfo["spectator"] = PFUser.currentUser().objectId
+                    spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
                     spectatorInfo["source"] = "targetInactiveNotification"
                     spectatorInfo["receivedNotification"] = true
                     spectatorInfo["receivedNotificationTimestamp"] = NSDate()
