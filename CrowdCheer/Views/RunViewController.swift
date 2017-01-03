@@ -41,8 +41,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         locationTrackingAlert()
         runnerMonitor = RunnerMonitor()
-        let startLine = CLLocationCoordinate2DMake(42.059182, -87.673772)
-//        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
+//        let startLine = CLLocationCoordinate2DMake(42.059182, -87.673772) //garage
+        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
