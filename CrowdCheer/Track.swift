@@ -107,23 +107,23 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         query.whereKey("user", equalTo: trackedRunner)
         query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
-            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            (runnerObjects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // Found at least one runner
                 print("Successfully retrieved \(runnerObjects!.count) updates.")
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
-                        self.currLoc = (object as! PFObject)["location"] as! PFGeoPoint
-                        self.prevLocLat = (object as! PFObject)["prevLocLat"] as! Double
-                        self.prevLocLon = (object as! PFObject)["prevLocLon"] as! Double
-                        self.speed = (object as! PFObject)["speed"] as! Double
-                        self.actualTime = (object as! PFObject)["time"] as! NSDate
-                        self.setTime = object.updatedAt
+                        self.currLoc = (object )["location"] as! PFGeoPoint
+                        self.prevLocLat = (object )["prevLocLat"] as! Double
+                        self.prevLocLon = (object)["prevLocLon"] as! Double
+                        self.speed = (object)["speed"] as! Double
+                        self.actualTime = (object)["time"] as! NSDate
+                        self.setTime = object.updatedAt!
                         self.getTime = NSDate()
-                        self.distance = (object as! PFObject)["distance"] as! Double
-                        self.duration = (object as! PFObject)["duration"] as! String
-                        self.pace = (object as! PFObject)["pace"] as! String
+                        self.distance = (object)["distance"] as! Double
+                        self.duration = (object)["duration"] as! String
+                        self.pace = (object)["pace"] as! String
 
                         runnerUpdate = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
                     }

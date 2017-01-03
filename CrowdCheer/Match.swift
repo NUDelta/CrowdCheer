@@ -88,7 +88,9 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
         query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
-            (runnerObjects: [AnyObject]?, error: NSError?) -> Void in
+            (runnerObjects: [PFObject]?, error: NSError?) -> Void in
+            
+            var runner: PFUser = PFUser()
             
             if error == nil {
                 // Found at least one runner
@@ -97,12 +99,17 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 if let runnerObjects = runnerObjects {
                     for object in runnerObjects {
                         
-                        let runnerObj = (object as! PFObject)["user"] as! PFUser
-                        let runner = PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
-                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        let runnerObj = (object )["user"] as! PFUser
+                        do {
+                            runner = try PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
+                        }
+                        catch {
+                            print("ERROR: unable to get runner")
+                        }
+                        let location = (object )["location"] as! PFGeoPoint
                         runnerUpdates[runner] = location
                         runnerLocs.append(location)
-                        self.possibleRunners[runner.objectId] = runner.username
+                        self.possibleRunners[runner.objectId!] = runner.username
                         
                     }
                 }
@@ -217,18 +224,25 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
         query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock {
-            (spectatorObjects: [AnyObject]?, error: NSError?) -> Void in
+            (spectatorObjects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // Found at least one runner
                 print("Successfully retrieved \(spectatorObjects!.count) spectators nearby.")
                 
                 if let spectatorObjects = spectatorObjects {
+                    var spectator: PFUser = PFUser()
+                    
                     for object in spectatorObjects {
                         
-                        let spectatorObj = (object as! PFObject)["user"] as! PFUser
-                        let spectator = PFQuery.getUserObjectWithId(spectatorObj.objectId!)
-                        let location = (object as! PFObject)["location"] as! PFGeoPoint
+                        let spectatorObj = (object )["user"] as! PFUser
+                        do {
+                            spectator = try PFQuery.getUserObjectWithId(spectatorObj.objectId!)
+                        }
+                        catch {
+                            print("ERROR: unable to get spectator")
+                        }
+                        let location = (object)["location"] as! PFGeoPoint
                         spectatorUpdates[spectator] = location //NOTE: crashes here - Seg Fault, Kernel Invalid Address (x2)
                         spectatorLocs.append(location)
                     }
@@ -323,7 +337,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             //NOTE: currently counting all possible cheers, not spectator verified cheers
             query.whereKey("runner", equalTo: runner)
             query.findObjectsInBackgroundWithBlock{
-                (cheerObjects: [AnyObject]?, error: NSError?) -> Void in
+                (cheerObjects: [PFObject]?, error: NSError?) -> Void in
                 if error == nil {
                     // Found at least one cheer
                     print("Successfully retrieved \(cheerObjects!.count) cheers.")
