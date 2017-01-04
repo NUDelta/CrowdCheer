@@ -10,8 +10,9 @@ import Foundation
 import MapKit
 import Parse
 import AudioToolbox
+import AVFoundation
 
-class CheerViewController: UIViewController {
+class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
 
     @IBOutlet weak var profilePic: UIImageView!
@@ -34,6 +35,7 @@ class CheerViewController: UIViewController {
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
+    var verifiedReceival: VerifiedReceival = VerifiedReceival()
     
     
     
@@ -55,6 +57,7 @@ class CheerViewController: UIViewController {
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
         verifiedDelivery = VerifiedDelivery()
+        verifiedReceival = VerifiedReceival()
         
         
     }
@@ -159,6 +162,10 @@ class CheerViewController: UIViewController {
                     nearBanner.hidden = true
                     lookBanner.hidden = true
                     cheerBanner.hidden = false
+                    
+                    //record audio
+                    verifiedDelivery.audioRecorder.delegate = self
+                    verifiedDelivery.startRecordingSpectatorAudio(runnerName)
                 }
                     
                 else {
@@ -185,6 +192,9 @@ class CheerViewController: UIViewController {
                     nearBanner.hidden = false
                     lookBanner.hidden = true
                     cheerBanner.hidden = true
+                    
+                    //stop recording audio
+                    verifiedDelivery.stopRecordingSpectatorAudio()
                     
                     runnerTrackerTimer.invalidate()
                     userMonitorTimer.invalidate()
