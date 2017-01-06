@@ -17,7 +17,8 @@ protocol Deliver: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func spectatorDidCheer(runner: PFUser, didCheer: Bool)
+    func spectatorDidCheer(runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String)
+    func saveSpectatorCheer()
 }
 
 protocol Receive: Any {
@@ -26,6 +27,7 @@ protocol Receive: Any {
     var location: CLLocation {get set}
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func saveRunnerCheer()
 }
 
 protocol React: Any {
@@ -66,7 +68,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
-    func spectatorDidCheer(runner: PFUser, didCheer: Bool) {
+    func spectatorDidCheer(runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String) {
         
         //query Cheer object using spectatorID, runnerID, maybe time?
         //update object with field didCheer & corresponding value
@@ -84,10 +86,19 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
             if error != nil {
                 print(error)
             } else if let cheer = cheer {
+                
+                //NOTE: should save audio file to the class here too
+                let audioFileData: NSData = NSData(contentsOfURL: audioFilePath)!
+                let audioFile = PFFile(name: audioFileName, data: audioFileData)
+                cheer["cheerAudio"] = audioFile
                 cheer["didCheer"] = didCheer
                 cheer.saveInBackground()
             }
         }
+    }
+    
+    func saveSpectatorCheer() {
+        
     }
     
     func getDocumentsDirectory() -> NSURL {
@@ -126,6 +137,10 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+    }
+    
+    func saveRunnerCheer() {
         
     }
     

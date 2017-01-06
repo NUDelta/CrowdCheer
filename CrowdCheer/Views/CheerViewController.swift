@@ -36,6 +36,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
+    var audioFilePath: NSURL = NSURL()
+    var audioFileName: String = ""
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
@@ -244,8 +246,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
         
         //start recording
-        let audioFilenameString = spectatorName + "_" + runnerName + ".m4a"
-        let audioFilename = verifiedDelivery.getDocumentsDirectory().URLByAppendingPathComponent(audioFilenameString)
+        audioFileName = spectatorName + "_" + runnerName + ".m4a"
+        audioFilePath = verifiedDelivery.getDocumentsDirectory().URLByAppendingPathComponent(audioFileName)!
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -254,7 +256,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         ]
         
         do {
-            audioRecorder = try AVAudioRecorder(URL: audioFilename!, settings: settings)
+            audioRecorder = try AVAudioRecorder(URL: audioFilePath, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
             
@@ -274,14 +276,13 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         presentViewController(alertController, animated: true, completion: nil)
         
         //stop recording audio
-//        verifiedDelivery.stopRecordingSpectatorAudio()
         audioRecorder.stop()
     }
     
     func didCheer(alert: UIAlertAction!) {
         
         //verify cheer & reset pair
-        verifiedDelivery.spectatorDidCheer(runner, didCheer: true)
+        verifiedDelivery.spectatorDidCheer(runner, didCheer: true, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -293,7 +294,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     func didNotCheer(alert: UIAlertAction!) {
         
         //verify cheer & reset pair
-        verifiedDelivery.spectatorDidCheer(runner, didCheer: false)
+        verifiedDelivery.spectatorDidCheer(runner, didCheer: false, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
