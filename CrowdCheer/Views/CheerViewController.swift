@@ -28,10 +28,14 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var userMonitorTimer: NSTimer = NSTimer()
     var runnerTrackerTimer: NSTimer = NSTimer()
     var interval: Int = Int()
+    var spectator: PFUser = PFUser.currentUser()!
+    var spectatorName: String = ""
     var runner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
+    var recordingSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
@@ -41,6 +45,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        spectatorName = spectator.username!
         distanceLabel.hidden = true
         nearBanner.hidden = false
         nearBanner.text = "Loading location..."
@@ -58,6 +63,11 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         spectatorMonitor = SpectatorMonitor()
         verifiedDelivery = VerifiedDelivery()
         verifiedReceival = VerifiedReceival()
+        
+        
+        //begin recording audio
+//        verifiedDelivery.audioRecorder.delegate = self //crashes here
+        startRecordingSpectatorAudio(runnerName, spectatorName: spectatorName)
         
         
     }
@@ -151,7 +161,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     
                 else if distanceCurr<=75 && distanceCurr>40 {
                     lookBanner.text = "LOOK FOR " + runnerName.uppercaseString + "!"
-                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+//                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     nearBanner.hidden = true
                     lookBanner.hidden = false
                     cheerBanner.hidden = true
@@ -163,9 +173,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     lookBanner.hidden = true
                     cheerBanner.hidden = false
                     
-                    //record audio
-                    verifiedDelivery.audioRecorder.delegate = self
-                    verifiedDelivery.startRecordingSpectatorAudio(runnerName)
                 }
                     
                 else {
@@ -193,9 +200,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     lookBanner.hidden = true
                     cheerBanner.hidden = true
                     
-                    //stop recording audio
-                    verifiedDelivery.stopRecordingSpectatorAudio()
-                    
                     runnerTrackerTimer.invalidate()
                     userMonitorTimer.invalidate()
                     verifyCheeringAlert()
@@ -218,6 +222,48 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    func startRecordingSpectatorAudio(runnerName: String, spectatorName: String) {
+        
+        //initialize recording session
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission({ (allowed) in
+                if allowed {
+                    print("recording permission granted")
+                } else {
+                    print("ERROR: permission denied for audio")
+                }
+            })
+        }
+            
+        catch {
+            print("ERROR: error initializing audio")
+        }
+        
+        //start recording
+        let audioFilenameString = spectatorName + "_" + runnerName + ".m4a"
+        let audioFilename = verifiedDelivery.getDocumentsDirectory().URLByAppendingPathComponent(audioFilenameString)
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.High.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(URL: audioFilename!, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.record()
+            
+        }
+        catch {
+            print("ERROR: error recording audio")
+        }
+    }
+    
     func verifyCheeringAlert() {
         let alertTitle = "Thank you for supporting " + runnerName + "!"
         let alertMessage = "Did you spot and cheer for " + runnerName + "?"
@@ -226,6 +272,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         alertController.addAction(UIAlertAction(title: "No, I missed them.", style: UIAlertActionStyle.Default, handler: didNotCheer))
         
         presentViewController(alertController, animated: true, completion: nil)
+        
+        //stop recording audio
+        verifiedDelivery.stopRecordingSpectatorAudio()
     }
     
     func didCheer(alert: UIAlertAction!) {

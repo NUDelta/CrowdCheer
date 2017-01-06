@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = ParseClientConfiguration {
             $0.applicationId = "QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf"
             $0.clientKey = "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ"
-            $0.server = "http://crowdcheerdb.herokuapp.com/parse"
+            $0.server = "https://crowdcheerdb.herokuapp.com/parse"
         }
         // Swift 3.0
         Parse.initializeWithConfiguration(configuration)
