@@ -8,6 +8,7 @@
 
 import Foundation
 import Parse
+import AVFoundation
 
 class RoleViewController: UIViewController {
     
@@ -21,8 +22,30 @@ class RoleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //authorize location tracking
         locationMgr.requestAlwaysAuthorization()
         locationMgr.requestWhenInUseAuthorization()
+        
+        //authorize & initialize recording session
+        let recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission({ (allowed) in
+                if allowed {
+                    print("recording permission granted")
+                } else {
+                    print("ERROR: permission denied for audio")
+                }
+            })
+        }
+            
+        catch {
+            print("ERROR: error initializing audio")
+        }
+
+        
         
         user = PFUser.currentUser()!
         getProfileInfo()

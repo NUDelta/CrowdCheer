@@ -34,7 +34,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
-    var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
     var audioFilePath: NSURL = NSURL()
     var audioFileName: String = ""
@@ -226,24 +225,24 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func startRecordingSpectatorAudio(runnerName: String, spectatorName: String) {
         
-        //initialize recording session
-        recordingSession = AVAudioSession.sharedInstance()
-        
-        do {
-            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission({ (allowed) in
-                if allowed {
-                    print("recording permission granted")
-                } else {
-                    print("ERROR: permission denied for audio")
-                }
-            })
-        }
-            
-        catch {
-            print("ERROR: error initializing audio")
-        }
+//        //initialize recording session
+//        recordingSession = AVAudioSession.sharedInstance()
+//        
+//        do {
+//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try recordingSession.setActive(true)
+//            recordingSession.requestRecordPermission({ (allowed) in
+//                if allowed {
+//                    print("recording permission granted")
+//                } else {
+//                    print("ERROR: permission denied for audio")
+//                }
+//            })
+//        }
+//            
+//        catch {
+//            print("ERROR: error initializing audio")
+//        }
         
         //start recording
         audioFileName = spectatorName + "_" + runnerName + ".m4a"
