@@ -274,7 +274,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         presentViewController(alertController, animated: true, completion: nil)
         
         //stop recording audio
-        verifiedDelivery.stopRecordingSpectatorAudio()
+//        verifiedDelivery.stopRecordingSpectatorAudio()
+        audioRecorder.stop()
     }
     
     func didCheer(alert: UIAlertAction!) {
