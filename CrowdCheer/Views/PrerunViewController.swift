@@ -21,6 +21,7 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var outfit: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    var currUser: PFUser = PFUser.currentUser()!
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     
     
@@ -44,6 +45,61 @@ class PrerunViewController: UIViewController {
         }
         
         runnerMonitor = RunnerMonitor()
+        getPrerunInfo()
+        
+        if (currUser.valueForKey("targetPace")==nil ||
+            currUser.valueForKey("raceTimeGoal")==nil ||
+            currUser.valueForKey("bibNumber")==nil ||
+            currUser.valueForKey("outfit")==nil) {
+            saveButton.enabled = false
+        }
+        else {
+            saveButton.enabled = true
+        }
+    }
+    
+    func getPrerunInfo() {
+        
+        var pace: String
+        var time: String
+        var bibNum: String
+        var outfitDetail: String
+        
+        //get pace
+        if runner.valueForKey("targetPace") == nil {
+            //don't retrieve pace
+        }
+        else {
+            pace = (runner.valueForKey("targetPace"))! as! String
+            targetPace.text = pace
+        }
+        
+        //get time
+        if runner.valueForKey("raceTimeGoal") == nil {
+            //don't retrieve time
+        }
+        else {
+            time = (runner.valueForKey("raceTimeGoal"))! as! String
+            raceTimeGoal.text = time
+        }
+        
+        //get bibNo
+        if runner.valueForKey("bibNumber") == nil {
+            //don't retrieve bib no
+        }
+        else {
+            bibNum = (runner.valueForKey("bibNumber"))! as! String
+            bibNo.text = bibNum
+        }
+        
+        //get outfit
+        if runner.valueForKey("outfit") == nil {
+            //don't retrieve outfit
+        }
+        else {
+            outfitDetail = (runner.valueForKey("outfit"))! as! String
+            outfit.text = outfitDetail
+        }
     }
     
     //keyboard behavior
@@ -58,30 +114,29 @@ class PrerunViewController: UIViewController {
     
     func textFieldDidChange(textField: UITextField) {
         //save profile info to Parse
-        let currUser = PFUser.currentUser()
         if (textField == targetPace){
-            currUser!["targetPace"] = targetPace.text
+            currUser["targetPace"] = targetPace.text
         }
             
         else if (textField == raceTimeGoal){
-            currUser!["raceTimeGoal"] = raceTimeGoal.text
+            currUser["raceTimeGoal"] = raceTimeGoal.text
         }
             
         else if (textField == bibNo){
-            currUser!["bibNumber"] = bibNo.text
+            currUser["bibNumber"] = bibNo.text
         }
             
         else if (textField == outfit){
-            currUser!["outfit"] = outfit.text
+            currUser["outfit"] = outfit.text
         }
         
-        currUser!.saveInBackground()
+        currUser.saveInBackground()
         
-        if (currUser!.valueForKey("targetPace")==nil ||
-            currUser!.valueForKey("raceTimeGoal")==nil ||
-            currUser!.valueForKey("bibNumber")==nil ||
-            currUser!.valueForKey("outfit")==nil) {
-                saveButton.enabled = false
+        if (currUser.valueForKey("targetPace")==nil ||
+            currUser.valueForKey("raceTimeGoal")==nil ||
+            currUser.valueForKey("bibNumber")==nil ||
+            currUser.valueForKey("outfit")==nil) {
+            saveButton.enabled = false
         }
         else {
             saveButton.enabled = true
