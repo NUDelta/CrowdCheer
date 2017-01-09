@@ -16,6 +16,7 @@ class PrerunViewController: UIViewController {
     var runner: PFUser = PFUser.currentUser()!
     
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var targetPace: UITextField!
     @IBOutlet weak var raceTimeGoal: UITextField!
     @IBOutlet weak var bibNo: UITextField!
@@ -39,6 +40,10 @@ class PrerunViewController: UIViewController {
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PrerunViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        //set up scrollview behavior
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrerunViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrerunViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
         
         if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "") {
             saveButton.enabled = true
@@ -142,4 +147,22 @@ class PrerunViewController: UIViewController {
             saveButton.enabled = true
         }
     }
+    
+    func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        keyboardFrame = view.convertRect(keyboardFrame, fromView: nil)
+        
+        var contentInset:UIEdgeInsets = scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        scrollView.contentInset = contentInset
+    }
+    
+    func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsetsZero
+        scrollView.contentInset = contentInset
+    }
+
 }
