@@ -67,7 +67,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         
         //begin recording audio
-//        verifiedDelivery.audioRecorder.delegate = self //crashes here
         startRecordingSpectatorAudio(runnerName, spectatorName: spectatorName)
         
         
@@ -224,25 +223,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func startRecordingSpectatorAudio(runnerName: String, spectatorName: String) {
-        
-//        //initialize recording session
-//        recordingSession = AVAudioSession.sharedInstance()
-//        
-//        do {
-//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-//            try recordingSession.setActive(true)
-//            recordingSession.requestRecordPermission({ (allowed) in
-//                if allowed {
-//                    print("recording permission granted")
-//                } else {
-//                    print("ERROR: permission denied for audio")
-//                }
-//            })
-//        }
-//            
-//        catch {
-//            print("ERROR: error initializing audio")
-//        }
         
         //start recording
         audioFileName = spectatorName + "_" + runnerName + ".m4a"

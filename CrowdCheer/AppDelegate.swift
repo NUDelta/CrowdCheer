@@ -10,10 +10,7 @@ import UIKit
 import Parse
 
 let dictKey = "key"
-//let setupDateString = "2016-10-06T18:48:00-05:00" // 1.5hr before race
-//let prestartDateString = "2016-10-06T18:50:00-05:00" // 1hr before race
 let setupDateString = "2016-12-02T11:30:00-05:00" // 1.5hr before race
-//let prestartDateString = "2016-10-09T07:00:00-05:00" // 1hr before race
 var nearbyTargetRunnersTimer: NSTimer = NSTimer()
 
 
@@ -31,15 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
       
         // Initialize Parse
-//        Parse.setApplicationId("QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf", clientKey: "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ")
-//        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
-        
         let configuration = ParseClientConfiguration {
             $0.applicationId = "QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf"
             $0.clientKey = "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ"
             $0.server = "https://crowdcheerdb.herokuapp.com/parse"
         }
-        // Swift 3.0
         Parse.initializeWithConfiguration(configuration)
         
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
