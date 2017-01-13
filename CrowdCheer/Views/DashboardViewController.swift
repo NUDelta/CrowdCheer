@@ -48,7 +48,6 @@ class DashboardViewController: UIViewController {
     var userMonitorTimer: NSTimer = NSTimer()
     var nearbyRunnersTimer: NSTimer = NSTimer()
     var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
-    var verifyTargetTrackingTimer: NSTimer = NSTimer()
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerNameText: String = ""
@@ -111,9 +110,6 @@ class DashboardViewController: UIViewController {
         nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
-        verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: false)
-        verifyTargetTrackingTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.notifyTargetRunners), userInfo: nil, repeats: true)
-        
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -122,7 +118,6 @@ class DashboardViewController: UIViewController {
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()
         nearbyTargetRunnersTimer.invalidate()
-        verifyTargetTrackingTimer.invalidate()
         
     }
     
@@ -601,73 +596,6 @@ class DashboardViewController: UIViewController {
     func dismissCheerTarget(alert: UIAlertAction!) {
         
         nearbyTargetRunnersTimer.invalidate()
-    }
-    
-    func notifyTargetRunners() {
-        //if target runners are not showing up, notify target runners to start tracking
-        
-        var runner: PFUser = PFUser()
-        
-        self.targetRunnerLoading.hidden = false
-        self.targetRunnerLoading.text = "favorite runners inactive"
-        
-        
-        for targetRunner in targetRunnerTrackingStatus {
-            if targetRunner.1 == false {
-                do {
-                    runner = try PFQuery.getUserObjectWithId(targetRunner.0)
-                }
-                catch {
-                    print("ERROR: unable to get runner")
-                }
-                
-                let name = runner.valueForKey("name") as! String
-                
-                if UIApplication.sharedApplication().applicationState == .Background {
-                    
-                    let localNotification = UILocalNotification()
-                    
-                    var spectatorInfo = [String: AnyObject]()
-                    spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
-                    spectatorInfo["source"] = "targetInactiveNotification"
-                    spectatorInfo["receivedNotification"] = true
-                    spectatorInfo["receivedNotificationTimestamp"] = NSDate()
-                    
-                    localNotification.alertBody =  name + "'s phone isn't active! Call or text to remind them to open the app and hit 'Start Tracking' or you won't see them!"
-                    localNotification.soundName = UILocalNotificationDefaultSoundName
-                    localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-                    
-                    spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
-                    localNotification.userInfo = spectatorInfo
-                    
-                    UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
-                }
-                    
-                else if UIApplication.sharedApplication().applicationState == .Active {
-                    
-                    let alertTitle = name + "'s phone isn't active!"
-                    let alertController = UIAlertController(title: alertTitle, message: "You won't see your runners if their phones aren't active. Call or text to remind them to open the app and hit 'Start Tracking'!", preferredStyle: UIAlertControllerStyle.Alert)
-                    alertController.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default, handler: openPhone))
-                    alertController.addAction(UIAlertAction(title: "Text", style: UIAlertActionStyle.Default, handler: openMessages))
-                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: dismissInactiveTarget))
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
-                }
-                
-            }
-        }
-    }
-
-    func openPhone(alert: UIAlertAction!) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"tel:1")!)
-    }
-    
-    func openMessages(alert: UIAlertAction!) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"sms:")!)
-    }
-    
-    func dismissInactiveTarget(alert: UIAlertAction!) {
-        verifyTargetTrackingTimer.invalidate()
     }
     
     @IBAction func targetTrack(sender: UIButton) {
