@@ -307,7 +307,7 @@ class DashboardViewController: UIViewController {
                                 
                                 self.targetRunner5Less.hidden = true
                                 self.targetRunnerLoading.hidden = true
-                                self.targetRunnerTimeToCheer.text = (name) + " is nearby!"
+                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
                                 self.targetRunnerTimeToCheer.hidden = false
                                 self.targetRunnerTrack.hidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
@@ -568,7 +568,7 @@ class DashboardViewController: UIViewController {
                 spectatorInfo["receivedNotification"] = true
                 spectatorInfo["receivedNotificationTimestamp"] = NSDate()
                 
-                localNotification.alertBody =  name + " is near you, get ready to cheer!"
+                localNotification.alertBody =  name + " is nearby, get ready to support them!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
                 
@@ -581,7 +581,7 @@ class DashboardViewController: UIViewController {
             else if UIApplication.sharedApplication().applicationState == .Active {
                 
                 let alertTitle = name + " is nearby!"
-                let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
+                let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.Alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissCheerTarget))
                 
                 self.presentViewController(alertController, animated: true, completion: nil)
