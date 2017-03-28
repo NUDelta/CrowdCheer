@@ -170,7 +170,6 @@ class DashboardViewController: UIViewController {
                 self.general3RunnerTrack.hidden = true
             }
             else {
-                self.areRunnersNearby = true
                 self.runnerLocations = runnerLocations!
                 
                 //update profiles of existing runners
@@ -219,7 +218,7 @@ class DashboardViewController: UIViewController {
     func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
         let runnerProfile = runnerProfiles[runnerObjID]
         print(runnerProfiles)
-        let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6)
+        let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6) - in line 220, the dictionary doesn't have that runner in it yet, so it can't get the profile info of the runner
         return name
     }
     
