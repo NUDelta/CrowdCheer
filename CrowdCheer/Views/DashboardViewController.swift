@@ -201,25 +201,36 @@ class DashboardViewController: UIViewController {
     }
     
     func getRunnerImage(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
-        let runnerProfile = runnerProfiles[runnerObjID]
-        let imagePath = runnerProfile!["profilePicPath"] as! String
-        let fileManager = NSFileManager.defaultManager()
-        if fileManager.fileExistsAtPath(imagePath){
-            let image = UIImage(contentsOfFile: imagePath)
-            return image!
+        var image: UIImage = UIImage(named: "profileDefault.png")!
+        if runnerProfiles[runnerObjID] != nil {
+            let runnerProfile = runnerProfiles[runnerObjID]
+            let imagePath = runnerProfile!["profilePicPath"] as! String
+            let fileManager = NSFileManager.defaultManager()
+            if fileManager.fileExistsAtPath(imagePath){
+                image = UIImage(contentsOfFile: imagePath)!
+            }
         }
-        else{
+        else {
             print("No Image, using generic")
-            let image = UIImage(named: "profile.png")
-            return image!
+            image = UIImage(named: "profileDefault.png")!
         }
+        return image
     }
     
     func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
-        let runnerProfile = runnerProfiles[runnerObjID]
-        print(runnerProfiles)
-        let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6) - in line 220, the dictionary doesn't have that runner in it yet, so it can't get the profile info of the runner
-        return name
+        
+        if runnerProfiles[runnerObjID] != nil {
+            let runnerProfile = runnerProfiles[runnerObjID]
+            print(runnerProfiles)
+            let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6) - in line 220, the dictionary doesn't have that runner in it yet, so it can't get the profile info of the runner
+            return name
+        }
+        else {
+            print("No name found, using generic")
+            let name = ""
+            return name
+        }
+        
     }
     
     func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {

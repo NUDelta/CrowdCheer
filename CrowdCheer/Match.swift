@@ -77,7 +77,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         
         //query & return runners' locations from parse (recently updated & near me)
         if locationMgr.location != nil {
-            let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4)
+            let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4) - fixed with condiitonal?
             var runnerUpdates = [PFUser: PFGeoPoint]()
             var runnerLocs:Array<AnyObject> = []
             let now = NSDate()
