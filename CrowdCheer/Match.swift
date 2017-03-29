@@ -76,59 +76,61 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4)
-        var runnerUpdates = [PFUser: PFGeoPoint]()
-        var runnerLocs:Array<AnyObject> = []
-        let now = NSDate()
-        let seconds:NSTimeInterval = -60
-        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
-        let query = PFQuery(className: "CurrRunnerLocation")
-        
-        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
-        query.orderByDescending("updatedAt")
-        query.findObjectsInBackgroundWithBlock {
-            (runnerObjects: [PFObject]?, error: NSError?) -> Void in
+        if locationMgr.location != nil {
+            let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4)
+            var runnerUpdates = [PFUser: PFGeoPoint]()
+            var runnerLocs:Array<AnyObject> = []
+            let now = NSDate()
+            let seconds:NSTimeInterval = -60
+            let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+            let query = PFQuery(className: "CurrRunnerLocation")
             
-            var runner: PFUser = PFUser()
-            
-            if error == nil {
-                // Found at least one runner
-                print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
+            query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
+            query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
+            query.orderByDescending("updatedAt")
+            query.findObjectsInBackgroundWithBlock {
+                (runnerObjects: [PFObject]?, error: NSError?) -> Void in
                 
-                if let runnerObjects = runnerObjects {
-                    for object in runnerObjects {
-                        
-                        let runnerObj = (object )["user"] as! PFUser
-                        do {
-                            runner = try PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
+                var runner: PFUser = PFUser()
+                
+                if error == nil {
+                    // Found at least one runner
+                    print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
+                    
+                    if let runnerObjects = runnerObjects {
+                        for object in runnerObjects {
+                            
+                            let runnerObj = (object )["user"] as! PFUser
+                            do {
+                                runner = try PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
+                            }
+                            catch {
+                                print("ERROR: unable to get runner")
+                            }
+                            let location = (object )["location"] as! PFGeoPoint
+                            runnerUpdates[runner] = location
+                            runnerLocs.append(location)
+                            self.possibleRunners[runner.objectId!] = runner.username
+                            
                         }
-                        catch {
-                            print("ERROR: unable to get runner")
-                        }
-                        let location = (object )["location"] as! PFGeoPoint
-                        runnerUpdates[runner] = location
-                        runnerLocs.append(location)
-                        self.possibleRunners[runner.objectId!] = runner.username
-                        
                     }
-                }
-                
-                if runnerLocs.isEmpty != true {
-                    print("runnerLocs has a runner")
-                    self.areUsersNearby = true
+                    
+                    if runnerLocs.isEmpty != true {
+                        print("runnerLocs has a runner")
+                        self.areUsersNearby = true
+                    }
+                    else {
+                        print("runnerLocs is empty")
+                        self.areUsersNearby = false
+                    }
+                    
+                    result(userLocations: runnerUpdates)
                 }
                 else {
-                    print("runnerLocs is empty")
-                    self.areUsersNearby = false
+                    // Query failed, load error
+                    print("ERROR: \(error!) \(error!.userInfo)")
+                    result(userLocations: runnerUpdates)
                 }
-                
-                result(userLocations: runnerUpdates)
-            }
-            else {
-                // Query failed, load error
-                print("ERROR: \(error!) \(error!.userInfo)")
-                result(userLocations: runnerUpdates)
             }
         }
     }
