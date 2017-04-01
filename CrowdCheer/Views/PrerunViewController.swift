@@ -151,7 +151,7 @@ class PrerunViewController: UIViewController {
     func keyboardWillShow(_ notification:Notification){
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         
         var contentInset:UIEdgeInsets = scrollView.contentInset

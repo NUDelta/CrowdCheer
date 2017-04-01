@@ -532,17 +532,17 @@ class DashboardViewController: UIViewController {
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.current()!.objectId
-                spectatorInfo["source"] = "generalRunnerNotification"
-                spectatorInfo["receivedNotification"] = true
-                spectatorInfo["receivedNotificationTimestamp"] = Date()
+                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+                spectatorInfo["source"] = "generalRunnerNotification" as AnyObject
+                spectatorInfo["receivedNotification"] = true as AnyObject
+                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                 
                 
                 localNotification.alertBody = "Cheer for runners near you!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
-                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
+                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
                 localNotification.userInfo = spectatorInfo
                 
                 UIApplication.shared.presentLocalNotificationNow(localNotification)
@@ -573,16 +573,16 @@ class DashboardViewController: UIViewController {
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.current()!.objectId
-                spectatorInfo["source"] = "targetRunnerNotification"
-                spectatorInfo["receivedNotification"] = true
-                spectatorInfo["receivedNotificationTimestamp"] = Date()
+                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+                spectatorInfo["source"] = "targetRunnerNotification" as AnyObject
+                spectatorInfo["receivedNotification"] = true as AnyObject
+                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                 
                 localNotification.alertBody =  name + " is nearby, get ready to support them!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
-                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
+                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
                 localNotification.userInfo = spectatorInfo
                 
                 UIApplication.shared.presentLocalNotificationNow(localNotification)

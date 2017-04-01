@@ -39,7 +39,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
     var distance: Double
-    var pace: NSString
+    var pace: String
     var speed: Double
     var duration: NSInteger
     
