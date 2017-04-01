@@ -21,7 +21,7 @@ protocol Prime: Any {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner() -> PFUser
-    func getRunnerLocation(_ trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void)
+    func getRunnerLocation(_ trackedRunner: PFUser, result:(_ runnerLoc: CLLocationCoordinate2D) -> Void)
     
 }
 
@@ -95,7 +95,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         appDel.synchronize()
     }
     
-    func getRunnerLocation(_ trackedRunner: PFUser, result:(runnerLoc: CLLocationCoordinate2D) -> Void) {
+    func getRunnerLocation(_ trackedRunner: PFUser, result:(_ runnerLoc: CLLocationCoordinate2D) -> Void) {
         
         var runnerUpdate = CLLocationCoordinate2D()
         let now = Date()
