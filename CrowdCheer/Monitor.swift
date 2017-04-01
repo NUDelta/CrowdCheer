@@ -229,7 +229,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
-        print (user.objectId)
+        print (user.objectId!)
         print(self.distance)
         print(self.duration)
         print(self.pace)
@@ -259,7 +259,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func audioSessionRouteChanged(_ notification: Notification) {
         var userInfo = notification.userInfo
         let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
-        print ("audio route change reason: \(routeChangeReason)")
+        print ("audio route change reason: \(String(describing: routeChangeReason))")
     }
     
     func enableBackgroundLoc() {
@@ -432,7 +432,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func audioSessionRouteChanged(_ notification: Notification) {
         var userInfo = notification.userInfo
         let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
-        print ("audio route change reason: \(routeChangeReason)")
+        print ("audio route change reason: \(String(describing: routeChangeReason))")
     }
     
     func enableBackgroundLoc() {
