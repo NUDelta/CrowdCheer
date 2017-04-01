@@ -35,7 +35,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var audioRecorder: AVAudioRecorder!
-    var audioFilePath: URL = URL()
+    var audioFilePath: URL = URL
     var audioFileName: String = ""
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
@@ -226,7 +226,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         //start recording
         audioFileName = spectatorName + "_" + runnerName + ".m4a"
-        audioFilePath = verifiedDelivery.getDocumentsDirectory().appendingPathComponent(audioFileName)!
+        audioFilePath = verifiedDelivery.getDocumentsDirectory().appendingPathComponent(audioFileName)
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,

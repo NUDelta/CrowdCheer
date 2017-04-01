@@ -278,7 +278,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
             }
             let runnerName = (runner.value(forKey: "name"))!
             print("Selected runner: \(runnerName)")
-            runnerDescription = String(runnerName) + " needs help!"
+            runnerDescription = String(describing: runnerName) + " needs help!"
             runnerLabel.text = runnerDescription
         }
     }
