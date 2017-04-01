@@ -11,8 +11,8 @@ import UIKit
 import MapKit
 
 enum RunnerType: Int {
-    case RunnerDefault = 0
-    case MyRunner
+    case runnerDefault = 0
+    case myRunner
 }
 
 class TrackRunnerAnnotation: NSObject, MKAnnotation {

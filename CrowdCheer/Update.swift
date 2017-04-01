@@ -14,7 +14,7 @@ protocol Update: Any {
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func updateStatus()
 }
 
@@ -25,7 +25,7 @@ class updateRunner: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -33,7 +33,7 @@ class updateRunner: NSObject, Update, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -43,7 +43,7 @@ class updateRunner: NSObject, Update, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
     func updateStatus() {
@@ -61,7 +61,7 @@ class updateCheerer: NSObject, Update, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -69,7 +69,7 @@ class updateCheerer: NSObject, Update, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -79,7 +79,7 @@ class updateCheerer: NSObject, Update, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
     func updateStatus() {

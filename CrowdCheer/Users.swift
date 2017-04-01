@@ -14,8 +14,8 @@ import Parse
 protocol User: Any {
     var user: PFUser {get}
     
-    func getsUser(objectID: String) -> PFUser
-    func setsUser(user: PFUser)
+    func getsUser(_ objectID: String) -> PFUser
+    func setsUser(_ user: PFUser)
 }
 
 class Runner: NSObject, User {
@@ -23,14 +23,14 @@ class Runner: NSObject, User {
     var user: PFUser
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
     }
 
     
-    func getsUser(objectID: String) -> PFUser {
+    func getsUser(_ objectID: String) -> PFUser {
         
         do {
-            user = try PFQuery.getUserObjectWithId(objectID)
+            user = try PFQuery.getUserObject(withId: objectID)
         }
         catch {
             print("ERROR: unable to get runner")
@@ -38,9 +38,9 @@ class Runner: NSObject, User {
         return user
     }
     
-    func setsUser(runner: PFUser) {
+    func setsUser(_ runner: PFUser) {
         
-        runner.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+        runner.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {
                 print("user saved")

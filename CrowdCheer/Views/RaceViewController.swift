@@ -19,9 +19,9 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     var runnerBib: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     
-    var userMonitorTimer: NSTimer = NSTimer()
-    var nearbyRunnersTimer: NSTimer = NSTimer()
-    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
+    var userMonitorTimer: Timer = Timer()
+    var nearbyRunnersTimer: Timer = Timer()
+    var nearbyGeneralRunnersTimer: Timer = Timer()
     var targetRunnerTrackingStatus = [String : Bool]()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerName: String = ""
@@ -42,8 +42,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        cheer.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
-        cheer.enabled = false
+        cheer.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        cheer.isEnabled = false
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
         areTargetRunnersNearby = false
@@ -53,25 +53,25 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         //initialize mapview
         mapView.delegate = self
         mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true);
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
         
-        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
         updateNearbyRunners()
         
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
-        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RaceViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RaceViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(RaceViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RaceViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
 
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
@@ -87,8 +87,8 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         spectatorMonitor.updateUserLocation()
         spectatorMonitor.updateUserPath(interval)
         
-        if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState)")
+        if UIApplication.shared.applicationState == .background {
+            print("app status: \(UIApplication.shared.applicationState)")
             
             spectatorMonitor.enableBackgroundLoc()
         }
@@ -113,7 +113,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     
                     let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                     let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                    let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
+                    let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
                     print(runner.username, dist)
                     
                     for affinity in affinities {
@@ -152,7 +152,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     runnerCount += 1
-                                    let name = runner.valueForKey("name") as! String
+                                    let name = runner.value(forKey: "name") as! String
                                     self.areTargetRunnersNearby = true
                                     self.targetRunnerName = name
                                     isTargetRunnerNear = true
@@ -185,9 +185,9 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    func addRunnerPin(runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
+    func addRunnerPin(_ runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
         
-        let name = runner.valueForKey("name")
+        let name = runner.value(forKey: "name")
         let coordinate = runnerLoc
         let title = (name as? String)
         let runnerObjID = runner.objectId
@@ -199,13 +199,13 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     func sendLocalNotification_any() {
         if areRunnersNearby == true {
             
-            if UIApplication.sharedApplication().applicationState == .Background {
+            if UIApplication.shared.applicationState == .background {
                 let localNotification = UILocalNotification()
                 localNotification.alertBody = "Cheer for runners near you!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
-                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                UIApplication.shared.presentLocalNotificationNow(localNotification)
             }
         }
             
@@ -220,23 +220,23 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         if areTargetRunnersNearby == true {
             
-            if UIApplication.sharedApplication().applicationState == .Background {
+            if UIApplication.shared.applicationState == .background {
                 
                 let localNotification = UILocalNotification()
                 localNotification.alertBody =  name + " is near you, get ready to cheer!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
-                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                UIApplication.shared.presentLocalNotificationNow(localNotification)
             }
                 
-            else if UIApplication.sharedApplication().applicationState == .Active {
+            else if UIApplication.shared.applicationState == .active {
                 
                 let alertTitle = name + " is nearby!"
-                let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissCheerTarget))
+                let alertController = UIAlertController(title: alertTitle, message: "Get ready to cheer!", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
         else {
@@ -244,12 +244,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func dismissCheerTarget(alert: UIAlertAction!) {
+    func dismissCheerTarget(_ alert: UIAlertAction!) {
         
         nearbyTargetRunnersTimer.invalidate()
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if (annotation is MKUserLocation) {
             return nil
@@ -261,22 +261,22 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         print("\(view.annotation?.title) has been tapped")
         if (view is PickRunnerAnnotationView) {
             
-            cheer.enabled = true
+            cheer.isEnabled = true
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             var runnerDescription: String = ""
             do {
-                runner = try PFQuery.getUserObjectWithId(runnerObjID!)
+                runner = try PFQuery.getUserObject(withId: runnerObjID!)
             }
             catch {
                 print("ERROR: unable to get runner")
             }
-            let runnerName = (runner.valueForKey("name"))!
+            let runnerName = (runner.value(forKey: "name"))!
             print("Selected runner: \(runnerName)")
             runnerDescription = String(runnerName) + " needs help!"
             runnerLabel.text = runnerDescription
@@ -284,7 +284,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     }
 
     
-    @IBAction func cheer(sender: UIButton) {
+    @IBAction func cheer(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
@@ -296,12 +296,12 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         print("isCheerSaved? \(isCheerSaved)")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
-        performSegueWithIdentifier("trackRunner", sender: nil)
+        performSegue(withIdentifier: "trackRunner", sender: nil)
     }
     
-    @IBAction func home(sender: UIBarButtonItem) {
+    @IBAction func home(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("RoleViewController") as UIViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "RoleViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
     }
 }

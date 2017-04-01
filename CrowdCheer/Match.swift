@@ -15,17 +15,17 @@ protocol Trigger: Any {
     var locationMgr: CLLocationManager {get}
     var areUsersNearby: Bool {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func checkProximityZone(_ result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
 protocol Optimize: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void)
-    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void)
-    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void)
+    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void)
+    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void)
+    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void)
 
 }
 
@@ -33,16 +33,16 @@ protocol Select: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func preselectRunners(userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint>
-    func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void)
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func preselectRunners(_ userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint>
+    func selectRunner(_ runner: PFUser, result:(cheerSaved: Bool) -> Void)
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
     
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
     var possibleRunners = [String : String]()
@@ -50,7 +50,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var imagePath = ""
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         areUsersNearby = false
         possibleRunnerCount = 0
@@ -60,7 +60,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -70,25 +70,25 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkProximityZone(_ result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
         if locationMgr.location != nil {
             let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4) - fixed with condiitonal?
             var runnerUpdates = [PFUser: PFGeoPoint]()
             var runnerLocs:Array<AnyObject> = []
-            let now = NSDate()
-            let seconds:NSTimeInterval = -60
-            let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+            let now = Date()
+            let seconds:TimeInterval = -60
+            let xSecondsAgo = now.addingTimeInterval(seconds)
             let query = PFQuery(className: "CurrRunnerLocation")
             
             query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
             query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
-            query.orderByDescending("updatedAt")
-            query.findObjectsInBackgroundWithBlock {
+            query.order(byDescending: "updatedAt")
+            query.findObjectsInBackground {
                 (runnerObjects: [PFObject]?, error: NSError?) -> Void in
                 
                 var runner: PFUser = PFUser()
@@ -102,7 +102,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                             
                             let runnerObj = (object )["user"] as! PFUser
                             do {
-                                runner = try PFQuery.getUserObjectWithId(runnerObj.objectId!) //NOTE: crashed here (on query) - crash
+                                runner = try PFQuery.getUserObject(withId: runnerObj.objectId!) //NOTE: crashed here (on query) - crash
                             }
                             catch {
                                 print("ERROR: unable to get runner")
@@ -135,37 +135,37 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
-    func getRunnerProfile(runnerObjID: String, result:(runnerProfile: Dictionary<String, AnyObject>) -> Void) {
+    func getRunnerProfile(_ runnerObjID: String, result:(runnerProfile: Dictionary<String, AnyObject>) -> Void) {
         var runnerProfile = [String: AnyObject]()
         var runner: PFUser = PFUser()
         
         do {
-            runner = try PFQuery.getUserObjectWithId(runnerObjID)
+            runner = try PFQuery.getUserObject(withId: runnerObjID)
         }
         catch {
             print("ERROR: unable to get runner")
         }
-        let name = (runner.valueForKey("name"))!
+        let name = (runner.value(forKey: "name"))!
         runnerProfile["objectID"] = runnerObjID
         runnerProfile["name"] = name
         
         let userImageFile = runner["profilePic"] as? PFFile
-        userImageFile!.getDataInBackgroundWithBlock {
-            (imageData: NSData?, error: NSError?) -> Void in
+        userImageFile!.getDataInBackground {
+            (imageData: Data?, error: NSError?) -> Void in
             if error == nil {
                 if let imageData = imageData {
-                    let fileManager = NSFileManager.defaultManager()
-                    self.imagePath = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("\(runner.username).jpg")
+                    let fileManager = FileManager.default
+                    self.imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("\(runner.username).jpg")
                     print(self.imagePath)
                     runnerProfile["profilePicPath"] = self.imagePath
-                    fileManager.createFileAtPath(self.imagePath as String, contents: imageData, attributes: nil)
+                    fileManager.createFile(atPath: self.imagePath as String, contents: imageData, attributes: nil)
                 }
             }
             result(runnerProfile: runnerProfile)
         }
     }
     
-    func saveRunnerCount(possibleRunnerCount: Int) {
+    func saveRunnerCount(_ possibleRunnerCount: Int) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user
         newRunnerCount["nearbyRunners"] = possibleRunnerCount
@@ -181,12 +181,12 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     //This class handles how a spectator monitors any runners around them
     
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         areUsersNearby = false
         
@@ -194,7 +194,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -204,10 +204,10 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func checkProximityZone(result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkProximityZone(_ result:(userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //then look up their current location
         //create dictionary of spectators + their locations
@@ -216,16 +216,16 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: nil here
         var spectatorUpdates = [PFUser: PFGeoPoint]()
         var spectatorLocs:Array<AnyObject> = []
-        let now = NSDate()
-        let seconds:NSTimeInterval = -60 //1 min
-        let xSecondsAgo = now.dateByAddingTimeInterval(seconds)
+        let now = Date()
+        let seconds:TimeInterval = -60 //1 min
+        let xSecondsAgo = now.addingTimeInterval(seconds)
         
         let query = PFQuery(className: "CurrSpectatorLocation")
         
         query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
         query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
-        query.orderByDescending("updatedAt")
-        query.findObjectsInBackgroundWithBlock {
+        query.order(byDescending: "updatedAt")
+        query.findObjectsInBackground {
             (spectatorObjects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
@@ -239,7 +239,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                         
                         let spectatorObj = (object )["user"] as! PFUser
                         do {
-                            spectator = try PFQuery.getUserObjectWithId(spectatorObj.objectId!)
+                            spectator = try PFQuery.getUserObject(withId: spectatorObj.objectId!)
                         }
                         catch {
                             print("ERROR: unable to get spectator")
@@ -274,20 +274,20 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
 class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
 //This class evaluates the convenience, affinity, and need associated with each possible pairing
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
     var targetRunners = [String: Bool]()
     var generalRunners = [String]()
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         
         //initialize location manager
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -297,11 +297,11 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
     
-    func considerConvenience(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void){
+    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(conveniences: Dictionary<PFUser, Int>) -> Void){
         var conveniences = [PFUser: Int]()
         
         for (runner, location) in userLocations {
@@ -312,13 +312,13 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             //if runner is between 500m-1000m, set to 10
             //if runner is between 1000m-2000m, set to 5
             
-            if loc.distanceFromLocation(locationMgr.location!) < 500 {
+            if loc.distance(from: locationMgr.location!) < 500 {
                 conveniences[runner] = -1
             }
-            else if (loc.distanceFromLocation(locationMgr.location!) > 500) && (loc.distanceFromLocation(locationMgr.location!) < 1000) {
+            else if (loc.distance(from: locationMgr.location!) > 500) && (loc.distance(from: locationMgr.location!) < 1000) {
                 conveniences[runner] = 10
             }
-            else if (loc.distanceFromLocation(locationMgr.location!) > 1000) && (loc.distanceFromLocation(locationMgr.location!) < 500) {
+            else if (loc.distance(from: locationMgr.location!) > 1000) && (loc.distance(from: locationMgr.location!) < 500) {
                 conveniences[runner] = 5
             }
         }
@@ -326,7 +326,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         result(conveniences: conveniences)
     }
     
-    func considerNeed(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void) {
+    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(needs: Dictionary<PFUser, Int>) -> Void) {
         var needs = [PFUser: Int]()
         
         //for each runner, retrieve all cheers
@@ -338,7 +338,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             let query = PFQuery(className: "Cheers")
             //NOTE: currently counting all possible cheers, not spectator verified cheers
             query.whereKey("runner", equalTo: runner)
-            query.findObjectsInBackgroundWithBlock{
+            query.findObjectsInBackground{
                 (cheerObjects: [PFObject]?, error: NSError?) -> Void in
                 if error == nil {
                     // Found at least one cheer
@@ -380,22 +380,22 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         }
     }
 
-    func considerAffinity(userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
+    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(affinities: Dictionary<PFUser, Int>) -> Void) {
         var affinities = [PFUser: Int]()
         
-        if user.valueForKey("targetRunnerBib") == nil {
+        if user.value(forKey: "targetRunnerBib") == nil {
             print("no target runner")
         }
         
         else {
-            let targetRunnerBibString = user.valueForKey("targetRunnerBib") as! String
+            let targetRunnerBibString = user.value(forKey: "targetRunnerBib") as! String
             
-            let targetRunnerBibArr = targetRunnerBibString.componentsSeparatedByString(" ")
+            let targetRunnerBibArr = targetRunnerBibString.components(separatedBy: " ")
             print("bib array: \(targetRunnerBibArr)")
             
             let query = PFUser.query()
             query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
-            query!.findObjectsInBackgroundWithBlock({ (targetRunners, error: NSError?) in
+            query!.findObjectsInBackground(block: { (targetRunners, error: NSError?) in
                 for (runner, location) in userLocations {
                     for targetRunner in targetRunners! {
                         
@@ -425,7 +425,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         }
     }
     
-    func preselectRunners(runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
+    func preselectRunners(_ runnerLocations: Dictionary<PFUser, PFGeoPoint>) -> Dictionary<PFUser, PFGeoPoint> {
         let selectedRunners = runnerLocations //NOTE: Crashed here (query)
         return selectedRunners
         
@@ -435,19 +435,19 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
 class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
 //This class handles how a spectator monitors any runners around them
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
-    let appDel = NSUserDefaults()
+    let appDel = UserDefaults()
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         
         //initialize location manager
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -457,22 +457,22 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func preselectRunners(userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint> {
+    func preselectRunners(_ userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint> {
         let selectedRunners = userLocations
         return selectedRunners
         
     }
     
-    func selectRunner(runner: PFUser, result:(cheerSaved: Bool) -> Void ) {
+    func selectRunner(_ runner: PFUser, result:(cheerSaved: Bool) -> Void ) {
         
         
         //save runner/spectator pair to global dictionary
         var cheerPair = [String: String]()
-        cheerPair[PFUser.currentUser()!.objectId!] = runner.objectId
-        appDel.setObject(cheerPair, forKey: dictKey)
+        cheerPair[PFUser.current()!.objectId!] = runner.objectId
+        appDel.set(cheerPair, forKey: dictKey)
         appDel.synchronize()
         
         
@@ -480,8 +480,8 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         let cheer = PFObject(className:"Cheers")
         var isCheerSaved = Bool()
         cheer["runner"] = runner
-        cheer["spectator"] = PFUser.currentUser()
-        cheer.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+        cheer["spectator"] = PFUser.current()
+        cheer.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {
                 isCheerSaved = true

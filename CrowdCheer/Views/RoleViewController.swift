@@ -17,7 +17,7 @@ class RoleViewController: UIViewController {
 
     
     let locationMgr: CLLocationManager = CLLocationManager()
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +47,13 @@ class RoleViewController: UIViewController {
 
         
         
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         getProfileInfo()
         
-        let font = UIFont.systemFontOfSize(20)
+        let font = UIFont.systemFont(ofSize: 20)
         roleButton.setTitleTextAttributes([NSFontAttributeName: font],
-                                          forState: UIControlState.Normal)
-        roleButton.selected = false
+                                          for: UIControlState())
+        roleButton.isSelected = false
         
     }
     
@@ -63,11 +63,11 @@ class RoleViewController: UIViewController {
         var role: String
         
         
-        if user.valueForKey("role") == nil {
+        if user.value(forKey: "role") == nil {
             //don't retrieve role
         }
         else {
-            role = (user.valueForKey("role"))! as! String
+            role = (user.value(forKey: "role"))! as! String
             if role == "runner" {
                 roleButton.selectedSegmentIndex = 0
             }
@@ -77,7 +77,7 @@ class RoleViewController: UIViewController {
         }
     }
     
-    @IBAction func selectRole(sender:UISegmentedControl) {
+    @IBAction func selectRole(_ sender:UISegmentedControl) {
         switch roleButton.selectedSegmentIndex {
         case 0:
             user["role"] = "runner"
@@ -92,12 +92,12 @@ class RoleViewController: UIViewController {
         }
     }
     
-    @IBAction func saveRole(sender: UIBarButtonItem) {
+    @IBAction func saveRole(_ sender: UIBarButtonItem) {
         switch roleButton.selectedSegmentIndex {
         case 0:
-            self.performSegueWithIdentifier("run", sender: nil)
+            self.performSegue(withIdentifier: "run", sender: nil)
         case 1:
-            self.performSegueWithIdentifier("cheer", sender: nil)
+            self.performSegue(withIdentifier: "cheer", sender: nil)
         default:
             break
         }

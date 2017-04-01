@@ -29,22 +29,22 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         super.viewDidLoad()
         
         //Initialize user, profile info
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         getProfileInfo()
         
         //Prompt user to take new photo & add listener for changes in name field
-        nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         //Ensure profile pic and name are saved before enabling segue
-        if (user.valueForKey("name")==nil) || (user.valueForKey("profilePic")==nil )  {
-            saveButton.enabled = false
+        if (user.value(forKey: "name")==nil) || (user.value(forKey: "profilePic")==nil )  {
+            saveButton.isEnabled = false
         }
         else {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
     }
     
@@ -53,12 +53,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         //save profile info to Parse
         if (textField == nameField){
             user["name"] = nameField.text
@@ -72,21 +72,21 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         var name: String
         var userImageFile: PFFile
         
-        if user.valueForKey("name") == nil {
+        if user.value(forKey: "name") == nil {
             //don't retrieve name
         }
         else {
-            name = (user.valueForKey("name"))! as! String
+            name = (user.value(forKey: "name"))! as! String
             nameField.text = name
         }
         
-        if user.valueForKey("profilePic") == nil {
+        if user.value(forKey: "profilePic") == nil {
             //don't retrieve profile picture
         }
         else {
             userImageFile = user["profilePic"] as! PFFile
-            userImageFile.getDataInBackgroundWithBlock {
-                (imageData: NSData?, error: NSError?) -> Void in
+            userImageFile.getDataInBackground {
+                (imageData: Data?, error: NSError?) -> Void in
                 if error == nil {
                     if let imageData = imageData {
                         let image = UIImage(data:imageData)
@@ -100,17 +100,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    @IBAction func updatePicture(sender: UIButton) {
+    @IBAction func updatePicture(_ sender: UIButton) {
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
-        imagePicker.sourceType = .Camera
+        imagePicker.sourceType = .camera
         
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        imagePicker.dismiss(animated: true, completion: nil)
         image = info[UIImagePickerControllerEditedImage] as? UIImage
         profilePicView.image = image
         
@@ -119,16 +119,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         user["profilePic"] = imageFile
         user.saveInBackground()
         
-        if user.valueForKey("profilePic") != nil {
-            saveButton.enabled = true
+        if user.value(forKey: "profilePic") != nil {
+            saveButton.isEnabled = true
         }
     }
     
-    @IBAction func logOut(sender: UIButton) {
+    @IBAction func logOut(_ sender: UIButton) {
         PFUser.logOut()
-        let sb = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let loginView = sb.instantiateViewControllerWithIdentifier("signUpViewController")
-        self.presentViewController(loginView, animated: true, completion: nil)
+        let sb = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let loginView = sb.instantiateViewController(withIdentifier: "signUpViewController")
+        self.present(loginView, animated: true, completion: nil)
     }
 }
 

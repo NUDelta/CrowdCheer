@@ -13,7 +13,7 @@ import Parse
 
 class PrerunViewController: UIViewController {
     
-    var runner: PFUser = PFUser.currentUser()!
+    var runner: PFUser = PFUser.current()!
     
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -22,7 +22,7 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var outfit: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    var currUser: PFUser = PFUser.currentUser()!
+    var currUser: PFUser = PFUser.current()!
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     
     
@@ -30,36 +30,36 @@ class PrerunViewController: UIViewController {
         super.viewDidLoad()
         
         //set up view
-        saveButton.enabled = false
+        saveButton.isEnabled = false
         
-        targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PrerunViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         //set up scrollview behavior
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrerunViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrerunViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "") {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
         
         runnerMonitor = RunnerMonitor()
         getPrerunInfo()
         
-        if (currUser.valueForKey("targetPace")==nil ||
-            currUser.valueForKey("raceTimeGoal")==nil ||
-            currUser.valueForKey("bibNumber")==nil ||
-            currUser.valueForKey("outfit")==nil) {
-            saveButton.enabled = false
+        if (currUser.value(forKey: "targetPace")==nil ||
+            currUser.value(forKey: "raceTimeGoal")==nil ||
+            currUser.value(forKey: "bibNumber")==nil ||
+            currUser.value(forKey: "outfit")==nil) {
+            saveButton.isEnabled = false
         }
         else {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
     }
     
@@ -71,38 +71,38 @@ class PrerunViewController: UIViewController {
         var outfitDetail: String
         
         //get pace
-        if runner.valueForKey("targetPace") == nil {
+        if runner.value(forKey: "targetPace") == nil {
             //don't retrieve pace
         }
         else {
-            pace = (runner.valueForKey("targetPace"))! as! String
+            pace = (runner.value(forKey: "targetPace"))! as! String
             targetPace.text = pace
         }
         
         //get time
-        if runner.valueForKey("raceTimeGoal") == nil {
+        if runner.value(forKey: "raceTimeGoal") == nil {
             //don't retrieve time
         }
         else {
-            time = (runner.valueForKey("raceTimeGoal"))! as! String
+            time = (runner.value(forKey: "raceTimeGoal"))! as! String
             raceTimeGoal.text = time
         }
         
         //get bibNo
-        if runner.valueForKey("bibNumber") == nil {
+        if runner.value(forKey: "bibNumber") == nil {
             //don't retrieve bib no
         }
         else {
-            bibNum = (runner.valueForKey("bibNumber"))! as! String
+            bibNum = (runner.value(forKey: "bibNumber"))! as! String
             bibNo.text = bibNum
         }
         
         //get outfit
-        if runner.valueForKey("outfit") == nil {
+        if runner.value(forKey: "outfit") == nil {
             //don't retrieve outfit
         }
         else {
-            outfitDetail = (runner.valueForKey("outfit"))! as! String
+            outfitDetail = (runner.value(forKey: "outfit"))! as! String
             outfit.text = outfitDetail
         }
     }
@@ -112,12 +112,12 @@ class PrerunViewController: UIViewController {
         view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         //save profile info to Parse
         if (textField == targetPace){
             currUser["targetPace"] = targetPace.text
@@ -137,31 +137,31 @@ class PrerunViewController: UIViewController {
         
         currUser.saveInBackground()
         
-        if (currUser.valueForKey("targetPace")==nil ||
-            currUser.valueForKey("raceTimeGoal")==nil ||
-            currUser.valueForKey("bibNumber")==nil ||
-            currUser.valueForKey("outfit")==nil) {
-            saveButton.enabled = false
+        if (currUser.value(forKey: "targetPace")==nil ||
+            currUser.value(forKey: "raceTimeGoal")==nil ||
+            currUser.value(forKey: "bibNumber")==nil ||
+            currUser.value(forKey: "outfit")==nil) {
+            saveButton.isEnabled = false
         }
         else {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
     }
     
-    func keyboardWillShow(notification:NSNotification){
+    func keyboardWillShow(_ notification:Notification){
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        keyboardFrame = view.convertRect(keyboardFrame, fromView: nil)
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
         
         var contentInset:UIEdgeInsets = scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height
         scrollView.contentInset = contentInset
     }
     
-    func keyboardWillHide(notification:NSNotification){
+    func keyboardWillHide(_ notification:Notification){
         
-        let contentInset:UIEdgeInsets = UIEdgeInsetsZero
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
 

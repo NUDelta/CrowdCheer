@@ -14,28 +14,28 @@ import Parse
 
 class AffinityViewController: UIViewController {
     
-    var spectator: PFUser = PFUser.currentUser()!
+    var spectator: PFUser = PFUser.current()!
     
     @IBOutlet weak var bibNo: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    var prestartDate: NSDate = NSDate()
-    var prestartTimer: NSTimer = NSTimer()
+    var prestartDate: Date = Date()
+    var prestartTimer: Timer = Timer()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         //set up rules for keyboard
-        bibNo.addTarget(self, action: #selector(AffinityViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        bibNo.addTarget(self, action: #selector(AffinityViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AffinityViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         //get fave bibs if any
-        if spectator.valueForKey("targetRunnerBib") == nil {
+        if spectator.value(forKey: "targetRunnerBib") == nil {
             //don't retrieve pace
         }
         else {
-            let targetRunnerBib = (spectator.valueForKey("targetRunnerBib"))! as! String
+            let targetRunnerBib = (spectator.value(forKey: "targetRunnerBib"))! as! String
             bibNo.text = targetRunnerBib
         }
         
@@ -46,14 +46,14 @@ class AffinityViewController: UIViewController {
         view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         //save profile info to Parse
-        let currUser = PFUser.currentUser()
+        let currUser = PFUser.current()
         if (textField == bibNo){
             currUser!["targetRunnerBib"] = bibNo.text
         }

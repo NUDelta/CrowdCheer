@@ -17,8 +17,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
-    var setupDate: NSDate = NSDate()
-    var setupTimer: NSTimer = NSTimer()
+    var setupDate: Date = Date()
+    var setupTimer: Timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +28,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         emailField.delegate = self
         passwordField.delegate = self
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        setupDate = dateFormatter.dateFromString(setupDateString)! //hardcoded dates for race day notifications
-        setupTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
+        setupDate = dateFormatter.date(from: setupDateString)! //hardcoded dates for race day notifications
+        setupTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(SignUpViewController.sendLocalNotification_setup), userInfo: nil, repeats: false)
         
         
         //set up rules for keyboard
@@ -39,63 +39,63 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
         
         //set up scrollview behavior
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignUpViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignUpViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         if isWiFiConnected()==false {
             turnOnWiFiAlert()
         }
         
         //if already logged in, segue to next VC
-        if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("intro", sender: nil)
+        if PFUser.current() != nil {
+            self.performSegue(withIdentifier: "intro", sender: nil)
         }
     }
     
     
     //Check fields, Log In, and segue to next VC
-    @IBAction func logIn(sender: UIButton) {
-        PFUser.logInWithUsernameInBackground(usernameField.text!, password:passwordField.text!) {
+    @IBAction func logIn(_ sender: UIButton) {
+        PFUser.logInWithUsername(inBackground: usernameField.text!, password:passwordField.text!) {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Successful login
-                self.performSegueWithIdentifier("intro", sender: nil)
+                self.performSegue(withIdentifier: "intro", sender: nil)
                 
             } else {
                 // failed login, error displayed to user
                 let errorString = error!.userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Log In Error", message:
-                    errorString, preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default,handler: nil))
+                    errorString, preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
     }
     
     
     //Check fields, Sign Up, and segue to next VC
-    @IBAction func signUp(sender: UIButton) {
+    @IBAction func signUp(_ sender: UIButton) {
         let user = PFUser()
         user.username = usernameField.text
         user.password = passwordField.text
         user.email = emailField.text
         
-        user.signUpInBackgroundWithBlock {
+        user.signUpInBackground {
             (succeeded: Bool, error: NSError?) -> Void in
             if let error = error {
                 //failed signup, error displayed to user
                 let errorString = error.userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Sign Up Error", message:
-                    errorString, preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default,handler: nil))
+                    errorString, preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
                 
                 
             } else {
                 //Successful signup
-                self.performSegueWithIdentifier("intro", sender: nil)
+                self.performSegue(withIdentifier: "intro", sender: nil)
             }
         }
     }
@@ -105,40 +105,40 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func keyboardWillShow(notification:NSNotification){
+    func keyboardWillShow(_ notification:Notification){
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        keyboardFrame = view.convertRect(keyboardFrame, fromView: nil)
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
         
         var contentInset:UIEdgeInsets = scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height
         scrollView.contentInset = contentInset
     }
     
-    func keyboardWillHide(notification:NSNotification){
+    func keyboardWillHide(_ notification:Notification){
         
-        let contentInset:UIEdgeInsets = UIEdgeInsetsZero
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
     
     //Prompt user to turn on WiFi
     func turnOnWiFiAlert() {
         let alertTitle = "Location Accuracy"
-        let alertController = UIAlertController(title: alertTitle, message: "Turn on Wi-Fi to improve location accuracy", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: openSettings))
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        let alertController = UIAlertController(title: alertTitle, message: "Turn on Wi-Fi to improve location accuracy", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: openSettings))
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
-    func openSettings(alert: UIAlertAction!) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"prefs:root=WIFI")!)
+    func openSettings(_ alert: UIAlertAction!) {
+        UIApplication.shared.openURL(URL(string:"prefs:root=WIFI")!)
     }
     
     func isWiFiConnected() -> Bool {
@@ -169,10 +169,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let localNotification = UILocalNotification()
         localNotification.alertBody = "The race will start soon. Don't forget to make sure your app is set up to track the race!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.timeZone = TimeZone.current
         localNotification.fireDate = setupDate
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
         
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        UIApplication.shared.scheduleLocalNotification(localNotification)
     }
 }

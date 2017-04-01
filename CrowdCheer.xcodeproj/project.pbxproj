@@ -446,7 +446,8 @@
 				TargetAttributes = {
 					E2CA50DD1A88677A00C2BB03 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 823S57WQK3;
+						DevelopmentTeam = W4E2C6X642;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -703,7 +704,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				"TEST_HOST[sdk=iphoneos*]" = "";
 			};
@@ -731,7 +732,7 @@
 				PROVISIONING_PROFILE = "5b198b95-3f4c-424b-be49-7a046ddf6ec1";
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab C";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				"TEST_HOST[sdk=iphoneos*]" = "";
 			};

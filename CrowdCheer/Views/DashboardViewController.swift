@@ -45,9 +45,9 @@ class DashboardViewController: UIViewController {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
     var runnerProfiles = [String:[String:AnyObject]]()
-    var userMonitorTimer: NSTimer = NSTimer()
-    var nearbyRunnersTimer: NSTimer = NSTimer()
-    var nearbyGeneralRunnersTimer: NSTimer = NSTimer()
+    var userMonitorTimer: Timer = Timer()
+    var nearbyRunnersTimer: Timer = Timer()
+    var nearbyGeneralRunnersTimer: Timer = Timer()
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerNameText: String = ""
@@ -64,30 +64,30 @@ class DashboardViewController: UIViewController {
         
         super.viewDidLoad()
         
-        targetRunnerLoading.hidden = false
-        targetRunnerETA.hidden = true
-        targetRunner5More.hidden = true
-        targetRunner5Less.hidden = true
-        targetRunnerTimeToCheer.hidden = true
+        targetRunnerLoading.isHidden = false
+        targetRunnerETA.isHidden = true
+        targetRunner5More.isHidden = true
+        targetRunner5Less.isHidden = true
+        targetRunnerTimeToCheer.isHidden = true
         
-        targetRunnerPic.hidden = true
-        targetRunnerName.hidden = true
-        targetRunnerTime.hidden = true
-        targetRunnerPace.hidden = true
-        targetRunnerDistance.hidden = true
-        targetRunnerTrack.hidden = true
+        targetRunnerPic.isHidden = true
+        targetRunnerName.isHidden = true
+        targetRunnerTime.isHidden = true
+        targetRunnerPace.isHidden = true
+        targetRunnerDistance.isHidden = true
+        targetRunnerTrack.isHidden = true
         
-        general1RunnerPic.hidden = true
-        general1RunnerName.hidden = true
-        general1RunnerTrack.hidden = true
+        general1RunnerPic.isHidden = true
+        general1RunnerName.isHidden = true
+        general1RunnerTrack.isHidden = true
         
-        general2RunnerPic.hidden = true
-        general2RunnerName.hidden = true
-        general2RunnerTrack.hidden = true
+        general2RunnerPic.isHidden = true
+        general2RunnerName.isHidden = true
+        general2RunnerTrack.isHidden = true
         
-        general3RunnerPic.hidden = true
-        general3RunnerName.hidden = true
-        general3RunnerTrack.hidden = true
+        general3RunnerPic.isHidden = true
+        general3RunnerName.isHidden = true
+        general3RunnerTrack.isHidden = true
         
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
@@ -96,23 +96,23 @@ class DashboardViewController: UIViewController {
         areRunnersNearby = false
         interval = 30
         
-        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
         
         updateNearbyRunners()
         
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         
-        nearbyGeneralRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
-        nearbyTargetRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
@@ -128,8 +128,8 @@ class DashboardViewController: UIViewController {
         spectatorMonitor.updateUserLocation()
         spectatorMonitor.updateUserPath(interval)
         
-        if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState)")
+        if UIApplication.shared.applicationState == .background {
+            print("app status: \(UIApplication.shared.applicationState)")
             
             spectatorMonitor.enableBackgroundLoc()
         }
@@ -144,30 +144,30 @@ class DashboardViewController: UIViewController {
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
                 
-                self.targetRunnerLoading.hidden = false
-                self.targetRunnerETA.hidden = true
-                self.targetRunner5More.hidden = true
-                self.targetRunner5Less.hidden = true
-                self.targetRunnerTimeToCheer.hidden = true
+                self.targetRunnerLoading.isHidden = false
+                self.targetRunnerETA.isHidden = true
+                self.targetRunner5More.isHidden = true
+                self.targetRunner5Less.isHidden = true
+                self.targetRunnerTimeToCheer.isHidden = true
                 
-                self.targetRunnerPic.hidden = true
-                self.targetRunnerName.hidden = true
-                self.targetRunnerTime.hidden = true
-                self.targetRunnerPace.hidden = true
-                self.targetRunnerDistance.hidden = true
-                self.targetRunnerTrack.hidden = true
+                self.targetRunnerPic.isHidden = true
+                self.targetRunnerName.isHidden = true
+                self.targetRunnerTime.isHidden = true
+                self.targetRunnerPace.isHidden = true
+                self.targetRunnerDistance.isHidden = true
+                self.targetRunnerTrack.isHidden = true
                 
-                self.general1RunnerPic.hidden = true
-                self.general1RunnerName.hidden = true
-                self.general1RunnerTrack.hidden = true
+                self.general1RunnerPic.isHidden = true
+                self.general1RunnerName.isHidden = true
+                self.general1RunnerTrack.isHidden = true
                 
-                self.general2RunnerPic.hidden = true
-                self.general2RunnerName.hidden = true
-                self.general2RunnerTrack.hidden = true
+                self.general2RunnerPic.isHidden = true
+                self.general2RunnerName.isHidden = true
+                self.general2RunnerTrack.isHidden = true
                 
-                self.general3RunnerPic.hidden = true
-                self.general3RunnerName.hidden = true
-                self.general3RunnerTrack.hidden = true
+                self.general3RunnerPic.isHidden = true
+                self.general3RunnerName.isHidden = true
+                self.general3RunnerTrack.isHidden = true
             }
             else {
                 self.runnerLocations = runnerLocations!
@@ -181,7 +181,7 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func updateRunnerProfiles(runnerLocations: [PFUser: PFGeoPoint]) {
+    func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
         
         for (runner, runnerLoc) in runnerLocations {
             
@@ -200,13 +200,13 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func getRunnerImage(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
+    func getRunnerImage(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
         var image: UIImage = UIImage(named: "profileDefault.png")!
         if runnerProfiles[runnerObjID] != nil {
             let runnerProfile = runnerProfiles[runnerObjID]
             let imagePath = runnerProfile!["profilePicPath"] as! String
-            let fileManager = NSFileManager.defaultManager()
-            if fileManager.fileExistsAtPath(imagePath){
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: imagePath){
                 image = UIImage(contentsOfFile: imagePath)!
             }
         }
@@ -217,7 +217,7 @@ class DashboardViewController: UIViewController {
         return image
     }
     
-    func getRunnerName(runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
+    func getRunnerName(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
         
         if runnerProfiles[runnerObjID] != nil {
             let runnerProfile = runnerProfiles[runnerObjID]
@@ -233,7 +233,7 @@ class DashboardViewController: UIViewController {
         
     }
     
-    func considerRunnerAffinity(runnerLocations: [PFUser: PFGeoPoint]) {
+    func considerRunnerAffinity(_ runnerLocations: [PFUser: PFGeoPoint]) {
         //R+R* Condition
         var runnerCount = 0
         
@@ -243,20 +243,20 @@ class DashboardViewController: UIViewController {
             for (runner, runnerLoc) in runnerLocations {
                 
                 let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                let dist = runnerCoord.distanceFromLocation(self.optimizedRunners.locationMgr.location!)
+                let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
                 print(runner.username, dist)
                 
                 for affinity in affinities {
                     
                     var isTargetRunnerNear = false
                     if runner == affinity.0 {
-                        let name = runner.valueForKey("name") as! String
+                        let name = runner.value(forKey: "name") as! String
                         
                         //Goal: Show target runners throughout the race
                         if dist > 2000 { //if runner is more than 2km away (demo: 400)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunnerLoading.hidden = true
-                                self.targetRunnerETA.hidden = false
+                                self.targetRunnerLoading.isHidden = true
+                                self.targetRunnerETA.isHidden = false
                                 self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -270,9 +270,9 @@ class DashboardViewController: UIViewController {
                         //Goal: Show all runners near me, including target runners
                         else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunnerETA.hidden = true
-                                self.targetRunnerLoading.hidden = true
-                                self.targetRunner5More.hidden = false
+                                self.targetRunnerETA.isHidden = true
+                                self.targetRunnerLoading.isHidden = true
+                                self.targetRunner5More.isHidden = false
                                 self.targetRunner5More.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -288,9 +288,9 @@ class DashboardViewController: UIViewController {
                         //Goal: if target runner is close, disable general runners & only show targets.
                         else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunner5More.hidden = true
-                                self.targetRunnerLoading.hidden = true
-                                self.targetRunner5Less.hidden = false
+                                self.targetRunner5More.isHidden = true
+                                self.targetRunnerLoading.isHidden = true
+                                self.targetRunner5Less.isHidden = false
                                 self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                 self.disableGeneralRunners()
                                 self.getRunnerProfile(runner, runnerType: "target")
@@ -313,13 +313,13 @@ class DashboardViewController: UIViewController {
                             if affinity.1 == 10 { //if target runner, display runner & notify
                                 
                                 self.nearbyRunnersTimer.invalidate()
-                                self.nearbyRunnersTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+                                self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                 
-                                self.targetRunner5Less.hidden = true
-                                self.targetRunnerLoading.hidden = true
+                                self.targetRunner5Less.isHidden = true
+                                self.targetRunnerLoading.isHidden = true
                                 self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
-                                self.targetRunnerTimeToCheer.hidden = false
-                                self.targetRunnerTrack.hidden = false
+                                self.targetRunnerTimeToCheer.isHidden = false
+                                self.targetRunnerTrack.isHidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount += 1
@@ -355,7 +355,7 @@ class DashboardViewController: UIViewController {
 //    }
     
     
-    func getRunnerProfile(runner: PFUser, runnerType: String) {
+    func getRunnerProfile(_ runner: PFUser, runnerType: String) {
         
         if !self.runnerProfiles.isEmpty {
             
@@ -369,8 +369,8 @@ class DashboardViewController: UIViewController {
                 self.targetRunnerPic.image = runnerImage
                 
                 targetRunnerName.text = runnerName
-                targetRunnerPic.hidden = false
-                targetRunnerName.hidden = false
+                targetRunnerPic.isHidden = false
+                targetRunnerName.isHidden = false
                 self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
             }
                 
@@ -381,24 +381,24 @@ class DashboardViewController: UIViewController {
                 if generalRunners.count == 0 {
                     
                     //hide all labels
-                    general1RunnerPic.hidden = true
-                    general1RunnerName.hidden = true
-                    general1RunnerTrack.hidden = true
+                    general1RunnerPic.isHidden = true
+                    general1RunnerName.isHidden = true
+                    general1RunnerTrack.isHidden = true
                     
-                    general2RunnerPic.hidden = true
-                    general2RunnerName.hidden = true
-                    general2RunnerTrack.hidden = true
+                    general2RunnerPic.isHidden = true
+                    general2RunnerName.isHidden = true
+                    general2RunnerTrack.isHidden = true
                     
-                    general3RunnerPic.hidden = true
-                    general3RunnerName.hidden = true
-                    general3RunnerTrack.hidden = true
+                    general3RunnerPic.isHidden = true
+                    general3RunnerName.isHidden = true
+                    general3RunnerTrack.isHidden = true
                     
                 }
                 else if generalRunners.count == 1 {
                     //update general 1
                     let runner1ObjID = generalRunners[0]
                     do {
-                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0])
+                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -407,9 +407,9 @@ class DashboardViewController: UIViewController {
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general1RunnerName.text = name
-                    general1RunnerPic.hidden = false
-                    general1RunnerName.hidden = false
-                    general1RunnerTrack.hidden = false
+                    general1RunnerPic.isHidden = false
+                    general1RunnerName.isHidden = false
+                    general1RunnerTrack.isHidden = false
                 }
                     
                 else if generalRunners.count == 2 {
@@ -417,7 +417,7 @@ class DashboardViewController: UIViewController {
                     //update general 1
                     let runner1ObjID = generalRunners[0]
                     do {
-                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
+                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -426,14 +426,14 @@ class DashboardViewController: UIViewController {
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general1RunnerName.text = name1
-                    general1RunnerPic.hidden = false
-                    general1RunnerName.hidden = false
-                    general1RunnerTrack.hidden = false
+                    general1RunnerPic.isHidden = false
+                    general1RunnerName.isHidden = false
+                    general1RunnerTrack.isHidden = false
                     
                     //update general 2
                     let runner2ObjID = generalRunners[1]
                     do {
-                        general2Runner = try PFQuery.getUserObjectWithId(generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
+                        general2Runner = try PFQuery.getUserObject(withId: generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -442,9 +442,9 @@ class DashboardViewController: UIViewController {
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general2RunnerName.text = name2
-                    general2RunnerPic.hidden = false
-                    general2RunnerName.hidden = false
-                    general2RunnerTrack.hidden = false
+                    general2RunnerPic.isHidden = false
+                    general2RunnerName.isHidden = false
+                    general2RunnerTrack.isHidden = false
                 }
                     
                 else if generalRunners.count > 2 {
@@ -452,7 +452,7 @@ class DashboardViewController: UIViewController {
                     //update general 1
                     let runner1ObjID = generalRunners[0]
                     do {
-                        general1Runner = try PFQuery.getUserObjectWithId(generalRunners[0])
+                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -461,14 +461,14 @@ class DashboardViewController: UIViewController {
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general1RunnerName.text = name1
-                    general1RunnerPic.hidden = false
-                    general1RunnerName.hidden = false
-                    general1RunnerTrack.hidden = false
+                    general1RunnerPic.isHidden = false
+                    general1RunnerName.isHidden = false
+                    general1RunnerTrack.isHidden = false
                     
                     //update general 2
                     let runner2ObjID = generalRunners[1]
                     do {
-                        general2Runner = try PFQuery.getUserObjectWithId(generalRunners[1])
+                        general2Runner = try PFQuery.getUserObject(withId: generalRunners[1])
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -477,14 +477,14 @@ class DashboardViewController: UIViewController {
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general2RunnerName.text = name2
-                    general2RunnerPic.hidden = false
-                    general2RunnerName.hidden = false
-                    general2RunnerTrack.hidden = false
+                    general2RunnerPic.isHidden = false
+                    general2RunnerName.isHidden = false
+                    general2RunnerTrack.isHidden = false
                     
                     //update general 3
                     let runner3ObjID = generalRunners[2]
                     do {
-                        general3Runner = try PFQuery.getUserObjectWithId(generalRunners[2])
+                        general3Runner = try PFQuery.getUserObject(withId: generalRunners[2])
                     }
                     catch {
                         print("ERROR: unable to get runner")
@@ -493,15 +493,15 @@ class DashboardViewController: UIViewController {
                     self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     
                     general3RunnerName.text = name3
-                    general3RunnerPic.hidden = false
-                    general3RunnerName.hidden = false
-                    general3RunnerTrack.hidden = false
+                    general3RunnerPic.isHidden = false
+                    general3RunnerName.isHidden = false
+                    general3RunnerTrack.isHidden = false
                 }
             }
         }
     }
     
-    func getTargetRunnerStatus(runner: PFUser) {
+    func getTargetRunnerStatus(_ runner: PFUser) {
         
         contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
             
@@ -509,9 +509,9 @@ class DashboardViewController: UIViewController {
         }
         
         if contextPrimer.pace == "" {
-            self.targetRunnerPace.hidden = true
-            self.targetRunnerDistance.hidden = true
-            self.targetRunnerTime.hidden = true
+            self.targetRunnerPace.isHidden = true
+            self.targetRunnerDistance.isHidden = true
+            self.targetRunnerTime.isHidden = true
         }
         
         else {
@@ -519,33 +519,33 @@ class DashboardViewController: UIViewController {
             self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
             self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
             
-            self.targetRunnerPace.hidden = false
-            self.targetRunnerDistance.hidden = false
-            self.targetRunnerTime.hidden = false
+            self.targetRunnerPace.isHidden = false
+            self.targetRunnerDistance.isHidden = false
+            self.targetRunnerTime.isHidden = false
         }
     }
     
     func sendLocalNotification_any() {
         if areRunnersNearby == true {
             
-            if UIApplication.sharedApplication().applicationState == .Background {
+            if UIApplication.shared.applicationState == .background {
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
+                spectatorInfo["spectator"] = PFUser.current()!.objectId
                 spectatorInfo["source"] = "generalRunnerNotification"
                 spectatorInfo["receivedNotification"] = true
-                spectatorInfo["receivedNotificationTimestamp"] = NSDate()
+                spectatorInfo["receivedNotificationTimestamp"] = Date()
                 
                 
                 localNotification.alertBody = "Cheer for runners near you!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
                 spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
                 localNotification.userInfo = spectatorInfo
                 
-                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                UIApplication.shared.presentLocalNotificationNow(localNotification)
             }
         }
             
@@ -555,12 +555,12 @@ class DashboardViewController: UIViewController {
     }
     
     func disableGeneralRunners() {
-        general1RunnerTrack.enabled = false
-        general2RunnerTrack.enabled = false
-        general3RunnerTrack.enabled = false
-        general1RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
-        general2RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
-        general3RunnerTrack.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
+        general1RunnerTrack.isEnabled = false
+        general2RunnerTrack.isEnabled = false
+        general3RunnerTrack.isEnabled = false
+        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
     }
     
     func sendLocalNotification_target() {
@@ -568,33 +568,33 @@ class DashboardViewController: UIViewController {
         let name = targetRunnerNameText
         
         if areTargetRunnersNearby == true {
-            if UIApplication.sharedApplication().applicationState == .Background {
+            if UIApplication.shared.applicationState == .background {
                 
                 let localNotification = UILocalNotification()
                 
                 var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.currentUser()!.objectId
+                spectatorInfo["spectator"] = PFUser.current()!.objectId
                 spectatorInfo["source"] = "targetRunnerNotification"
                 spectatorInfo["receivedNotification"] = true
-                spectatorInfo["receivedNotificationTimestamp"] = NSDate()
+                spectatorInfo["receivedNotificationTimestamp"] = Date()
                 
                 localNotification.alertBody =  name + " is nearby, get ready to support them!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
                 spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber
                 localNotification.userInfo = spectatorInfo
                 
-                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                UIApplication.shared.presentLocalNotificationNow(localNotification)
             }
                 
-            else if UIApplication.sharedApplication().applicationState == .Active {
+            else if UIApplication.shared.applicationState == .active {
                 
                 let alertTitle = name + " is nearby!"
-                let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissCheerTarget))
+                let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
             
@@ -603,12 +603,12 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func dismissCheerTarget(alert: UIAlertAction!) {
+    func dismissCheerTarget(_ alert: UIAlertAction!) {
         
         nearbyTargetRunnersTimer.invalidate()
     }
     
-    @IBAction func targetTrack(sender: UIButton) {
+    @IBAction func targetTrack(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
@@ -621,10 +621,10 @@ class DashboardViewController: UIViewController {
         nearbyTargetRunnersTimer.invalidate()
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
-        performSegueWithIdentifier("trackRunner", sender: nil)
+        performSegue(withIdentifier: "trackRunner", sender: nil)
     }
     
-    @IBAction func general1Track(sender: UIButton) {
+    @IBAction func general1Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
@@ -636,10 +636,10 @@ class DashboardViewController: UIViewController {
         print("isCheerSaved? \(isCheerSaved)")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
-        performSegueWithIdentifier("trackRunner", sender: nil)
+        performSegue(withIdentifier: "trackRunner", sender: nil)
     }
     
-    @IBAction func general2Track(sender: UIButton) {
+    @IBAction func general2Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
@@ -651,10 +651,10 @@ class DashboardViewController: UIViewController {
         print("isCheerSaved? \(isCheerSaved)")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
-        performSegueWithIdentifier("trackRunner", sender: nil)
+        performSegue(withIdentifier: "trackRunner", sender: nil)
     }
     
-    @IBAction func general3Track(sender: UIButton) {
+    @IBAction func general3Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
         selectedRunners = SelectedRunners()
@@ -666,6 +666,6 @@ class DashboardViewController: UIViewController {
         print("isCheerSaved? \(isCheerSaved)")
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
-        performSegueWithIdentifier("trackRunner", sender: nil)
+        performSegue(withIdentifier: "trackRunner", sender: nil)
     }
 }

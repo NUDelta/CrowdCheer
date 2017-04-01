@@ -14,8 +14,8 @@ import Parse
 class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
-    var userMonitorTimer: NSTimer = NSTimer()
-    var startDate: NSDate = NSDate()
+    var userMonitorTimer: Timer = Timer()
+    var startDate: Date = Date()
     var startsRegionMonitoringWithinRegion: Bool = Bool()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
     var nearbySpectators: NearbySpectators = NearbySpectators()
@@ -52,8 +52,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         areSpectatorsNearby = false
         interval = 1
         
-        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
         //initialize map
@@ -62,25 +62,25 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
         mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(MKUserTrackingMode.FollowWithHeading, animated: true);
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true);
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
-        resume.hidden = true
-        pause.enabled = true
+        resume.isHidden = true
+        pause.isEnabled = true
         
         //hide labels & buttons until tracking starts
         congrats.text = "Tracking starts automatically."
-        distance.hidden = true
-        time.hidden = true
-        pace.hidden = true
-        pause.hidden = true
-        stop.hidden = true
+        distance.isHidden = true
+        time.isHidden = true
+        pace.isHidden = true
+        pause.isHidden = true
+        stop.isHidden = true
         
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         userMonitorTimer.invalidate()
     }
     
@@ -89,22 +89,22 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
             monitorUser()
-            congrats.hidden = true
-            distance.hidden = false
-            time.hidden = false
-            pace.hidden = false
-            pause.hidden = false
-            stop.hidden = false
+            congrats.isHidden = true
+            distance.isHidden = false
+            time.isHidden = false
+            pace.isHidden = false
+            pause.isHidden = false
+            stop.isHidden = false
         }
         
         if runnerMonitor.startRegionState == "exited" {
             resetTracking()
-            congrats.hidden = true
-            distance.hidden = false
-            time.hidden = false
-            pace.hidden = false
-            pause.hidden = false
-            stop.hidden = false
+            congrats.isHidden = true
+            distance.isHidden = false
+            time.isHidden = false
+            pace.isHidden = false
+            pause.isHidden = false
+            stop.isHidden = false
             runnerMonitor.startRegionState = "monitoring"
         }
     }
@@ -121,8 +121,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //check for nearby spectators
         updateNearbySpectators()
         
-        if UIApplication.sharedApplication().applicationState == .Background {
-            print("app status: \(UIApplication.sharedApplication().applicationState)")
+        if UIApplication.shared.applicationState == .background {
+            print("app status: \(UIApplication.shared.applicationState)")
             
             runnerMonitor.enableBackgroundLoc()
         }
@@ -152,7 +152,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 if self.userMonitorTimer.timeInterval < 30 {
                     self.userMonitorTimer.invalidate()
                     self.interval = 30
-                    self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+                    self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
                     self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
                 }
             }
@@ -160,7 +160,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 self.areSpectatorsNearby = true
                 self.userMonitorTimer.invalidate()
                 self.interval = 3
-                self.userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+                self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
                 self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
@@ -168,10 +168,10 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     func locationTrackingAlert() {
         let alertTitle = "Automatic Runner Tracking"
-        let alertController = UIAlertController(title: alertTitle, message: "You're all set! We will automatically activate runner tracking when you arrive on race day.", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        let alertController = UIAlertController(title: alertTitle, message: "You're all set! We will automatically activate runner tracking when you arrive on race day.", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func resetTracking() {
@@ -179,7 +179,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor = RunnerMonitor()
         runnerMonitor.startRegionState = "exited" //NOTE: not great to modify model from VC
         userMonitorTimer.invalidate()
-        userMonitorTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -187,16 +187,16 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         if(runnerPath.count > 1) {
             print("runnerPath is \(runnerPath)")
             let polyline = MKPolyline(coordinates: &runnerPath[0] , count: runnerPath.count)
-            mapView.addOverlay(polyline)
+            mapView.add(polyline)
         }
     }
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         // render the path
-        assert(overlay.isKindOfClass(MKPolyline))
+        assert(overlay.isKind(of: MKPolyline.self))
         let polyLine = overlay
         let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
-        polyLineRenderer.strokeColor = UIColor.blueColor()
+        polyLineRenderer.strokeColor = UIColor.blue
         polyLineRenderer.lineWidth = 3.0
         
         return polyLineRenderer
@@ -204,17 +204,17 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     }
 
     
-    @IBAction func stop(sender: UIButton) {
+    @IBAction func stop(_ sender: UIButton) {
         //suspend runner monitor when you hit stop
         
         userMonitorTimer.invalidate()
-        pause.hidden = true
-        stop.hidden = true
+        pause.isHidden = true
+        stop.isHidden = true
         congrats.text = "Congrats! You did it!"
-        congrats.hidden = false
+        congrats.isHidden = false
     }
     
-    @IBAction func pause(sender: UIButton) {
+    @IBAction func pause(_ sender: UIButton) {
         //suspend runner monitor when you hit pause
         
         resetTracking()
@@ -225,11 +225,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    @IBAction func resume(sender: UIButton) {
+    @IBAction func resume(_ sender: UIButton) {
         //resume runner monitor when you hit resume
         
         userMonitorTimer.fire()
-        pause.hidden = false
-        resume.hidden = true
+        pause.isHidden = false
+        resume.isHidden = true
     }
 }

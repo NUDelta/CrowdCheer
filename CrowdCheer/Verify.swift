@@ -16,8 +16,8 @@ protocol Deliver: Any {
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func spectatorDidCheer(runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String)
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: URL, audioFileName: String)
     func saveSpectatorCheer()
 }
 
@@ -26,7 +26,7 @@ protocol Receive: Any {
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func saveRunnerCheer()
 }
 
@@ -35,7 +35,7 @@ protocol React: Any {
     var locationMgr: CLLocationManager {get}
     var location: CLLocation {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func trackPerformanceChange()
 }
 
@@ -46,7 +46,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -54,7 +54,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -64,11 +64,11 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
     
-    func spectatorDidCheer(runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String) {
+    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: URL, audioFileName: String) {
         
         //query Cheer object using spectatorID, runnerID, maybe time?
         //update object with field didCheer & corresponding value
@@ -81,14 +81,14 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         query.whereKey("runner", equalTo: runner)
         query.whereKey("spectator", equalTo: user)
 //        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
-        query.getFirstObjectInBackgroundWithBlock {
+        query.getFirstObjectInBackground {
             (cheer: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
             } else if let cheer = cheer {
                 
                 //NOTE: should save audio file to the class here too
-                let audioFileData: NSData = NSData(contentsOfURL: audioFilePath)!
+                let audioFileData: Data = try! Data(contentsOf: audioFilePath)
                 let audioFile = PFFile(name: audioFileName, data: audioFileData)
                 cheer["cheerAudio"] = audioFile
                 cheer["didCheer"] = didCheer
@@ -101,8 +101,8 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
-    func getDocumentsDirectory() -> NSURL {
-        let paths = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
@@ -118,7 +118,7 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     var audioRecorder: AVAudioRecorder!
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -126,7 +126,7 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -136,7 +136,7 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
     
@@ -144,8 +144,8 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
         
     }
     
-    func getDocumentsDirectory() -> NSURL {
-        let paths = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
@@ -158,7 +158,7 @@ class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
     var location: CLLocation
     
     override init(){
-        user = PFUser.currentUser()!
+        user = PFUser.current()!
         locationMgr = CLLocationManager()
         location = locationMgr.location!
         
@@ -166,7 +166,7 @@ class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
         super.init()
         locationMgr.delegate = self
         locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        locationMgr.activityType = CLActivityType.Fitness
+        locationMgr.activityType = CLActivityType.fitness
         locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             locationMgr.allowsBackgroundLocationUpdates = true
@@ -176,7 +176,7 @@ class VerifiedReaction: NSObject, React, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
     }
     func trackPerformanceChange() {

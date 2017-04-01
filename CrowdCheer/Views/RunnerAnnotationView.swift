@@ -20,7 +20,7 @@ class TrackRunnerAnnotationView: MKAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         let runnerAnnotation = self.annotation as! TrackRunnerAnnotation
         switch (runnerAnnotation.type) {
-            case .MyRunner:
+            case .myRunner:
                 image = UIImage(named: "myrunner.png")
             default:
                 image = UIImage(named: "runner.png")
@@ -38,7 +38,7 @@ class PickRunnerAnnotationView: MKAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         let runnerAnnotation = self.annotation as! PickRunnerAnnotation
         switch (runnerAnnotation.type) {
-        case .MyRunner:
+        case .myRunner:
             image = UIImage(named: "myrunner.png")
         default:
             image = UIImage(named: "runner.png")

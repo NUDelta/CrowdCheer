@@ -21,10 +21,10 @@ protocol Monitor: Any {
     var distance: Double {get set}
     var duration: NSInteger {get set}
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func isNetworkReachable() -> Bool
     func monitorUserLocation()
-    func updateUserPath(interval: Int)
+    func updateUserPath(_ interval: Int)
     func updateUserLocation()
     func enableBackgroundLoc()
 }
@@ -33,7 +33,7 @@ protocol Monitor: Any {
 //the RunnerMonitor Class specifically monitors runner stats (current location, movement, performance)
 class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
     var startRegionState: NSString
     var startLoc: CLLocation!
@@ -44,7 +44,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var duration: NSInteger
     
     override init(){
-        self.user = PFUser.currentUser()!
+        self.user = PFUser.current()!
         self.locationMgr = CLLocationManager()
         self.startRegionState = "unknown"
         self.distance = 0.0
@@ -56,7 +56,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         super.init()
         self.locationMgr.delegate = self
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
+        self.locationMgr.activityType = CLActivityType.fitness
         self.locationMgr.distanceFilter = 1;
         if #available(iOS 9.0, *) {
             self.locationMgr.allowsBackgroundLocationUpdates = true
@@ -66,13 +66,13 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if self.startLoc == nil {
             startLoc = locations.first!
         }
         else {
-            let lastDist = lastLoc.distanceFromLocation(locations.last!)
+            let lastDist = lastLoc.distance(from: locations.last!)
             
             self.distance += lastDist
         }
@@ -104,47 +104,47 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     
-    func createStartRegion(startLine: CLLocationCoordinate2D) -> CLCircularRegion {
+    func createStartRegion(_ startLine: CLLocationCoordinate2D) -> CLCircularRegion {
         let region = CLCircularRegion(center: startLine, radius: 100.0, identifier: "startRegion")
         region.notifyOnEntry = true
         return region
         
     }
     
-    func createFinishRegion(finishLine: CLLocationCoordinate2D) -> CLCircularRegion {
+    func createFinishRegion(_ finishLine: CLLocationCoordinate2D) -> CLCircularRegion {
         let region = CLCircularRegion(center: finishLine, radius: 100.0, identifier: "finishRegion")
         region.notifyOnEntry = true
         region.notifyOnExit = true
         return region
     }
     
-    func startMonitoringRegion(region: CLCircularRegion) {
+    func startMonitoringRegion(_ region: CLCircularRegion) {
         
-        locationMgr.startMonitoringForRegion(region)
+        locationMgr.startMonitoring(for: region)
         
     }
     
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
-        locationMgr.requestStateForRegion(region)
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        locationMgr.requestState(for: region)
     }
     
-    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
         //called whenever there is a boundary transition + with requestStateForRegion
         
-        if (state == CLRegionState.Inside) {
+        if (state == CLRegionState.inside) {
             print("inside region")
             startRegionState = "inside"
         }
-        else if (state == CLRegionState.Outside) {
+        else if (state == CLRegionState.outside) {
             print("outside region")
         }
-        else if (state == CLRegionState.Unknown) {
+        else if (state == CLRegionState.unknown) {
             print("unknown region")
             startRegionState = "unknown"
         }
     }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
         if (region.identifier == "startRegion") {
             
@@ -154,7 +154,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         
         if (region.identifier == "startRegion") {
             startRegionState = "exited"
@@ -175,18 +175,18 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         // track & register changes in audio output routes
         let route = AVAudioSession.sharedInstance().currentRoute.outputs
         print("audio route: \(route)")
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RunnerMonitor.audioSessionRouteChanged(_:)), name: AVAudioSessionRouteChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(RunnerMonitor.audioSessionRouteChanged(_:)), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
     }
     
     func updateUserLocation() {
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.speed = self.distance/Double(self.duration)
-        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime:self.duration)
+        self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime:self.duration)
         
         let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
-        query.getFirstObjectInBackgroundWithBlock {
+        query.getFirstObjectInBackground {
             (currLoc: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
@@ -195,12 +195,12 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc["prevLocLat"] = geoPoint.latitude
                 newCurrLoc["prevLocLon"] = geoPoint.longitude
                 newCurrLoc["location"] = geoPoint
-                newCurrLoc["user"] = PFUser.currentUser()
+                newCurrLoc["user"] = PFUser.current()
                 newCurrLoc["distance"] = self.metersToMiles(self.distance)
                 newCurrLoc["speed"] = self.speed
                 newCurrLoc["pace"] = self.pace
                 newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
-                newCurrLoc["time"] = NSDate()
+                newCurrLoc["time"] = Date()
                 newCurrLoc.saveInBackground()
                 
             } else if let currLoc = currLoc {
@@ -208,23 +208,23 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 currLoc["prevLocLat"] = prevLoc.latitude
                 currLoc["prevLocLon"] = prevLoc.longitude
                 currLoc["location"] = geoPoint
-                currLoc["user"] = PFUser.currentUser()
+                currLoc["user"] = PFUser.current()
                 currLoc["distance"] = self.metersToMiles(self.distance)
                 currLoc["speed"] = self.speed
                 currLoc["pace"] = self.pace
                 currLoc["duration"] = self.stringFromSeconds(self.duration)
-                currLoc["time"] = NSDate()
+                currLoc["time"] = Date()
                 currLoc.saveInBackground()
             }
         }
     }
     
-    func updateUserPath(interval: Int){
+    func updateUserPath(_ interval: Int){
         
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.speed = self.distance/Double(self.duration)
-        self.pace = MathController.stringifyAvgPaceFromDist(Float(self.distance), overTime: duration)
+        self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime: duration)
         self.duration += interval
         
         let object = PFObject(className:"RunnerLocations")
@@ -234,14 +234,14 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         print(self.duration)
         print(self.pace)
         object["location"] = geoPoint
-        object["user"] = PFUser.currentUser()
+        object["user"] = PFUser.current()
         object["distance"] = self.metersToMiles(self.distance)
         object["speed"] = self.speed
         object["pace"] = self.pace
         object["duration"] = self.stringFromSeconds(self.duration)
-        object["time"] = NSDate()
+        object["time"] = Date()
         
-        object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+        object.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {
                 print("location saved")
@@ -256,7 +256,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         self.duration = 0
     }
     
-    func audioSessionRouteChanged(notification: NSNotification) {
+    func audioSessionRouteChanged(_ notification: Notification) {
         var userInfo = notification.userInfo
         let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
         print ("audio route change reason: \(routeChangeReason)")
@@ -265,13 +265,13 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func enableBackgroundLoc() {
         
         var player = AVAudioPlayer()
-        let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
+        let soundPath = Bundle.main.url(forResource: "silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
+            player = try AVAudioPlayer(contentsOf: soundPath!, fileTypeHint: "mp3")
             player.numberOfLoops = -1
             player.prepareToPlay()
             player.play()
@@ -283,14 +283,14 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
 
     
-    func stringFromSeconds(sec: NSInteger) -> String {
+    func stringFromSeconds(_ sec: NSInteger) -> String {
         let seconds = sec % 60
         let minutes = (sec / 60) % 60
         let hours = (sec / 3600)
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
     
-    func metersToMiles(meters: Double) -> Double {
+    func metersToMiles(_ meters: Double) -> Double {
         let km = meters/1000
         let mi = km*0.62137119
         return mi
@@ -301,7 +301,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
 //the SpectatorMonitor Class specifically monitors Spectator stats (movement)
 class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
-    var user: PFUser = PFUser.currentUser()!
+    var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
     var startLoc: CLLocation!
     var lastLoc: CLLocation!
@@ -309,7 +309,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     var duration: NSInteger
     
     override init(){
-        self.user = PFUser.currentUser()!
+        self.user = PFUser.current()!
         self.locationMgr = CLLocationManager()
         self.distance = 0.0
         self.duration = 0
@@ -322,19 +322,19 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
         self.locationMgr.pausesLocationUpdatesAutomatically = true
         self.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationMgr.activityType = CLActivityType.Fitness
+        self.locationMgr.activityType = CLActivityType.fitness
         self.locationMgr.distanceFilter = 1;
         self.locationMgr.startUpdatingLocation()
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if self.startLoc == nil {
             startLoc = locations.first!
         }
         else {
-            let lastDist = lastLoc.distanceFromLocation(locations.last!)
+            let lastDist = lastLoc.distance(from: locations.last!)
             
             self.distance += lastDist
         }
@@ -377,7 +377,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let query = PFQuery(className: "CurrSpectatorLocation")
         query.whereKey("user", equalTo: self.user)
-        query.getFirstObjectInBackgroundWithBlock {
+        query.getFirstObjectInBackground {
             (currLoc: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
@@ -386,10 +386,10 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc["prevLocLat"] = geoPoint.latitude
                 newCurrLoc["prevLocLon"] = geoPoint.longitude
                 newCurrLoc["location"] = geoPoint
-                newCurrLoc["user"] = PFUser.currentUser()
+                newCurrLoc["user"] = PFUser.current()
                 newCurrLoc["distance"] = self.metersToMiles(self.distance)
                 newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
-                newCurrLoc["time"] = NSDate()
+                newCurrLoc["time"] = Date()
                 newCurrLoc.saveInBackground()
                 
             } else if let currLoc = currLoc {
@@ -398,16 +398,16 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 currLoc["prevLocLat"] = prevLoc.latitude
                 currLoc["prevLocLon"] = prevLoc.longitude
                 currLoc["location"] = geoPoint
-                currLoc["user"] = PFUser.currentUser()
+                currLoc["user"] = PFUser.current()
                 currLoc["distance"] = self.metersToMiles(self.distance)
                 currLoc["duration"] = self.stringFromSeconds(self.duration)
-                currLoc["time"] = NSDate()
+                currLoc["time"] = Date()
                 currLoc.saveInBackground()
             }
         }
     }
     
-    func updateUserPath(interval: Int){
+    func updateUserPath(_ interval: Int){
         
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
@@ -415,13 +415,13 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let object = PFObject(className:"SpectatorLocations")
         object["location"] = geoPoint
-        object["user"] = PFUser.currentUser()
+        object["user"] = PFUser.current()
         object["distance"] = self.metersToMiles(self.distance)
         object["duration"] = self.stringFromSeconds(self.duration)
-        object["time"] = NSDate()
+        object["time"] = Date()
         
         
-        object.saveInBackgroundWithBlock { (_success:Bool, _error:NSError?) -> Void in
+        object.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
             if _error == nil
             {
                 print("location saved")
@@ -429,7 +429,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
-    func audioSessionRouteChanged(notification: NSNotification) {
+    func audioSessionRouteChanged(_ notification: Notification) {
         var userInfo = notification.userInfo
         let routeChangeReason = userInfo![AVAudioSessionRouteChangeReasonKey]
         print ("audio route change reason: \(routeChangeReason)")
@@ -438,13 +438,13 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func enableBackgroundLoc() {
         
         var player = AVAudioPlayer()
-        let soundPath = NSBundle.mainBundle().URLForResource("silence", withExtension: "mp3")
+        let soundPath = Bundle.main.url(forResource: "silence", withExtension: "mp3")
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            player = try AVAudioPlayer(contentsOfURL: soundPath!, fileTypeHint: "mp3")
+            player = try AVAudioPlayer(contentsOf: soundPath!, fileTypeHint: "mp3")
             player.numberOfLoops = -1
             player.prepareToPlay()
             player.play()
@@ -454,14 +454,14 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         }
     }
     
-    func stringFromSeconds(sec: NSInteger) -> String {
+    func stringFromSeconds(_ sec: NSInteger) -> String {
         let seconds = sec % 60
         let minutes = (sec / 60) % 60
         let hours = (sec / 3600)
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
     
-    func metersToMiles(meters: Double) -> Double {
+    func metersToMiles(_ meters: Double) -> Double {
         let km = meters/1000
         let mi = km*0.62137119
         return mi
