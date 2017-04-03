@@ -16,16 +16,16 @@ protocol Trigger: Any {
     var areUsersNearby: Bool {get set}
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func checkProximityZone(_ result:(_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
+    func checkProximityZone(_ result:@escaping(_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void)
 }
 
 protocol Optimize: Any {
     var user: PFUser {get}
     var locationMgr: CLLocationManager {get}
     
-    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ conveniences: Dictionary<PFUser, Int>) -> Void)
-    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ needs: Dictionary<PFUser, Int>) -> Void)
-    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ affinities: Dictionary<PFUser, Int>) -> Void)
+    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ conveniences: Dictionary<PFUser, Int>) -> Void)
+    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ needs: Dictionary<PFUser, Int>) -> Void)
+    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ affinities: Dictionary<PFUser, Int>) -> Void)
 
 }
 
@@ -35,7 +35,7 @@ protocol Select: Any {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(_ userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint>
-    func selectRunner(_ runner: PFUser, result:(_ cheerSaved: Bool) -> Void)
+    func selectRunner(_ runner: PFUser, result:@escaping(_ cheerSaved: Bool) -> Void)
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -73,7 +73,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func checkProximityZone(_ result:(_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkProximityZone(_ result:@escaping (_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
         if locationMgr.location != nil {
@@ -135,7 +135,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
-    func getRunnerProfile(_ runnerObjID: String, result:(_ runnerProfile: Dictionary<String, AnyObject>) -> Void) {
+    func getRunnerProfile(_ runnerObjID: String, result:@escaping (_ runnerProfile: Dictionary<String, AnyObject>) -> Void) {
         var runnerProfile = [String: AnyObject]()
         var runner: PFUser = PFUser()
         
@@ -207,7 +207,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
     
-    func checkProximityZone(_ result:(_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
+    func checkProximityZone(_ result:@escaping(_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //then look up their current location
         //create dictionary of spectators + their locations
@@ -301,7 +301,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     
-    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ conveniences: Dictionary<PFUser, Int>) -> Void){
+    func considerConvenience(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ conveniences: Dictionary<PFUser, Int>) -> Void){
         var conveniences = [PFUser: Int]()
         
         for (runner, location) in userLocations {
@@ -326,7 +326,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         result(conveniences)
     }
     
-    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ needs: Dictionary<PFUser, Int>) -> Void) {
+    func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ needs: Dictionary<PFUser, Int>) -> Void) {
         var needs = [PFUser: Int]()
         
         //for each runner, retrieve all cheers
@@ -380,7 +380,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         }
     }
 
-    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ affinities: Dictionary<PFUser, Int>) -> Void) {
+    func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ affinities: Dictionary<PFUser, Int>) -> Void) {
         var affinities = [PFUser: Int]()
         
         if user.value(forKey: "targetRunnerBib") == nil {
@@ -466,7 +466,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
     }
     
-    func selectRunner(_ runner: PFUser, result:(_ cheerSaved: Bool) -> Void ) {
+    func selectRunner(_ runner: PFUser, result:@escaping (_ cheerSaved: Bool) -> Void ) {
         
         
         //save runner/spectator pair to global dictionary
