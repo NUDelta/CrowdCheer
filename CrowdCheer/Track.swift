@@ -133,7 +133,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             }
             else {
                 // Query failed, load error
-                print("ERROR: \(error!) \(error!.userInfo)")
+                print("ERROR: \(error!) \((error! as NSError).userInfo)")
                 result(runnerUpdate)
             }
         }

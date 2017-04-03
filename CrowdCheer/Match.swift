@@ -128,7 +128,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 }
                 else {
                     // Query failed, load error
-                    print("ERROR: \(error!) \(error!.userInfo)")
+                    print("ERROR: \(error!) \((error! as NSError).userInfo)")
                     result(runnerUpdates)
                 }
             }
@@ -263,7 +263,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
             }
             else {
                 // Query failed, load error
-                print("ERROR: \(error!) \(error!.userInfo)")
+                print("ERROR: \(error!) \((error! as NSError).userInfo)")
                 result(spectatorUpdates)
             }
         }
@@ -373,7 +373,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                 }
                 else {
                     // Query failed, load error
-                    print("ERROR: \(error!) \(error!.userInfo)")
+                    print("ERROR: \(error!) \((error! as NSError).userInfo)")
                 }
                 result(needs)
             }

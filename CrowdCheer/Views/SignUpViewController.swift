@@ -63,7 +63,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
             } else {
                 // failed login, error displayed to user
-                let errorString = error!.userInfo["error"] as? String
+                let errorString = (error! as NSError).userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Log In Error", message:
                     errorString, preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
@@ -85,7 +85,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             (succeeded: Bool, error: Error?) -> Void in
             if let error = error {
                 //failed signup, error displayed to user
-                let errorString = error.userInfo["error"] as? String
+                let errorString = (error as NSError).userInfo["error"] as? String
                 let alertController = UIAlertController(title: "Sign Up Error", message:
                     errorString, preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
