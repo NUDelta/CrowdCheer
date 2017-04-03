@@ -129,12 +129,12 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                     }
                 }
                 
-                result(runnerLoc: runnerUpdate)
+                result(runnerUpdate)
             }
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \(error!.userInfo)")
-                result(runnerLoc: runnerUpdate)
+                result(runnerUpdate)
             }
         }
     }

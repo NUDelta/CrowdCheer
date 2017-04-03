@@ -124,12 +124,12 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                         self.areUsersNearby = false
                     }
                     
-                    result(userLocations: runnerUpdates)
+                    result(runnerUpdates)
                 }
                 else {
                     // Query failed, load error
                     print("ERROR: \(error!) \(error!.userInfo)")
-                    result(userLocations: runnerUpdates)
+                    result(runnerUpdates)
                 }
             }
         }
@@ -157,11 +157,11 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                     let fileManager = FileManager.default
                     self.imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("\(runner.username).jpg")
                     print(self.imagePath)
-                    runnerProfile["profilePicPath"] = self.imagePath
+                    runnerProfile["profilePicPath"] = self.imagePath as AnyObject
                     fileManager.createFile(atPath: self.imagePath as String, contents: imageData, attributes: nil)
                 }
             }
-            result(runnerProfile: runnerProfile)
+            result(runnerProfile)
         }
     }
     
@@ -259,12 +259,12 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                     self.areUsersNearby = false
                 }
                 
-                result(userLocations: spectatorUpdates)
+                result(spectatorUpdates)
             }
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \(error!.userInfo)")
-                result(userLocations: spectatorUpdates)
+                result(spectatorUpdates)
             }
         }
     }
@@ -375,7 +375,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                     // Query failed, load error
                     print("ERROR: \(error!) \(error!.userInfo)")
                 }
-                result(needs: needs)
+                result(needs)
             }
         }
     }
@@ -420,7 +420,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
                         print("generalRunners within considerAffinity: \(self.generalRunners)")
                     }
                 }
-                result(affinities: affinities)
+                result(affinities)
             })
         }
     }
@@ -486,7 +486,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
             {
                 isCheerSaved = true
                 print("cheer object saved: \(isCheerSaved)")
-                result(cheerSaved: isCheerSaved)
+                result(isCheerSaved)
             }
         }
     }
