@@ -30,7 +30,7 @@
 import SystemConfiguration
 import Foundation
 
-public enum ReachabilityError: ErrorProtocol {
+public enum ReachabilityError: Error {
     case failedToCreateWithAddress(sockaddr_in)
     case failedToCreateWithHostname(String)
     case unableToSetCallback
@@ -50,8 +50,8 @@ func callback(_ reachability:SCNetworkReachability, flags: SCNetworkReachability
 
 open class Reachability: NSObject {
     
-    open typealias NetworkReachable = (Reachability) -> ()
-    open typealias NetworkUnreachable = (Reachability) -> ()
+    public typealias NetworkReachable = (Reachability) -> ()
+    public typealias NetworkUnreachable = (Reachability) -> ()
     
     public enum NetworkStatus: CustomStringConvertible {
         
@@ -103,7 +103,7 @@ open class Reachability: NSObject {
     public convenience init(hostname: String) throws {
         
         let nodename = (hostname as NSString).utf8String
-        guard let ref = SCNetworkReachabilityCreateWithName(nil, nodename) else { throw ReachabilityError.failedToCreateWithHostname(hostname) }
+        guard let ref = SCNetworkReachabilityCreateWithName(nil, nodename!) else { throw ReachabilityError.failedToCreateWithHostname(hostname) }
         
         self.init(reachabilityRef: ref)
     }
@@ -111,7 +111,7 @@ open class Reachability: NSObject {
     open class func reachabilityForInternetConnection() throws -> Reachability {
         
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
         
         guard let ref = withUnsafePointer(to: &zeroAddress, {
@@ -124,7 +124,7 @@ open class Reachability: NSObject {
     open class func reachabilityForLocalWiFi() throws -> Reachability {
         
         var localWifiAddress: sockaddr_in = sockaddr_in(sin_len: __uint8_t(0), sin_family: sa_family_t(0), sin_port: in_port_t(0), sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        localWifiAddress.sin_len = UInt8(sizeofValue(localWifiAddress))
+        localWifiAddress.sin_len = UInt8(MemoryLayout.size(ofValue: localWifiAddress))
         localWifiAddress.sin_family = sa_family_t(AF_INET)
         
         // IN_LINKLOCALNETNUM is defined in <netinet/in.h> as 169.254.0.0

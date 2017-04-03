@@ -187,7 +187,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
         query.getFirstObjectInBackground {
-            (currLoc: PFObject?, error: NSError?) -> Void in
+            (currLoc: PFObject?, error: Error?) -> Void in
             if error != nil {
                 print(error)
                 //add runner
@@ -241,7 +241,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         object["duration"] = self.stringFromSeconds(self.duration)
         object["time"] = Date()
         
-        object.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
+        object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
             if _error == nil
             {
                 print("location saved")
@@ -378,7 +378,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         let query = PFQuery(className: "CurrSpectatorLocation")
         query.whereKey("user", equalTo: self.user)
         query.getFirstObjectInBackground {
-            (currLoc: PFObject?, error: NSError?) -> Void in
+            (currLoc: PFObject?, error: Error?) -> Void in
             if error != nil {
                 print(error)
                 //add runner
@@ -421,7 +421,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         object["time"] = Date()
         
         
-        object.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
+        object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
             if _error == nil
             {
                 print("location saved")

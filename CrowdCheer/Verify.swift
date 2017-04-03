@@ -82,7 +82,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         query.whereKey("spectator", equalTo: user)
 //        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
         query.getFirstObjectInBackground {
-            (cheer: PFObject?, error: NSError?) -> Void in
+            (cheer: PFObject?, error: Error?) -> Void in
             if error != nil {
                 print(error)
             } else if let cheer = cheer {

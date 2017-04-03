@@ -40,7 +40,7 @@ class Runner: NSObject, User {
     
     func setsUser(_ runner: PFUser) {
         
-        runner.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
+        runner.saveInBackground { (_success:Bool, _error:Error?) -> Void in
             if _error == nil
             {
                 print("user saved")

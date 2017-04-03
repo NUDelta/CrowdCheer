@@ -114,7 +114,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     let runnerLastLoc = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.longitude)
                     let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                     let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
-                    print(runner.username, dist)
+                    print(runner.username!, dist)
                     
                     for affinity in affinities {
                         
@@ -263,7 +263,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        print("\(view.annotation?.title) has been tapped")
+        print("\(String(describing: view.annotation?.title)) has been tapped")
         if (view is PickRunnerAnnotationView) {
             
             cheer.isEnabled = true

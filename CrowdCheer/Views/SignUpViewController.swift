@@ -56,7 +56,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     //Check fields, Log In, and segue to next VC
     @IBAction func logIn(_ sender: UIButton) {
         PFUser.logInWithUsername(inBackground: usernameField.text!, password:passwordField.text!) {
-            (user: PFUser?, error: NSError?) -> Void in
+            (user: PFUser?, error: Error?) -> Void in
             if user != nil {
                 // Successful login
                 self.performSegue(withIdentifier: "intro", sender: nil)
@@ -82,7 +82,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         user.email = emailField.text
         
         user.signUpInBackground {
-            (succeeded: Bool, error: NSError?) -> Void in
+            (succeeded: Bool, error: Error?) -> Void in
             if let error = error {
                 //failed signup, error displayed to user
                 let errorString = error.userInfo["error"] as? String
@@ -113,7 +113,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     func keyboardWillShow(_ notification:Notification){
         
         var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         
         var contentInset:UIEdgeInsets = scrollView.contentInset

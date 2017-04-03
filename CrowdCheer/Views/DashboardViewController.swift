@@ -185,12 +185,12 @@ class DashboardViewController: UIViewController {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            print("is \(runner.username) missing \(runnerProfiles[runner.objectId!])")
+            print("is \(String(describing: runner.username)) missing \(runnerProfiles[runner.objectId!])")
             if runnerProfiles[runner.objectId!] == nil {
                 nearbyRunners.getRunnerProfile(runner.objectId!) { (runnerProfile) -> Void in
                     
                     self.runnerProfiles[runner.objectId!] = runnerProfile
-                    print("runner profile did not exist, added  \(runner.username)")
+                    print("runner profile did not exist, added  \(String(describing: runner.username))")
                     print(self.runnerProfiles)
                 }
             }
@@ -244,7 +244,7 @@ class DashboardViewController: UIViewController {
                 
                 let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                 let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
-                print(runner.username, dist)
+                print(runner.username!, dist)
                 
                 for affinity in affinities {
                     

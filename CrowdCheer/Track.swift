@@ -107,7 +107,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         query.whereKey("user", equalTo: trackedRunner)
         query.order(byDescending: "updatedAt")
         query.findObjectsInBackground {
-            (runnerObjects: [PFObject]?, error: NSError?) -> Void in
+            (runnerObjects: [PFObject]?, error: Error?) -> Void in
             
             if error == nil {
                 // Found at least one runner

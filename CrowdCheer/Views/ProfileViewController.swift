@@ -86,7 +86,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         else {
             userImageFile = user["profilePic"] as! PFFile
             userImageFile.getDataInBackground {
-                (imageData: Data?, error: NSError?) -> Void in
+                (imageData: Data?, error: Error?) -> Void in
                 if error == nil {
                     if let imageData = imageData {
                         let image = UIImage(data:imageData)

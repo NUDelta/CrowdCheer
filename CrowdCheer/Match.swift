@@ -89,7 +89,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
             query.order(byDescending: "updatedAt")
             query.findObjectsInBackground {
-                (runnerObjects: [PFObject]?, error: NSError?) -> Void in
+                (runnerObjects: [PFObject]?, error: Error?) -> Void in
                 
                 var runner: PFUser = PFUser()
                 
@@ -146,12 +146,12 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             print("ERROR: unable to get runner")
         }
         let name = (runner.value(forKey: "name"))!
-        runnerProfile["objectID"] = runnerObjID
-        runnerProfile["name"] = name
+        runnerProfile["objectID"] = runnerObjID as AnyObject
+        runnerProfile["name"] = name as AnyObject
         
         let userImageFile = runner["profilePic"] as? PFFile
         userImageFile!.getDataInBackground {
-            (imageData: Data?, error: NSError?) -> Void in
+            (imageData: Data?, error: Error?) -> Void in
             if error == nil {
                 if let imageData = imageData {
                     let fileManager = FileManager.default
@@ -226,7 +226,7 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
         query.order(byDescending: "updatedAt")
         query.findObjectsInBackground {
-            (spectatorObjects: [PFObject]?, error: NSError?) -> Void in
+            (spectatorObjects: [PFObject]?, error: Error?) -> Void in
             
             if error == nil {
                 // Found at least one runner
@@ -323,7 +323,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             }
         }
         
-        result(conveniences: conveniences)
+        result(conveniences)
     }
     
     func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:(_ needs: Dictionary<PFUser, Int>) -> Void) {
@@ -339,7 +339,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             //NOTE: currently counting all possible cheers, not spectator verified cheers
             query.whereKey("runner", equalTo: runner)
             query.findObjectsInBackground{
-                (cheerObjects: [PFObject]?, error: NSError?) -> Void in
+                (cheerObjects: [PFObject]?, error: Error?) -> Void in
                 if error == nil {
                     // Found at least one cheer
                     print("Successfully retrieved \(cheerObjects!.count) cheers.")
@@ -395,7 +395,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             
             let query = PFUser.query()
             query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
-            query!.findObjectsInBackground(block: { (targetRunners, error: NSError?) in
+            query!.findObjectsInBackground(block: { (targetRunners, error: Error?) in
                 for (runner, location) in userLocations {
                     for targetRunner in targetRunners! {
                         
@@ -481,7 +481,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         var isCheerSaved = Bool()
         cheer["runner"] = runner
         cheer["spectator"] = PFUser.current()
-        cheer.saveInBackground { (_success:Bool, _error:NSError?) -> Void in
+        cheer.saveInBackground { (_success:Bool, _error:Error?) -> Void in
             if _error == nil
             {
                 isCheerSaved = true

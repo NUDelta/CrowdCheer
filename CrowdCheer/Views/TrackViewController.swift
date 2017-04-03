@@ -134,7 +134,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let bib = (runner.value(forKey: "bibNumber"))!
         let userImageFile = runner["profilePic"] as? PFFile
         userImageFile!.getDataInBackground {
-            (imageData: Data?, error: NSError?) -> Void in
+            (imageData: Data?, error: Error?) -> Void in
             if error == nil {
                 if let imageData = imageData {
                     let image = UIImage(data:imageData)
