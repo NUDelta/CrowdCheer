@@ -17,7 +17,7 @@ protocol Deliver: Any {
     var location: CLLocation {get set}
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: URL, audioFileName: String)
+    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String)
     func saveSpectatorCheer()
 }
 
@@ -68,7 +68,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
-    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: URL, audioFileName: String) {
+    func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String) {
         
         //query Cheer object using spectatorID, runnerID, maybe time?
         //update object with field didCheer & corresponding value
@@ -88,7 +88,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
             } else if let cheer = cheer {
                 
                 //NOTE: should save audio file to the class here too
-                let audioFileData: Data = try! Data(contentsOf: audioFilePath)
+                let audioFileData: Data = try! Data(contentsOf: audioFilePath as URL)
                 let audioFile = PFFile(name: audioFileName, data: audioFileData)
                 cheer["cheerAudio"] = audioFile
                 cheer["didCheer"] = didCheer
@@ -101,10 +101,10 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
-    func getDocumentsDirectory() -> URL {
+    func getDocumentsDirectory() -> NSURL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
-        return documentsDirectory
+        return documentsDirectory as NSURL
     }
 
 }
@@ -144,10 +144,10 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
         
     }
     
-    func getDocumentsDirectory() -> URL {
+    func getDocumentsDirectory() -> NSURL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
-        return documentsDirectory
+        return documentsDirectory as NSURL
     }
 }
 
