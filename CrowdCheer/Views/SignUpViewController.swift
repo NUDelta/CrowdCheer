@@ -138,7 +138,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     func openSettings(_ alert: UIAlertAction!) {
-        UIApplication.shared.openURL(URL(string:"prefs:root=WIFI")!)
+        UIApplication.shared.openURL(URL(string:"App-Prefs:root=WIFI")!)
     }
     
     func isWiFiConnected() -> Bool {
