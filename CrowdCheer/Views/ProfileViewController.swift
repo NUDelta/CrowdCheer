@@ -94,7 +94,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                     }
                 }
                 else {
-                    print("could not download photo: \(error)")
+                    print("could not download photo: \(String(describing: error))")
                 }
             }
         }

@@ -209,11 +209,11 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     }
     
     func DegreesToRadians(_ degrees: Double ) -> Double {
-        return degrees * M_PI / 180
+        return degrees * .pi / 180
     }
     
     func RadiansToDegrees(_ radians: Double) -> Double {
-        return radians * 180 / M_PI
+        return radians * 180 / .pi
     }
     
     

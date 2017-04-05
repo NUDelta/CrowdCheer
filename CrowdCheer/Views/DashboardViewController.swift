@@ -185,7 +185,7 @@ class DashboardViewController: UIViewController {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            print("is \(String(describing: runner.username)) missing \(runnerProfiles[runner.objectId!])")
+            print("is \(String(describing: runner.username)) missing \(String(describing: runnerProfiles[runner.objectId!]))")
             if runnerProfiles[runner.objectId!] == nil {
                 nearbyRunners.getRunnerProfile(runner.objectId!) { (runnerProfile) -> Void in
                     

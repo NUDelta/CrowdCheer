@@ -84,7 +84,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         query.getFirstObjectInBackground {
             (cheer: PFObject?, error: Error?) -> Void in
             if error != nil {
-                print(error)
+                print(error!)
             } else if let cheer = cheer {
                 
                 //NOTE: should save audio file to the class here too

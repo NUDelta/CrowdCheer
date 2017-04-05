@@ -183,7 +183,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         query.getFirstObjectInBackground {
             (currLoc: PFObject?, error: Error?) -> Void in
             if error != nil {
-                print(error)
+                print(error!)
                 //add runner
                 let newCurrLoc = PFObject(className: "CurrRunnerLocation")
                 newCurrLoc["prevLocLat"] = geoPoint.latitude
@@ -368,7 +368,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         query.getFirstObjectInBackground {
             (currLoc: PFObject?, error: Error?) -> Void in
             if error != nil {
-                print(error)
+                print(error!)
                 //add runner
                 let newCurrLoc = PFObject(className: "CurrSpectatorLocation")
                 newCurrLoc["prevLocLat"] = geoPoint.latitude
