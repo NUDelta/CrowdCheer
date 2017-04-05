@@ -81,23 +81,35 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         user.password = passwordField.text
         user.email = emailField.text
         
-        user.signUpInBackground {
-            (succeeded: Bool, error: Error?) -> Void in
-            if let error = error {
-                //failed signup, error displayed to user
-                let errorString = (error as NSError).userInfo["error"] as? String
-                let alertController = UIAlertController(title: "Sign Up Error", message:
-                    errorString, preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
-                
-                self.present(alertController, animated: true, completion: nil)
-                
-                
-            } else {
-                //Successful signup
-                self.performSegue(withIdentifier: "intro", sender: nil)
+        if ((usernameField.text?.isEmpty)! || (passwordField.text?.isEmpty)! || (emailField.text?.isEmpty)!) {
+            let alertController = UIAlertController(title: "Sign Up Error", message:
+                "Please complete all fields to sign up.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+
+        }
+        else {
+            user.signUpInBackground {
+                (succeeded: Bool, error: Error?) -> Void in
+                if let error = error {
+                    //failed signup, error displayed to user
+                    let errorString = (error as NSError).userInfo["error"] as? String
+                    let alertController = UIAlertController(title: "Sign Up Error", message:
+                        errorString, preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.default,handler: nil))
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                } else {
+                    //Successful signup
+                    self.performSegue(withIdentifier: "intro", sender: nil)
+                }
             }
         }
+        
+        
     }
     
     //keyboard behavior
