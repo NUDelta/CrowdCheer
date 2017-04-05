@@ -143,16 +143,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func isWiFiConnected() -> Bool {
         
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return false
-        }
+        let reachability = Reachability()!
         
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
+        if reachability.isReachable {
+            if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
                 return true
             } else {

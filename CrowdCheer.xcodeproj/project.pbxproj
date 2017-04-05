@@ -21,6 +21,7 @@
 		E20803E51D5E257700F3E2DB /* smartphone.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803D91D5E257700F3E2DB /* smartphone.png */; };
 		E20803E71D5E32E700F3E2DB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803E61D5E32E700F3E2DB /* map.png */; };
 		E20803E91D5E4C5900F3E2DB /* tracking.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803E81D5E4C5900F3E2DB /* tracking.png */; };
+		E22FFC161E9460CC00C34EDA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22FFC151E9460CC00C34EDA /* Reachability.swift */; };
 		E23A34901B4B016C000D9CE2 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */; };
 		E240F4781B6BBEB6008C9580 /* Ford.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E240F4771B6BBEB6008C9580 /* Ford.gpx */; };
 		E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */; };
@@ -33,7 +34,6 @@
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
 		E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E292A3AD1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld */; };
-		E292A3B11CD3B6970061B19A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E292A3B01CD3B6970061B19A /* Reachability.swift */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
 		E2AD20161A9A97E500B1BEFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */; };
@@ -111,6 +111,7 @@
 		E20803D91D5E257700F3E2DB /* smartphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smartphone.png; sourceTree = "<group>"; };
 		E20803E61D5E32E700F3E2DB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
 		E20803E81D5E4C5900F3E2DB /* tracking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tracking.png; sourceTree = "<group>"; };
+		E22FFC151E9460CC00C34EDA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = CrowdCheer/Reachability.swift; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E240F4771B6BBEB6008C9580 /* Ford.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ford.gpx; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
 		E292A3AE1CCAAECA0061B19A /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
-		E292A3B01CD3B6970061B19A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = CrowdCheer/Reachability.swift; sourceTree = "<group>"; };
 		E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CrowdCheer-Bridging-Header.h"; path = "CrowdCheer/CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -303,8 +303,8 @@
 				E25A5E831CC572E80046C809 /* Match.swift */,
 				E2EFA7CA1C5A800F00974475 /* Track.swift */,
 				E2EFA7CC1C5A802C00974475 /* Verify.swift */,
+				E22FFC151E9460CC00C34EDA /* Reachability.swift */,
 				E2EFA7CE1C5A804900974475 /* Update.swift */,
-				E292A3B01CD3B6970061B19A /* Reachability.swift */,
 				E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */,
 				E254BE6C1C6BCB1000C9FD8B /* AppDelegate.swift */,
 				E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */,
@@ -553,8 +553,8 @@
 				E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */,
 				E28E68B41BFC341A008C6A0A /* Users.swift in Sources */,
 				E2EFA7D11C5FEAD700974475 /* TrackViewController.swift in Sources */,
+				E22FFC161E9460CC00C34EDA /* Reachability.swift in Sources */,
 				E254BE611C6B955F00C9FD8B /* RunnerAnnotation.swift in Sources */,
-				E292A3B11CD3B6970061B19A /* Reachability.swift in Sources */,
 				E2ED43931CA193C20056AC47 /* RoleViewController.swift in Sources */,
 				E254BE6D1C6BCB1000C9FD8B /* AppDelegate.swift in Sources */,
 				E254BEA91C6D0D3F00C9FD8B /* SignUpViewController.swift in Sources */,

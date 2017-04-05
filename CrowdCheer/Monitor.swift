@@ -81,16 +81,10 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func isNetworkReachable() -> Bool {
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return false
-        }
+        let reachability = Reachability()!
         
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
+        if reachability.isReachable {
+            if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
                 return true
             } else {
@@ -343,16 +337,10 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func isNetworkReachable() -> Bool {
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return false
-        }
-        
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
+        let reachability =  Reachability()!
+
+        if reachability.isReachable {
+            if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
                 return true
             } else {
