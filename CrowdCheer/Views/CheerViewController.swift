@@ -151,6 +151,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             let distancePrev = (contextPrimer.locationMgr.location!.distance(from: locationPrev))
             
             if distancePrev >= distanceCurr {
+                //running is moving towards
                 
                 if distanceCurr>75 {
                     nearBanner.text = runnerName + " is nearby!"
