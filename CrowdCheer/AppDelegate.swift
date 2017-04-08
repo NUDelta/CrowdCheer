@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 let dictKey = "key"
-let setupDateString = "2017-04-05T09:54:00-05:00" // 1.5hr before race
+let setupDateString = "2017-04-08T06:00:00-05:00" // 1 hr before race
 var nearbyTargetRunnersTimer: Timer = Timer()
 
 

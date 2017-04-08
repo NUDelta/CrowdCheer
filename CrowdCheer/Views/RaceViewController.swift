@@ -287,8 +287,9 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
     @IBAction func cheer(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
+        let source = "racemap"
         selectedRunners = SelectedRunners()
-        selectedRunners.selectRunner(runner) { (cheerSaved) -> Void in
+        selectedRunners.selectRunner(runner, source) { (cheerSaved) -> Void in
 
             isCheerSaved = cheerSaved
         }

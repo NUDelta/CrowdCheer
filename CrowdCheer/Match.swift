@@ -35,7 +35,7 @@ protocol Select: Any {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func preselectRunners(_ userLocations: Dictionary<PFUser, PFGeoPoint>, conveniences: Dictionary<PFUser, Int>, needs: Dictionary<PFUser, Int>, affinities: Dictionary<PFUser, Int>) -> Dictionary<PFUser, PFGeoPoint>
-    func selectRunner(_ runner: PFUser, result:@escaping(_ cheerSaved: Bool) -> Void)
+    func selectRunner(_ runner: PFUser, _ source: String, result:@escaping(_ cheerSaved: Bool) -> Void)
 }
 
 class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
@@ -466,7 +466,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         
     }
     
-    func selectRunner(_ runner: PFUser, result:@escaping (_ cheerSaved: Bool) -> Void ) {
+    func selectRunner(_ runner: PFUser, _ source: String, result:@escaping (_ cheerSaved: Bool) -> Void ) {
         
         
         //save runner/spectator pair to global dictionary
@@ -481,6 +481,7 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
         var isCheerSaved = Bool()
         cheer["runner"] = runner
         cheer["spectator"] = PFUser.current()
+        cheer["source"] = source
         cheer.saveInBackground { (_success:Bool, _error:Error?) -> Void in
             if _error == nil
             {

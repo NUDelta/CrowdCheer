@@ -611,8 +611,9 @@ class DashboardViewController: UIViewController {
     @IBAction func targetTrack(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
+        let source = "dashboard"
         selectedRunners = SelectedRunners()
-        selectedRunners.selectRunner(targetRunner) { (cheerSaved) -> Void in
+        selectedRunners.selectRunner(targetRunner, source) { (cheerSaved) -> Void in
             
             isCheerSaved = cheerSaved
         }
@@ -627,8 +628,9 @@ class DashboardViewController: UIViewController {
     @IBAction func general1Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
+        let source = "dashboard"
         selectedRunners = SelectedRunners()
-        selectedRunners.selectRunner(general1Runner) { (cheerSaved) -> Void in
+        selectedRunners.selectRunner(general1Runner, source) { (cheerSaved) -> Void in
             
             isCheerSaved = cheerSaved
         }
@@ -642,8 +644,9 @@ class DashboardViewController: UIViewController {
     @IBAction func general2Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
+        let source = "dashboard"
         selectedRunners = SelectedRunners()
-        selectedRunners.selectRunner(general2Runner) { (cheerSaved) -> Void in
+        selectedRunners.selectRunner(general2Runner, source) { (cheerSaved) -> Void in
             
             isCheerSaved = cheerSaved
         }
@@ -657,8 +660,9 @@ class DashboardViewController: UIViewController {
     @IBAction func general3Track(_ sender: UIButton) {
         //call a function that will save a "cheer" object to parse, that keeps track of the runner:spectator pairing
         var isCheerSaved = true
+        let source = "dashboard"
         selectedRunners = SelectedRunners()
-        selectedRunners.selectRunner(general3Runner) { (cheerSaved) -> Void in
+        selectedRunners.selectRunner(general3Runner, source) { (cheerSaved) -> Void in
             
             isCheerSaved = cheerSaved
         }
