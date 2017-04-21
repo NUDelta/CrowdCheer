@@ -84,6 +84,13 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             
             spectatorMonitor.enableBackgroundLoc()
         }
+        
+        if audioRecorder.isRecording {
+            print("RECORDING")
+        }
+        else {
+            print("NOT RECORDING")
+        }
     }
     
     func trackRunner() {
