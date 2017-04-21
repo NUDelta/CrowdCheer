@@ -254,6 +254,17 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func verifyCheeringAlert() {
+        
+        if UIApplication.shared.applicationState == .background {
+            let localNotification = UILocalNotification()
+            
+            localNotification.alertBody =  "Did you spot and cheer for " + runnerName + "?"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            
+            UIApplication.shared.presentLocalNotificationNow(localNotification)
+        }
+        
         let alertTitle = "Thank you for supporting " + runnerName + "!"
         let alertMessage = "Did you spot and cheer for " + runnerName + "?"
         let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
