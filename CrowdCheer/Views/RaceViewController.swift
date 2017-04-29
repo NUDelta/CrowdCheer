@@ -121,7 +121,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                         var isTargetRunnerNear = false
                         if runner == affinity.0 {
                             //Goal: Show target runners throughout the race
-                            if dist > 2000 { //if runner is more than 2km away (demo: 400)
+                            if dist > 1000 { //if runner is more than 2km away (demo: 400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -133,7 +133,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                             
                             //Goal: Show all runners near me, including target runners
-                            else if dist > 500 && dist <= 2000 { //if runner is between 500m-2km away (demo: 200-400)
+                            else if dist > 300 && dist <= 1000 { //if runner is between 500m-2km away (demo: 200-400)
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -147,7 +147,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                             }
                                 
                             //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                            else if dist <= 500 { //if runner is less than 500m away (demo: 200)
+                            else if dist <= 300 { //if runner is less than 500m away (demo: 200)
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
