@@ -45,7 +45,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
 //        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
 //        let startLine = CLLocationCoordinate2DMake(42.058175, -87.683502) //noyes el
 //        let startLine = CLLocationCoordinate2DMake(42.051169, -87.677232) //arch
-        let startLine = CLLocationCoordinate2DMake(41.963744, -87.638577) //race
+        let startLine = CLLocationCoordinate2DMake(41.947186, -87.658938) //race
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
