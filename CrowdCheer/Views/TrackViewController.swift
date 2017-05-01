@@ -58,6 +58,13 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+        override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
+        userMonitorTimer.invalidate()
+        runnerTrackerTimer.invalidate()
+        
+    }
+    
     func monitorUser() {
         
         //start cheerer tracker
