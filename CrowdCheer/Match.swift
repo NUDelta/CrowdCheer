@@ -46,15 +46,15 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     var locationMgr: CLLocationManager
     var areUsersNearby: Bool
     var possibleRunners = [String : String]()
-    var possibleRunnerCount: Int
+    var displayedRunners: [PFUser]
     var imagePath = ""
     
     override init(){
         user = PFUser.current()!
         locationMgr = CLLocationManager()
         areUsersNearby = false
-        possibleRunnerCount = 0
         possibleRunners = [:]
+        displayedRunners = []
         
         //initialize location manager
         super.init()
@@ -165,12 +165,13 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
-    func saveRunnerCount(_ possibleRunnerCount: Int) {
+    func saveRunnerCount(_ displayedRunners: [PFUser]) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user
-        newRunnerCount["nearbyRunners"] = possibleRunnerCount
+        newRunnerCount["nearbyRunners"] = displayedRunners
+        newRunnerCount["nearbyRunnerCount"] = displayedRunners.count
         
-        user["possibleRunnerCount"] = possibleRunnerCount
+        user["nearbyRunnerCount"] = displayedRunners.count
         user.saveInBackground()
         newRunnerCount.saveInBackground()
     }

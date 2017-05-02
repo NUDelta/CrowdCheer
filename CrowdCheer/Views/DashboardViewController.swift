@@ -235,7 +235,7 @@ class DashboardViewController: UIViewController {
     
     func considerRunnerAffinity(_ runnerLocations: [PFUser: PFGeoPoint]) {
         //R+R* Condition
-        var runnerCount = 0
+        var runnerCount: [PFUser] = []
         
         self.optimizedRunners.considerAffinity(runnerLocations) { (affinities) -> Void in
             print("affinities \(affinities)")
@@ -260,7 +260,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                runnerCount += 1
+                                runnerCount.append(runner)
                             }
                             else if affinity.1 != 10 { //if general runner, don't add them yet
                                 //do nothing
@@ -276,11 +276,11 @@ class DashboardViewController: UIViewController {
                                 self.targetRunner5More.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                runnerCount += 1
+                                runnerCount.append(runner)
                             }
                             else if affinity.1 != 10 { //if general runner, display runner
                                 self.getRunnerProfile(runner, runnerType: "general")
-                                runnerCount += 1
+                                runnerCount.append(runner)
                                 self.areRunnersNearby = true
                             }
                         }
@@ -295,14 +295,14 @@ class DashboardViewController: UIViewController {
                                 self.disableGeneralRunners()
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                runnerCount += 1
+                                runnerCount.append(runner)
                             
                                 isTargetRunnerNear = true
                             }
                             else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                 if !isTargetRunnerNear {
                                     self.getRunnerProfile(runner, runnerType: "general")
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                     self.areRunnersNearby = true
                                 }
                             }
@@ -322,7 +322,7 @@ class DashboardViewController: UIViewController {
                                 self.targetRunnerTrack.isHidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                runnerCount += 1
+                                runnerCount.append(runner)
                                 
                                 self.areTargetRunnersNearby = true
                                 self.targetRunnerNameText = name
@@ -331,7 +331,7 @@ class DashboardViewController: UIViewController {
                             else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                 if !isTargetRunnerNear {
                                     self.getRunnerProfile(runner, runnerType: "general")
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                     self.areRunnersNearby = true
                                 }
                             }

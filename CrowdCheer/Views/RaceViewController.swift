@@ -100,7 +100,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
         
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         mapView.removeAnnotations(annotationsToRemove)
-        var runnerCount = 0
+        var runnerCount: [PFUser] = []
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -125,7 +125,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
                                     //do nothing
@@ -137,11 +137,11 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 if affinity.1 == 10 { //if target runner, add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                 }
                                 else if affinity.1 != 10 { //if general runner, also add them to the map
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                     self.areRunnersNearby = true
                                 }
                             }
@@ -151,7 +151,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 if affinity.1 == 10 { //if target runner, add them to the map & notify
                                     self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 1)
                                     self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                    runnerCount += 1
+                                    runnerCount.append(runner)
                                     let name = runner.value(forKey: "name") as! String
                                     self.areTargetRunnersNearby = true
                                     self.targetRunnerName = name
@@ -160,7 +160,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                                 else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                     if !isTargetRunnerNear {
                                         self.addRunnerPin(runner, runnerLoc: runnerLastLoc, runnerType: 0)
-                                        runnerCount += 1
+                                        runnerCount.append(runner)
                                         self.areRunnersNearby = true
                                     }
                                 }
