@@ -10,12 +10,13 @@ import UIKit
 import Foundation
 import Parse
 
-class DashboardViewController: UIViewController {
+class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var targetRunnerName: UILabel!
     @IBOutlet weak var targetRunnerETA: UILabel!
     @IBOutlet weak var targetRunnerCheers: UILabel!
     @IBOutlet weak var targetRunnerTrack: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
     var targetRunner: PFUser = PFUser()
     
     @IBOutlet weak var general1RunnerPic: UIImageView!
@@ -79,6 +80,15 @@ class DashboardViewController: UIViewController {
         areRunnersNearby = false
         interval = 30
         
+        
+        //initialize mapview
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true);
+        let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
+        self.navigationItem.rightBarButtonItem = headingBtn
+        
+        
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
@@ -120,7 +130,11 @@ class DashboardViewController: UIViewController {
     
     func updateNearbyRunners() {
         //every x seconds, monitor target runners, find nearby runners and display those runners
-    
+        //every x seconds, clear map, update array of nearby runners and pin those runners
+        
+        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
+        mapView.removeAnnotations(annotationsToRemove)
+
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
@@ -233,6 +247,7 @@ class DashboardViewController: UIViewController {
 //                                self.targetRunnerLoading.isHidden = true
 //                                self.targetRunnerETA.isHidden = false
 //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
+                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount.append(runner)
@@ -249,6 +264,7 @@ class DashboardViewController: UIViewController {
 //                                self.targetRunnerLoading.isHidden = true
 //                                self.targetRunner5More.isHidden = false
 //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
+                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount.append(runner)
@@ -268,6 +284,7 @@ class DashboardViewController: UIViewController {
 //                                self.targetRunner5Less.isHidden = false
 //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                 self.disableGeneralRunners()
+                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount.append(runner)
@@ -294,6 +311,7 @@ class DashboardViewController: UIViewController {
 //                                self.targetRunnerLoading.isHidden = true
 //                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
 //                                self.targetRunnerTimeToCheer.isHidden = false
+                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                 self.targetRunnerTrack.isHidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -499,6 +517,62 @@ class DashboardViewController: UIViewController {
         }
     }
     
+    func disableGeneralRunners() {
+        general1RunnerTrack.isEnabled = false
+        general2RunnerTrack.isEnabled = false
+        general3RunnerTrack.isEnabled = false
+        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if (annotation is MKUserLocation) {
+            return nil
+        }
+        else {
+            let annotationView = PickRunnerAnnotationView(annotation: annotation, reuseIdentifier: "Runner")
+            annotationView.canShowCallout = true
+            return annotationView
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        print("\(String(describing: view.annotation?.title)) has been tapped")
+        if (view is PickRunnerAnnotationView) {
+            
+            var runner: PFUser = PFUser()
+            
+            targetRunnerTrack.isEnabled = true
+            let ann = view.annotation as! PickRunnerAnnotation
+            let runnerObjID = ann.runnerObjID
+            var runnerDescription: String = ""
+            do {
+                runner = try PFQuery.getUserObject(withId: runnerObjID!)
+            }
+            catch {
+                print("ERROR: unable to get runner")
+            }
+//            let runnerName = (runner.value(forKey: "name"))!
+//            print("Selected runner: \(runnerName)")
+//            targetRunnerName.text = runnerName as! String
+        }
+    }
+    
+    func addRunnerPin(_ runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
+        
+        let name = runner.value(forKey: "name")
+        let coordinate = runnerLoc
+        let title = (name as? String)
+        let runnerObjID = runner.objectId
+        let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
+        let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID!)
+        mapView.addAnnotation(annotation)
+    }
+    
     func sendLocalNotification_any() {
         if areRunnersNearby == true {
             
@@ -526,15 +600,6 @@ class DashboardViewController: UIViewController {
         else {
             print("local notification: no runners nearby")
         }
-    }
-    
-    func disableGeneralRunners() {
-        general1RunnerTrack.isEnabled = false
-        general2RunnerTrack.isEnabled = false
-        general3RunnerTrack.isEnabled = false
-        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
     }
     
     func sendLocalNotification_target() {

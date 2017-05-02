@@ -1583,6 +1583,7 @@
                         <outlet property="general3RunnerName" destination="Hvn-vE-f9K" id="7hg-sV-sJc"/>
                         <outlet property="general3RunnerPic" destination="hjp-cM-hVD" id="7yE-lU-GNQ"/>
                         <outlet property="general3RunnerTrack" destination="SxM-pz-6e3" id="hTz-Eb-9Oj"/>
+                        <outlet property="mapView" destination="6hz-lr-er8" id="oia-om-3V4"/>
                         <outlet property="targetRunnerCheers" destination="k1H-Gh-IcG" id="rsN-kM-Py2"/>
                         <outlet property="targetRunnerETA" destination="ast-Re-S1P" id="b57-91-Wb2"/>
                         <outlet property="targetRunnerName" destination="V9S-VN-bR2" id="F4u-FD-72r"/>
