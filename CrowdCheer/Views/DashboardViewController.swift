@@ -12,18 +12,9 @@ import Parse
 
 class DashboardViewController: UIViewController {
     
-//    @IBOutlet weak var targetRunnerPic: UIImageView!
-//    @IBOutlet weak var targetRunnerName: UILabel!
-//    @IBOutlet weak var targetRunnerPace: UILabel!
-//    @IBOutlet weak var targetRunnerTime: UILabel!
-//    @IBOutlet weak var targetRunnerDistance: UILabel!
-    
-//    @IBOutlet weak var targetRunnerLoading: UILabel!
-//    @IBOutlet weak var targetRunner5More: UILabel!
-//    @IBOutlet weak var targetRunner5Less: UILabel!
-//    @IBOutlet weak var targetRunnerETA: UILabel!
-//    @IBOutlet weak var targetRunnerTimeToCheer: UILabel!
-//    
+    @IBOutlet weak var targetRunnerName: UILabel!
+    @IBOutlet weak var targetRunnerETA: UILabel!
+    @IBOutlet weak var targetRunnerCheers: UILabel!
     @IBOutlet weak var targetRunnerTrack: UIButton!
     var targetRunner: PFUser = PFUser()
     
@@ -63,18 +54,10 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-//        targetRunnerLoading.isHidden = false
-//        targetRunnerETA.isHidden = true
-//        targetRunner5More.isHidden = true
-//        targetRunner5Less.isHidden = true
-//        targetRunnerTimeToCheer.isHidden = true
-//        
-//        targetRunnerPic.isHidden = true
-//        targetRunnerName.isHidden = true
-//        targetRunnerTime.isHidden = true
-//        targetRunnerPace.isHidden = true
-//        targetRunnerDistance.isHidden = true
+    
+        targetRunnerName.isHidden = true
+        targetRunnerETA.isHidden = true
+        targetRunnerCheers.isHidden = true
         targetRunnerTrack.isHidden = true
         
         general1RunnerPic.isHidden = true
@@ -144,17 +127,9 @@ class DashboardViewController: UIViewController {
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
                 
-//                self.targetRunnerLoading.isHidden = false
-//                self.targetRunnerETA.isHidden = true
-//                self.targetRunner5More.isHidden = true
-//                self.targetRunner5Less.isHidden = true
-//                self.targetRunnerTimeToCheer.isHidden = true
-//                
-//                self.targetRunnerPic.isHidden = true
-//                self.targetRunnerName.isHidden = true
-//                self.targetRunnerTime.isHidden = true
-//                self.targetRunnerPace.isHidden = true
-//                self.targetRunnerDistance.isHidden = true
+                self.targetRunnerName.isHidden = true
+                self.targetRunnerETA.isHidden = true
+                self.targetRunnerCheers.isHidden = true
                 self.targetRunnerTrack.isHidden = true
                 
                 self.general1RunnerPic.isHidden = true
@@ -367,10 +342,9 @@ class DashboardViewController: UIViewController {
                 targetRunner = runner
                 self.getTargetRunnerStatus(targetRunner)
 //                self.targetRunnerPic.image = runnerImage
-//                
-//                targetRunnerName.text = runnerName
+                targetRunnerName.text = runnerName
 //                targetRunnerPic.isHidden = false
-//                targetRunnerName.isHidden = false
+                targetRunnerName.isHidden = false
 //                self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
             }
                 
