@@ -12,18 +12,18 @@ import Parse
 
 class DashboardViewController: UIViewController {
     
-    @IBOutlet weak var targetRunnerPic: UIImageView!
-    @IBOutlet weak var targetRunnerName: UILabel!
-    @IBOutlet weak var targetRunnerPace: UILabel!
-    @IBOutlet weak var targetRunnerTime: UILabel!
-    @IBOutlet weak var targetRunnerDistance: UILabel!
+//    @IBOutlet weak var targetRunnerPic: UIImageView!
+//    @IBOutlet weak var targetRunnerName: UILabel!
+//    @IBOutlet weak var targetRunnerPace: UILabel!
+//    @IBOutlet weak var targetRunnerTime: UILabel!
+//    @IBOutlet weak var targetRunnerDistance: UILabel!
     
-    @IBOutlet weak var targetRunnerLoading: UILabel!
-    @IBOutlet weak var targetRunner5More: UILabel!
-    @IBOutlet weak var targetRunner5Less: UILabel!
-    @IBOutlet weak var targetRunnerETA: UILabel!
-    @IBOutlet weak var targetRunnerTimeToCheer: UILabel!
-    
+//    @IBOutlet weak var targetRunnerLoading: UILabel!
+//    @IBOutlet weak var targetRunner5More: UILabel!
+//    @IBOutlet weak var targetRunner5Less: UILabel!
+//    @IBOutlet weak var targetRunnerETA: UILabel!
+//    @IBOutlet weak var targetRunnerTimeToCheer: UILabel!
+//    
     @IBOutlet weak var targetRunnerTrack: UIButton!
     var targetRunner: PFUser = PFUser()
     
@@ -64,17 +64,17 @@ class DashboardViewController: UIViewController {
         
         super.viewDidLoad()
         
-        targetRunnerLoading.isHidden = false
-        targetRunnerETA.isHidden = true
-        targetRunner5More.isHidden = true
-        targetRunner5Less.isHidden = true
-        targetRunnerTimeToCheer.isHidden = true
-        
-        targetRunnerPic.isHidden = true
-        targetRunnerName.isHidden = true
-        targetRunnerTime.isHidden = true
-        targetRunnerPace.isHidden = true
-        targetRunnerDistance.isHidden = true
+//        targetRunnerLoading.isHidden = false
+//        targetRunnerETA.isHidden = true
+//        targetRunner5More.isHidden = true
+//        targetRunner5Less.isHidden = true
+//        targetRunnerTimeToCheer.isHidden = true
+//        
+//        targetRunnerPic.isHidden = true
+//        targetRunnerName.isHidden = true
+//        targetRunnerTime.isHidden = true
+//        targetRunnerPace.isHidden = true
+//        targetRunnerDistance.isHidden = true
         targetRunnerTrack.isHidden = true
         
         general1RunnerPic.isHidden = true
@@ -144,17 +144,17 @@ class DashboardViewController: UIViewController {
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
                 
-                self.targetRunnerLoading.isHidden = false
-                self.targetRunnerETA.isHidden = true
-                self.targetRunner5More.isHidden = true
-                self.targetRunner5Less.isHidden = true
-                self.targetRunnerTimeToCheer.isHidden = true
-                
-                self.targetRunnerPic.isHidden = true
-                self.targetRunnerName.isHidden = true
-                self.targetRunnerTime.isHidden = true
-                self.targetRunnerPace.isHidden = true
-                self.targetRunnerDistance.isHidden = true
+//                self.targetRunnerLoading.isHidden = false
+//                self.targetRunnerETA.isHidden = true
+//                self.targetRunner5More.isHidden = true
+//                self.targetRunner5Less.isHidden = true
+//                self.targetRunnerTimeToCheer.isHidden = true
+//                
+//                self.targetRunnerPic.isHidden = true
+//                self.targetRunnerName.isHidden = true
+//                self.targetRunnerTime.isHidden = true
+//                self.targetRunnerPace.isHidden = true
+//                self.targetRunnerDistance.isHidden = true
                 self.targetRunnerTrack.isHidden = true
                 
                 self.general1RunnerPic.isHidden = true
@@ -255,9 +255,9 @@ class DashboardViewController: UIViewController {
                         //Goal: Show target runners throughout the race
                         if dist > 1000 { //if runner is more than 2km away (demo: 400)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunnerLoading.isHidden = true
-                                self.targetRunnerETA.isHidden = false
-                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
+//                                self.targetRunnerLoading.isHidden = true
+//                                self.targetRunnerETA.isHidden = false
+//                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount.append(runner)
@@ -270,10 +270,10 @@ class DashboardViewController: UIViewController {
                         //Goal: Show all runners near me, including target runners
                         else if dist > 500 && dist <= 1000 { //if runner is between 1-2km away (demo: 300-400)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunnerETA.isHidden = true
-                                self.targetRunnerLoading.isHidden = true
-                                self.targetRunner5More.isHidden = false
-                                self.targetRunner5More.text = (name) + " is more than 5 min away"
+//                                self.targetRunnerETA.isHidden = true
+//                                self.targetRunnerLoading.isHidden = true
+//                                self.targetRunner5More.isHidden = false
+//                                self.targetRunner5More.text = (name) + " is more than 5 min away"
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
                                 runnerCount.append(runner)
@@ -288,10 +288,10 @@ class DashboardViewController: UIViewController {
                         //Goal: if target runner is close, disable general runners & only show targets.
                         else if dist > 300 && dist <= 500 { //if runner is between 500m - 1k away (demo: 250-300)
                             if affinity.1 == 10 { //if target runner, display runner
-                                self.targetRunner5More.isHidden = true
-                                self.targetRunnerLoading.isHidden = true
-                                self.targetRunner5Less.isHidden = false
-                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
+//                                self.targetRunner5More.isHidden = true
+//                                self.targetRunnerLoading.isHidden = true
+//                                self.targetRunner5Less.isHidden = false
+//                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                 self.disableGeneralRunners()
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -315,10 +315,10 @@ class DashboardViewController: UIViewController {
                                 self.nearbyRunnersTimer.invalidate()
                                 self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                 
-                                self.targetRunner5Less.isHidden = true
-                                self.targetRunnerLoading.isHidden = true
-                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
-                                self.targetRunnerTimeToCheer.isHidden = false
+//                                self.targetRunner5Less.isHidden = true
+//                                self.targetRunnerLoading.isHidden = true
+//                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
+//                                self.targetRunnerTimeToCheer.isHidden = false
                                 self.targetRunnerTrack.isHidden = false
                                 self.getRunnerProfile(runner, runnerType: "target")
                                 self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -366,12 +366,12 @@ class DashboardViewController: UIViewController {
                 
                 targetRunner = runner
                 self.getTargetRunnerStatus(targetRunner)
-                self.targetRunnerPic.image = runnerImage
-                
-                targetRunnerName.text = runnerName
-                targetRunnerPic.isHidden = false
-                targetRunnerName.isHidden = false
-                self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
+//                self.targetRunnerPic.image = runnerImage
+//                
+//                targetRunnerName.text = runnerName
+//                targetRunnerPic.isHidden = false
+//                targetRunnerName.isHidden = false
+//                self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
             }
                 
             else if runnerType == "general" {
@@ -509,19 +509,19 @@ class DashboardViewController: UIViewController {
         }
         
         if contextPrimer.pace == "" {
-            self.targetRunnerPace.isHidden = true
-            self.targetRunnerDistance.isHidden = true
-            self.targetRunnerTime.isHidden = true
+//            self.targetRunnerPace.isHidden = true
+//            self.targetRunnerDistance.isHidden = true
+//            self.targetRunnerTime.isHidden = true
         }
         
         else {
-            self.targetRunnerPace.text = (contextPrimer.pace as String)
-            self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
-            self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
-            
-            self.targetRunnerPace.isHidden = false
-            self.targetRunnerDistance.isHidden = false
-            self.targetRunnerTime.isHidden = false
+//            self.targetRunnerPace.text = (contextPrimer.pace as String)
+//            self.targetRunnerDistance.text = String(format: " %.02f", contextPrimer.distance) + "mi"
+//            self.targetRunnerTime.text = (contextPrimer.duration as String) + "s"
+//            
+//            self.targetRunnerPace.isHidden = false
+//            self.targetRunnerDistance.isHidden = false
+//            self.targetRunnerTime.isHidden = false
         }
     }
     
