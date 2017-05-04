@@ -21,16 +21,22 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var general1RunnerPic: UIImageView!
     @IBOutlet weak var general1RunnerName: UILabel!
+    @IBOutlet weak var general1RunnerETA: UILabel!
+    @IBOutlet weak var general1RunnerCheers: UILabel!
     @IBOutlet weak var general1RunnerTrack: UIButton!
     var general1Runner: PFUser = PFUser()
     
     @IBOutlet weak var general2RunnerPic: UIImageView!
     @IBOutlet weak var general2RunnerName: UILabel!
+    @IBOutlet weak var general2RunnerETA: UILabel!
+    @IBOutlet weak var general2RunnerCheers: UILabel!
     @IBOutlet weak var general2RunnerTrack: UIButton!
     var general2Runner: PFUser = PFUser()
     
     @IBOutlet weak var general3RunnerPic: UIImageView!
     @IBOutlet weak var general3RunnerName: UILabel!
+    @IBOutlet weak var general3RunnerETA: UILabel!
+    @IBOutlet weak var general3RunnerCheers: UILabel!
     @IBOutlet weak var general3RunnerTrack: UIButton!
     var general3Runner: PFUser = PFUser()
 
@@ -63,14 +69,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         general1RunnerPic.isHidden = true
         general1RunnerName.isHidden = true
+        general1RunnerETA.isHidden = true
+        general1RunnerCheers.isHidden = true
         general1RunnerTrack.isHidden = true
         
         general2RunnerPic.isHidden = true
         general2RunnerName.isHidden = true
+        general2RunnerETA.isHidden = true
+        general2RunnerCheers.isHidden = true
         general2RunnerTrack.isHidden = true
         
         general3RunnerPic.isHidden = true
         general3RunnerName.isHidden = true
+        general2RunnerETA.isHidden = true
+        general2RunnerCheers.isHidden = true
         general3RunnerTrack.isHidden = true
         
         spectatorMonitor = SpectatorMonitor()
@@ -131,7 +143,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func updateNearbyRunners() {
         //every x seconds, monitor target runners, find nearby runners and display those runners
 
-        
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         print("annotationsToRemove \(annotationsToRemove)")
         mapView.removeAnnotations(annotationsToRemove)
@@ -150,14 +161,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                 self.general1RunnerPic.isHidden = true
                 self.general1RunnerName.isHidden = true
+                self.general1RunnerETA.isHidden = true
+                self.general1RunnerCheers.isHidden = true
                 self.general1RunnerTrack.isHidden = true
                 
                 self.general2RunnerPic.isHidden = true
                 self.general2RunnerName.isHidden = true
+                self.general2RunnerETA.isHidden = true
+                self.general2RunnerCheers.isHidden = true
                 self.general2RunnerTrack.isHidden = true
                 
                 self.general3RunnerPic.isHidden = true
                 self.general3RunnerName.isHidden = true
+                self.general3RunnerETA.isHidden = true
+                self.general3RunnerCheers.isHidden = true
                 self.general3RunnerTrack.isHidden = true
             }
             else {
@@ -310,14 +327,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     //hide all labels
                     general1RunnerPic.isHidden = true
                     general1RunnerName.isHidden = true
+                    general1RunnerETA.isHidden = true
+                    general1RunnerCheers.isHidden = true
                     general1RunnerTrack.isHidden = true
                     
                     general2RunnerPic.isHidden = true
                     general2RunnerName.isHidden = true
+                    general2RunnerETA.isHidden = true
+                    general2RunnerCheers.isHidden = true
                     general2RunnerTrack.isHidden = true
                     
                     general3RunnerPic.isHidden = true
                     general3RunnerName.isHidden = true
+                    general3RunnerETA.isHidden = true
+                    general3RunnerCheers.isHidden = true
                     general3RunnerTrack.isHidden = true
                     
                 }
@@ -336,6 +359,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
+                    general1RunnerETA.isHidden = false
+                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                 }
                     
@@ -355,6 +380,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name1
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
+                    general1RunnerETA.isHidden = false
+                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                     
                     //update general 2
@@ -371,6 +398,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general2RunnerName.text = name2
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
+                    general2RunnerETA.isHidden = false
+                    general2RunnerCheers.isHidden = false
                     general2RunnerTrack.isHidden = false
                 }
                     
@@ -390,6 +419,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name1
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
+                    general1RunnerETA.isHidden = false
+                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                     
                     //update general 2
@@ -406,6 +437,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general2RunnerName.text = name2
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
+                    general2RunnerETA.isHidden = false
+                    general2RunnerCheers.isHidden = false
                     general2RunnerTrack.isHidden = false
                     
                     //update general 3
@@ -422,6 +455,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general3RunnerName.text = name3
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
+                    general3RunnerETA.isHidden = false
+                    general3RunnerCheers.isHidden = false
                     general3RunnerTrack.isHidden = false
                 }
             }
@@ -524,7 +559,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             }
             targetRunnerNameText = (targetRunner.value(forKey: "name"))! as! String
             print("Selected runner: \(targetRunnerNameText)")
-            targetRunnerName.text = targetRunnerNameText 
+            
+            targetRunnerName.text = targetRunnerNameText
+            
+            targetRunnerName.isHidden = false
+            targetRunnerETA.isHidden = false
+            targetRunnerCheers.isHidden = false
             
         }
     }

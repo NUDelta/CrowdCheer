@@ -20,6 +20,7 @@ class PrerunViewController: UIViewController {
     @IBOutlet weak var targetPace: UITextField!
     @IBOutlet weak var raceTimeGoal: UITextField!
     @IBOutlet weak var bibNo: UITextField!
+    @IBOutlet weak var cheer: UITextField!
     @IBOutlet weak var outfit: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     var currUser: PFUser = PFUser.current()!
@@ -35,6 +36,7 @@ class PrerunViewController: UIViewController {
         targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        cheer.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
         //set up rules for keyboard
@@ -45,7 +47,7 @@ class PrerunViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "") {
+        if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "" || cheer.text != "") {
             saveButton.isEnabled = true
         }
         
@@ -55,7 +57,8 @@ class PrerunViewController: UIViewController {
         if (currUser.value(forKey: "targetPace")==nil ||
             currUser.value(forKey: "raceTimeGoal")==nil ||
             currUser.value(forKey: "bibNumber")==nil ||
-            currUser.value(forKey: "outfit")==nil) {
+            currUser.value(forKey: "cheer")==nil ||
+            currUser.value(forKey: "outfit")==nil){
             saveButton.isEnabled = false
         }
         else {
@@ -69,6 +72,7 @@ class PrerunViewController: UIViewController {
         var time: String
         var bibNum: String
         var outfitDetail: String
+        var cheerDetail: String
         
         //get pace
         if runner.value(forKey: "targetPace") == nil {
@@ -105,6 +109,15 @@ class PrerunViewController: UIViewController {
             outfitDetail = (runner.value(forKey: "outfit"))! as! String
             outfit.text = outfitDetail
         }
+        
+        //get cheer
+        if runner.value(forKey: "cheer") == nil {
+            //don't retrieve outfit
+        }
+        else {
+            cheerDetail = (runner.value(forKey: "cheer"))! as! String
+            cheer.text = cheerDetail
+        }
     }
     
     //keyboard behavior
@@ -135,12 +148,17 @@ class PrerunViewController: UIViewController {
             currUser["outfit"] = outfit.text
         }
         
+        else if (textField == cheer){
+            currUser["cheer"] = cheer.text
+        }
+        
         currUser.saveInBackground()
         
         if (currUser.value(forKey: "targetPace")==nil ||
             currUser.value(forKey: "raceTimeGoal")==nil ||
             currUser.value(forKey: "bibNumber")==nil ||
-            currUser.value(forKey: "outfit")==nil) {
+            currUser.value(forKey: "outfit")==nil ||
+            currUser.value(forKey: "cheer")==nil) {
             saveButton.isEnabled = false
         }
         else {
