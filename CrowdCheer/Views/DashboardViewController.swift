@@ -183,13 +183,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 //Goal: Show target runners throughout the race
                                 if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
-                                        //                                self.targetRunnerLoading.isHidden = true
-                                        //                                self.targetRunnerETA.isHidden = false
-                                        //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
+        //                                self.targetRunnerLoading.isHidden = true
+        //                                self.targetRunnerETA.isHidden = false
+        //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                         
                                         self.getTargetRunnerStatus(runner)
-//                                        self.getRunnerProfile(runner, runnerType: "target")
-//                                        self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         runnerCount.append(runner)
                                     }
@@ -201,14 +199,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     //Goal: Show all runners near me, including target runners
                                 else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                                     if affinity.1 == 10 { //if target runner, display runner
-                                        //                                self.targetRunnerETA.isHidden = true
-                                        //                                self.targetRunnerLoading.isHidden = true
-                                        //                                self.targetRunner5More.isHidden = false
-                                        //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
+//                                        self.targetRunnerETA.isHidden = true
+//                                        self.targetRunnerLoading.isHidden = true
+        //                                self.targetRunner5More.isHidden = false
+        //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
                                         
                                         self.getTargetRunnerStatus(runner)
-//                                        self.getRunnerProfile(runner, runnerType: "target")
-//                                        self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         runnerCount.append(runner)
                                     }
@@ -222,14 +218,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     //Goal: if target runner is close, disable general runners & only show targets.
                                 else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                                     if affinity.1 == 10 { //if target runner, display runner
-                                        //                                self.targetRunner5More.isHidden = true
-                                        //                                self.targetRunnerLoading.isHidden = true
-                                        //                                self.targetRunner5Less.isHidden = false
-                                        //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
+    //                                self.targetRunner5More.isHidden = true
+    //                                self.targetRunnerLoading.isHidden = true
+    //                                self.targetRunner5Less.isHidden = false
+    //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                         
                                         self.getTargetRunnerStatus(runner)
-//                                        self.getRunnerProfile(runner, runnerType: "target")
-//                                        self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                         self.disableGeneralRunners()
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         runnerCount.append(runner)
@@ -252,14 +246,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.nearbyRunnersTimer.invalidate()
                                         self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                         
-                                        //                                self.targetRunner5Less.isHidden = true
-                                        //                                self.targetRunnerLoading.isHidden = true
-                                        //                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
-                                        //                                self.targetRunnerTimeToCheer.isHidden = false
+//                                        self.targetRunner5Less.isHidden = true
+//                                        self.targetRunnerLoading.isHidden = true
+//                                        self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
+//                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
                                         self.getTargetRunnerStatus(runner)
-//                                        self.getRunnerProfile(runner, runnerType: "target")
-//                                        self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
                                         self.targetRunnerTrack.isHidden = false
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         runnerCount.append(runner)
@@ -282,10 +274,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
                     self.nearbyRunners.saveRunnerCount(runnerCount)
                 }
-
-                
-                
-//                self.considerRunnerAffinity(self.runnerLocations)
             }
         }
     }
@@ -312,23 +300,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func getRunnerProfile(_ runner: PFUser, runnerType: String) {
         
         if !self.runnerProfiles.isEmpty {
-            
-            let runnerName = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
-            let runnerImage = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
-            
-            if runnerType == "target" {
                 
-                //                targetRunner = runner
-                self.getTargetRunnerStatus(runner)
-                //                self.targetRunnerPic.image = runnerImage
-                //                targetRunnerName.text = runnerName
-                //                targetRunnerNameText = runnerName
-                //                targetRunnerPic.isHidden = false
-                //                targetRunnerName.isHidden = false
-                //                self.targetRunnerETA.text = (runnerName) + " is more than 10 min away"
-            }
-                
-            else if runnerType == "general" {
+            if runnerType == "general" {
                 
                 let generalRunners = self.optimizedRunners.generalRunners
                 print("generalRunners in dashboardVC: \(generalRunners)")
@@ -513,136 +486,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-//    func considerRunnerAffinity(_ runnerLocations: [PFUser: PFGeoPoint]) {
-//        //R+R* Condition
-//        var runnerCount: [PFUser] = []
-//        
-//        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
-//        print("annotationsToRemove \(annotationsToRemove.description)")
-//        mapView.removeAnnotations(annotationsToRemove)
-//        
-//        self.optimizedRunners.considerAffinity(runnerLocations) { (affinities) -> Void in
-//            print("affinities \(affinities)")
-//            
-//            for (runner, runnerLoc) in runnerLocations {
-//                
-//                let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-//                let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
-//                print(runner.username!, dist)
-//                
-//                for affinity in affinities {
-//                    
-//                    var isTargetRunnerNear = false
-//                    if runner == affinity.0 {
-//                        let name = runner.value(forKey: "name") as! String
-//                        
-//                        //Goal: Show target runners throughout the race
-//                        if dist > 1000 { //if runner is more than 2km away (demo: 400)
-//                            if affinity.1 == 10 { //if target runner, display runner
-////                                self.targetRunnerLoading.isHidden = true
-////                                self.targetRunnerETA.isHidden = false
-////                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
-//                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
-//                                self.getRunnerProfile(runner, runnerType: "target")
-//                                self.targetRunnerTrackingStatus[runner.objectId!] = true
-//                                runnerCount.append(runner)
-//                            }
-//                            else if affinity.1 != 10 { //if general runner, don't add them yet
-//                                //do nothing
-//                            }
-//                        }
-//                            
-//                        //Goal: Show all runners near me, including target runners
-//                        else if dist > 500 && dist <= 1000 { //if runner is between 1-2km away (demo: 300-400)
-//                            if affinity.1 == 10 { //if target runner, display runner
-////                                self.targetRunnerETA.isHidden = true
-////                                self.targetRunnerLoading.isHidden = true
-////                                self.targetRunner5More.isHidden = false
-////                                self.targetRunner5More.text = (name) + " is more than 5 min away"
-//                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
-//                                self.getRunnerProfile(runner, runnerType: "target")
-//                                self.targetRunnerTrackingStatus[runner.objectId!] = true
-//                                runnerCount.append(runner)
-//                            }
-//                            else if affinity.1 != 10 { //if general runner, display runner
-//                                self.getRunnerProfile(runner, runnerType: "general")
-//                                runnerCount.append(runner)
-//                                self.areRunnersNearby = true
-//                            }
-//                        }
-//                        
-//                        //Goal: if target runner is close, disable general runners & only show targets.
-//                        else if dist > 300 && dist <= 500 { //if runner is between 500m - 1k away (demo: 250-300)
-//                            if affinity.1 == 10 { //if target runner, display runner
-////                                self.targetRunner5More.isHidden = true
-////                                self.targetRunnerLoading.isHidden = true
-////                                self.targetRunner5Less.isHidden = false
-////                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
-//                                self.disableGeneralRunners()
-//                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
-//                                self.getRunnerProfile(runner, runnerType: "target")
-//                                self.targetRunnerTrackingStatus[runner.objectId!] = true
-//                                runnerCount.append(runner)
-//                            
-//                                isTargetRunnerNear = true
-//                            }
-//                            else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-//                                if !isTargetRunnerNear {
-//                                    self.getRunnerProfile(runner, runnerType: "general")
-//                                    runnerCount.append(runner)
-//                                    self.areRunnersNearby = true
-//                                }
-//                            }
-//                        }
-//                            
-//                        //Goal: If target runner is close, only show them. If not, then continue to show all runners
-//                        else if dist <= 300 { //if runner is less than 500m away (demo: 250)
-//                            if affinity.1 == 10 { //if target runner, display runner & notify
-//                                
-//                                self.nearbyRunnersTimer.invalidate()
-//                                self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-//                                
-////                                self.targetRunner5Less.isHidden = true
-////                                self.targetRunnerLoading.isHidden = true
-////                                self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
-////                                self.targetRunnerTimeToCheer.isHidden = false
-//                                self.addRunnerPin(runner, runnerLoc: self.runnerLastLoc, runnerType: 1)
-//                                self.targetRunnerTrack.isHidden = false
-//                                self.getRunnerProfile(runner, runnerType: "target")
-//                                self.targetRunnerTrackingStatus[runner.objectId!] = true
-//                                runnerCount.append(runner)
-//                                
-//                                self.areTargetRunnersNearby = true
-//                                self.targetRunnerNameText = name
-//                                isTargetRunnerNear = true
-//                            }
-//                            else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-//                                if !isTargetRunnerNear {
-//                                    self.getRunnerProfile(runner, runnerType: "general")
-//                                    runnerCount.append(runner)
-//                                    self.areRunnersNearby = true
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-//            print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
-//            self.nearbyRunners.saveRunnerCount(runnerCount)
-//        }
-//    }
-    
-//    //TESTING//
-//    self.optimizedRunners.considerConvenience(runnerLocations!) { (conveniences) -> Void in
-//    print("conveniences \(conveniences)")
-//    }
-//    
-//    self.optimizedRunners.considerNeed(runnerLocations!) { (needs) -> Void in
-//    print("needs \(needs)")
-//    }
-    
-    
     func disableGeneralRunners() {
         general1RunnerTrack.isEnabled = false
         general2RunnerTrack.isEnabled = false
@@ -673,7 +516,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             targetRunnerTrack.isEnabled = true
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
-            var runnerDescription: String = ""
             do {
                 targetRunner = try PFQuery.getUserObject(withId: runnerObjID!)
             }
@@ -682,7 +524,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             }
             targetRunnerNameText = (targetRunner.value(forKey: "name"))! as! String
             print("Selected runner: \(targetRunnerNameText)")
-            targetRunnerName.text = targetRunnerNameText as! String
+            targetRunnerName.text = targetRunnerNameText 
             
         }
     }
