@@ -43,6 +43,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
     var runnerProfiles = [String:[String:AnyObject]]()
+    var runnerCheers = [PFUser: Int]()
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var nearbyGeneralRunnersTimer: Timer = Timer()
@@ -287,6 +288,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             }
                         }
                     }
+                    
+                    self.optimizedRunners.considerNeed(self.runnerLocations, result: { (needs) -> Void in
+                        self.runnerCheers = needs
+                        print("needs: \(self.runnerCheers)")
+                    })
+                    
                     self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
                     print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
                     self.nearbyRunners.saveRunnerCount(runnerCount)
@@ -520,7 +527,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if runnerProfiles[runnerObjID] != nil {
             let runnerProfile = runnerProfiles[runnerObjID]
-            print(runnerProfiles)
             let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6) - in line 220, the dictionary doesn't have that runner in it yet, so it can't get the profile info of the runner
             return name
         }
@@ -534,20 +540,18 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func getRunnerCheers(_ runner: PFUser) -> String{
         var cheersCount = ""
-        verifiedReceival.getCheersReceived(runner) { (cheerCount) -> Void in
+        
+        if runnerCheers[runner] != nil {
+            let cheerCount = runnerCheers[runner]
             print("cheers count for in getCheers: \(cheerCount)")
-            cheersCount = String(format: "%d", cheerCount)
-        }
-        if !cheersCount.isEmpty {
+            cheersCount = String(format: "%d", cheerCount!)
             return cheersCount
         }
-        
         else {
-            cheersCount = "ERR"
+            print("No name found, using generic")
+            let cheersCount = ""
             return cheersCount
         }
-        
-        
     }
     
     func disableGeneralRunners() {

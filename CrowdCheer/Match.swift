@@ -165,34 +165,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
-    func getRunnerCheers(_ runner: PFUser, result:@escaping (_ cheersCount: Int) -> Void) {
-        //query Cheer objects using runner + time
-        
-        var cheersCount = 0
-        let now = NSDate()
-        let hours:TimeInterval = -3600
-        let xHoursAgo = now.addingTimeInterval(hours)
-        
-        let query = PFQuery(className: "Cheers")
-        
-        query.whereKey("runner", equalTo: runner)
-        query.whereKey("didCheer", equalTo: true)
-        query.order(byDescending: "updatedAt")
-        query.whereKey("updatedAt", greaterThanOrEqualTo: xHoursAgo) //spectators updated in the last 6 hours
-        query.findObjectsInBackground {
-            (cheers: [PFObject]?, error: Error?) -> Void in
-            if error != nil {
-                print("ERROR: \(error!) \((error! as NSError).userInfo)")
-                result(cheersCount)
-            } else if let cheers = cheers {
-                cheersCount = cheers.count
-                print("cheers delivered count: \(cheersCount)")
-                result(cheersCount)
-            }
-            
-        }
-    }
-    
     func saveRunnerCount(_ displayedRunners: [PFUser]) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user
@@ -356,49 +328,26 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
     
     func considerNeed(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ needs: Dictionary<PFUser, Int>) -> Void) {
+       
         var needs = [PFUser: Int]()
         
         //for each runner, retrieve all cheers
-        //for each cheer, increment the runner's cheers
-        //for cheer count between x and y, set need index for runner as z
-        
         for (runner, location) in userLocations {
             
+            let now = NSDate()
+            let hours:TimeInterval = -3600
+            let xHoursAgo = now.addingTimeInterval(hours)
+            
             let query = PFQuery(className: "Cheers")
-            //NOTE: currently counting all possible cheers, not spectator verified cheers
             query.whereKey("runner", equalTo: runner)
+            query.whereKey("didCheer", equalTo: true)
+            query.whereKey("updatedAt", greaterThanOrEqualTo: xHoursAgo) //spectators updated in the last 6 hours
             query.findObjectsInBackground{
                 (cheerObjects: [PFObject]?, error: Error?) -> Void in
                 if error == nil {
                     // Found at least one cheer
                     print("Successfully retrieved \(cheerObjects!.count) cheers.")
-                    switch cheerObjects?.count {
-                        
-                    case 10?:
-                        needs[runner] = 0
-                    case 9?:
-                        needs[runner] = 1
-                    case 8?:
-                        needs[runner] = 2
-                    case 7?:
-                        needs[runner] = 3
-                    case 6?:
-                        needs[runner] = 4
-                    case 5?:
-                        needs[runner] = 5
-                    case 4?:
-                        needs[runner] = 6
-                    case 3?:
-                        needs[runner] = 7
-                    case 2?:
-                        needs[runner] = 8
-                    case 1?:
-                        needs[runner] = 9
-                    case 0?:
-                        needs[runner] = 10
-                    default:
-                        needs[runner] = -1
-                    }
+                    needs[runner] = cheerObjects?.count
                 }
                 else {
                     // Query failed, load error
