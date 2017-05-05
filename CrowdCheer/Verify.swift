@@ -19,6 +19,7 @@ protocol Deliver: Any {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String)
     func saveSpectatorCheer()
+    func getCheersDelivered(_ spectator: PFUser, result:@escaping (_ cheersCount: Int) -> Void)
 }
 
 protocol Receive: Any {
@@ -28,6 +29,7 @@ protocol Receive: Any {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func saveRunnerCheer()
+    func getCheersReceived(_ runner: PFUser, result:@escaping (_ cheersCount: Int) -> Void)
 }
 
 protocol React: Any {
@@ -102,6 +104,33 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         
     }
     
+    func getCheersDelivered(_ spectator: PFUser, result:@escaping (_ cheersCount: Int) -> Void) {
+        //query Cheer objects using spectatorID + time
+        
+        var cheersCount = 0
+        let now = NSDate()
+        let hours:TimeInterval = -60*60*6
+        let xHoursAgo = now.addingTimeInterval(hours)
+        
+        let query = PFQuery(className: "Cheers")
+
+        query.whereKey("spectator", equalTo: spectator)
+        query.order(byDescending: "updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xHoursAgo) //spectators updated in the last 6 hours
+        query.findObjectsInBackground {
+            (cheers: [PFObject]?, error: Error?) -> Void in
+            if error != nil {
+                print("ERROR: \(error!) \((error! as NSError).userInfo)")
+                result(cheersCount)
+            } else if let cheers = cheers {
+                cheersCount = cheers.count
+                print("cheers delivered count: \(cheersCount)")
+                result(cheersCount)
+            }
+            
+        }
+    }
+    
     func getDocumentsDirectory() -> NSURL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
@@ -143,6 +172,33 @@ class VerifiedReceival: NSObject, Receive, CLLocationManagerDelegate {
     
     func saveRunnerCheer() {
         
+    }
+    
+    func getCheersReceived(_ runner: PFUser, result:@escaping (_ cheersCount: Int) -> Void) {
+        //query Cheer objects using runner + time
+        
+        var cheersCount = 0
+        let now = NSDate()
+        let hours:TimeInterval = -60*60*6
+        let xHoursAgo = now.addingTimeInterval(hours)
+        
+        let query = PFQuery(className: "Cheers")
+        
+        query.whereKey("runner", equalTo: runner)
+        query.order(byDescending: "updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xHoursAgo) //spectators updated in the last 6 hours
+        query.findObjectsInBackground {
+            (cheers: [PFObject]?, error: Error?) -> Void in
+            if error != nil {
+                print("ERROR: \(error!) \((error! as NSError).userInfo)")
+                result(cheersCount)
+            } else if let cheers = cheers {
+                cheersCount = cheers.count
+                print("cheers delivered count: \(cheersCount)")
+                result(cheersCount)
+            }
+            
+        }
     }
     
     func getDocumentsDirectory() -> NSURL {

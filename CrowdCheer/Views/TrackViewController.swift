@@ -27,6 +27,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var contextPrimer = ContextPrimer()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
+    var verifiedReceival: VerifiedReceival = VerifiedReceival()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     

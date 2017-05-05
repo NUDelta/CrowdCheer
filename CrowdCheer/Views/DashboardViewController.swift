@@ -56,6 +56,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var contextPrimer: ContextPrimer = ContextPrimer()
+    var verifiedReceival: VerifiedReceival = VerifiedReceival()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     override func viewDidLoad() {
@@ -355,6 +356,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name
                     general1RunnerPic.isHidden = false
@@ -376,6 +378,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
                     general1RunnerPic.isHidden = false
@@ -394,6 +397,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
                     general2RunnerPic.isHidden = false
@@ -415,6 +419,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
                     general1RunnerPic.isHidden = false
@@ -433,6 +438,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
                     general2RunnerPic.isHidden = false
@@ -451,6 +457,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
+                    let cheers3 = getRunnerCheers(general3Runner)
                     
                     general3RunnerName.text = name3
                     general3RunnerPic.isHidden = false
@@ -469,7 +476,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             
             self.addRunnerPin(runner, runnerLoc: runnerLoc, runnerType: 1)
         }
-        
         
         if contextPrimer.pace == "" {
             //            self.targetRunnerPace.isHidden = true
@@ -521,6 +527,17 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    func getRunnerCheers(_ runner: PFUser) -> Int{
+        var cheersCount = 0
+        verifiedReceival.getCheersReceived(runner) { (cheerCount) -> Void in
+            
+            print("cheers count for in getCheers: \(cheerCount)")
+            cheersCount = cheerCount
+        }
+        return cheersCount
+        
+    }
+    
     func disableGeneralRunners() {
         general1RunnerTrack.isEnabled = false
         general2RunnerTrack.isEnabled = false
@@ -559,8 +576,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             }
             targetRunnerNameText = (targetRunner.value(forKey: "name"))! as! String
             print("Selected runner: \(targetRunnerNameText)")
-            
             targetRunnerName.text = targetRunnerNameText
+            let cheers = getRunnerCheers(targetRunner)
+            print("cheers count for target: \(cheers)")
+            targetRunnerCheers.text = String(format: "%d", cheers)
             
             targetRunnerName.isHidden = false
             targetRunnerETA.isHidden = false
