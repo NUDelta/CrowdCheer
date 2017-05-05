@@ -165,6 +165,34 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         }
     }
     
+    func getRunnerCheers(_ runner: PFUser, result:@escaping (_ cheersCount: Int) -> Void) {
+        //query Cheer objects using runner + time
+        
+        var cheersCount = 0
+        let now = NSDate()
+        let hours:TimeInterval = -3600
+        let xHoursAgo = now.addingTimeInterval(hours)
+        
+        let query = PFQuery(className: "Cheers")
+        
+        query.whereKey("runner", equalTo: runner)
+        query.whereKey("didCheer", equalTo: true)
+        query.order(byDescending: "updatedAt")
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xHoursAgo) //spectators updated in the last 6 hours
+        query.findObjectsInBackground {
+            (cheers: [PFObject]?, error: Error?) -> Void in
+            if error != nil {
+                print("ERROR: \(error!) \((error! as NSError).userInfo)")
+                result(cheersCount)
+            } else if let cheers = cheers {
+                cheersCount = cheers.count
+                print("cheers delivered count: \(cheersCount)")
+                result(cheersCount)
+            }
+            
+        }
+    }
+    
     func saveRunnerCount(_ displayedRunners: [PFUser]) {
         let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
         newRunnerCount["spectator"] = user

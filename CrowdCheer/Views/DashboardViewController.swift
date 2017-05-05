@@ -56,7 +56,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var contextPrimer: ContextPrimer = ContextPrimer()
-    var verifiedReceival: VerifiedReceival = VerifiedReceival()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     override func viewDidLoad() {
