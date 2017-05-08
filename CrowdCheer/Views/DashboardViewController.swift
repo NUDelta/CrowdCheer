@@ -184,6 +184,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 //update profiles of existing runners
                 self.updateRunnerProfiles(runnerLocations!)
                 
+                //update cheer counts
+                self.updateRunnerCheers(runnerLocations!)
+                
                 //sort out target & general runners
                 self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
                     print("affinities \(affinities)")
@@ -288,11 +291,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             }
                         }
                     }
-                    
-                    self.optimizedRunners.considerNeed(self.runnerLocations, result: { (needs) -> Void in
-                        self.runnerCheers = needs
-                        print("needs: \(self.runnerCheers)")
-                    })
                     
                     self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
                     print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
@@ -489,6 +487,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             self.addRunnerPin(runner, runnerLoc: runnerLoc, runnerType: 1)
         }
         
+        let cheers = getRunnerCheers(runner)
+        self.targetRunnerCheers.text = cheers
+        
         if contextPrimer.pace == "" {
             //            self.targetRunnerPace.isHidden = true
             //            self.targetRunnerDistance.isHidden = true
@@ -538,17 +539,25 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    
+    func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
+        self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
+            self.runnerCheers = needs
+            print("needs: \(self.runnerCheers)")
+        })
+    }
+    
     func getRunnerCheers(_ runner: PFUser) -> String{
         var cheersCount = ""
         
-        if runnerCheers[runner] != nil {
-            let cheerCount = runnerCheers[runner]
-            print("cheers count for in getCheers: \(cheerCount)")
+        if self.runnerCheers[runner] != nil {
+            let cheerCount = self.runnerCheers[runner]
+            print("cheers count for in getCheers: \(String(describing: cheerCount))")
             cheersCount = String(format: "%d", cheerCount!)
             return cheersCount
         }
         else {
-            print("No name found, using generic")
+            print("No cheers found, using generic")
             let cheersCount = ""
             return cheersCount
         }

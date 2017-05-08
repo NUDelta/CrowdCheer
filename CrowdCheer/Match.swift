@@ -335,7 +335,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         for (runner, location) in userLocations {
             
             let now = NSDate()
-            let hours:TimeInterval = -3600
+            let hours:TimeInterval = -36000
             let xHoursAgo = now.addingTimeInterval(hours)
             
             let query = PFQuery(className: "Cheers")
