@@ -333,7 +333,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) { // Should store runner name and pic inside runnerProfile
+    // get the name and picture for each runner in runner Locations, store to runnerProfiles
+    func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
         
         for (runner, runnerLoc) in runnerLocations {
             
@@ -352,6 +353,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // get the cheer counts for each runner
     func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
         self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
             self.runnerCheers = needs
@@ -359,11 +361,75 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         })
     }
     
+    // get the ETAs for each runner
     func updateRunnerETAs(_ runnerLocations: [PFUser: PFGeoPoint]) {
         self.optimizedRunners.considerConvenience(runnerLocations, result: { (conveniences) -> Void in
             self.runnerETAs = conveniences
             print("needs: \(self.runnerCheers)")
         })
+    }
+    
+    // get a runner's name
+    func getRunnerName(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
+        
+        if runnerProfiles[runnerObjID] != nil {
+            let runnerProfile = runnerProfiles[runnerObjID]
+            let name = runnerProfile!["name"] as! String
+            return name
+        }
+        else {
+            print("No name found, using generic")
+            let name = ""
+            return name
+        }
+    }
+    
+    // get a runner's picture
+    func getRunnerImage(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
+        var image: UIImage = UIImage(named: "profileDefault.png")!
+        if runnerProfiles[runnerObjID] != nil {
+            let runnerProfile = runnerProfiles[runnerObjID]
+            let imagePath = runnerProfile!["profilePicPath"] as! String
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: imagePath){
+                image = UIImage(contentsOfFile: imagePath)!
+            }
+        }
+        else {
+            print("No Image, using generic")
+            image = UIImage(named: "profileDefault.png")!
+        }
+        return image
+    }
+    
+    // get a runner's cheer count
+    func getRunnerCheers(_ runner: PFUser) -> String{
+        var cheersCount = ""
+        
+        if self.runnerCheers[runner] != nil {
+            let cheerCountVal = self.runnerCheers[runner]
+            print("cheers count for in getCheers: \(String(describing: cheerCountVal))")
+            cheersCount = String(format: "cheers: %d", cheerCountVal!)
+        }
+        else {
+            print("No cheers found, using generic")
+        }
+        return cheersCount
+    }
+    
+    // get a runner's ETA
+    func getRunnerETA(_ runner: PFUser) -> String{
+        var ETA = ""
+        
+        if self.runnerETAs[runner] != nil {
+            let ETAVal = self.runnerETAs[runner]
+            print("ETA for in getCheers: \(String(describing: ETAVal))")
+            ETA = String(format: "cheers: %d", ETAVal!)
+        }
+        else {
+            print("No cheers found, using generic")
+        }
+        return ETA
     }
     
     func getRunnerProfile(_ runner: PFUser, runnerType: String) {
@@ -554,55 +620,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             //            self.targetRunnerDistance.isHidden = false
             //            self.targetRunnerTime.isHidden = false
         }
-    }
-    
-    func getRunnerImage(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> UIImage {
-        var image: UIImage = UIImage(named: "profileDefault.png")!
-        if runnerProfiles[runnerObjID] != nil {
-            let runnerProfile = runnerProfiles[runnerObjID]
-            let imagePath = runnerProfile!["profilePicPath"] as! String
-            let fileManager = FileManager.default
-            if fileManager.fileExists(atPath: imagePath){
-                image = UIImage(contentsOfFile: imagePath)!
-            }
-        }
-        else {
-            print("No Image, using generic")
-            image = UIImage(named: "profileDefault.png")!
-        }
-        return image
-    }
-    
-    func getRunnerName(_ runnerObjID: String, runnerProfiles: [String:[String:AnyObject]]) -> String {
-        
-        if runnerProfiles[runnerObjID] != nil {
-            let runnerProfile = runnerProfiles[runnerObjID]
-            let name = runnerProfile!["name"] as! String //NOTE: crashes here, just before it calls getRunnerProfile in ln 419 (x1) & 355 (x5), and before that runs a query in Match ln 402 (x6) - in line 220, the dictionary doesn't have that runner in it yet, so it can't get the profile info of the runner
-            return name
-        }
-        else {
-            print("No name found, using generic")
-            let name = ""
-            return name
-        }
-        
-    }
-    
-    
-    
-    
-    func getRunnerCheers(_ runner: PFUser) -> String{
-        var cheersCount = ""
-        
-        if self.runnerCheers[runner] != nil {
-            let cheerCount = self.runnerCheers[runner]
-            print("cheers count for in getCheers: \(String(describing: cheerCount))")
-            cheersCount = String(format: "cheers: %d", cheerCount!)
-        }
-        else {
-            print("No cheers found, using generic")
-        }
-        return cheersCount
     }
     
     func disableGeneralRunners() {
