@@ -216,8 +216,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         
                         // Flow 3.2.1.4.1 - calculate the distance between spectator and a runner
                         
-                        let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                        let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
+                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                        let runnerCoord = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.latitude)
+                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
                         print(runner.username!, dist)
                         
                         // Flow 3.2.1.4.2 - for each runner, determine if target or general, and handle separately based on distance
@@ -233,8 +234,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                         
                                         self.getTargetRunnerStatus(runner)
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
+                                        
+                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
+                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, don't add them yet
                                         //do nothing
@@ -250,8 +253,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
                                         
                                         self.getTargetRunnerStatus(runner)
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
+                                        
+                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
+                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
                                         self.getRunnerProfile(runner, runnerType: "general")
@@ -268,10 +273,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     //                                self.targetRunner5Less.isHidden = false
     //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                         
-                                        self.getTargetRunnerStatus(runner)
                                         self.disableGeneralRunners()
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
+                                        
+                                        self.getTargetRunnerStatus(runner)
+                                        
+                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
+                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         
                                         isTargetRunnerNear = true
                                     }
@@ -296,10 +304,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                                        self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
 //                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
-                                        self.getTargetRunnerStatus(runner) // show cheers & ETA for the runner
+                                        self.getTargetRunnerStatus(runner)
+                                        
+                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
+                                        nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrack.isEnabled = true
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        nearbyRunnersDisplayed.append(runner)
                                         
                                         self.areTargetRunnersNearby = true
                                         isTargetRunnerNear = true
@@ -591,7 +601,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func getTargetRunnerStatus(_ runner: PFUser) {
+    func updateRunnerStatus(_ runner: PFUser) {
         
         contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
             
@@ -670,7 +680,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             targetRunnerName.isHidden = false
             targetRunnerETA.isHidden = false
             targetRunnerCheers.isHidden = false
-            
         }
     }
     
