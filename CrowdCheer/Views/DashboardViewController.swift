@@ -260,7 +260,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
-                                        self.getRunnerProfile(runner, runnerType: "general")
+                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                         nearbyRunnersDisplayed.append(runner)
                                         self.areRunnersNearby = true
                                     }
@@ -283,7 +283,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         if !isTargetRunnerNear {
-                                            self.getRunnerProfile(runner, runnerType: "general")
+                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
                                         }
@@ -313,7 +313,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         
                                         if !isTargetRunnerNear {
-                                            self.getRunnerProfile(runner, runnerType: "general")
+                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
                                         }
@@ -427,7 +427,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         return ETA
     }
     
-    
     func updateTargetRunnerStatus(_ runner: PFUser) {
         
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
@@ -448,8 +447,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    
-    func getRunnerProfile(_ runner: PFUser, runnerType: String) {
+    func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
         
         if !self.runnerProfiles.isEmpty {
                 
@@ -491,9 +489,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers = getRunnerCheers(general1Runner)
+                    let ETA = getRunnerETA(general1Runner)
                 
                     general1RunnerName.text = name
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers)
+                    general1RunnerETA.text = String(format: "ETA: %d", ETA)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -514,9 +514,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers1 = getRunnerCheers(general1Runner)
+                    let ETA1 = getRunnerETA(general1Runner)
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
+                    general1RunnerETA.text = String(format: "ETA: %d", ETA1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -534,9 +536,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers2 = getRunnerCheers(general2Runner)
+                    let ETA2 = getRunnerETA(general2Runner)
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
+                    general2RunnerETA.text = String(format: "ETA: %d", ETA2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -557,9 +561,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers1 = getRunnerCheers(general1Runner)
+                    let ETA1 = getRunnerETA(general1Runner)
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
+                    general1RunnerETA.text = String(format: "ETA: %d", ETA1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -577,9 +583,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers2 = getRunnerCheers(general2Runner)
+                    let ETA2 = getRunnerETA(general2Runner)
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
+                    general2RunnerETA.text = String(format: "ETA: %d", ETA2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -597,9 +605,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     let cheers3 = getRunnerCheers(general3Runner)
+                    let ETA3 = getRunnerETA(general3Runner)
                     
                     general3RunnerName.text = name3
                     general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
+                    general3RunnerETA.text = String(format: "ETA: %d", ETA3)
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
                     general3RunnerETA.isHidden = false
