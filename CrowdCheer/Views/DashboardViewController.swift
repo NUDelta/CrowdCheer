@@ -110,11 +110,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         })
         
         
+        
+        // Flow 2 - check once for any nearby runners and add them to dash
+        
         updateNearbyRunners()
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        
+        // Flow 3 - every interval, log spectator loc and update nearby runners
         
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        
+        
+        // Flow 4 - every interval, notify spectators if 1) R runners are nearby and 2) R* runners are nearby
         
         nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
@@ -145,12 +153,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateNearbyRunners() {
-        //every x seconds, monitor target runners, find nearby runners and display those runners
+        //find nearby runners and display those runners
 
-        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
-        print("annotationsToRemove \(annotationsToRemove)")
-        mapView.removeAnnotations(annotationsToRemove)
-        var runnerCount: [PFUser] = []
+        
+        // Flow 3.1 - remove R* pins from map and reset nearbyRunners
+        removeRunnerPins()
+        var nearbyRunnersDisplayed: [PFUser] = []
         
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
@@ -213,7 +221,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         
                                         self.getTargetRunnerStatus(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        runnerCount.append(runner)
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, don't add them yet
                                         //do nothing
@@ -230,11 +238,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         
                                         self.getTargetRunnerStatus(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        runnerCount.append(runner)
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
                                         self.getRunnerProfile(runner, runnerType: "general")
-                                        runnerCount.append(runner)
+                                        nearbyRunnersDisplayed.append(runner)
                                         self.areRunnersNearby = true
                                     }
                                 }
@@ -250,14 +258,14 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.getTargetRunnerStatus(runner)
                                         self.disableGeneralRunners()
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        runnerCount.append(runner)
+                                        nearbyRunnersDisplayed.append(runner)
                                         
                                         isTargetRunnerNear = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         if !isTargetRunnerNear {
                                             self.getRunnerProfile(runner, runnerType: "general")
-                                            runnerCount.append(runner)
+                                            nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
                                         }
                                     }
@@ -278,7 +286,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.getTargetRunnerStatus(runner)
                                         self.targetRunnerTrack.isHidden = false
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        runnerCount.append(runner)
+                                        nearbyRunnersDisplayed.append(runner)
                                         
                                         self.areTargetRunnersNearby = true
                                         isTargetRunnerNear = true
@@ -295,7 +303,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         
                                         if !isTargetRunnerNear {
                                             self.getRunnerProfile(runner, runnerType: "general")
-                                            runnerCount.append(runner)
+                                            nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
                                         }
                                     }
@@ -306,7 +314,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
                     print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
-                    self.nearbyRunners.saveRunnerCount(runnerCount)
+                    self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                 }
             }
         }
@@ -501,7 +509,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         let cheers = getRunnerCheers(runner)
 //        let ETA = getRunnerETA(runner)
-            
+        
         self.targetRunnerCheers.text = cheers
         
         if contextPrimer.pace == "" {
@@ -636,6 +644,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
         let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID!)
         mapView.addAnnotation(annotation)
+    }
+    
+    func removeRunnerPins() {
+        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
+        print("annotationsToRemove \(annotationsToRemove)")
+        mapView.removeAnnotations(annotationsToRemove)
     }
     
     func sendLocalNotification_any() {

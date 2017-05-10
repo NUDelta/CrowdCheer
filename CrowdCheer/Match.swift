@@ -164,17 +164,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
             result(runnerProfile)
         }
     }
-    
-    func saveRunnerCount(_ displayedRunners: [PFUser]) {
-        let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
-        newRunnerCount["spectator"] = user
-        newRunnerCount["nearbyRunners"] = displayedRunners
-        newRunnerCount["nearbyRunnerCount"] = displayedRunners.count
-        
-        user["nearbyRunnerCount"] = displayedRunners.count
-        user.saveInBackground()
-        newRunnerCount.saveInBackground()
-    }
 }
 
 
@@ -407,6 +396,17 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         let selectedRunners = runnerLocations //NOTE: Crashed here (query)
         return selectedRunners
         
+    }
+    
+    func saveDisplayedRunners(_ displayedRunners: [PFUser]) {
+        let newRunnerCount = PFObject(className: "NearbyRunnerCounts")
+        newRunnerCount["spectator"] = user
+        newRunnerCount["nearbyRunners"] = displayedRunners
+        newRunnerCount["nearbyRunnerCount"] = displayedRunners.count
+        
+        user["nearbyRunnerCount"] = displayedRunners.count
+        user.saveInBackground()
+        newRunnerCount.saveInBackground()
     }
 }
 

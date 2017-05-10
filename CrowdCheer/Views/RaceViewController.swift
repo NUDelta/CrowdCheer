@@ -169,7 +169,7 @@ class RaceViewController: UIViewController, MKMapViewDelegate {
                     }
                 }
                 self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-                self.nearbyRunners.saveRunnerCount(runnerCount)
+                self.optimizedRunners.saveDisplayedRunners(runnerCount)
             }
             
 //            //TESTING//
