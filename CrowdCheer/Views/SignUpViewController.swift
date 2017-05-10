@@ -28,6 +28,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         emailField.delegate = self
         passwordField.delegate = self
         
+        //Flow 1 - Notify users 1hr before race to set up app (if they've opened app)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         setupDate = dateFormatter.date(from: setupDateString)! //hardcoded dates for race day notifications
@@ -42,18 +43,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+        //Flow 2 - Check WiFi, alert if not on
         if isWiFiConnected()==false {
             turnOnWiFiAlert()
         }
         
-        //if already logged in, segue to next VC
+        //Flow 3 - Segue if logged in already
         if PFUser.current() != nil {
             self.performSegue(withIdentifier: "intro", sender: nil)
         }
     }
     
     
-    //Check fields, Log In, and segue to next VC
+    //Interaction 1 - Check fields, Log In, and segue to next VC
     @IBAction func logIn(_ sender: UIButton) {
         PFUser.logInWithUsername(inBackground: usernameField.text!, password:passwordField.text!) {
             (user: PFUser?, error: Error?) -> Void in
@@ -74,7 +76,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    //Check fields, Sign Up, and segue to next VC
+    //Interaction 2 - Check fields, Sign Up, and segue to next VC
     @IBAction func signUp(_ sender: UIButton) {
         let user = PFUser()
         user.username = usernameField.text

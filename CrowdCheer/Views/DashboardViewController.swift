@@ -63,6 +63,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         super.viewDidLoad()
     
+        
+        // Flow 1 - Hide all runner information
+        
         targetRunnerName.isHidden = true
         targetRunnerETA.isHidden = true
         targetRunnerCheers.isHidden = true
@@ -82,8 +85,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         general3RunnerPic.isHidden = true
         general3RunnerName.isHidden = true
-        general2RunnerETA.isHidden = true
-        general2RunnerCheers.isHidden = true
+        general3RunnerETA.isHidden = true
+        general3RunnerCheers.isHidden = true
         general3RunnerTrack.isHidden = true
         
         spectatorMonitor = SpectatorMonitor()
@@ -281,6 +284,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         isTargetRunnerNear = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
+                                        
+                                        if dist < 300 {
+                                            // these runners are general and close by
+                                            // we need the distance that they've run
+                                            // calculate the distance R* has run (how do we know which R*?)
+                                            
+                                        }
+                                
+                                        
                                         if !isTargetRunnerNear {
                                             self.getRunnerProfile(runner, runnerType: "general")
                                             runnerCount.append(runner)
@@ -488,6 +500,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
         
         let cheers = getRunnerCheers(runner)
+//        let ETA = getRunnerETA(runner)
+            
         self.targetRunnerCheers.text = cheers
         
         if contextPrimer.pace == "" {
