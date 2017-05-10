@@ -629,7 +629,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
     }
     
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if (annotation is MKUserLocation) {
@@ -656,12 +655,17 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             catch {
                 print("ERROR: unable to get runner")
             }
-            targetRunnerNameText = (targetRunner.value(forKey: "name"))! as! String
-            print("Selected runner: \(targetRunnerNameText)")
+            targetRunnerNameText = getRunnerName(runnerObjID!, runnerProfiles: self.runnerProfiles)
             targetRunnerName.text = targetRunnerNameText
             let cheers = getRunnerCheers(targetRunner)
+            let ETA = getRunnerETA(targetRunner)
+            
+            print("Selected runner: \(targetRunnerNameText)")
             print("cheers count for target: \(cheers)")
-            targetRunnerCheers.text = cheers
+            print("ETA for target: \(ETA)")
+            
+            targetRunnerCheers.text = String(format: "cheers: %f", cheers)
+            targetRunnerETA.text = String(format: "ETA: %f", ETA)
             
             targetRunnerName.isHidden = false
             targetRunnerETA.isHidden = false
