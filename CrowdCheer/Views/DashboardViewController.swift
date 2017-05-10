@@ -403,28 +403,26 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     // get a runner's cheer count
-    func getRunnerCheers(_ runner: PFUser) -> String{
-        var cheersCount = ""
+    func getRunnerCheers(_ runner: PFUser) -> Int{
+        let cheerCount = 0
         
         if self.runnerCheers[runner] != nil {
-            let cheerCountVal = self.runnerCheers[runner]
-            print("cheers count for in getCheers: \(String(describing: cheerCountVal))")
-            cheersCount = String(format: "cheers: %d", cheerCountVal!)
+            let cheerCount = self.runnerCheers[runner]
+            print("cheers count for in getCheers: \(String(describing: cheerCount))")
         }
         else {
             print("No cheers found, using generic")
         }
-        return cheersCount
+        return cheerCount
     }
     
     // get a runner's ETA
-    func getRunnerETA(_ runner: PFUser) -> String{
-        var ETA = ""
+    func getRunnerETA(_ runner: PFUser) -> Int{
+        let ETA = 0
         
         if self.runnerETAs[runner] != nil {
-            let ETAVal = self.runnerETAs[runner]
-            print("ETA for in getCheers: \(String(describing: ETAVal))")
-            ETA = String(format: "cheers: %d", ETAVal!)
+            let ETA = self.runnerETAs[runner]
+            print("ETA for in getCheers: \(String(describing: ETA))")
         }
         else {
             print("No cheers found, using generic")
