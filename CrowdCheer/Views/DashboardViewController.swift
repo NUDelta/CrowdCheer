@@ -297,7 +297,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
                                         self.getTargetRunnerStatus(runner) // show cheers & ETA for the runner
-                                        targetRunnerTrack.isEnabled = true
+                                        self.targetRunnerTrack.isEnabled = true
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
                                         
