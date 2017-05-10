@@ -156,7 +156,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 if let imageData = imageData {
                     let fileManager = FileManager.default
                     self.imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("\(String(describing: runner.username)).jpg")
-                    print(self.imagePath)
                     runnerProfile["profilePicPath"] = self.imagePath as AnyObject
                     fileManager.createFile(atPath: self.imagePath as String, contents: imageData, attributes: nil)
                 }

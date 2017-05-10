@@ -223,7 +223,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         // Flow 3.2.1.5.1 - calculate the distance between spectator and a runner
                         
                         let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                        let runnerCoord = CLLocationCoordinate2DMake(runnerLoc.latitude, runnerLoc.latitude)
                         let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
                         print(runner.username!, dist)
                         
@@ -239,7 +238,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         //                                self.targetRunnerETA.isHidden = false
         //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
                                         
-                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
+                                        self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
@@ -256,7 +255,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         //                                self.targetRunner5More.isHidden = false
         //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
                                         
-                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
+                                        self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
@@ -275,7 +274,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     //                                self.targetRunner5Less.isHidden = false
     //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
                                         
-                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
+                                        self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         
@@ -303,7 +302,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                                        self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
 //                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
-                                        self.addRunnerPin(runner, runnerLoc: runnerCoord, runnerType: 1)
+                                        self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrack.isEnabled = true
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -325,7 +324,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     
                     self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
-                    print("targetRunnerTrackingStatus inside considerAffinity: \(self.targetRunnerTrackingStatus)")
                     self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                 }
             }
@@ -337,7 +335,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         for (runner, runnerLoc) in runnerLocations {
             
-            print("is \(String(describing: runner.username)) missing \(String(describing: runnerProfiles[runner.objectId!]))")
+
             if runnerProfiles[runner.objectId!] == nil {
                 nearbyRunners.getRunnerProfile(runner.objectId!) { (runnerProfile) -> Void in
                     
@@ -364,7 +362,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func updateRunnerETAs(_ runnerLocations: [PFUser: PFGeoPoint]) {
         self.optimizedRunners.considerConvenience(runnerLocations, result: { (conveniences) -> Void in
             self.runnerETAs = conveniences
-            print("needs: \(self.runnerCheers)")
+            print("ETAs: \(self.runnerETAs)")
         })
     }
     
@@ -421,7 +419,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if self.runnerETAs[runner] != nil {
             let ETA = self.runnerETAs[runner]
-            print("ETA for in getCheers: \(String(describing: ETA))")
+            print("ETA in getETA: \(String(describing: ETA))")
         }
         else {
             print("No cheers found, using generic")
@@ -441,8 +439,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         print("ETA for target: \(ETA)")
         
         targetRunnerName.text = targetRunnerNameText
-        targetRunnerCheers.text = String(format: "cheers: %f", cheers)
-        targetRunnerETA.text = String(format: "ETA: %f", ETA)
+        targetRunnerCheers.text = String(format: "cheers: %d", cheers)
+        targetRunnerETA.text = String(format: "ETA: %d", ETA)
         
         targetRunnerName.isHidden = false
         targetRunnerETA.isHidden = false
@@ -495,7 +493,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers = getRunnerCheers(general1Runner)
                 
                     general1RunnerName.text = name
-                    general1RunnerCheers.text = String(format: "cheers: %f", cheers)
+                    general1RunnerCheers.text = String(format: "cheers: %d", cheers)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -518,7 +516,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
-                    general1RunnerCheers.text = String(format: "cheers: %f", cheers1)
+                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -538,7 +536,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
-                    general2RunnerCheers.text = String(format: "cheers: %f", cheers2)
+                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -561,7 +559,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
-                    general1RunnerCheers.text = String(format: "cheers: %f", cheers1)
+                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -581,7 +579,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
-                    general2RunnerCheers.text = String(format: "cheers: %f", cheers2)
+                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -601,7 +599,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers3 = getRunnerCheers(general3Runner)
                     
                     general3RunnerName.text = name3
-                    general3RunnerCheers.text = String(format: "cheers: %f", cheers3)
+                    general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
                     general3RunnerETA.isHidden = false
@@ -649,20 +647,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             }
             
             updateTargetRunnerStatus(targetRunner)
-            
-            print("Selected runner: \(String(describing: targetRunner.username))")
         }
     }
     
-    func addRunnerPin(_ runner: PFUser, runnerLoc: CLLocationCoordinate2D, runnerType: Int) {
+    func addRunnerPin(_ runner: PFUser, runnerType: Int) {
         
-        let name = runner.value(forKey: "name")
-        let coordinate = runnerLoc
-        let title = (name as? String)
-        let runnerObjID = runner.objectId
-        let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
-        let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title!, type: type!, runnerObjID: runnerObjID!)
-        mapView.addAnnotation(annotation)
+        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+            let name = self.getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
+            let coordinate = runnerLoc
+            let title = name
+            let runnerObjID = runner.objectId
+            let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
+            let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title, type: type!, runnerObjID: runnerObjID!)
+            self.mapView.addAnnotation(annotation)
+        }
     }
     
     func removeRunnerPins() {
