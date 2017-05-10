@@ -297,7 +297,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
                                         self.getTargetRunnerStatus(runner) // show cheers & ETA for the runner
-                                        self.targetRunnerTrack.isHidden = false
+                                        targetRunnerTrack.isEnabled = true
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
                                         
@@ -647,7 +647,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         print("\(String(describing: view.annotation?.title)) has been tapped")
         if (view is PickRunnerAnnotationView) {
             
-            targetRunnerTrack.isEnabled = true
+            targetRunnerTrack.isHidden = false
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             do {
