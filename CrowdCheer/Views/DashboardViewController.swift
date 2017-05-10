@@ -495,7 +495,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers = getRunnerCheers(general1Runner)
                 
                     general1RunnerName.text = name
-                    general1RunnerCheers.text = cheers
+                    general1RunnerCheers.text = String(format: "cheers: %f", cheers)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -518,7 +518,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
-                    general1RunnerCheers.text = cheers1
+                    general1RunnerCheers.text = String(format: "cheers: %f", cheers1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -538,7 +538,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
-                    general2RunnerCheers.text = cheers2
+                    general2RunnerCheers.text = String(format: "cheers: %f", cheers2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -561,7 +561,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers1 = getRunnerCheers(general1Runner)
                     
                     general1RunnerName.text = name1
-                    general1RunnerCheers.text = cheers1
+                    general1RunnerCheers.text = String(format: "cheers: %f", cheers1)
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -581,7 +581,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers2 = getRunnerCheers(general2Runner)
                     
                     general2RunnerName.text = name2
-                    general2RunnerCheers.text = cheers2
+                    general2RunnerCheers.text = String(format: "cheers: %f", cheers2)
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -601,7 +601,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     let cheers3 = getRunnerCheers(general3Runner)
                     
                     general3RunnerName.text = name3
-                    general3RunnerCheers.text = cheers3
+                    general3RunnerCheers.text = String(format: "cheers: %f", cheers3)
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
                     general3RunnerETA.isHidden = false
