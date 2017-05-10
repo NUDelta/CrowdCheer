@@ -44,6 +44,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var runnerLocations = [PFUser: PFGeoPoint]()
     var runnerProfiles = [String:[String:AnyObject]]()
     var runnerCheers = [PFUser: Int]()
+    var runnerETAs = [PFUser: Int]()
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var nearbyGeneralRunnersTimer: Timer = Timer()
@@ -160,8 +161,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         removeRunnerPins()
         var nearbyRunnersDisplayed: [PFUser] = []
         
+        
+        // Flow 3.2 - checkProximityZone for runners at the race
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+            
+            // Flow 3.2.1 - if there are no runners, don't display any
             
             if ((runnerLocations?.isEmpty) == true) {
                 self.areRunnersNearby = false
@@ -189,25 +194,33 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.general3RunnerCheers.isHidden = true
                 self.general3RunnerTrack.isHidden = true
             }
+                
+            // Flow 3.2.1  - if there are runners at the race, update their info
             else {
                 self.runnerLocations = runnerLocations!
                 
-                //update profiles of existing runners
+                // Flow 3.2.1.1 - if we don't have runner profiles, get them
                 self.updateRunnerProfiles(runnerLocations!)
                 
-                //update cheer counts
+                // Flow 3.2.1.2 - get cheer counts
                 self.updateRunnerCheers(runnerLocations!)
                 
-                //sort out target & general runners
+                // Flow 3.2.1.3 - get ETAs of runners
+                self.updateRunnerETAs(runnerLocations!)
+                
+                // Flow 3.2.1.4 - sort out target & general runners
                 self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
                     print("affinities \(affinities)")
                     
                     for (runner, runnerLoc) in runnerLocations! {
                         
+                        // Flow 3.2.1.4.1 - calculate the distance between spectator and a runner
+                        
                         let runnerCoord = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                         let dist = runnerCoord.distance(from: self.optimizedRunners.locationMgr.location!)
                         print(runner.username!, dist)
                         
+                        // Flow 3.2.1.4.2 - for each runner, determine if target or general, and handle separately based on distance
                         for affinity in affinities {
                             
                             var isTargetRunnerNear = false
@@ -283,7 +296,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                                        self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
 //                                        self.targetRunnerTimeToCheer.isHidden = false
                                         
-                                        self.getTargetRunnerStatus(runner)
+                                        self.getTargetRunnerStatus(runner) // show cheers & ETA for the runner
                                         self.targetRunnerTrack.isHidden = false
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
@@ -320,7 +333,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
+    func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) { // Should store runner name and pic inside runnerProfile
         
         for (runner, runnerLoc) in runnerLocations {
             
@@ -337,6 +350,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 print("runner profile exists, will not query")
             }
         }
+    }
+    
+    func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
+        self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
+            self.runnerCheers = needs
+            print("needs: \(self.runnerCheers)")
+        })
+    }
+    
+    func updateRunnerETAs(_ runnerLocations: [PFUser: PFGeoPoint]) {
+        self.optimizedRunners.considerConvenience(runnerLocations, result: { (conveniences) -> Void in
+            self.runnerETAs = conveniences
+            print("needs: \(self.runnerCheers)")
+        })
     }
     
     func getRunnerProfile(_ runner: PFUser, runnerType: String) {
@@ -562,12 +589,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
-        self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
-            self.runnerCheers = needs
-            print("needs: \(self.runnerCheers)")
-        })
-    }
+    
     
     func getRunnerCheers(_ runner: PFUser) -> String{
         var cheersCount = ""
@@ -575,14 +597,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         if self.runnerCheers[runner] != nil {
             let cheerCount = self.runnerCheers[runner]
             print("cheers count for in getCheers: \(String(describing: cheerCount))")
-            cheersCount = String(format: "%d", cheerCount!)
-            return cheersCount
+            cheersCount = String(format: "cheers: %d", cheerCount!)
         }
         else {
             print("No cheers found, using generic")
-            let cheersCount = ""
-            return cheersCount
         }
+        return cheersCount
     }
     
     func disableGeneralRunners() {
