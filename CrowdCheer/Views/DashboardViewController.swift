@@ -656,7 +656,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 print("ERROR: unable to get runner")
             }
             targetRunnerNameText = getRunnerName(runnerObjID!, runnerProfiles: self.runnerProfiles)
-            targetRunnerName.text = targetRunnerNameText
             let cheers = getRunnerCheers(targetRunner)
             let ETA = getRunnerETA(targetRunner)
             
@@ -664,6 +663,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             print("cheers count for target: \(cheers)")
             print("ETA for target: \(ETA)")
             
+            targetRunnerName.text = targetRunnerNameText
             targetRunnerCheers.text = String(format: "cheers: %f", cheers)
             targetRunnerETA.text = String(format: "ETA: %f", ETA)
             
