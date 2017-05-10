@@ -401,28 +401,28 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     // get a runner's cheer count
     func getRunnerCheers(_ runner: PFUser) -> Int{
-        let cheerCount = 0
         
-        if self.runnerCheers[runner] != nil {
-            let cheerCount = self.runnerCheers[runner]
-            print("cheers count for in getCheers: \(String(describing: cheerCount))")
-        }
-        else {
-            print("No cheers found, using generic")
+        var cheerCount: Int = Int()
+        
+        for user in runnerCheers {
+            if runner.objectId  == user.0.objectId {
+                cheerCount = user.1
+                print("cheers count for in getCheers: \(String(describing: cheerCount))")
+            }
         }
         return cheerCount
     }
     
     // get a runner's ETA
     func getRunnerETA(_ runner: PFUser) -> Int{
-        let ETA = 0
         
-        if self.runnerETAs[runner] != nil {
-            let ETA = self.runnerETAs[runner]
-            print("ETA in getETA: \(String(describing: ETA))")
-        }
-        else {
-            print("No cheers found, using generic")
+        var ETA: Int = Int()
+        
+        for user in runnerETAs {
+            if runner.objectId  == user.0.objectId {
+                ETA = user.1
+                print("cheers count for in getCheers: \(String(describing: ETA))")
+            }
         }
         return ETA
     }
