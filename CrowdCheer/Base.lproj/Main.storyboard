@@ -1743,9 +1743,6 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="v9A-gF-Bya"/>
-                        <barButtonItem title="View Race Map" id="9AZ-mE-nzz">
-                            <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Race Dashboard" id="ZlP-5k-tK5"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
