@@ -657,9 +657,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func disableGeneralRunners() {
+        
+        general1RunnerETA.textColor = general1RunnerName.textColor
+        general2RunnerETA.textColor = general1RunnerName.textColor
+        general3RunnerETA.textColor = general1RunnerName.textColor
+            
+        general1RunnerCheers.textColor = general1RunnerName.textColor
+        general2RunnerCheers.textColor = general1RunnerName.textColor
+        general3RunnerCheers.textColor = general1RunnerName.textColor
+        
         general1RunnerTrack.isEnabled = false
         general2RunnerTrack.isEnabled = false
         general3RunnerTrack.isEnabled = false
+        
         general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
         general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
         general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
