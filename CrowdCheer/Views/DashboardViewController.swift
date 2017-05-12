@@ -53,7 +53,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerNameText: String = ""
-    var targetRunnerTrackingStatus = [String: Bool]()
+    var nearbyTargetRunners = [String: Bool]()
     var interval: Int = Int()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
@@ -171,6 +171,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             // Flow 3.2.1 - if there are no runners, don't display any
             
             if ((runnerLocations?.isEmpty) == true) {
+                self.areTargetRunnersNearby = false
                 self.areRunnersNearby = false
                 
                 self.targetRunnerName.isHidden = true
@@ -231,17 +232,16 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         // Flow 3.2.1.5.2 - for each runner, determine if target or general, and handle separately based on distance
                         for affinity in affinities {
                             
-                            var isTargetRunnerNear = false
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
                                 if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
+                                        self.nearbyTargetRunners[runner.objectId!] = false
                                         nearbyRunnersDisplayed.append(runner)
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, don't add them yet
-                                        //do nothing
+                                        self.areRunnersNearby = false
                                     }
                                 }
                                     
@@ -249,8 +249,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
+                                        self.nearbyTargetRunners[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
                                         self.updateGeneralRunnerStatus(runner, runnerType: "general")
@@ -263,17 +263,17 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
-                                        nearbyRunnersDisplayed.append(runner)
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        
-                                        isTargetRunnerNear = true
+                                        self.nearbyTargetRunners[runner.objectId!] = true
+                                        self.areTargetRunnersNearby = true
                                         self.disableGeneralRunners()
+                                        self.areRunnersNearby = false
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                        if !isTargetRunnerNear {
+                                        if !self.areTargetRunnersNearby {
                                             self.updateGeneralRunnerStatus(runner, runnerType: "general")
-                                            nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
+                                            nearbyRunnersDisplayed.append(runner)
                                         }
                                     }
                                 }
@@ -285,19 +285,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.nearbyRunnersTimer.invalidate()
                                         self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                         self.addRunnerPin(runner, runnerType: 1)
-                                        nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrack.isEnabled = true
-                                        self.targetRunnerTrackingStatus[runner.objectId!] = true
-                                        
+                                        self.nearbyTargetRunners[runner.objectId!] = true
                                         self.areTargetRunnersNearby = true
-                                        isTargetRunnerNear = true
+                                        self.disableGeneralRunners()
+                                        self.areRunnersNearby = false
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         
-                                        if !isTargetRunnerNear {
+                                        if !self.areTargetRunnersNearby {
                                             self.updateGeneralRunnerStatus(runner, runnerType: "general")
-                                            nearbyRunnersDisplayed.append(runner)
                                             self.areRunnersNearby = true
+                                            nearbyRunnersDisplayed.append(runner)
                                         }
                                     }
                                 }
@@ -305,7 +305,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                     
-                    self.targetRunnerTrackingStatus = self.optimizedRunners.targetRunners
+                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                 }
             }
@@ -738,7 +738,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                 
                 
-                localNotification.alertBody = "Cheer for runners near you!"
+                localNotification.alertBody = "Check in on your favorite runners!"
                 localNotification.soundName = UILocalNotificationDefaultSoundName
                 localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                 
@@ -756,36 +756,43 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func sendLocalNotification_target() {
         
-        let name = targetRunnerNameText
-        
         if areTargetRunnersNearby == true {
-            if UIApplication.shared.applicationState == .background {
+            
+            for (runnerObjId, isNearby) in nearbyTargetRunners {
                 
-                let localNotification = UILocalNotification()
-                
-                var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-                spectatorInfo["source"] = "targetRunnerNotification" as AnyObject
-                spectatorInfo["receivedNotification"] = true as AnyObject
-                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-                
-                localNotification.alertBody =  name + " is nearby, get ready to support them!"
-                localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-                
-                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-                localNotification.userInfo = spectatorInfo
-                
-                UIApplication.shared.presentLocalNotificationNow(localNotification)
-            }
-                
-            else if UIApplication.shared.applicationState == .active {
-                
-                let alertTitle = name + " is nearby!"
-                let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
-                
-                self.present(alertController, animated: true, completion: nil)
+                if isNearby == true {
+                    
+                    let name =  getRunnerName(runnerObjId, runnerProfiles: self.runnerProfiles)
+                    
+                    if UIApplication.shared.applicationState == .background {
+                        
+                        let localNotification = UILocalNotification()
+                        
+                        var spectatorInfo = [String: AnyObject]()
+                        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+                        spectatorInfo["source"] = "targetRunnerNotification" as AnyObject
+                        spectatorInfo["receivedNotification"] = true as AnyObject
+                        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+                        
+                        localNotification.alertBody =  name + " is nearby, get ready to support them!"
+                        localNotification.soundName = UILocalNotificationDefaultSoundName
+                        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+                        
+                        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+                        localNotification.userInfo = spectatorInfo
+                        
+                        UIApplication.shared.presentLocalNotificationNow(localNotification)
+                    }
+                        
+                    else if UIApplication.shared.applicationState == .active {
+                        
+                        let alertTitle = name + " is nearby!"
+                        let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
             }
         }
             
