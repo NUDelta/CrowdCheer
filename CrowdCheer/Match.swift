@@ -301,15 +301,9 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             //if runner is between 500m-1000m, set to 10
             //if runner is between 1000m-2000m, set to 5
             
-            if loc.distance(from: locationMgr.location!) < 500 {
-                conveniences[runner] = -1
-            }
-            else if (loc.distance(from: locationMgr.location!) > 500) && (loc.distance(from: locationMgr.location!) < 1000) {
-                conveniences[runner] = 10
-            }
-            else if (loc.distance(from: locationMgr.location!) > 1000) && (loc.distance(from: locationMgr.location!) < 500) {
-                conveniences[runner] = 5
-            }
+            let distMeters = loc.distance(from: locationMgr.location!)
+            let distMiles = self.metersToMiles(distMeters)
+            conveniences[runner] = distMiles
         }
         
         result(conveniences)
@@ -406,6 +400,12 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         user["nearbyRunnerCount"] = displayedRunners.count
         user.saveInBackground()
         newRunnerCount.saveInBackground()
+    }
+    
+    func metersToMiles(_ meters: Double) -> Int {
+        let km = meters/1000
+        let mi = km*0.62137119
+        return Int(mi)
     }
 }
 

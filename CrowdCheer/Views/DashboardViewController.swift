@@ -439,7 +439,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerName.text = targetRunnerNameText
         targetRunnerCheers.text = String(format: "cheers: %d", cheers)
-        targetRunnerETA.text = String(format: "ETA: %d", ETA)
+        if ETA == 0 { targetRunnerETA.text = "ETA: <1 mi" }
+        else { targetRunnerETA.text = String(format: "ETA: %d mi", ETA) }
         
         targetRunnerName.isHidden = false
         targetRunnerETA.isHidden = false
@@ -493,7 +494,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                     general1RunnerName.text = name
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers)
-                    general1RunnerETA.text = String(format: "ETA: %d", ETA)
+                    if ETA == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA) }
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -518,7 +520,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
-                    general1RunnerETA.text = String(format: "ETA: %d", ETA1)
+                    if ETA1 == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -540,7 +543,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
-                    general2RunnerETA.text = String(format: "ETA: %d", ETA2)
+                    if ETA2 == 0 { general2RunnerETA.text = "ETA: <1 mi" }
+                    else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -565,7 +569,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
-                    general1RunnerETA.text = String(format: "ETA: %d", ETA1)
+                    if ETA1 == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
@@ -587,7 +592,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
-                    general2RunnerETA.text = String(format: "ETA: %d", ETA2)
+                    if ETA2 == 0 { general2RunnerETA.text = "ETA: <1 mi" }
+                    else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
@@ -609,7 +615,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general3RunnerName.text = name3
                     general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
-                    general3RunnerETA.text = String(format: "ETA: %d", ETA3)
+                    if ETA3 == 0 { general3RunnerETA.text = "ETA: <1 mi" }
+                    else { general3RunnerETA.text = String(format: "ETA: %d mi", ETA3) }
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
                     general3RunnerETA.isHidden = false
