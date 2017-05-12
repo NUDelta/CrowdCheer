@@ -236,10 +236,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 //Goal: Show target runners throughout the race
                                 if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
-        //                                self.targetRunnerLoading.isHidden = true
-        //                                self.targetRunnerETA.isHidden = false
-        //                                self.targetRunnerETA.text = (name) + " is more than 10 min away"
-                                        
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -252,11 +248,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     //Goal: Show all runners near me, including target runners
                                 else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                                     if affinity.1 == 10 { //if target runner, display runner
-//                                        self.targetRunnerETA.isHidden = true
-//                                        self.targetRunnerLoading.isHidden = true
-        //                                self.targetRunner5More.isHidden = false
-        //                                self.targetRunner5More.text = (name) + " is more than 5 min away"
-                                        
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -271,11 +262,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     //Goal: if target runner is close, disable general runners & only show targets.
                                 else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                                     if affinity.1 == 10 { //if target runner, display runner
-    //                                self.targetRunner5More.isHidden = true
-    //                                self.targetRunnerLoading.isHidden = true
-    //                                self.targetRunner5Less.isHidden = false
-    //                                self.targetRunner5Less.text = (name) + " is less than 5 min away"
-                                        
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrackingStatus[runner.objectId!] = true
@@ -298,12 +284,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         
                                         self.nearbyRunnersTimer.invalidate()
                                         self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-                                        
-//                                        self.targetRunner5Less.isHidden = true
-//                                        self.targetRunnerLoading.isHidden = true
-//                                        self.targetRunnerTimeToCheer.text = (name) + " is nearby, support them now!"
-//                                        self.targetRunnerTimeToCheer.isHidden = false
-                                        
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                         self.targetRunnerTrack.isEnabled = true
@@ -434,7 +414,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         for user in runnerETAs {
             if runner.objectId  == user.0.objectId {
                 ETA = user.1
-                print("cheers count for in getCheers: \(String(describing: ETA))")
+                print("ETA for in getCheers: \(String(describing: ETA))")
             }
         }
         return ETA
@@ -452,7 +432,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerName.text = targetRunnerNameText
         targetRunnerCheers.text = String(format: "cheers: %d", cheers)
-        if ETA == 0 { targetRunnerETA.text = "ETA: <1 mi" }
+        if ETA == 0 {
+            targetRunnerETA.text = "ETA: <1 mi"
+            targetRunnerETA.textColor = redLabel.textColor
+        }
         else { targetRunnerETA.text = String(format: "ETA: %d mi", ETA) }
         
         targetRunnerCheers.textColor = cheersColor
@@ -510,7 +493,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                     general1RunnerName.text = name
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers)
-                    if ETA == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    if ETA == 0 {
+                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA) }
                     general1RunnerCheers.textColor = cheersColor
                     
@@ -538,7 +524,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
-                    if ETA1 == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    if ETA1 == 0 {
+                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
                     general1RunnerCheers.textColor = cheersColor1
                     
@@ -563,7 +552,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
-                    if ETA2 == 0 { general2RunnerETA.text = "ETA: <1 mi" }
+                    if ETA2 == 0 {
+                        general2RunnerETA.text = "ETA: <1 mi"
+                        general2RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
                     general2RunnerCheers.textColor = cheersColor2
                     
@@ -591,7 +583,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general1RunnerName.text = name1
                     general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
-                    if ETA1 == 0 { general1RunnerETA.text = "ETA: <1 mi" }
+                    if ETA1 == 0 {
+                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
                     general1RunnerCheers.textColor = cheersColor1
                     
@@ -616,7 +611,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general2RunnerName.text = name2
                     general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
-                    if ETA2 == 0 { general2RunnerETA.text = "ETA: <1 mi" }
+                    if ETA2 == 0 {
+                        general2RunnerETA.text = "ETA: <1 mi"
+                        general2RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
                     general2RunnerCheers.textColor = cheersColor2
                     
@@ -641,7 +639,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     general3RunnerName.text = name3
                     general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
-                    if ETA3 == 0 { general3RunnerETA.text = "ETA: <1 mi" }
+                    if ETA3 == 0 {
+                        general3RunnerETA.text = "ETA: <1 mi"
+                        general3RunnerETA.textColor = redLabel.textColor
+                    }
                     else { general3RunnerETA.text = String(format: "ETA: %d mi", ETA3) }
                     general3RunnerCheers.textColor = cheersColor3
                     
