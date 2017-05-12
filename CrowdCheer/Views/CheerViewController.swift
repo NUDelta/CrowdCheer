@@ -19,6 +19,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var bibLabel: UILabel!
     @IBOutlet weak var outfit: UILabel!
+    @IBOutlet weak var cheer: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
     @IBOutlet weak var lookBanner: UILabel!
@@ -84,13 +85,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             
             spectatorMonitor.enableBackgroundLoc()
         }
-        
-        if audioRecorder.isRecording {
-            print("RECORDING")
-        }
-        else {
-            print("NOT RECORDING")
-        }
     }
     
     func trackRunner() {
@@ -129,10 +123,11 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     func getRunnerProfile() {
         
         runner = contextPrimer.getRunner()
-            //update runner name, bib #, picture
+            //update runner name, bib #, picture, outfit, and cheer
             runnerName = (runner.value(forKey: "name"))! as! String
             let runnerBib = (runner.value(forKey: "bibNumber"))!
             let runnerOutfit = (runner.value(forKey: "outfit"))!
+            let runnerCheer = (runner.value(forKey: "cheer"))!
             let userImageFile = runner["profilePic"] as? PFFile
             userImageFile!.getDataInBackground {
                 (imageData: Data?, error: Error?) -> Void in
@@ -146,6 +141,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             nameLabel.text = runnerName
             bibLabel.text = "Bib #: " + (runnerBib as! String)
             outfit.text = "Wearing: " + (runnerOutfit as! String)
+            cheer.text = "Cheer: '" + (runnerCheer as! String) + "'"
             nearBanner.text = runnerName + " is nearby!"
     }
     

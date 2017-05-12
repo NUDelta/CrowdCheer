@@ -963,6 +963,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bibLabel" destination="Zx9-nv-uRq" id="mpr-Kj-OXm"/>
+                        <outlet property="cheer" destination="rRh-UH-961" id="D3z-9Y-yla"/>
                         <outlet property="cheerBanner" destination="Gfc-mm-7sQ" id="0Fu-qP-ISP"/>
                         <outlet property="distanceLabel" destination="lGb-LB-rDp" id="Z9i-1U-mrC"/>
                         <outlet property="lookBanner" destination="SVX-a5-dwR" id="lMV-eA-uke"/>
