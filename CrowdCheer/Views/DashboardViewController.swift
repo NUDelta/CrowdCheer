@@ -12,6 +12,7 @@ import Parse
 
 class DashboardViewController: UIViewController, MKMapViewDelegate {
     
+    @IBOutlet weak var targetRunnerPic: UIImageView!
     @IBOutlet weak var targetRunnerName: UILabel!
     @IBOutlet weak var targetRunnerETA: UILabel!
     @IBOutlet weak var targetRunnerCheers: UILabel!
@@ -39,6 +40,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var general3RunnerCheers: UILabel!
     @IBOutlet weak var general3RunnerTrack: UIButton!
     var general3Runner: PFUser = PFUser()
+    
+    @IBOutlet weak var idleTimeBanner: UILabel!
     
     @IBOutlet weak var redLabel: UILabel!
 
@@ -69,6 +72,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // Flow 1 - Hide all runner information
         
+        targetRunnerPic.isHidden = true
         targetRunnerName.isHidden = true
         targetRunnerETA.isHidden = true
         targetRunnerCheers.isHidden = true
@@ -127,7 +131,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // Flow 4 - every interval, notify spectators if 1) R runners are nearby and 2) R* runners are nearby
         
-        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+//        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_any), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
     }
@@ -234,7 +239,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist > 2000 { //if runner is more than 2km away (demo: 400)
+                                if dist > 400 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = false
@@ -246,21 +251,22 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: Show all runners near me, including target runners
-                                else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
+                                else if dist > 300 && dist <= 400 { //if runner is between 1-2km away (demo: 300-400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
+                                       self.areRunnersNearby = true
                                         self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                         nearbyRunnersDisplayed.append(runner)
-                                        self.areRunnersNearby = true
+                                        
                                     }
                                 }
                                     
                                     //Goal: if target runner is close, disable general runners & only show targets.
-                                else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
+                                else if dist > 250 && dist <= 300 { //if runner is between 500m - 1k away (demo: 250-300)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -271,15 +277,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         if !self.areTargetRunnersNearby {
-                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             self.areRunnersNearby = true
+                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             nearbyRunnersDisplayed.append(runner)
                                         }
                                     }
                                 }
                                     
                                     //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                                else if dist <= 500 { //if runner is less than 500m away (demo: 250)
+                                else if dist <= 250 { //if runner is less than 500m away (demo: 250)
                                     if affinity.1 == 10 { //if target runner, display runner & notify
                                         
                                         self.nearbyRunnersTimer.invalidate()
@@ -295,8 +301,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         
                                         if !self.areTargetRunnersNearby {
-                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             self.areRunnersNearby = true
+                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                             nearbyRunnersDisplayed.append(runner)
                                         }
                                     }
@@ -422,6 +428,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func updateTargetRunnerStatus(_ runner: PFUser) {
         
+        let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
         let (cheers, cheersColor) = getRunnerCheers(runner)
         let ETA = getRunnerETA(runner)
@@ -430,6 +437,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         print("cheers count for target: \(cheers)")
         print("ETA for target: \(ETA)")
         
+        targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
         targetRunnerCheers.text = String(format: "cheers: %d", cheers)
         if ETA == 0 {
@@ -448,6 +456,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
+        
+        if areRunnersNearby == true && areTargetRunnersNearby == false {
+            idleTimeBanner.isHidden = true
+        }
+        else {
+            idleTimeBanner.isHidden = false
+        }
         
         if !self.runnerProfiles.isEmpty {
                 
@@ -666,13 +681,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerCheers.textColor = general1RunnerName.textColor
         general3RunnerCheers.textColor = general1RunnerName.textColor
         
-        general1RunnerTrack.isEnabled = false
-        general2RunnerTrack.isEnabled = false
-        general3RunnerTrack.isEnabled = false
-        
-        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+//        general1RunnerTrack.isEnabled = false
+//        general2RunnerTrack.isEnabled = false
+//        general3RunnerTrack.isEnabled = false
+//        
+//        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+//        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+//        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -726,7 +741,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func sendLocalNotification_any() {
-        if areRunnersNearby == true {
+        if areRunnersNearby == true && areTargetRunnersNearby == false {
             
             if UIApplication.shared.applicationState == .background {
                 let localNotification = UILocalNotification()
