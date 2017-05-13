@@ -740,7 +740,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotations(annotationsToRemove)
     }
     
-    func sendLocalNotification_any() {
+    func sendLocalNotification_general() {
         if areRunnersNearby == true && areTargetRunnersNearby == false {
             
             if UIApplication.shared.applicationState == .background {
@@ -749,6 +749,35 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 var spectatorInfo = [String: AnyObject]()
                 spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
                 spectatorInfo["source"] = "generalRunnerNotification" as AnyObject
+                spectatorInfo["receivedNotification"] = true as AnyObject
+                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+                
+                
+                localNotification.alertBody = "Cheer for nearby runners while you wait!"
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+                
+                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+                localNotification.userInfo = spectatorInfo
+                
+                UIApplication.shared.presentLocalNotificationNow(localNotification)
+            }
+        }
+            
+        else {
+            print("local notification: no runners nearby")
+        }
+    }
+    
+    func sendLocalNotification_general_targetCheckin() {
+        if areRunnersNearby == true && areTargetRunnersNearby == false {
+            
+            if UIApplication.shared.applicationState == .background {
+                let localNotification = UILocalNotification()
+                
+                var spectatorInfo = [String: AnyObject]()
+                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+                spectatorInfo["source"] = "generalRunnerNotification_Target" as AnyObject
                 spectatorInfo["receivedNotification"] = true as AnyObject
                 spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                 
