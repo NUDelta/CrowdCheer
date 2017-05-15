@@ -13,4 +13,4 @@
 
 xcodebuild clean -project CrowdCheer -configuration Release -alltargets
 xcodebuild -project CrowdCheer.xcodeproj clean archive -scheme CrowdCheer -archivePath CrowdCheer.xcarchive
-xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath CrowdCheer -exportOptionsPlist CrowdCheer.plist PROVISIONING_PROFILE_SPECIFIER="Delta Lab C"
+xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath ./ -exportOptionsPlist export.plist PROVISIONING_PROFILE_SPECIFIER="Delta Lab C"

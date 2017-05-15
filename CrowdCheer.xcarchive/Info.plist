@@ -13,12 +13,12 @@
 		<key>CFBundleVersion</key>
 		<string>1</string>
 		<key>SigningIdentity</key>
-		<string>iPhone Developer: Leesha Maliakal (2467455D5Y)</string>
+		<string>iPhone Distribution: Northwestern University</string>
 	</dict>
 	<key>ArchiveVersion</key>
 	<integer>2</integer>
 	<key>CreationDate</key>
-	<date>2017-04-29T04:23:56Z</date>
+	<date>2017-05-15T20:58:07Z</date>
 	<key>Name</key>
 	<string>CrowdCheer</string>
 	<key>SchemeName</key>
