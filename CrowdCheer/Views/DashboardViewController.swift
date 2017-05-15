@@ -744,7 +744,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func notifyForGeneralRunners() {
         
-        let random = arc4random_uniform(1)
+        let random = arc4random_uniform(2)
+        print("random: \(random)")
         
         if random == 0 {
             sendLocalNotification_general()
