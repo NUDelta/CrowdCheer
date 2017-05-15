@@ -446,10 +446,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             targetRunnerETA.text = "ETA: <1 mi"
             targetRunnerETA.textColor = redLabel.textColor
         }
-        else { targetRunnerETA.text = String(format: "ETA: %d mi", ETA) }
+        else {
+            print("ETA for target is not 0")
+            targetRunnerETA.text = String(format: "ETA: %d mi", ETA)
+            targetRunnerETA.textColor = targetRunnerName.textColor
+        }
         
 //        targetRunnerCheers.textColor = cheersColor
-        targetRunnerETA.textColor = cheersColor
         
         targetRunnerName.isHidden = false
         targetRunnerETA.isHidden = false
