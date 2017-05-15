@@ -461,12 +461,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
-        
         if areRunnersNearby == true && areTargetRunnersNearby == false {
-            idleTimeBanner.isHidden = true
+            idleTimeBanner.isHidden = false
         }
         else {
-            idleTimeBanner.isHidden = false
+            idleTimeBanner.isHidden = true
         }
         
         if !self.runnerProfiles.isEmpty {
