@@ -17,6 +17,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var cheer: UILabel!
     @IBOutlet weak var outfit: UILabel!
     @IBOutlet weak var ETA: UILabel!
+    @IBOutlet weak var redLabel: UILabel!
     
     var runnerTrackerTimer: Timer = Timer()
     var userMonitorTimer: Timer = Timer()
@@ -119,11 +120,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             if distanceCalc < 0 {
                 distanceCalc = 0.01
             }
-            ETA.text = String(format: " %.02f", distanceCalc) + "m away"
+            ETA.text = String(format: " %d", Int(distanceCalc)) + "m away"
             ETA.isHidden = false
             
             if (distanceCalc >= 100 && distanceCalc <= 150) {
                 sendLocalNotification(runnerName)
+                ETA.textColor = redLabel.textColor
             }
             
             else if distanceCalc<100 {
