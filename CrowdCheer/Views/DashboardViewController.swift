@@ -430,7 +430,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func updateTargetRunnerStatus(_ runner: PFUser) {
         
-        targetRunnerPic.image = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
+        let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
         let (cheers, cheersColor) = getRunnerCheers(runner)
         let ETA = getRunnerETA(runner)
@@ -439,16 +439,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         print("cheers count for target: \(cheers)")
         print("ETA for target: \(ETA)")
         
-//        targetRunnerPic.image = targetPic
+        targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
 //        targetRunnerCheers.text = String(format: "cheers: %d", cheers)
         if ETA == 0 {
-            targetRunnerETA.text = "ETA: <1 mi"
+            targetRunnerETA.text = "<1 mi away"
             targetRunnerETA.textColor = redLabel.textColor
         }
         else {
-            print("ETA for target is not 0")
-            targetRunnerETA.text = String(format: "ETA: %d mi", ETA)
+            targetRunnerETA.text = String(format: "%d mi away", ETA)
             targetRunnerETA.textColor = targetRunnerName.textColor
         }
         
@@ -513,10 +512,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name
 //                    general1RunnerCheers.text = String(format: "cheers: %d", cheers)
                     if ETA == 0 {
-                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA) }
+                    else { general1RunnerETA.text = String(format: "%d mi away", ETA) }
 //                    general1RunnerCheers.textColor = cheersColor
                     
                     general1RunnerPic.isHidden = false
@@ -544,10 +543,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name1
 //                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     if ETA1 == 0 {
-                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
+                    else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
 //                    general1RunnerCheers.textColor = cheersColor1
                     
                     general1RunnerPic.isHidden = false
@@ -572,10 +571,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general2RunnerName.text = name2
 //                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     if ETA2 == 0 {
-                        general2RunnerETA.text = "ETA: <1 mi"
+                        general2RunnerETA.text = "<1 mi away"
                         general2RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
+                    else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
 //                    general2RunnerCheers.textColor = cheersColor2
                     
                     general2RunnerPic.isHidden = false
@@ -603,10 +602,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerName.text = name1
 //                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     if ETA1 == 0 {
-                        general1RunnerETA.text = "ETA: <1 mi"
+                        general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general1RunnerETA.text = String(format: "ETA: %d mi", ETA1) }
+                    else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
 //                    general1RunnerCheers.textColor = cheersColor1
                     
                     general1RunnerPic.isHidden = false
@@ -631,10 +630,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general2RunnerName.text = name2
 //                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     if ETA2 == 0 {
-                        general2RunnerETA.text = "ETA: <1 mi"
+                        general2RunnerETA.text = "<1 mi away"
                         general2RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general2RunnerETA.text = String(format: "ETA: %d mi", ETA2) }
+                    else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
 //                    general2RunnerCheers.textColor = cheersColor2
                     
                     general2RunnerPic.isHidden = false
@@ -659,10 +658,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general3RunnerName.text = name3
 //                    general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
                     if ETA3 == 0 {
-                        general3RunnerETA.text = "ETA: <1 mi"
+                        general3RunnerETA.text = "<1 mi away"
                         general3RunnerETA.textColor = redLabel.textColor
                     }
-                    else { general3RunnerETA.text = String(format: "ETA: %d mi", ETA3) }
+                    else { general3RunnerETA.text = String(format: "%d mi away", ETA3) }
 //                    general3RunnerCheers.textColor = cheersColor3
                     
                     general3RunnerPic.isHidden = false
