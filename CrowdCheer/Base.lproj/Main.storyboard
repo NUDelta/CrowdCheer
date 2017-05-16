@@ -338,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZTd-Zf-jQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3767" y="260"/>
+            <point key="canvasLocation" x="-3825" y="260"/>
         </scene>
         <!--Runner Profile-->
         <scene sceneID="Ndf-c1-sWN">
@@ -637,7 +637,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheer for " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KIp-1e-gXa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheer for a Runner " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KIp-1e-gXa">
                                 <rect key="frame" x="48" y="64" width="327" height="28"/>
                                 <color key="backgroundColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
@@ -650,7 +650,7 @@
                                     <constraint firstAttribute="width" constant="29" id="PMD-0C-PzC"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Outfit" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Lb-F6-cs3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Outfit" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Lb-F6-cs3">
                                 <rect key="frame" x="16" y="450" width="343" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="9jW-kG-cd4"/>
@@ -659,7 +659,7 @@
                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheer" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwR-ZA-ELF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheer" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwR-ZA-ELF">
                                 <rect key="frame" x="16" y="342" width="343" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="c4G-w2-mQj"/>
@@ -713,8 +713,11 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="distanceLabel" destination="grj-9f-Tle" id="QG6-PW-WkA"/>
+                        <outlet property="ETA" destination="grj-9f-Tle" id="vx4-mV-WQ2"/>
+                        <outlet property="cheer" destination="OwR-ZA-ELF" id="R1u-IN-i3h"/>
+                        <outlet property="cheerForBanner" destination="KIp-1e-gXa" id="BKQ-IX-c5d"/>
                         <outlet property="mapView" destination="NyN-48-tka" id="0Aj-oF-NGH"/>
+                        <outlet property="outfit" destination="8Lb-F6-cs3" id="93D-2K-YJl"/>
                         <segue destination="3xr-dc-zTt" kind="push" identifier="runnerNear" id="jvP-9N-IhK"/>
                     </connections>
                 </viewController>
@@ -1104,7 +1107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qDE-f8-GBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3339" y="260"/>
+            <point key="canvasLocation" x="-3397" y="260"/>
         </scene>
         <!--Runner Instructions-->
         <scene sceneID="0E1-8L-J58">

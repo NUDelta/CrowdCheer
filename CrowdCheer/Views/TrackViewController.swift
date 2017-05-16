@@ -12,8 +12,11 @@ import Parse
 
 class TrackViewController: UIViewController, MKMapViewDelegate {
     
+    @IBOutlet weak var cheerForBanner: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var cheer: UILabel!
+    @IBOutlet weak var outfit: UILabel!
+    @IBOutlet weak var ETA: UILabel!
     
     var runnerTrackerTimer: Timer = Timer()
     var userMonitorTimer: Timer = Timer()
@@ -22,6 +25,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
+    var runnerCheer: String = ""
+    var runnerOutfit: String = ""
     var myLocation = CLLocation()
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
@@ -45,7 +50,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItem = headingBtn
         
         getRunnerProfile()
-        distanceLabel.text = "Loading location..."
+        ETA.text = "Loading location..."
         myLocation = contextPrimer.locationMgr.location!
         interval = 5
         
@@ -114,8 +119,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             if distanceCalc < 0 {
                 distanceCalc = 0.01
             }
-            distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
-            distanceLabel.isHidden = false
+            ETA.text = String(format: " %.02f", distanceCalc) + "m away"
+            ETA.isHidden = false
             
             if (distanceCalc >= 100 && distanceCalc <= 150) {
                 sendLocalNotification(runnerName)
@@ -131,6 +136,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             }
         }
         
+        updateRunnerInfo()
+
+    }
+    
+    func updateRunnerInfo() {
 //        drawPath()
         updateRunnerPin()
     }
@@ -140,6 +150,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         runner = contextPrimer.getRunner()
         let name = (runner.value(forKey: "name"))!
         let bib = (runner.value(forKey: "bibNumber"))!
+        let cheer = (runner.value(forKey: "cheer"))!
+        let outfit = (runner.value(forKey: "outfit"))!
         let userImageFile = runner["profilePic"] as? PFFile
         userImageFile!.getDataInBackground {
             (imageData: Data?, error: Error?) -> Void in
@@ -152,16 +164,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
         runnerName = (name as? String)!
         runnerBib = (bib as? String)!
-    }
-    
-    
-    func sendLocalNotification(_ name: String) {
-        let localNotification = UILocalNotification()
-        localNotification.alertBody = "Time to cheer for " + name + "!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        runnerCheer = (cheer as? String)!
+        runnerOutfit = (outfit as? String)!
         
-        UIApplication.shared.presentLocalNotificationNow(localNotification)
+        self.cheer.text = "\(runnerName) wants you to cheer: \n\(runnerCheer)"
+        self.outfit.text = "\(runnerName) is wearing: \n\(runnerOutfit)"
+        self.cheerForBanner.text = "Cheer for \(runnerName)"
+        
+        
     }
     
     func drawPath() {
@@ -182,7 +192,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let subtitle = ("Bib #:" + runnerBib)
         let image = runnerPic
         let annotation = TrackRunnerAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, type: type!, image: image)
-
+        
         let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
         mapView.removeAnnotations(annotationsToRemove)
         mapView.addAnnotation(annotation)
@@ -233,4 +243,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         
     }
+    
+    func sendLocalNotification(_ name: String) {
+        let localNotification = UILocalNotification()
+        localNotification.alertBody = "Time to cheer for " + name + "!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        
+        UIApplication.shared.presentLocalNotificationNow(localNotification)
+    }
+
 }
