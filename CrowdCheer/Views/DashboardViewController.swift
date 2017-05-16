@@ -15,7 +15,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var targetRunnerPic: UIImageView!
     @IBOutlet weak var targetRunnerName: UILabel!
     @IBOutlet weak var targetRunnerETA: UILabel!
-    @IBOutlet weak var targetRunnerCheers: UILabel!
     @IBOutlet weak var targetRunnerTrack: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     var targetRunner: PFUser = PFUser()
@@ -23,21 +22,18 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var general1RunnerPic: UIImageView!
     @IBOutlet weak var general1RunnerName: UILabel!
     @IBOutlet weak var general1RunnerETA: UILabel!
-    @IBOutlet weak var general1RunnerCheers: UILabel!
     @IBOutlet weak var general1RunnerTrack: UIButton!
     var general1Runner: PFUser = PFUser()
     
     @IBOutlet weak var general2RunnerPic: UIImageView!
     @IBOutlet weak var general2RunnerName: UILabel!
     @IBOutlet weak var general2RunnerETA: UILabel!
-    @IBOutlet weak var general2RunnerCheers: UILabel!
     @IBOutlet weak var general2RunnerTrack: UIButton!
     var general2Runner: PFUser = PFUser()
     
     @IBOutlet weak var general3RunnerPic: UIImageView!
     @IBOutlet weak var general3RunnerName: UILabel!
     @IBOutlet weak var general3RunnerETA: UILabel!
-    @IBOutlet weak var general3RunnerCheers: UILabel!
     @IBOutlet weak var general3RunnerTrack: UIButton!
     var general3Runner: PFUser = PFUser()
     
@@ -75,25 +71,21 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         targetRunnerPic.isHidden = true
         targetRunnerName.isHidden = true
         targetRunnerETA.isHidden = true
-//        targetRunnerCheers.isHidden = true
         targetRunnerTrack.isHidden = true
         
         general1RunnerPic.isHidden = true
         general1RunnerName.isHidden = true
         general1RunnerETA.isHidden = true
-//        general1RunnerCheers.isHidden = true
         general1RunnerTrack.isHidden = true
         
         general2RunnerPic.isHidden = true
         general2RunnerName.isHidden = true
         general2RunnerETA.isHidden = true
-//        general2RunnerCheers.isHidden = true
         general2RunnerTrack.isHidden = true
         
         general3RunnerPic.isHidden = true
         general3RunnerName.isHidden = true
         general3RunnerETA.isHidden = true
-//        general3RunnerCheers.isHidden = true
         general3RunnerTrack.isHidden = true
         
         idleTimeBanner.isHidden = true
@@ -183,25 +175,21 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                 self.targetRunnerName.isHidden = true
                 self.targetRunnerETA.isHidden = true
-//                self.targetRunnerCheers.isHidden = true
                 self.targetRunnerTrack.isHidden = true
                 
                 self.general1RunnerPic.isHidden = true
                 self.general1RunnerName.isHidden = true
                 self.general1RunnerETA.isHidden = true
-//                self.general1RunnerCheers.isHidden = true
                 self.general1RunnerTrack.isHidden = true
                 
                 self.general2RunnerPic.isHidden = true
                 self.general2RunnerName.isHidden = true
                 self.general2RunnerETA.isHidden = true
-//                self.general2RunnerCheers.isHidden = true
                 self.general2RunnerTrack.isHidden = true
                 
                 self.general3RunnerPic.isHidden = true
                 self.general3RunnerName.isHidden = true
                 self.general3RunnerETA.isHidden = true
-//                self.general3RunnerCheers.isHidden = true
                 self.general3RunnerTrack.isHidden = true
             }
                 
@@ -432,16 +420,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
-        let (cheers, cheersColor) = getRunnerCheers(runner)
+//        let (cheers, cheersColor) = getRunnerCheers(runner)
         let ETA = getRunnerETA(runner)
         
         print("Target runner: \(targetRunnerNameText)")
-        print("cheers count for target: \(cheers)")
+//        print("cheers count for target: \(cheers)")
         print("ETA for target: \(ETA)")
         
         targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
-//        targetRunnerCheers.text = String(format: "cheers: %d", cheers)
         if ETA == 0 {
             targetRunnerETA.text = "<1 mi away"
             targetRunnerETA.textColor = redLabel.textColor
@@ -451,12 +438,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             targetRunnerETA.textColor = targetRunnerName.textColor
         }
         
-//        targetRunnerCheers.textColor = cheersColor
-        
         targetRunnerName.isHidden = false
         targetRunnerETA.isHidden = false
-//        targetRunnerCheers.isHidden = false
-        
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
@@ -479,19 +462,16 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     general1RunnerPic.isHidden = true
                     general1RunnerName.isHidden = true
                     general1RunnerETA.isHidden = true
-//                    general1RunnerCheers.isHidden = true
                     general1RunnerTrack.isHidden = true
                     
                     general2RunnerPic.isHidden = true
                     general2RunnerName.isHidden = true
                     general2RunnerETA.isHidden = true
-//                    general2RunnerCheers.isHidden = true
                     general2RunnerTrack.isHidden = true
                     
                     general3RunnerPic.isHidden = true
                     general3RunnerName.isHidden = true
                     general3RunnerETA.isHidden = true
-//                    general3RunnerCheers.isHidden = true
                     general3RunnerTrack.isHidden = true
                     
                 }
@@ -506,22 +486,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers, cheersColor) = getRunnerCheers(general1Runner)
+//                    let (cheers, cheersColor) = getRunnerCheers(general1Runner)
                     let ETA = getRunnerETA(general1Runner)
                 
                     general1RunnerName.text = name
-//                    general1RunnerCheers.text = String(format: "cheers: %d", cheers)
                     if ETA == 0 {
                         general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
                     else { general1RunnerETA.text = String(format: "%d mi away", ETA) }
-//                    general1RunnerCheers.textColor = cheersColor
                     
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
-//                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                 }
                     
@@ -537,22 +514,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
+//                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
                     let ETA1 = getRunnerETA(general1Runner)
                     
                     general1RunnerName.text = name1
-//                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     if ETA1 == 0 {
                         general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
                     else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
-//                    general1RunnerCheers.textColor = cheersColor1
                     
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
-//                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                     
                     //update general 2
@@ -565,22 +539,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
+//                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
                     let ETA2 = getRunnerETA(general2Runner)
                     
                     general2RunnerName.text = name2
-//                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     if ETA2 == 0 {
                         general2RunnerETA.text = "<1 mi away"
                         general2RunnerETA.textColor = redLabel.textColor
                     }
                     else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
-//                    general2RunnerCheers.textColor = cheersColor2
                     
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
-//                    general2RunnerCheers.isHidden = false
                     general2RunnerTrack.isHidden = false
                 }
                     
@@ -596,22 +567,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
                     self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
+//                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
                     let ETA1 = getRunnerETA(general1Runner)
                     
                     general1RunnerName.text = name1
-//                    general1RunnerCheers.text = String(format: "cheers: %d", cheers1)
                     if ETA1 == 0 {
                         general1RunnerETA.text = "<1 mi away"
                         general1RunnerETA.textColor = redLabel.textColor
                     }
                     else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
-//                    general1RunnerCheers.textColor = cheersColor1
                     
                     general1RunnerPic.isHidden = false
                     general1RunnerName.isHidden = false
                     general1RunnerETA.isHidden = false
-//                    general1RunnerCheers.isHidden = false
                     general1RunnerTrack.isHidden = false
                     
                     //update general 2
@@ -624,22 +592,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
                     self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
+//                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
                     let ETA2 = getRunnerETA(general2Runner)
                     
                     general2RunnerName.text = name2
-//                    general2RunnerCheers.text = String(format: "cheers: %d", cheers2)
                     if ETA2 == 0 {
                         general2RunnerETA.text = "<1 mi away"
                         general2RunnerETA.textColor = redLabel.textColor
                     }
                     else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
-//                    general2RunnerCheers.textColor = cheersColor2
                     
                     general2RunnerPic.isHidden = false
                     general2RunnerName.isHidden = false
                     general2RunnerETA.isHidden = false
-//                    general2RunnerCheers.isHidden = false
                     general2RunnerTrack.isHidden = false
                     
                     //update general 3
@@ -652,22 +617,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                     let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
                     self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
-                    let (cheers3, cheersColor3) = getRunnerCheers(general3Runner)
+//                    let (cheers3, cheersColor3) = getRunnerCheers(general3Runner)
                     let ETA3 = getRunnerETA(general3Runner)
                     
                     general3RunnerName.text = name3
-//                    general3RunnerCheers.text = String(format: "cheers: %d", cheers3)
                     if ETA3 == 0 {
                         general3RunnerETA.text = "<1 mi away"
                         general3RunnerETA.textColor = redLabel.textColor
                     }
                     else { general3RunnerETA.text = String(format: "%d mi away", ETA3) }
-//                    general3RunnerCheers.textColor = cheersColor3
                     
                     general3RunnerPic.isHidden = false
                     general3RunnerName.isHidden = false
                     general3RunnerETA.isHidden = false
-//                    general3RunnerCheers.isHidden = false
                     general3RunnerTrack.isHidden = false
                 }
             }
@@ -679,10 +641,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general1RunnerETA.textColor = general1RunnerName.textColor
         general2RunnerETA.textColor = general1RunnerName.textColor
         general3RunnerETA.textColor = general1RunnerName.textColor
-            
-//        general1RunnerCheers.textColor = general1RunnerName.textColor
-//        general2RunnerCheers.textColor = general1RunnerName.textColor
-//        general3RunnerCheers.textColor = general1RunnerName.textColor
         
 //        general1RunnerTrack.isEnabled = false
 //        general2RunnerTrack.isEnabled = false
