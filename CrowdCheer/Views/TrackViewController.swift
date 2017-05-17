@@ -21,6 +21,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     var runnerTrackerTimer: Timer = Timer()
     var userMonitorTimer: Timer = Timer()
+    var nearbyRunnersTimer: Timer = Timer()
     var interval: Int = Int()
     var runner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
@@ -31,8 +32,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var myLocation = CLLocation()
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
-    var contextPrimer = ContextPrimer()
+    var runnerLocations = [PFUser: PFGeoPoint]()
+    var nearbyTargetRunners = [String: Bool]()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
+    var nearbyRunners: NearbyRunners = NearbyRunners()
+    var optimizedRunners: OptimizedRunners = OptimizedRunners()
+    var contextPrimer: ContextPrimer = ContextPrimer()
     var verifiedReceival: VerifiedReceival = VerifiedReceival()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -42,7 +47,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         //initialize map
         //update the runner profile info
-        //every second, update the distance label and map with the runner's location
+        //every 5 seconds, update the distance label and map with the runner's location
 
         mapView.delegate = self
         mapView.showsUserLocation = true
@@ -60,6 +65,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         })
         runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        
+        optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
         
@@ -69,6 +77,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         print("viewWillDisappear")
         userMonitorTimer.invalidate()
         runnerTrackerTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
         
     }
     
@@ -140,6 +149,46 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         updateRunnerInfo()
 
+    }
+    
+    func updateNearbyRunners() {
+        //find nearby favorite runners and notify if close by
+        nearbyRunners = NearbyRunners()
+        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+            if ((runnerLocations?.isEmpty) != true) {
+                self.runnerLocations = runnerLocations!
+                
+                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
+                    print("affinities \(affinities)")
+                    
+                    for (runner, runnerLoc) in runnerLocations! {
+                        
+                        //calculate the distance between spectator and a runner
+                        
+                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+                        print(runner.username!, dist)
+                        
+                        //for each runner, find closeby target runners
+                        for affinity in affinities {
+                            
+                            if runner == affinity.0 {
+                                //Goal: Show target runners throughout the race
+                                if dist <= 250 { //if runner is less than 500m away (demo: 250)
+                                    if affinity.1 == 10 { //if target runner, notify spectator
+                                        //notify
+                                        let name = (runner.value(forKey: "name"))!
+                                        self.sendLocalNotification_target(name as! String)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
+                }
+            }
+        }
     }
     
     func updateRunnerInfo() {
@@ -253,6 +302,46 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
         
         UIApplication.shared.presentLocalNotificationNow(localNotification)
+    }
+    
+    func sendLocalNotification_target(_ name: String) {
+        
+        if UIApplication.shared.applicationState == .background {
+            
+            let localNotification = UILocalNotification()
+            
+            var spectatorInfo = [String: AnyObject]()
+            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+            spectatorInfo["source"] = "targetRunnerNotification_track" as AnyObject
+            spectatorInfo["receivedNotification"] = true as AnyObject
+            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+            
+            localNotification.alertBody =  name + " is nearby, get ready to support them!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            
+            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+            localNotification.userInfo = spectatorInfo
+            
+            UIApplication.shared.presentLocalNotificationNow(localNotification)
+        }
+            
+        else if UIApplication.shared.applicationState == .active {
+            
+            let alertTitle = name + " is nearby!"
+            let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func dismissCheerTarget(_ alert: UIAlertAction!) {
+        
+        nearbyTargetRunnersTimer.invalidate()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }
