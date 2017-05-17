@@ -28,6 +28,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     var userMonitorTimer: Timer = Timer()
     var runnerTrackerTimer: Timer = Timer()
+    var nearbyRunnersTimer: Timer = Timer()
     var interval: Int = Int()
     var spectator: PFUser = PFUser.current()!
     var spectatorName: String = ""
@@ -38,8 +39,12 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var audioRecorder: AVAudioRecorder!
     var audioFilePath: NSURL = NSURL()
     var audioFileName: String = ""
-    var contextPrimer = ContextPrimer()
+    var runnerLocations = [PFUser: PFGeoPoint]()
+    var nearbyTargetRunners = [String: Bool]()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
+    var nearbyRunners: NearbyRunners = NearbyRunners()
+    var optimizedRunners: OptimizedRunners = OptimizedRunners()
+    var contextPrimer: ContextPrimer = ContextPrimer()
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     var verifiedReceival: VerifiedReceival = VerifiedReceival()
     
@@ -61,6 +66,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         //every second, update the distance and map with the runner's location
         runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        
+        optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
         verifiedDelivery = VerifiedDelivery()
@@ -69,7 +77,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         //begin recording audio
         startRecordingSpectatorAudio(runnerName, spectatorName: spectatorName)
-        
         
     }
     
@@ -226,6 +233,46 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    func updateNearbyRunners() {
+        //find nearby favorite runners and notify if close by
+        nearbyRunners = NearbyRunners()
+        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+            if ((runnerLocations?.isEmpty) != true) {
+                self.runnerLocations = runnerLocations!
+                
+                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
+                    print("affinities \(affinities)")
+                    
+                    for (runner, runnerLoc) in runnerLocations! {
+                        
+                        //calculate the distance between spectator and a runner
+                        
+                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+                        print(runner.username!, dist)
+                        
+                        //for each runner, find closeby target runners
+                        for affinity in affinities {
+                            
+                            if runner == affinity.0 {
+                                //Goal: Show target runners throughout the race
+                                if dist <= 250 { //if runner is less than 500m away (demo: 250)
+                                    if affinity.1 == 10 { //if target runner, notify spectator
+                                        //notify
+                                        let name = (runner.value(forKey: "name"))!
+                                        self.sendLocalNotification_target(name as! String)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
+                }
+            }
+        }
+    }
+    
     func startRecordingSpectatorAudio(_ runnerName: String, spectatorName: String) {
         
         //start recording
@@ -275,6 +322,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func didCheer(_ alert: UIAlertAction!) {
         
+        nearbyRunnersTimer.invalidate()
+        
         //verify cheer & reset pair
         verifiedDelivery.spectatorDidCheer(runner, didCheer: true, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
@@ -287,6 +336,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func didNotCheer(_ alert: UIAlertAction!) {
         
+        nearbyRunnersTimer.invalidate()
+        
         //verify cheer & reset pair
         verifiedDelivery.spectatorDidCheer(runner, didCheer: false, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
@@ -295,5 +346,45 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
         //save didCheer in Cheers as false
+    }
+    
+    func sendLocalNotification_target(_ name: String) {
+        
+        if UIApplication.shared.applicationState == .background {
+            
+            let localNotification = UILocalNotification()
+            
+            var spectatorInfo = [String: AnyObject]()
+            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+            spectatorInfo["source"] = "targetRunnerNotification_track" as AnyObject
+            spectatorInfo["receivedNotification"] = true as AnyObject
+            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+            
+            localNotification.alertBody =  name + " is nearby, get ready to support them!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            
+            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+            localNotification.userInfo = spectatorInfo
+            
+            UIApplication.shared.presentLocalNotificationNow(localNotification)
+        }
+            
+        else if UIApplication.shared.applicationState == .active {
+            
+            let alertTitle = name + " is nearby!"
+            let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func dismissCheerTarget(_ alert: UIAlertAction!) {
+        
+        nearbyTargetRunnersTimer.invalidate()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

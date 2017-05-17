@@ -73,7 +73,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-        override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         userMonitorTimer.invalidate()
         runnerTrackerTimer.invalidate()
