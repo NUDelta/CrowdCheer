@@ -724,10 +724,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 let now = NSDate()
                 
                 if timeSinceLastNotification != 0 {
+                    //NOTE: This value is actually going 30s ahead of what's used in the above if statement
                     timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                 }
                 
-                if timeSinceLastNotification >= 60*1.5 {
+                if timeSinceLastNotification >= 60*2 {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
