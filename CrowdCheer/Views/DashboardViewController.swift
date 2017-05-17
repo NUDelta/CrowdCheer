@@ -49,6 +49,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var nearbyGeneralRunnersTimer: Timer = Timer()
+    var lastGeneralRunnerNotificationTime = NSDate()
+    var timeSinceLastNotification: Double = Double()
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var targetRunnerNameText: String = ""
@@ -96,6 +98,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         areTargetRunnersNearby = false
         areRunnersNearby = false
         interval = 30
+        lastGeneralRunnerNotificationTime = NSDate()
+        timeSinceLastNotification = 0.0
         
         
         //initialize mapview
@@ -125,8 +129,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // Flow 4 - every interval, notify spectators if 1) R runners are nearby and 2) R* runners are nearby
         
-//        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 60*5, target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
-        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
         nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
         
     }
@@ -229,7 +232,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist > 400 { //if runner is more than 2km away (demo: 400)
+                                if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = false
@@ -241,7 +244,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: Show all runners near me, including target runners
-                                else if dist > 300 && dist <= 400 { //if runner is between 1-2km away (demo: 300-400)
+                                else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -256,7 +259,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: if target runner is close, disable general runners & only show targets.
-                                else if dist > 250 && dist <= 300 { //if runner is between 500m - 1k away (demo: 250-300)
+                                else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -275,7 +278,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                                else if dist <= 250 { //if runner is less than 500m away (demo: 250)
+                                else if dist <= 500 { //if runner is less than 500m away (demo: 250)
                                     if affinity.1 == 10 { //if target runner, display runner & notify
                                         
                                         self.nearbyRunnersTimer.invalidate()
@@ -703,43 +706,61 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func notifyForGeneralRunners() {
         
-        let random = arc4random_uniform(2)
-        print("random: \(random)")
-        
-        if random == 0 {
-            sendLocalNotification_general()
+        if UIApplication.shared.applicationState == .background {
+            let random = arc4random_uniform(2)
+            print("random: \(random)")
+            print("time since last R notification: \(timeSinceLastNotification)s")
+            
+            if timeSinceLastNotification == 0.0 {
+                if random == 0 {
+                    sendLocalNotification_general()
+                }
+                else if random == 1 {
+                    sendLocalNotification_general_targetCheckin()
+                }
+            }
+                
+            else {
+                let now = NSDate()
+                timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date)
+                if timeSinceLastNotification >= 60*1.5 {
+                    if random == 0 {
+                        sendLocalNotification_general()
+                    }
+                    else if random == 1 {
+                        sendLocalNotification_general_targetCheckin()
+                    }
+                }
+            }
         }
-        
-        else if random == 1 {
-            sendLocalNotification_general_targetCheckin()
-        }
-        
     }
     
     func sendLocalNotification_general() {
         if areRunnersNearby == true && areTargetRunnersNearby == false {
+
+            let localNotification = UILocalNotification()
             
-            if UIApplication.shared.applicationState == .background {
-                let localNotification = UILocalNotification()
-                
-                var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-                spectatorInfo["source"] = "generalRunnerNotification" as AnyObject
-                spectatorInfo["receivedNotification"] = true as AnyObject
-                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-                
-                
-                localNotification.alertBody = "Cheer for nearby runners while you wait!"
-                localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-                
-                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-                localNotification.userInfo = spectatorInfo
-                
-                UIApplication.shared.presentLocalNotificationNow(localNotification)
-            }
+            var spectatorInfo = [String: AnyObject]()
+            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+            spectatorInfo["source"] = "generalRunnerNotification" as AnyObject
+            spectatorInfo["receivedNotification"] = true as AnyObject
+            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+            
+            
+            localNotification.alertBody = "Cheer for nearby runners while you wait!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            
+            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+            localNotification.userInfo = spectatorInfo
+            
+            UIApplication.shared.presentLocalNotificationNow(localNotification)
+            
+            let now = NSDate()
+            lastGeneralRunnerNotificationTime = now
+            timeSinceLastNotification = 1.0 + Double(interval)
         }
-            
+    
         else {
             print("local notification: no runners nearby")
         }
@@ -766,6 +787,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 localNotification.userInfo = spectatorInfo
                 
                 UIApplication.shared.presentLocalNotificationNow(localNotification)
+                
+                let now = NSDate()
+                lastGeneralRunnerNotificationTime = now
+                timeSinceLastNotification = 1.0
             }
         }
             
