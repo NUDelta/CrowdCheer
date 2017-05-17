@@ -116,10 +116,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         
         
-        // Flow 2 - check once for any nearby runners and add them to dash
-        
-        updateNearbyRunners()
+        // Flow 2 - check once for any nearby runners on view load
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: false)
         nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: false)
+        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: false)
+        
         
         // Flow 3 - every interval, log spectator loc and update nearby runners
         
@@ -447,196 +449,193 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
-        if areRunnersNearby == true && areTargetRunnersNearby == false {
+        if areTargetRunnersNearby == false {
             idleTimeBanner.isHidden = false
         }
         else {
             idleTimeBanner.isHidden = true
         }
         
-        if !self.runnerProfiles.isEmpty {
+        if !self.optimizedRunners.generalRunners.isEmpty {
+            let generalRunners = self.optimizedRunners.generalRunners
+            print("generalRunners in dashboardVC: \(generalRunners)")
+            if generalRunners.count == 1 {
+                //update general 1
+                let runner1ObjID = generalRunners[0]
+                do {
+                    general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers, cheersColor) = getRunnerCheers(general1Runner)
+                let ETA = getRunnerETA(general1Runner)
                 
-            if runnerType == "general" {
+                general1RunnerName.text = name
+                if ETA == 0 {
+                    general1RunnerETA.text = "<1 mi away"
+                    general1RunnerETA.textColor = redLabel.textColor
+                }
+                else { general1RunnerETA.text = String(format: "%d mi away", ETA) }
                 
-                let generalRunners = self.optimizedRunners.generalRunners
-                print("generalRunners in dashboardVC: \(generalRunners)")
-                if generalRunners.count == 0 {
-                    
-                    //hide all labels
-                    general1RunnerPic.isHidden = true
-                    general1RunnerName.isHidden = true
-                    general1RunnerETA.isHidden = true
-                    general1RunnerTrack.isHidden = true
-                    
-                    general2RunnerPic.isHidden = true
-                    general2RunnerName.isHidden = true
-                    general2RunnerETA.isHidden = true
-                    general2RunnerTrack.isHidden = true
-                    
-                    general3RunnerPic.isHidden = true
-                    general3RunnerName.isHidden = true
-                    general3RunnerETA.isHidden = true
-                    general3RunnerTrack.isHidden = true
-                    
-                }
-                else if generalRunners.count == 1 {
-                    //update general 1
-                    let runner1ObjID = generalRunners[0]
-                    do {
-                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers, cheersColor) = getRunnerCheers(general1Runner)
-                    let ETA = getRunnerETA(general1Runner)
-                
-                    general1RunnerName.text = name
-                    if ETA == 0 {
-                        general1RunnerETA.text = "<1 mi away"
-                        general1RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general1RunnerETA.text = String(format: "%d mi away", ETA) }
-                    
-                    general1RunnerPic.isHidden = false
-                    general1RunnerName.isHidden = false
-                    general1RunnerETA.isHidden = false
-                    general1RunnerTrack.isHidden = false
-                }
-                    
-                else if generalRunners.count == 2 {
-                    
-                    //update general 1
-                    let runner1ObjID = generalRunners[0]
-                    do {
-                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
-                    let ETA1 = getRunnerETA(general1Runner)
-                    
-                    general1RunnerName.text = name1
-                    if ETA1 == 0 {
-                        general1RunnerETA.text = "<1 mi away"
-                        general1RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
-                    
-                    general1RunnerPic.isHidden = false
-                    general1RunnerName.isHidden = false
-                    general1RunnerETA.isHidden = false
-                    general1RunnerTrack.isHidden = false
-                    
-                    //update general 2
-                    let runner2ObjID = generalRunners[1]
-                    do {
-                        general2Runner = try PFQuery.getUserObject(withId: generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
-                    let ETA2 = getRunnerETA(general2Runner)
-                    
-                    general2RunnerName.text = name2
-                    if ETA2 == 0 {
-                        general2RunnerETA.text = "<1 mi away"
-                        general2RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
-                    
-                    general2RunnerPic.isHidden = false
-                    general2RunnerName.isHidden = false
-                    general2RunnerETA.isHidden = false
-                    general2RunnerTrack.isHidden = false
-                }
-                    
-                else if generalRunners.count > 2 {
-                    
-                    //update general 1
-                    let runner1ObjID = generalRunners[0]
-                    do {
-                        general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
-                    let ETA1 = getRunnerETA(general1Runner)
-                    
-                    general1RunnerName.text = name1
-                    if ETA1 == 0 {
-                        general1RunnerETA.text = "<1 mi away"
-                        general1RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
-                    
-                    general1RunnerPic.isHidden = false
-                    general1RunnerName.isHidden = false
-                    general1RunnerETA.isHidden = false
-                    general1RunnerTrack.isHidden = false
-                    
-                    //update general 2
-                    let runner2ObjID = generalRunners[1]
-                    do {
-                        general2Runner = try PFQuery.getUserObject(withId: generalRunners[1])
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
-                    let ETA2 = getRunnerETA(general2Runner)
-                    
-                    general2RunnerName.text = name2
-                    if ETA2 == 0 {
-                        general2RunnerETA.text = "<1 mi away"
-                        general2RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
-                    
-                    general2RunnerPic.isHidden = false
-                    general2RunnerName.isHidden = false
-                    general2RunnerETA.isHidden = false
-                    general2RunnerTrack.isHidden = false
-                    
-                    //update general 3
-                    let runner3ObjID = generalRunners[2]
-                    do {
-                        general3Runner = try PFQuery.getUserObject(withId: generalRunners[2])
-                    }
-                    catch {
-                        print("ERROR: unable to get runner")
-                    }
-                    let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
-                    self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
-//                    let (cheers3, cheersColor3) = getRunnerCheers(general3Runner)
-                    let ETA3 = getRunnerETA(general3Runner)
-                    
-                    general3RunnerName.text = name3
-                    if ETA3 == 0 {
-                        general3RunnerETA.text = "<1 mi away"
-                        general3RunnerETA.textColor = redLabel.textColor
-                    }
-                    else { general3RunnerETA.text = String(format: "%d mi away", ETA3) }
-                    
-                    general3RunnerPic.isHidden = false
-                    general3RunnerName.isHidden = false
-                    general3RunnerETA.isHidden = false
-                    general3RunnerTrack.isHidden = false
-                }
+                general1RunnerPic.isHidden = false
+                general1RunnerName.isHidden = false
+                general1RunnerETA.isHidden = false
+                general1RunnerTrack.isHidden = false
             }
+                
+            else if generalRunners.count == 2 {
+                
+                //update general 1
+                let runner1ObjID = generalRunners[0]
+                do {
+                    general1Runner = try PFQuery.getUserObject(withId: generalRunners[0]) //NOTE: crashes here, just before it runs a query in Match ln 402
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
+                let ETA1 = getRunnerETA(general1Runner)
+                
+                general1RunnerName.text = name1
+                if ETA1 == 0 {
+                    general1RunnerETA.text = "<1 mi away"
+                    general1RunnerETA.textColor = redLabel.textColor
+                }
+                else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
+                
+                general1RunnerPic.isHidden = false
+                general1RunnerName.isHidden = false
+                general1RunnerETA.isHidden = false
+                general1RunnerTrack.isHidden = false
+                
+                //update general 2
+                let runner2ObjID = generalRunners[1]
+                do {
+                    general2Runner = try PFQuery.getUserObject(withId: generalRunners[1]) //NOTE: crashes here, just before it runs a query in Match ln 402 (x2)
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
+                let ETA2 = getRunnerETA(general2Runner)
+                
+                general2RunnerName.text = name2
+                if ETA2 == 0 {
+                    general2RunnerETA.text = "<1 mi away"
+                    general2RunnerETA.textColor = redLabel.textColor
+                }
+                else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
+                
+                general2RunnerPic.isHidden = false
+                general2RunnerName.isHidden = false
+                general2RunnerETA.isHidden = false
+                general2RunnerTrack.isHidden = false
+            }
+                
+            else if generalRunners.count > 2 {
+                
+                //update general 1
+                let runner1ObjID = generalRunners[0]
+                do {
+                    general1Runner = try PFQuery.getUserObject(withId: generalRunners[0])
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name1 = getRunnerName(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                self.general1RunnerPic.image = getRunnerImage(runner1ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers1, cheersColor1) = getRunnerCheers(general1Runner)
+                let ETA1 = getRunnerETA(general1Runner)
+                
+                general1RunnerName.text = name1
+                if ETA1 == 0 {
+                    general1RunnerETA.text = "<1 mi away"
+                    general1RunnerETA.textColor = redLabel.textColor
+                }
+                else { general1RunnerETA.text = String(format: "%d mi away", ETA1) }
+                
+                general1RunnerPic.isHidden = false
+                general1RunnerName.isHidden = false
+                general1RunnerETA.isHidden = false
+                general1RunnerTrack.isHidden = false
+                
+                //update general 2
+                let runner2ObjID = generalRunners[1]
+                do {
+                    general2Runner = try PFQuery.getUserObject(withId: generalRunners[1])
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name2 = getRunnerName(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                self.general2RunnerPic.image = getRunnerImage(runner2ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers2, cheersColor2) = getRunnerCheers(general2Runner)
+                let ETA2 = getRunnerETA(general2Runner)
+                
+                general2RunnerName.text = name2
+                if ETA2 == 0 {
+                    general2RunnerETA.text = "<1 mi away"
+                    general2RunnerETA.textColor = redLabel.textColor
+                }
+                else { general2RunnerETA.text = String(format: "%d mi away", ETA2) }
+                
+                general2RunnerPic.isHidden = false
+                general2RunnerName.isHidden = false
+                general2RunnerETA.isHidden = false
+                general2RunnerTrack.isHidden = false
+                
+                //update general 3
+                let runner3ObjID = generalRunners[2]
+                do {
+                    general3Runner = try PFQuery.getUserObject(withId: generalRunners[2])
+                }
+                catch {
+                    print("ERROR: unable to get runner")
+                }
+                let name3 = getRunnerName(runner3ObjID, runnerProfiles: self.runnerProfiles)
+                self.general3RunnerPic.image = getRunnerImage(runner3ObjID, runnerProfiles: self.runnerProfiles)
+                //                    let (cheers3, cheersColor3) = getRunnerCheers(general3Runner)
+                let ETA3 = getRunnerETA(general3Runner)
+                
+                general3RunnerName.text = name3
+                if ETA3 == 0 {
+                    general3RunnerETA.text = "<1 mi away"
+                    general3RunnerETA.textColor = redLabel.textColor
+                }
+                else { general3RunnerETA.text = String(format: "%d mi away", ETA3) }
+                
+                general3RunnerPic.isHidden = false
+                general3RunnerName.isHidden = false
+                general3RunnerETA.isHidden = false
+                general3RunnerTrack.isHidden = false
+            }
+            
+        }
+        else {
+            //hide all labels
+            general1RunnerPic.isHidden = true
+            general1RunnerName.isHidden = true
+            general1RunnerETA.isHidden = true
+            general1RunnerTrack.isHidden = true
+            
+            general2RunnerPic.isHidden = true
+            general2RunnerName.isHidden = true
+            general2RunnerETA.isHidden = true
+            general2RunnerTrack.isHidden = true
+            
+            general3RunnerPic.isHidden = true
+            general3RunnerName.isHidden = true
+            general3RunnerETA.isHidden = true
+            general3RunnerTrack.isHidden = true
+            
+            idleTimeBanner.isHidden = true
         }
     }
     
@@ -649,7 +648,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //        general1RunnerTrack.isEnabled = false
 //        general2RunnerTrack.isEnabled = false
 //        general3RunnerTrack.isEnabled = false
-//        
+//
 //        general1RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
 //        general2RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
 //        general3RunnerTrack.setTitleColor(UIColor.gray, for: UIControlState.disabled)
