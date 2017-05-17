@@ -356,7 +356,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             
             var spectatorInfo = [String: AnyObject]()
             spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-            spectatorInfo["source"] = "targetRunnerNotification_track" as AnyObject
+            spectatorInfo["source"] = "targetRunnerNotification_cheer" as AnyObject
             spectatorInfo["receivedNotification"] = true as AnyObject
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
