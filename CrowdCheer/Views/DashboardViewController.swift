@@ -432,9 +432,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
-        if ETA == 0 {
+        if ETA < 2 {
             targetRunnerETA.text = "<1 mi away"
             targetRunnerETA.textColor = redLabel.textColor
+            targetRunnerTrack.isHidden = false
         }
         else {
             targetRunnerETA.text = String(format: "%d mi away", ETA)
@@ -671,7 +672,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         print("\(String(describing: view.annotation?.title)) has been tapped")
         if (view is PickRunnerAnnotationView) {
             
-            targetRunnerTrack.isHidden = false
             let ann = view.annotation as! PickRunnerAnnotation
             let runnerObjID = ann.runnerObjID
             do {
@@ -711,7 +711,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
-            if timeSinceLastNotification == 0.0 {
+            if timeSinceLastNotification < Double(interval) {
                 if random == 0 {
                     sendLocalNotification_general()
                 }
@@ -722,7 +722,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
             else {
                 let now = NSDate()
-                timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date)
+                
+                if timeSinceLastNotification != 0 {
+                    timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
+                }
+                
                 if timeSinceLastNotification >= 60*1.5 {
                     if random == 0 {
                         sendLocalNotification_general()
@@ -758,7 +762,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             
             let now = NSDate()
             lastGeneralRunnerNotificationTime = now
-            timeSinceLastNotification = 1.0 + Double(interval)
+            
+            if timeSinceLastNotification == 0 {
+                timeSinceLastNotification = Double(interval)
+            }
         }
     
         else {
@@ -769,29 +776,31 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func sendLocalNotification_general_targetCheckin() {
         if areRunnersNearby == true && areTargetRunnersNearby == false {
             
-            if UIApplication.shared.applicationState == .background {
-                let localNotification = UILocalNotification()
-                
-                var spectatorInfo = [String: AnyObject]()
-                spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-                spectatorInfo["source"] = "generalRunnerNotification_Target" as AnyObject
-                spectatorInfo["receivedNotification"] = true as AnyObject
-                spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-                
-                
-                localNotification.alertBody = "Check in on your favorite runners!"
-                localNotification.soundName = UILocalNotificationDefaultSoundName
-                localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-                
-                spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-                localNotification.userInfo = spectatorInfo
-                
-                UIApplication.shared.presentLocalNotificationNow(localNotification)
-                
-                let now = NSDate()
-                lastGeneralRunnerNotificationTime = now
-                timeSinceLastNotification = 1.0
+            let localNotification = UILocalNotification()
+            
+            var spectatorInfo = [String: AnyObject]()
+            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+            spectatorInfo["source"] = "generalRunnerNotification_Target" as AnyObject
+            spectatorInfo["receivedNotification"] = true as AnyObject
+            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+            
+            
+            localNotification.alertBody = "Check in on your favorite runners!"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            
+            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+            localNotification.userInfo = spectatorInfo
+            
+            UIApplication.shared.presentLocalNotificationNow(localNotification)
+            
+            let now = NSDate()
+            lastGeneralRunnerNotificationTime = now
+            
+            if timeSinceLastNotification == 0 {
+                timeSinceLastNotification = Double(interval)
             }
+            
         }
             
         else {
