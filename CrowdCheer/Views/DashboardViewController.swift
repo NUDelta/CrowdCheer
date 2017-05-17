@@ -645,6 +645,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerETA.textColor = general1RunnerName.textColor
         general3RunnerETA.textColor = general1RunnerName.textColor
         
+        idleTimeBanner.isHidden = true
+        
 //        general1RunnerTrack.isEnabled = false
 //        general2RunnerTrack.isEnabled = false
 //        general3RunnerTrack.isEnabled = false
