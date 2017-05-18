@@ -302,7 +302,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                     
-//                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                 }
             }
