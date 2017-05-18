@@ -224,6 +224,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     // Empty Nearby Runners and recheck
                     self.nearbyGeneralRunners = [:]
+                    self.nearbyTargetRunners = [:]
                     
                     for (runner, runnerLoc) in runnerLocations! {
                         
@@ -241,11 +242,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 if dist > 2000 { //if runner is more than 2km away (demo: 400)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
-                                        self.nearbyTargetRunners[runner.objectId!] = false
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, don't add them yet
-                                        self.areRunnersNearby = false
                                     }
                                 }
                                     
@@ -257,7 +256,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
-                                        self.areRunnersNearby = true
                                         self.nearbyGeneralRunners[runner] = true
                                         self.updateGeneralRunnerStatus(runner, runnerType: "general")
                                         nearbyRunnersDisplayed.append(runner)
@@ -270,18 +268,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
-                                        self.areTargetRunnersNearby = true
-                                        self.disableGeneralRunners()
-//                                        self.areRunnersNearby = false
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-//                                        if !self.areTargetRunnersNearby {
-                                            self.areRunnersNearby = true
-                                            self.nearbyGeneralRunners[runner] = true
-                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
-                                            nearbyRunnersDisplayed.append(runner)
-//                                        }
+                                        self.nearbyGeneralRunners[runner] = true
+                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                 }
                                     
@@ -294,19 +286,14 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.targetRunnerTrack.isEnabled = true
                                         self.nearbyTargetRunners[runner.objectId!] = true
-                                        self.areTargetRunnersNearby = true
                                         self.disableGeneralRunners()
-//                                        self.areRunnersNearby = false
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         
-//                                        if !self.areTargetRunnersNearby {
-                                            self.areRunnersNearby = true
-                                            self.nearbyGeneralRunners[runner] = true
-                                            self.updateGeneralRunnerStatus(runner, runnerType: "general")
-                                            nearbyRunnersDisplayed.append(runner)
-//                                        }
+                                        self.nearbyGeneralRunners[runner] = true
+                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
+                                        nearbyRunnersDisplayed.append(runner)
                                     }
                                 }
                             }
@@ -316,8 +303,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
 //                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                     
-                    if self.nearbyGeneralRunners.isEmpty {
+                    if !self.nearbyGeneralRunners.isEmpty {
+                        self.areRunnersNearby = true
+                    }
+                    else {
+                        self.areRunnersNearby = false
                         self.clearGeneralDashboard()
+                    }
+                    
+                    if !self.nearbyTargetRunners.isEmpty {
+                        self.areTargetRunnersNearby = true
+                    }
+                    else {
+                        self.areTargetRunnersNearby = false
                     }
                 }
             }
@@ -460,11 +458,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
-        
-        idleTimeBanner.isHidden = false
     
         var generalRunners = self.nearbyGeneralRunners
         print("generalRunners in dashboardVC: \(generalRunners)")
+        
+        if areRunnersNearby && !areTargetRunnersNearby {
+            general1RunnerETA.textColor = redLabel.textColor
+            general2RunnerETA.textColor = redLabel.textColor
+            general3RunnerETA.textColor = redLabel.textColor
+            idleTimeBanner.isHidden = false
+        }
+        
+        else if areTargetRunnersNearby {
+            disableGeneralRunners()
+        }
         
         if generalRunners.count == 1 {
             updateGeneral1RunnerStatus((generalRunners.popFirst()?.key)!)
@@ -494,7 +501,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general1RunnerPic.image = runnerPic
         if ETA == 0 {
             general1RunnerETA.text = "<1 mi away"
-            general1RunnerETA.textColor = redLabel.textColor
         }
         else { general1RunnerETA.text = String(format: "%d mi away", ETA) }
         
@@ -515,7 +521,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerPic.image = runnerPic
         if ETA == 0 {
             general2RunnerETA.text = "<1 mi away"
-            general2RunnerETA.textColor = redLabel.textColor
         }
         else { general2RunnerETA.text = String(format: "%d mi away", ETA) }
         
@@ -536,7 +541,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general3RunnerPic.image = runnerPic
         if ETA == 0 {
             general3RunnerETA.text = "<1 mi away"
-            general3RunnerETA.textColor = redLabel.textColor
         }
         else { general3RunnerETA.text = String(format: "%d mi away", ETA) }
         
@@ -669,7 +673,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func sendLocalNotification_general() {
-        if areRunnersNearby == true && areTargetRunnersNearby == false {
+        if areRunnersNearby && !areTargetRunnersNearby {
 
             let localNotification = UILocalNotification()
             
@@ -703,7 +707,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func sendLocalNotification_general_targetCheckin(_ name: String, _ ETA: String) {
-        if areRunnersNearby == true && areTargetRunnersNearby == false {
+        if areRunnersNearby && !areTargetRunnersNearby {
             
             let localNotification = UILocalNotification()
             
@@ -739,7 +743,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func sendLocalNotification_target() {
         
-        if areTargetRunnersNearby == true {
+        if areTargetRunnersNearby {
             
             for (runnerObjId, isNearby) in nearbyTargetRunners {
                 
