@@ -249,17 +249,17 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation)
     }
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            // render the path
-            assert(overlay.isKind(of: MKPolyline.self))
-            let polyLine = overlay
-            let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
-            polyLineRenderer.strokeColor = UIColor.blue
-            polyLineRenderer.lineWidth = 3.0
-            
-            return polyLineRenderer
-
-    }
+//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//            // render the path
+//            assert(overlay.isKind(of: MKPolyline.self))
+//            let polyLine = overlay
+//            let polyLineRenderer = MKPolylineRenderer(overlay: polyLine)
+//            polyLineRenderer.strokeColor = UIColor.blue
+//            polyLineRenderer.lineWidth = 3.0
+//            
+//            return polyLineRenderer
+//
+//    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         

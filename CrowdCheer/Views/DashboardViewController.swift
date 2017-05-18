@@ -105,8 +105,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         //initialize mapview
         mapView.delegate = self
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
+        let region = MKCoordinateRegionMakeWithDistance((self.optimizedRunners.locationMgr.location?.coordinate)!, 45*1000, 45*1000)  // 45km
+        mapView.setRegion(region, animated: true)
         mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true);
+        
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
