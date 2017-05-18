@@ -206,19 +206,21 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 // Flow 3.2.1.1 - if we don't have runner profiles, get them
                 self.updateRunnerProfiles(runnerLocations!)
                 
-                // Flow 3.2.1.2 - get cheer counts
+                // Flow 3.2.1.2 - update areRunnersNearby and areTargetRunnersNearby
+                self.updateNearbyRunnerStatus()
+                
+                // Flow 3.2.1.3 - get cheer counts
                 self.updateRunnerCheers(runnerLocations!)
                 
-                // Flow 3.2.1.3 - get ETAs of runners
+                // Flow 3.2.1.4 - get ETAs of runners
                 self.updateRunnerETAs(runnerLocations!)
                 
-                
-                // Flow 3.2.1.4 - if target runner was already set, update its labels
+                // Flow 3.2.1.5 - if target runner was already set, update its labels
                 if self.targetRunner.objectId != nil {
                     self.updateTargetRunnerStatus(self.targetRunner)
                 }
                 
-                // Flow 3.2.1.5 - sort out target & general runners
+                // Flow 3.2.1.6 - sort out target & general runners
                 self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
                     print("affinities \(affinities)")
                     
@@ -228,13 +230,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     for (runner, runnerLoc) in runnerLocations! {
                         
-                        // Flow 3.2.1.5.1 - calculate the distance between spectator and a runner
+                        // Flow 3.2.1.6.1 - calculate the distance between spectator and a runner
                         
                         let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
                         let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
                         print(runner.username!, dist)
                         
-                        // Flow 3.2.1.5.2 - for each runner, determine if target or general, and handle separately based on distance
+                        // Flow 3.2.1.6.2 - for each runner, determine if target or general, and handle separately based on distance
                         for affinity in affinities {
                             
                             if runner == affinity.0 {
@@ -302,21 +304,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
 //                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
-                    
-                    if !self.nearbyGeneralRunners.isEmpty {
-                        self.areRunnersNearby = true
-                    }
-                    else {
-                        self.areRunnersNearby = false
-                        self.clearGeneralDashboard()
-                    }
-                    
-                    if !self.nearbyTargetRunners.isEmpty {
-                        self.areTargetRunnersNearby = true
-                    }
-                    else {
-                        self.areTargetRunnersNearby = false
-                    }
                 }
             }
         }
@@ -430,7 +417,26 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         return ETA
     }
     
+    func updateNearbyRunnerStatus() {
+        if !self.nearbyGeneralRunners.isEmpty {
+            self.areRunnersNearby = true
+        }
+        else {
+            self.areRunnersNearby = false
+            self.clearGeneralDashboard()
+        }
+        
+        if !self.nearbyTargetRunners.isEmpty {
+            self.areTargetRunnersNearby = true
+        }
+        else {
+            self.areTargetRunnersNearby = false
+        }
+    }
+    
     func updateTargetRunnerStatus(_ runner: PFUser) {
+        
+        self.updateNearbyRunnerStatus()
         
         let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
@@ -459,6 +465,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
     
+        self.updateNearbyRunnerStatus()
+        
         var generalRunners = self.nearbyGeneralRunners
         print("generalRunners in dashboardVC: \(generalRunners)")
         
