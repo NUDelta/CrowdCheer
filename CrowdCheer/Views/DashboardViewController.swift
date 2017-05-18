@@ -688,6 +688,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func addRunnerPin(_ runner: PFUser, runnerType: Int) {
         
+        if self.targetRunner.objectId == nil {
+            self.targetRunner = runner
+        }
+        
         contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
             let name = self.getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
             let coordinate = runnerLoc
@@ -712,12 +716,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
+            let ETA = String(getRunnerETA(self.targetRunner))
+            let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
+            
             if timeSinceLastNotification < Double(interval) {
                 if random == 0 {
                     sendLocalNotification_general()
                 }
                 else if random == 1 {
-                    sendLocalNotification_general_targetCheckin()
+                    sendLocalNotification_general_targetCheckin(name, ETA)
                 }
             }
                 
@@ -729,12 +736,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                 }
                 
-                if timeSinceLastNotification >= 60*2 {
+                if timeSinceLastNotification >= 60*1 {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
                     else if random == 1 {
-                        sendLocalNotification_general_targetCheckin()
+                        sendLocalNotification_general_targetCheckin(name, ETA)
                     }
                 }
             }
@@ -753,7 +760,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
             
-            localNotification.alertBody = "Cheer for nearby runners while you wait!"
+            localNotification.alertBody = "Some nearby runners need your help! Cheer for them while you wait!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
             localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
             
@@ -775,7 +782,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func sendLocalNotification_general_targetCheckin() {
+    func sendLocalNotification_general_targetCheckin(_ name: String, _ ETA: String) {
         if areRunnersNearby == true && areTargetRunnersNearby == false {
             
             let localNotification = UILocalNotification()
@@ -787,7 +794,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
             
-            localNotification.alertBody = "Check in on your favorite runners!"
+            localNotification.alertBody = name + " is " + ETA + "mi out and doing well, but some nearby runners need your help! Cheer for them while you wait!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
             localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
             
