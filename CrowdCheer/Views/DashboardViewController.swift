@@ -182,6 +182,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.areTargetRunnersNearby = false
                 self.areRunnersNearby = false
                 
+                self.targetRunnerPic.isHidden = true
                 self.targetRunnerName.isHidden = true
                 self.targetRunnerETA.isHidden = true
                 self.targetRunnerTrack.isHidden = true
@@ -463,6 +464,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerName.isHidden = false
         targetRunnerETA.isHidden = false
+        targetRunnerPic.isHidden = false
     }
     
     func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
