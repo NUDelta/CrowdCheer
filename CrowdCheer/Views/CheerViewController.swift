@@ -66,7 +66,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         //every second, update the distance and map with the runner's location
         runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -381,6 +381,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func dismissCheerTarget(_ alert: UIAlertAction!) {
+        
+        nearbyRunnersTimer.invalidate()
+        contextPrimer.resetRunner()
         
         nearbyTargetRunnersTimer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
