@@ -29,6 +29,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var userMonitorTimer: Timer = Timer()
     var runnerTrackerTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
+    var verifyCheersTimer: Timer = Timer()
+    
     var interval: Int = Int()
     var spectator: PFUser = PFUser.current()!
     var spectatorName: String = ""
@@ -66,7 +68,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         //every second, update the distance and map with the runner's location
         runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -214,6 +216,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     runnerTrackerTimer.invalidate()
                     userMonitorTimer.invalidate()
                     verifyCheeringAlert()
+                    verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: true)
+                    
                 }
             }
                 
@@ -322,7 +326,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func didCheer(_ alert: UIAlertAction!) {
         
-        nearbyRunnersTimer.invalidate()
+//        nearbyRunnersTimer.invalidate()
+        
         
         //verify cheer & reset pair
         verifiedDelivery.spectatorDidCheer(runner, didCheer: true, audioFilePath: audioFilePath, audioFileName: audioFileName)
@@ -332,11 +337,13 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
         //save didCheer in Cheers as true
+        
+        verifyCheersTimer.invalidate()
     }
     
     func didNotCheer(_ alert: UIAlertAction!) {
         
-        nearbyRunnersTimer.invalidate()
+//        nearbyRunnersTimer.invalidate()
         
         //verify cheer & reset pair
         verifiedDelivery.spectatorDidCheer(runner, didCheer: false, audioFilePath: audioFilePath, audioFileName: audioFileName)
@@ -346,6 +353,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
         //save didCheer in Cheers as false
+        
+        verifyCheersTimer.invalidate()
     }
     
     func sendLocalNotification_target(_ name: String) {
