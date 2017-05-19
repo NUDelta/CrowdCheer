@@ -23,7 +23,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var interval: Int = Int()
-    var runner: PFUser = PFUser()
+    var trackedRunner: PFUser = PFUser()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
@@ -107,7 +107,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             //do nothing
         }
         
-        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+        contextPrimer.getRunnerLocation(trackedRunner) { (runnerLoc) -> Void in
 
             self.runnerLastLoc = runnerLoc
         }
@@ -116,7 +116,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let setTime = contextPrimer.setTime
         let getTime = contextPrimer.getTime
         let showTime = Date()
-        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+        let latencyData = contextPrimer.handleLatency(trackedRunner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
         if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
             print("skipping coordinate")
@@ -175,7 +175,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
                                 if dist <= 250 { //if runner is less than 500m away (demo: 250)
-                                    if affinity.1 == 10 { //if target runner, notify spectator
+                                    if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                         //notify
                                         let name = (runner.value(forKey: "name"))!
                                         self.sendLocalNotification_target(name as! String)
@@ -198,12 +198,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func getRunnerProfile() {
         
-        runner = contextPrimer.getRunner()
-        let name = (runner.value(forKey: "name"))!
-        let bib = (runner.value(forKey: "bibNumber"))!
-        let cheer = (runner.value(forKey: "cheer"))!
-        let outfit = (runner.value(forKey: "outfit"))!
-        let userImageFile = runner["profilePic"] as? PFFile
+        trackedRunner = contextPrimer.getRunner()
+        let name = (trackedRunner.value(forKey: "name"))!
+        let bib = (trackedRunner.value(forKey: "bibNumber"))!
+        let cheer = (trackedRunner.value(forKey: "cheer"))!
+        let outfit = (trackedRunner.value(forKey: "outfit"))!
+        let userImageFile = trackedRunner["profilePic"] as? PFFile
         userImageFile!.getDataInBackground {
             (imageData: Data?, error: Error?) -> Void in
             if error == nil {

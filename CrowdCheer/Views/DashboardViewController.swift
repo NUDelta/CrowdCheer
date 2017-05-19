@@ -452,14 +452,17 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
-        if ETA < 2 {
+        if ETA <= 1 {
             targetRunnerETA.text = "<1 mi away"
-            targetRunnerETA.textColor = redLabel.textColor
-            targetRunnerTrack.isHidden = false
         }
         else {
             targetRunnerETA.text = String(format: "%d mi away", ETA)
             targetRunnerETA.textColor = targetRunnerName.textColor
+        }
+        
+        if nearbyTargetRunners[runner.objectId!]! {
+            targetRunnerETA.textColor = redLabel.textColor
+            targetRunnerTrack.isHidden = false
         }
         
         targetRunnerName.isHidden = false
