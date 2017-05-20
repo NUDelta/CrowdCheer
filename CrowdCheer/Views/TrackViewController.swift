@@ -174,7 +174,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                             
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist <= 250 { //if runner is less than 500m away (demo: 250)
+                                if dist <= 500 { //if runner is less than 500m away (demo: 250)
                                     if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                         //notify
                                         let name = (runner.value(forKey: "name"))!
