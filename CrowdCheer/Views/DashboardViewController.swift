@@ -220,7 +220,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.updateRunnerETAs(runnerLocations!)
                 
                 // Flow 3.2.1.5 - if target runner was already set, update its labels
-                if self.targetRunner.objectId != nil {
+                if self.targetRunner.username != nil {
                     self.updateTargetRunnerStatus(self.targetRunner)
                 }
                 
@@ -454,15 +454,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         targetRunnerName.text = targetRunnerNameText
         if ETA <= 1 {
             targetRunnerETA.text = "<1 mi away"
+            targetRunnerETA.textColor = redLabel.textColor
+            targetRunnerTrack.isHidden = false
         }
         else {
             targetRunnerETA.text = String(format: "%d mi away", ETA)
             targetRunnerETA.textColor = targetRunnerName.textColor
-        }
-        
-        if nearbyTargetRunners[runner.objectId!]! {
-            targetRunnerETA.textColor = redLabel.textColor
-            targetRunnerTrack.isHidden = false
         }
         
         targetRunnerName.isHidden = false
@@ -627,7 +624,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func addRunnerPin(_ runner: PFUser, runnerType: Int) {
         
-        if self.targetRunner.objectId == nil {
+        if self.targetRunner.username == nil {
             self.targetRunner = runner
         }
         
@@ -651,12 +648,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func notifyForGeneralRunners() {
         
         if UIApplication.shared.applicationState == .background {
-            let random = arc4random_uniform(2)
+//            let random = arc4random_uniform(2)
+            let random = 1
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
             let ETA = String(getRunnerETA(self.targetRunner))
-            let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
+            let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles) //NOTE: CRASHING HERE, likely because target runner not set
             
             if timeSinceLastNotification < Double(interval) {
                 if random == 0 {
@@ -675,7 +673,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                 }
                 
-                if timeSinceLastNotification >= 60*2 {
+                if timeSinceLastNotification >= 60*1 {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
