@@ -648,8 +648,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func notifyForGeneralRunners() {
         
         if UIApplication.shared.applicationState == .background {
-//            let random = arc4random_uniform(2)
-            let random = 1
+            let random = arc4random_uniform(2)
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
@@ -713,8 +712,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             newNotification["source"] = localNotification.userInfo!["source"]
             newNotification["notificationID"] = notificationID
             newNotification["sentNotification"] = true
-            newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
-            newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
             newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
             newNotification.saveInBackground()
             
@@ -759,8 +757,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             newNotification["source"] = localNotification.userInfo!["source"]
             newNotification["notificationID"] = notificationID
             newNotification["sentNotification"] = true
-            newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
-            newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
             newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
             newNotification.saveInBackground()
             
@@ -816,8 +813,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         newNotification["source"] = localNotification.userInfo!["source"]
                         newNotification["notificationID"] = notificationID
                         newNotification["sentNotification"] = true
-                        newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
-                        newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+                        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
                         newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
                         newNotification.saveInBackground()
                     }

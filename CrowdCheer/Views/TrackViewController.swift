@@ -318,8 +318,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["source"] = localNotification.userInfo!["source"]
         newNotification["notificationID"] = notificationID
         newNotification["sentNotification"] = true
-        newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
-        newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
         newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
         newNotification.saveInBackground()
         
@@ -353,8 +352,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             newNotification["source"] = localNotification.userInfo!["source"]
             newNotification["notificationID"] = notificationID
             newNotification["sentNotification"] = true
-            newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
-            newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
             newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
             newNotification.saveInBackground()
             

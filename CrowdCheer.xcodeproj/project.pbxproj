@@ -32,7 +32,6 @@
 		E25A5E841CC572E80046C809 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A5E831CC572E80046C809 /* Match.swift */; };
 		E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E52901D01EB6C001324C8 /* AffinityViewController.swift */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
-		E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */; };
 		E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E292A3AD1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld */; };
 		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
@@ -123,7 +122,6 @@
 		E25A5E831CC572E80046C809 /* Match.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Match.swift; path = CrowdCheer/Match.swift; sourceTree = "<group>"; };
 		E26E52901D01EB6C001324C8 /* AffinityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AffinityViewController.swift; path = CrowdCheer/Views/AffinityViewController.swift; sourceTree = "<group>"; };
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
-		E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RaceViewController.swift; path = CrowdCheer/Views/RaceViewController.swift; sourceTree = "<group>"; };
 		E292A3AE1CCAAECA0061B19A /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
 		E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CrowdCheer-Bridging-Header.h"; path = "CrowdCheer/CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 				E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */,
 				E26E52901D01EB6C001324C8 /* AffinityViewController.swift */,
 				E2E0C7171D6DE1D5005CCF4D /* DashboardViewController.swift */,
-				E28E68BB1BFC34F5008C6A0A /* RaceViewController.swift */,
 				E2EFA7D01C5FEAD700974475 /* TrackViewController.swift */,
 				E254BEB31C74F26100C9FD8B /* CheerViewController.swift */,
 				E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */,
@@ -548,7 +545,6 @@
 				E2F4819E1C8F25E200D3FBC8 /* PrerunViewController.swift in Sources */,
 				E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */,
 				E2EFA7C71C5A77C700974475 /* Monitor.swift in Sources */,
-				E28E68BC1BFC34F5008C6A0A /* RaceViewController.swift in Sources */,
 				E2CA50E41A88677A00C2BB03 /* main.m in Sources */,
 				E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */,
 				E254BEB41C74F26100C9FD8B /* CheerViewController.swift in Sources */,
