@@ -739,10 +739,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         if areRunnersNearby && !areTargetRunnersNearby {
             
             let localNotification = UILocalNotification()
+            let notificationID = arc4random_uniform(10000000)
             
             var spectatorInfo = [String: AnyObject]()
             spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-            spectatorInfo["source"] = "generalRunnerNotification_Target" as AnyObject
+            spectatorInfo["source"] = "dash_generalRunnerNotification_Target" as AnyObject
+            spectatorInfo["notificationID"] = notificationID as AnyObject
             spectatorInfo["receivedNotification"] = true as AnyObject
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
@@ -753,6 +755,16 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             
             spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
             localNotification.userInfo = spectatorInfo
+            
+            let newNotification = PFObject(className: "SpectatorNotifications")
+            newNotification["spectator"] = localNotification.userInfo!["spectator"]
+            newNotification["source"] = localNotification.userInfo!["source"]
+            newNotification["notificationID"] = notificationID
+            newNotification["sentNotification"] = true
+            newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
+            newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+            newNotification.saveInBackground()
             
             UIApplication.shared.presentLocalNotificationNow(localNotification)
             
@@ -783,11 +795,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     if UIApplication.shared.applicationState == .background {
                         
                         let localNotification = UILocalNotification()
+                        let notificationID = arc4random_uniform(10000000)
                         
                         var spectatorInfo = [String: AnyObject]()
                         
                         spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-                        spectatorInfo["source"] = "targetRunnerNotification" as AnyObject
+                        spectatorInfo["source"] = "dash_targetRunnerNotification" as AnyObject
                         spectatorInfo["receivedNotification"] = true as AnyObject
                         spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                         
@@ -799,6 +812,16 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         localNotification.userInfo = spectatorInfo
                         
                         UIApplication.shared.presentLocalNotificationNow(localNotification)
+                        
+                        let newNotification = PFObject(className: "SpectatorNotifications")
+                        newNotification["spectator"] = localNotification.userInfo!["spectator"]
+                        newNotification["source"] = localNotification.userInfo!["source"]
+                        newNotification["notificationID"] = notificationID
+                        newNotification["sentNotification"] = true
+                        newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
+                        newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+                        newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+                        newNotification.saveInBackground()
                     }
                         
                     else if UIApplication.shared.applicationState == .active {

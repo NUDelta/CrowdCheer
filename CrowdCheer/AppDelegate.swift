@@ -74,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 newNotification["spectator"] = notification.userInfo!["spectator"]
                 newNotification["source"] = notification.userInfo!["source"]
+                newNotification["notificationID"] = notification.userInfo!["notificationID"]
                 newNotification["receivedNotification"] = notification.userInfo!["receivedNotification"]
                 newNotification["receivedNotificationTimestamp"] = notification.userInfo!["receivedNotificationTimestamp"]
                 newNotification["unreadNotificationCount"] = notification.userInfo!["unreadNotificationCount"]

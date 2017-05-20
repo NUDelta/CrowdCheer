@@ -297,9 +297,32 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func sendLocalNotification(_ name: String) {
         let localNotification = UILocalNotification()
+        let notificationID = arc4random_uniform(10000000)
+        
+        var spectatorInfo = [String: AnyObject]()
+        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+        spectatorInfo["source"] = "track_targetRunnerNearbyNotification" as AnyObject
+        spectatorInfo["notificationID"] = notificationID as AnyObject
+        spectatorInfo["receivedNotification"] = true as AnyObject
+        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+        
         localNotification.alertBody = "Time to cheer for " + name + "!"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        
+        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+        localNotification.userInfo = spectatorInfo
+        
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        newNotification["spectator"] = localNotification.userInfo!["spectator"]
+        newNotification["source"] = localNotification.userInfo!["source"]
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
+        newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+        newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+        newNotification.saveInBackground()
+        
         
         UIApplication.shared.presentLocalNotificationNow(localNotification)
     }
@@ -309,10 +332,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         if UIApplication.shared.applicationState == .background {
             
             let localNotification = UILocalNotification()
+            let notificationID = arc4random_uniform(10000000)
             
             var spectatorInfo = [String: AnyObject]()
             spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-            spectatorInfo["source"] = "targetRunnerNotification_track" as AnyObject
+            spectatorInfo["source"] = "track_targetRunnerNearbyNotification_general" as AnyObject
+            spectatorInfo["notificationID"] = notificationID as AnyObject
             spectatorInfo["receivedNotification"] = true as AnyObject
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
@@ -322,6 +347,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
             localNotification.userInfo = spectatorInfo
+            
+            let newNotification = PFObject(className: "SpectatorNotifications")
+            newNotification["spectator"] = localNotification.userInfo!["spectator"]
+            newNotification["source"] = localNotification.userInfo!["source"]
+            newNotification["notificationID"] = notificationID
+            newNotification["sentNotification"] = true
+            newNotification["receivedNotification"] = localNotification.userInfo!["receivedNotification"]
+            newNotification["receivedNotificationTimestamp"] = localNotification.userInfo!["receivedNotificationTimestamp"]
+            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+            newNotification.saveInBackground()
             
             UIApplication.shared.presentLocalNotificationNow(localNotification)
         }
