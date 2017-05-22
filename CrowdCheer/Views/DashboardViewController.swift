@@ -652,32 +652,34 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
-            let ETA = String(getRunnerETA(self.targetRunner))
-            let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles) //NOTE: CRASHING HERE, likely because target runner not set
-            
-            if timeSinceLastNotification < Double(interval) {
-                if random == 0 {
-                    sendLocalNotification_general()
-                }
-                else if random == 1 {
-                    sendLocalNotification_general_targetCheckin(name, ETA)
-                }
-            }
+            if self.targetRunner.username != nil {
+                let ETA = String(getRunnerETA(self.targetRunner))
+                let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
                 
-            else {
-                let now = NSDate()
-                
-                if timeSinceLastNotification != 0 {
-                    //NOTE: This value is actually going 30s ahead of what's used in the above if statement
-                    timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
-                }
-                
-                if timeSinceLastNotification >= 60*10 {
+                if timeSinceLastNotification < Double(interval) {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
                     else if random == 1 {
                         sendLocalNotification_general_targetCheckin(name, ETA)
+                    }
+                }
+                    
+                else {
+                    let now = NSDate()
+                    
+                    if timeSinceLastNotification != 0 {
+                        //NOTE: This value is actually going 30s ahead of what's used in the above if statement
+                        timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
+                    }
+                    
+                    if timeSinceLastNotification >= 60*10 {
+                        if random == 0 {
+                            sendLocalNotification_general()
+                        }
+                        else if random == 1 {
+                            sendLocalNotification_general_targetCheckin(name, ETA)
+                        }
                     }
                 }
             }
