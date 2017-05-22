@@ -796,6 +796,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         
                         spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
                         spectatorInfo["source"] = "dash_targetRunnerNotification" as AnyObject
+                        spectatorInfo["notificationID"] = notificationID as AnyObject
                         spectatorInfo["receivedNotification"] = true as AnyObject
                         spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                         
