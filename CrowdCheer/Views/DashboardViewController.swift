@@ -746,7 +746,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             spectatorInfo["receivedNotification"] = true as AnyObject
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
-            
             localNotification.alertBody = name + " is " + ETA + "mi out and doing well, but some nearby runners need your help! Cheer for them while you wait!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
             localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
@@ -757,6 +756,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             let newNotification = PFObject(className: "SpectatorNotifications")
             newNotification["spectator"] = localNotification.userInfo!["spectator"]
             newNotification["source"] = localNotification.userInfo!["source"]
+            newNotification["favRunner"] = name
+            newNotification["favRunnerStatus"] = ETA
             newNotification["notificationID"] = notificationID
             newNotification["sentNotification"] = true
             newNotification["sentNotificationTimestamp"] = Date() as AnyObject
