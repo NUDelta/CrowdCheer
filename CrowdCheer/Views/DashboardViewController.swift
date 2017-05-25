@@ -201,6 +201,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.general3RunnerName.isHidden = true
                 self.general3RunnerETA.isHidden = true
                 self.general3RunnerTrack.isHidden = true
+                
+                self.idleTimeBanner.isHidden = true
             }
                 
             // Flow 3.2.1  - if there are runners at the race, update their info
@@ -649,35 +651,40 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if UIApplication.shared.applicationState == .background {
             let random = arc4random_uniform(2)
+//            let random = 1
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             
-            if self.targetRunner.username != nil {
-                let ETA = String(getRunnerETA(self.targetRunner))
-                let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
+            
+            if timeSinceLastNotification < Double(interval) {
+                if random == 0 {
+                    sendLocalNotification_general()
+                }
+                else if random == 1 {
+                    if self.targetRunner.username != nil {
+                        let ETA = String(getRunnerETA(self.targetRunner))
+                        let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
+                        sendLocalNotification_general_targetCheckin(name, ETA)
+                    }
+                }
+            }
                 
-                if timeSinceLastNotification < Double(interval) {
+            else {
+                let now = NSDate()
+                
+                if timeSinceLastNotification != 0 {
+                    //NOTE: This value is actually going 30s ahead of what's used in the above if statement
+                    timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
+                }
+                
+                if timeSinceLastNotification >= 60*1 {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
                     else if random == 1 {
-                        sendLocalNotification_general_targetCheckin(name, ETA)
-                    }
-                }
-                    
-                else {
-                    let now = NSDate()
-                    
-                    if timeSinceLastNotification != 0 {
-                        //NOTE: This value is actually going 30s ahead of what's used in the above if statement
-                        timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
-                    }
-                    
-                    if timeSinceLastNotification >= 60*10 {
-                        if random == 0 {
-                            sendLocalNotification_general()
-                        }
-                        else if random == 1 {
+                        if self.targetRunner.username != nil {
+                            let ETA = String(getRunnerETA(self.targetRunner))
+                            let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
                             sendLocalNotification_general_targetCheckin(name, ETA)
                         }
                     }
