@@ -651,33 +651,19 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if UIApplication.shared.applicationState == .background {
             let random = arc4random_uniform(2)
-//            let random = 1
+//            let random = 0
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
+            print("areRunnersNearby: \(areRunnersNearby)")
+            print("areTargetRunnersNearby: \(areTargetRunnersNearby)")
             
+            updateNearbyRunnerStatus()
             
-            if timeSinceLastNotification < Double(interval) {
-                if random == 0 {
-                    sendLocalNotification_general()
-                }
-                else if random == 1 {
-                    if self.targetRunner.username != nil {
-                        let ETA = String(getRunnerETA(self.targetRunner))
-                        let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
-                        sendLocalNotification_general_targetCheckin(name, ETA)
-                    }
-                }
-            }
-                
-            else {
-                let now = NSDate()
-                
-                if timeSinceLastNotification != 0 {
-                    //NOTE: This value is actually going 30s ahead of what's used in the above if statement
-                    timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
-                }
-                
-                if timeSinceLastNotification >= 60*1 {
+            print("areRunnersNearby: \(areRunnersNearby)")
+            print("areTargetRunnersNearby: \(areTargetRunnersNearby)")
+            
+            if areRunnersNearby && !areTargetRunnersNearby {
+                if timeSinceLastNotification < Double(interval) {
                     if random == 0 {
                         sendLocalNotification_general()
                     }
@@ -689,101 +675,112 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                 }
+                    
+                else {
+                    let now = NSDate()
+                    
+                    if timeSinceLastNotification != 0 {
+                        //NOTE: This value is actually going 30s ahead of what's used in the above if statement
+                        timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
+                    }
+                    
+                    if timeSinceLastNotification >= 60*1 {
+                        if random == 0 {
+                            sendLocalNotification_general()
+                        }
+                        else if random == 1 {
+                            if self.targetRunner.username != nil {
+                                let ETA = String(getRunnerETA(self.targetRunner))
+                                let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
+                                sendLocalNotification_general_targetCheckin(name, ETA)
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
     
     func sendLocalNotification_general() {
-        if areRunnersNearby && !areTargetRunnersNearby {
-
-            let localNotification = UILocalNotification()
-            let notificationID = arc4random_uniform(10000000)
-            
-            
-            var spectatorInfo = [String: AnyObject]()
-            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-            spectatorInfo["source"] = "dash_generalRunnerNotification" as AnyObject
-            spectatorInfo["notificationID"] = notificationID as AnyObject
-            spectatorInfo["receivedNotification"] = true as AnyObject
-            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-            
-            
-            localNotification.alertBody = "Some nearby runners need your help! Cheer for them while you wait!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            
-            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-            localNotification.userInfo = spectatorInfo
         
-            
-            let newNotification = PFObject(className: "SpectatorNotifications")
-            newNotification["spectator"] = localNotification.userInfo!["spectator"]
-            newNotification["source"] = localNotification.userInfo!["source"]
-            newNotification["notificationID"] = notificationID
-            newNotification["sentNotification"] = true
-            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
-            newNotification.saveInBackground()
-            
-            UIApplication.shared.presentLocalNotificationNow(localNotification)
-            
-            let now = NSDate()
-            lastGeneralRunnerNotificationTime = now
-            
-            if timeSinceLastNotification == 0 {
-                timeSinceLastNotification = Double(interval)
-            }
+        let localNotification = UILocalNotification()
+        let notificationID = arc4random_uniform(10000000)
+        
+        
+        var spectatorInfo = [String: AnyObject]()
+        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+        spectatorInfo["source"] = "dash_generalRunnerNotification" as AnyObject
+        spectatorInfo["notificationID"] = notificationID as AnyObject
+        spectatorInfo["receivedNotification"] = true as AnyObject
+        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+        
+        
+        localNotification.alertBody = "Some nearby runners need your help! Cheer for them while you wait!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        
+        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+        localNotification.userInfo = spectatorInfo
+        
+        
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        newNotification["spectator"] = localNotification.userInfo!["spectator"]
+        newNotification["source"] = localNotification.userInfo!["source"]
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+        newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+        newNotification.saveInBackground()
+        
+        UIApplication.shared.presentLocalNotificationNow(localNotification)
+        
+        let now = NSDate()
+        lastGeneralRunnerNotificationTime = now
+        
+        if timeSinceLastNotification == 0 {
+            timeSinceLastNotification = Double(interval)
+        }
         }
     
-        else {
-            print("local notification: no runners nearby")
-        }
-    }
     
     func sendLocalNotification_general_targetCheckin(_ name: String, _ ETA: String) {
-        if areRunnersNearby && !areTargetRunnersNearby {
-            
-            let localNotification = UILocalNotification()
-            let notificationID = arc4random_uniform(10000000)
-            
-            var spectatorInfo = [String: AnyObject]()
-            spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-            spectatorInfo["source"] = "dash_generalRunnerNotification_Target" as AnyObject
-            spectatorInfo["notificationID"] = notificationID as AnyObject
-            spectatorInfo["receivedNotification"] = true as AnyObject
-            spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-            
-            localNotification.alertBody = name + " is " + ETA + "mi out and doing well, but some nearby runners need your help! Cheer for them while you wait!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            
-            spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-            localNotification.userInfo = spectatorInfo
-            
-            let newNotification = PFObject(className: "SpectatorNotifications")
-            newNotification["spectator"] = localNotification.userInfo!["spectator"]
-            newNotification["source"] = localNotification.userInfo!["source"]
-            newNotification["favRunner"] = name
-            newNotification["favRunnerStatus"] = ETA
-            newNotification["notificationID"] = notificationID
-            newNotification["sentNotification"] = true
-            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
-            newNotification.saveInBackground()
-            
-            UIApplication.shared.presentLocalNotificationNow(localNotification)
-            
-            let now = NSDate()
-            lastGeneralRunnerNotificationTime = now
-            
-            if timeSinceLastNotification == 0 {
-                timeSinceLastNotification = Double(interval)
-            }
-            
-        }
-            
-        else {
-            print("local notification: no runners nearby")
+        
+        let localNotification = UILocalNotification()
+        let notificationID = arc4random_uniform(10000000)
+        
+        var spectatorInfo = [String: AnyObject]()
+        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+        spectatorInfo["source"] = "dash_generalRunnerNotification_Target" as AnyObject
+        spectatorInfo["notificationID"] = notificationID as AnyObject
+        spectatorInfo["receivedNotification"] = true as AnyObject
+        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+        
+        localNotification.alertBody = name + " is " + ETA + "mi out and doing well, but some nearby runners need your help! Cheer for them while you wait!"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        
+        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+        localNotification.userInfo = spectatorInfo
+        
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        newNotification["spectator"] = localNotification.userInfo!["spectator"]
+        newNotification["source"] = localNotification.userInfo!["source"]
+        newNotification["favRunner"] = name
+        newNotification["favRunnerStatus"] = ETA
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+        newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+        newNotification.saveInBackground()
+        
+        UIApplication.shared.presentLocalNotificationNow(localNotification)
+        
+        let now = NSDate()
+        lastGeneralRunnerNotificationTime = now
+        
+        if timeSinceLastNotification == 0 {
+            timeSinceLastNotification = Double(interval)
         }
     }
     
