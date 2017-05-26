@@ -836,6 +836,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     }
                 }
             }
+            
+//            nearbyTargetRunnersTimer.invalidate()
+//            nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: false)
+            
+            
         }
             
         else {

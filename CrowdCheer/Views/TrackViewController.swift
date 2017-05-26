@@ -363,18 +363,24 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             let alertTitle = name + " is nearby!"
             let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+            alertController.addAction(UIAlertAction(title: "Cheer", style: UIAlertActionStyle.default, handler: cheerForTarget))
+            alertController.addAction(UIAlertAction(title: "Not now", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
             
             self.present(alertController, animated: true, completion: nil)
         }
     }
     
-    func dismissCheerTarget(_ alert: UIAlertAction!) {
+    func cheerForTarget(_ alert: UIAlertAction!) {
         
         nearbyTargetRunnersTimer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func dismissCheerTarget(_ alert: UIAlertAction!) {
+        
+        nearbyTargetRunnersTimer.invalidate()
     }
 
 }
