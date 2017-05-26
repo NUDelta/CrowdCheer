@@ -372,7 +372,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func cheerForTarget(_ alert: UIAlertAction!) {
         
-        nearbyTargetRunnersTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
@@ -380,7 +380,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func dismissCheerTarget(_ alert: UIAlertAction!) {
         
-        nearbyTargetRunnersTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
     }
 
 }
