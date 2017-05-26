@@ -224,7 +224,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     runnerTrackerTimer.invalidate()
                     userMonitorTimer.invalidate()
                     verifyCheeringAlert()
-                    verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: true)
+                    verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: false)
                     
                 }
             }
