@@ -449,7 +449,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         let ETA = getRunnerETA(runner)
         
         print("Target runner: \(targetRunnerNameText)")
-//        print("cheers count for target: \(cheers)")
         print("ETA for target: \(ETA)")
         
         targetRunnerPic.image = targetPic
@@ -458,10 +457,12 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             targetRunnerETA.text = "<1 mi away"
             targetRunnerETA.textColor = redLabel.textColor
             targetRunnerTrack.isHidden = false
+            targetRunnerTrack.backgroundColor = redLabel.textColor
         }
         else {
             targetRunnerETA.text = String(format: "%d mi away", ETA)
             targetRunnerETA.textColor = targetRunnerName.textColor
+            targetRunnerTrack.backgroundColor = general1RunnerTrack.backgroundColor
         }
         
         targetRunnerName.isHidden = false
@@ -825,32 +826,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
                         newNotification.saveInBackground()
                     }
-                        
-                    else if UIApplication.shared.applicationState == .active {
-                        
-                        let alertTitle = name + " is nearby!"
-                        let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
-                        
-                        self.present(alertController, animated: true, completion: nil)
-                    }
                 }
             }
-            
-//            nearbyTargetRunnersTimer.invalidate()
-//            nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: false)
-            
-            
         }
             
         else {
             print("local notification: no target runners nearby")
         }
-    }
-    
-    func dismissCheerTarget(_ alert: UIAlertAction!) {
-        
-        nearbyTargetRunnersTimer.invalidate()
     }
     
     @IBAction func targetTrack(_ sender: UIButton) {
