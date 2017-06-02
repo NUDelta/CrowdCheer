@@ -652,7 +652,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if UIApplication.shared.applicationState == .background {
             let random = arc4random_uniform(2)
-//            let random = 0
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             print("areRunnersNearby: \(areRunnersNearby)")
@@ -685,7 +684,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                     }
                     
-                    if timeSinceLastNotification >= 60*1 {
+                    if timeSinceLastNotification >= 60*10 {
                         if random == 0 {
                             sendLocalNotification_general()
                         }
