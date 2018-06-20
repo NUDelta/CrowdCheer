@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10BD46BE6BD28D8AE8364019 /* Pods_CrowdCheer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F10361BA736D70B259944F9E /* Pods_CrowdCheer.framework */; };
 		E20803DA1D5E257700F3E2DB /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803CE1D5E257700F3E2DB /* clock.png */; };
 		E20803DB1D5E257700F3E2DB /* gps.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803CF1D5E257700F3E2DB /* gps.png */; };
 		E20803DC1D5E257700F3E2DB /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = E20803D01D5E257700F3E2DB /* heart.png */; };
@@ -33,7 +34,6 @@
 		E26E52911D01EB6C001324C8 /* AffinityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E52901D01EB6C001324C8 /* AffinityViewController.swift */; };
 		E28E68B41BFC341A008C6A0A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E68B31BFC341A008C6A0A /* Users.swift */; };
 		E292A3AF1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E292A3AD1CCAAECA0061B19A /* CrowdCheer.xcdatamodeld */; };
-		E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20081A9A972C00B1BEFE /* Bolts.framework */; };
 		E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */; };
 		E2AD20161A9A97E500B1BEFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */; };
 		E2AD20171A9A97E500B1BEFE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD200F1A9A97E400B1BEFE /* libsqlite3.dylib */; };
@@ -44,7 +44,6 @@
 		E2AD201D1A9A97E500B1BEFE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */; };
 		E2ADB5D71A9D0A63007EC795 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D61A9D0A63007EC795 /* Accounts.framework */; };
 		E2ADB5D91A9D0A72007EC795 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5D81A9D0A72007EC795 /* Social.framework */; };
-		E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ADB5E61A9E6808007EC795 /* Parse.framework */; };
 		E2CA50E41A88677A00C2BB03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA50E31A88677A00C2BB03 /* main.m */; };
 		E2CA50F31A88677A00C2BB03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2CA50F11A88677A00C2BB03 /* Main.storyboard */; };
 		E2CA50F51A88677A00C2BB03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CA50F41A88677A00C2BB03 /* Images.xcassets */; };
@@ -83,6 +82,7 @@
 		E2F4819E1C8F25E200D3FBC8 /* PrerunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */; };
 		E2F4819F1C8F25E200D3FBC8 /* RunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */; };
 		E2F481A11C8F2D3300D3FBC8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */; };
+		FACFC61584055BA71AF51DD5 /* Pods_CrowdCheerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C0AA0DFD00E2692A6306AF /* Pods_CrowdCheerTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +96,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06C0AA0DFD00E2692A6306AF /* Pods_CrowdCheerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrowdCheerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09AF2DAB14D7A7179A84AE84 /* Pods-CrowdCheer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrowdCheer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer.release.xcconfig"; sourceTree = "<group>"; };
+		72A9A5C33BBF81D36EB8F51C /* Pods-CrowdCheerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrowdCheerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		82F88F4F25A211A1C8CF6805 /* Pods-CrowdCheerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrowdCheerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests.release.xcconfig"; sourceTree = "<group>"; };
+		DEC8AAB9A6D026A754C17BE7 /* Pods-CrowdCheer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrowdCheer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer.debug.xcconfig"; sourceTree = "<group>"; };
 		E20803CE1D5E257700F3E2DB /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		E20803CF1D5E257700F3E2DB /* gps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps.png; sourceTree = "<group>"; };
 		E20803D01D5E257700F3E2DB /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
@@ -112,7 +117,6 @@
 		E20803E81D5E4C5900F3E2DB /* tracking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tracking.png; sourceTree = "<group>"; };
 		E22FFC151E9460CC00C34EDA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = CrowdCheer/Reachability.swift; sourceTree = "<group>"; };
 		E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../Estimote iOS SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		E240F4771B6BBEB6008C9580 /* Ford.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ford.gpx; sourceTree = "<group>"; };
 		E254BE601C6B955F00C9FD8B /* RunnerAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotation.swift; path = CrowdCheer/RunnerAnnotation.swift; sourceTree = "<group>"; };
 		E254BE621C6B978200C9FD8B /* RunnerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunnerAnnotationView.swift; path = CrowdCheer/Views/RunnerAnnotationView.swift; sourceTree = "<group>"; };
@@ -124,7 +128,6 @@
 		E28E68B31BFC341A008C6A0A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = CrowdCheer/Users.swift; sourceTree = "<group>"; };
 		E292A3AE1CCAAECA0061B19A /* CrowdCheer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CrowdCheer.xcdatamodel; sourceTree = "<group>"; };
 		E29375F71BEBF776003FC150 /* CrowdCheer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CrowdCheer-Bridging-Header.h"; path = "CrowdCheer/CrowdCheer-Bridging-Header.h"; sourceTree = "<group>"; };
-		E2AD20081A9A972C00B1BEFE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		E2AD200F1A9A97E400B1BEFE /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -135,7 +138,6 @@
 		E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E2ADB5D61A9D0A63007EC795 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E2ADB5D81A9D0A72007EC795 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		E2ADB5E61A9E6808007EC795 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E2CA50DE1A88677A00C2BB03 /* CrowdCheer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrowdCheer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CA50E21A88677A00C2BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CA50E31A88677A00C2BB03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -179,7 +181,7 @@
 		E2F4819B1C8F25E200D3FBC8 /* PrerunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrerunViewController.swift; path = CrowdCheer/Views/PrerunViewController.swift; sourceTree = "<group>"; };
 		E2F4819C1C8F25E200D3FBC8 /* RunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RunViewController.swift; path = CrowdCheer/Views/RunViewController.swift; sourceTree = "<group>"; };
 		E2F481A01C8F2D3300D3FBC8 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = CrowdCheer/Views/ProfileViewController.swift; sourceTree = "<group>"; };
-		F7AAC48DA163158EAFEBF0D7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F10361BA736D70B259944F9E /* Pods_CrowdCheer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrowdCheer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,12 +205,11 @@
 				E2AD200D1A9A978700B1BEFE /* AudioToolbox.framework in Frameworks */,
 				E2CA51791A8928BF00C2BB03 /* CoreFoundation.framework in Frameworks */,
 				E2CA51751A8928AA00C2BB03 /* GLKit.framework in Frameworks */,
-				E2ADB5E71A9E6808007EC795 /* Parse.framework in Frameworks */,
 				E2CA511C1A886C4C00C2BB03 /* Foundation.framework in Frameworks */,
-				E2AD20091A9A972C00B1BEFE /* Bolts.framework in Frameworks */,
 				E2CA511A1A886C4600C2BB03 /* UIKit.framework in Frameworks */,
 				E2CA51181A886C3E00C2BB03 /* CoreData.framework in Frameworks */,
 				E2CA51141A886C1D00C2BB03 /* MapKit.framework in Frameworks */,
+				10BD46BE6BD28D8AE8364019 /* Pods_CrowdCheer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,12 +217,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FACFC61584055BA71AF51DD5 /* Pods_CrowdCheerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		323CDC525C8B3825628DF2D1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DEC8AAB9A6D026A754C17BE7 /* Pods-CrowdCheer.debug.xcconfig */,
+				09AF2DAB14D7A7179A84AE84 /* Pods-CrowdCheer.release.xcconfig */,
+				72A9A5C33BBF81D36EB8F51C /* Pods-CrowdCheerTests.debug.xcconfig */,
+				82F88F4F25A211A1C8CF6805 /* Pods-CrowdCheerTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E20803CD1D5E257700F3E2DB /* appIcons */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,9 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F0C5491B710D3200EF6B87 /* AVFoundation.framework */,
-				E23A34911B4B01A5000D9CE2 /* EstimoteSDK.framework */,
 				E23A348F1B4B016C000D9CE2 /* CoreBluetooth.framework */,
-				E2ADB5E61A9E6808007EC795 /* Parse.framework */,
 				E2ADB5D81A9D0A72007EC795 /* Social.framework */,
 				E2ADB5D61A9D0A63007EC795 /* Accounts.framework */,
 				E2AD200E1A9A97E400B1BEFE /* CFNetwork.framework */,
@@ -275,7 +286,6 @@
 				E2AD20131A9A97E400B1BEFE /* Security.framework */,
 				E2AD20151A9A97E500B1BEFE /* SystemConfiguration.framework */,
 				E2AD200C1A9A978700B1BEFE /* AudioToolbox.framework */,
-				E2AD20081A9A972C00B1BEFE /* Bolts.framework */,
 				E2CA511B1A886C4C00C2BB03 /* Foundation.framework */,
 				E2CA51191A886C4600C2BB03 /* UIKit.framework */,
 				E2CA51171A886C3E00C2BB03 /* CoreData.framework */,
@@ -284,9 +294,10 @@
 				E2CA517A1A8928C800C2BB03 /* CoreLocation.framework */,
 				E2CA51781A8928BF00C2BB03 /* CoreFoundation.framework */,
 				E2CA51741A8928AA00C2BB03 /* GLKit.framework */,
-				F7AAC48DA163158EAFEBF0D7 /* Pods.framework */,
 				E2AD20101A9A97E400B1BEFE /* libz.dylib */,
 				E2AD200F1A9A97E400B1BEFE /* libsqlite3.dylib */,
+				F10361BA736D70B259944F9E /* Pods_CrowdCheer.framework */,
+				06C0AA0DFD00E2692A6306AF /* Pods_CrowdCheerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -312,6 +323,7 @@
 				E2CA50E01A88677A00C2BB03 /* CrowdCheer */,
 				E2CA51001A88677A00C2BB03 /* CrowdCheerTests */,
 				E2CA50DF1A88677A00C2BB03 /* Products */,
+				323CDC525C8B3825628DF2D1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -400,9 +412,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2CA51071A88677A00C2BB03 /* Build configuration list for PBXNativeTarget "CrowdCheer" */;
 			buildPhases = (
+				F3095C820A71F4129CA10A20 /* [CP] Check Pods Manifest.lock */,
 				E2CA50DA1A88677A00C2BB03 /* Sources */,
 				E2CA50DB1A88677A00C2BB03 /* Frameworks */,
 				E2CA50DC1A88677A00C2BB03 /* Resources */,
+				D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */,
+				B23C726A742573CAE14E2FA2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -417,9 +432,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2CA510A1A88677A00C2BB03 /* Build configuration list for PBXNativeTarget "CrowdCheerTests" */;
 			buildPhases = (
+				5AC4A6D564CE166843E6C0BD /* [CP] Check Pods Manifest.lock */,
 				E2CA50F91A88677A00C2BB03 /* Sources */,
 				E2CA50FA1A88677A00C2BB03 /* Frameworks */,
 				E2CA50FB1A88677A00C2BB03 /* Resources */,
+				B348166410C05184524AAAF5 /* [CP] Embed Pods Frameworks */,
+				B7AC5EC433C23ADEDB735545 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -530,6 +548,115 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5AC4A6D564CE166843E6C0BD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CrowdCheerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B23C726A742573CAE14E2FA2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B348166410C05184524AAAF5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7AC5EC433C23ADEDB735545 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3095C820A71F4129CA10A20 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CrowdCheer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2CA50DA1A88677A00C2BB03 /* Sources */ = {
@@ -687,6 +814,7 @@
 		};
 		E2CA51081A88677A00C2BB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEC8AAB9A6D026A754C17BE7 /* Pods-CrowdCheer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -716,6 +844,7 @@
 		};
 		E2CA51091A88677A00C2BB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09AF2DAB14D7A7179A84AE84 /* Pods-CrowdCheer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -744,6 +873,7 @@
 		};
 		E2CA510B1A88677A00C2BB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72A9A5C33BBF81D36EB8F51C /* Pods-CrowdCheerTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Leesha Maliakal (2467455D5Y)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -764,6 +894,7 @@
 		};
 		E2CA510C1A88677A00C2BB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82F88F4F25A211A1C8CF6805 /* Pods-CrowdCheerTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Leesha Maliakal (2467455D5Y)";
 				FRAMEWORK_SEARCH_PATHS = (

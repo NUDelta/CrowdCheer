@@ -13,7 +13,5 @@
 #import "MapKit/MapKit.h"
 #import "UIKit/UIKit.h"
 #import "MathController.h"
-#import "Parse/Parse.h"
-#import "Parse/PFGeoPoint.h"
 
 #endif /* CrowdCheer_Bridging_Header_h */
