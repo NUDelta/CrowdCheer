@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CrowdCheer.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>D0AF524183625F06F0B8238136E6044EE4A109EE</string>
+				<key>dateExpires</key>
+				<string>7/31/20</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>D0AF524183625F06F0B8238136E6044EE4A109EE</string>
+						<key>dateExpires</key>
+						<string>7/31/20</string>
+						<key>type</key>
+						<string>iOS Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Bolts.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>823S57WQK3</string>
+						<key>name</key>
+						<string></string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>D0AF524183625F06F0B8238136E6044EE4A109EE</string>
+						<key>dateExpires</key>
+						<string>7/31/20</string>
+						<key>type</key>
+						<string>iOS Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Parse.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>823S57WQK3</string>
+						<key>name</key>
+						<string></string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>823S57WQK3.edu.northwestern.delta.C</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>823S57WQK3</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>823S57WQK3.edu.northwestern.delta.C</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>CrowdCheer.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>9f1cab7c-9cc3-4d5b-bfba-2ff524d6db91</string>
+				<key>name</key>
+				<string>Delta Lab C</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>823S57WQK3</string>
+				<key>name</key>
+				<string></string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

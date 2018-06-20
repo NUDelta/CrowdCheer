@@ -70,7 +70,6 @@ xcuserdata/
 
 ## Obj-C/Swift specific
 *.hmap
-*.ipa
 *.dSYM.zip
 *.dSYM
 
@@ -150,4 +149,3 @@ Pods/
 
 
 # End of https://www.gitignore.io/api/xcode,swift,linux,macos,windows,cocoapods
-
