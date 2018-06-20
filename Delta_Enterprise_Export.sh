@@ -11,6 +11,26 @@
 # xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath CrowdCheer2 -exportFormat ipa -exportProvisioningProfile "Delta Lab C"
 # mv -i CrowdCheer2.ipa  CrowdCheer.ipa
 
-xcodebuild clean -project CrowdCheer -configuration Release -alltargets
-xcodebuild -project CrowdCheer.xcodeproj clean archive -scheme CrowdCheer -archivePath CrowdCheer.xcarchive
-xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath ./ -exportOptionsPlist export.plist PROVISIONING_PROFILE_SPECIFIER="Delta Lab C"
+# xcodebuild clean -project CrowdCheer -configuration Release -alltargets
+# xcodebuild -project CrowdCheer.xcodeproj clean archive -scheme CrowdCheer -archivePath CrowdCheer.xcarchive
+# xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath ./ -exportOptionsPlist export.plist PROVISIONING_PROFILE_SPECIFIER="Delta Lab C"
+
+
+#!/bin/bash
+xcodebuild clean \
+    -workspace CrowdCheer.xcworkspace/ \
+    -scheme CrowdCheer
+
+xcodebuild \
+    -workspace CrowdCheer.xcworkspace \
+    -scheme CrowdCheer \
+    -archivePath build/CrowdCheer.xcarchive \
+    archive
+
+xcodebuild \
+	-exportArchive \
+	-archivePath build/CrowdCheer.xcarchive \
+	-exportOptionsPlist export.plist \
+	-exportPath CrowdCheer2.ipa
+
+mv -i CrowdCheer2.ipa  CrowdCheer.ipa
