@@ -16,7 +16,7 @@
 # xcodebuild -exportArchive -archivePath CrowdCheer.xcarchive -exportPath ./ -exportOptionsPlist export.plist PROVISIONING_PROFILE_SPECIFIER="Delta Lab C"
 
 
-#!/bin/bash
+!/bin/bash
 xcodebuild clean \
     -workspace CrowdCheer.xcworkspace/ \
     -scheme CrowdCheer
@@ -31,6 +31,4 @@ xcodebuild \
 	-exportArchive \
 	-archivePath build/CrowdCheer.xcarchive \
 	-exportOptionsPlist export.plist \
-	-exportPath CrowdCheer2.ipa
-
-mv -i CrowdCheer2.ipa  CrowdCheer.ipa
+	-exportPath CrowdCheer.ipa
