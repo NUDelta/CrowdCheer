@@ -216,10 +216,10 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func updateUserPath(_ interval: Int){
         
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
-        let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-        self.speed = self.distance/Double(self.duration)
-        self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime: duration)
+        let geoPoint = PFGeoPoint(latitude: loc.latitude, longitude: loc.longitude)
         self.duration += interval
+        self.speed = self.distance/(Double(self.duration) + 0.000001) //no nan
+        self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime: duration)
         
         let object = PFObject(className:"RunnerLocations")
         print(geoPoint)
@@ -227,6 +227,8 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         print(self.distance)
         print(self.duration)
         print(self.pace)
+        print(self.speed)
+        print(Date())
         object["location"] = geoPoint
         object["user"] = PFUser.current()
         object["distance"] = self.metersToMiles(self.distance)
@@ -239,6 +241,9 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
             if _error == nil
             {
                 print("location saved")
+            }
+            else {
+                print("err: \(_error)")
             }
         }
     }

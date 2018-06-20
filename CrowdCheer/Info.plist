@@ -52,7 +52,7 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) camera use</string>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>CrowdCheer needs your location information to continue.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>CrowdCheer needs your location information to continue.</string>

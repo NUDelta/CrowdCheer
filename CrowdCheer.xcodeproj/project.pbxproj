@@ -417,7 +417,6 @@
 				E2CA50DB1A88677A00C2BB03 /* Frameworks */,
 				E2CA50DC1A88677A00C2BB03 /* Resources */,
 				D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */,
-				B23C726A742573CAE14E2FA2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -436,8 +435,6 @@
 				E2CA50F91A88677A00C2BB03 /* Sources */,
 				E2CA50FA1A88677A00C2BB03 /* Frameworks */,
 				E2CA50FB1A88677A00C2BB03 /* Resources */,
-				B348166410C05184524AAAF5 /* [CP] Embed Pods Frameworks */,
-				B7AC5EC433C23ADEDB735545 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -463,7 +460,7 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = W4E2C6X642;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -566,56 +563,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B23C726A742573CAE14E2FA2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B348166410C05184524AAAF5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B7AC5EC433C23ADEDB735545 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */ = {
@@ -818,8 +765,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leesha Maliakal (2467455D5Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W4E2C6X642;
 				ENABLE_BITCODE = NO;
@@ -832,8 +780,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3631cd91-e185-4986-aa1c-0be794bcff38";
-				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -848,8 +796,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Northwestern University";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W4E2C6X642;
 				ENABLE_BITCODE = NO;
@@ -862,8 +811,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3631cd91-e185-4986-aa1c-0be794bcff38";
-				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
