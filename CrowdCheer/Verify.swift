@@ -77,22 +77,25 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         query.whereKey("runner", equalTo: runner)
         query.whereKey("spectator", equalTo: user)
         query.order(byDescending: "updatedAt")
+        // TODO: handle cases where cheer object couldnt be found
         query.getFirstObjectInBackground {
             (cheer: PFObject?, error: Error?) -> Void in
-            if error != nil {
+            if error == nil {
+                if let cheer = cheer {
+                    //NOTE: should save audio file to the class here too
+                    let audioFileData: Data = try! Data(contentsOf: audioFilePath as URL)
+                    let audioFile = PFFile(name: audioFileName, data: audioFileData)
+                    cheer["cheerAudio"] = audioFile
+                    cheer["didCheer"] = didCheer
+                    cheer.saveInBackground()
+                }
+            } else {
                 print(error!)
-            } else if let cheer = cheer {
-                
-                //NOTE: should save audio file to the class here too
-                let audioFileData: Data = try! Data(contentsOf: audioFilePath as URL)
-                let audioFile = PFFile(name: audioFileName, data: audioFileData)
-                cheer["cheerAudio"] = audioFile
-                cheer["didCheer"] = didCheer
-                cheer.saveInBackground()
             }
         }
     }
-    
+
+    // TODO: remove this :)
     func saveSpectatorCheer() {
         
     }

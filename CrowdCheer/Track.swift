@@ -83,8 +83,10 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         }
         catch {
             print("ERROR: unable to get runner")
+            runner = PFUser()
         }
-        
+
+        // TODO: move up into DO and handle default PFUser value user case whereever getRunner is called
         return runner
     }
     

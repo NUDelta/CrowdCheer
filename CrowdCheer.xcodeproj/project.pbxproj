@@ -417,6 +417,7 @@
 				E2CA50DB1A88677A00C2BB03 /* Frameworks */,
 				E2CA50DC1A88677A00C2BB03 /* Resources */,
 				D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */,
+				EDA9C11F79D6BF21B9DED552 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -435,6 +436,8 @@
 				E2CA50F91A88677A00C2BB03 /* Sources */,
 				E2CA50FA1A88677A00C2BB03 /* Frameworks */,
 				E2CA50FB1A88677A00C2BB03 /* Resources */,
+				670F5048169E64E95FD98CC2 /* [CP] Embed Pods Frameworks */,
+				1616FBF10C806959BFC838E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -547,6 +550,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1616FBF10C806959BFC838E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5AC4A6D564CE166843E6C0BD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +581,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		670F5048169E64E95FD98CC2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheerTests/Pods-CrowdCheerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6845304B0EC5300768BCA7D /* [CP] Embed Pods Frameworks */ = {
@@ -583,6 +616,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDA9C11F79D6BF21B9DED552 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CrowdCheer/Pods-CrowdCheer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F3095C820A71F4129CA10A20 /* [CP] Check Pods Manifest.lock */ = {

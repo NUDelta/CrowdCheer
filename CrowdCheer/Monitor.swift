@@ -173,6 +173,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserLocation() {
+        // TODO: check if location manager has a valid location before creating geopoint, else skip
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         self.speed = self.distance/Double(self.duration)
@@ -180,8 +181,11 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
         let query = PFQuery(className: "CurrRunnerLocation")
         query.whereKey("user", equalTo: self.user)
+        // TODO: check if currLoc is valid before trying to create a new parse object. --> this might be ok actually, check with above TODO
+        // cases: currLoc is valid with no error, currLoc is not valid (doesnt exist) with no error, currLoc is not valid with error
         query.getFirstObjectInBackground {
             (currLoc: PFObject?, error: Error?) -> Void in
+            // error exists -> create a new item
             if error != nil {
                 print(error!)
                 //add runner
@@ -197,18 +201,20 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 newCurrLoc["time"] = Date()
                 newCurrLoc.saveInBackground()
                 
-            } else if let currLoc = currLoc {
-                let prevLoc = (currLoc)["location"] as! PFGeoPoint
-                currLoc["prevLocLat"] = prevLoc.latitude
-                currLoc["prevLocLon"] = prevLoc.longitude
-                currLoc["location"] = geoPoint
-                currLoc["user"] = PFUser.current()
-                currLoc["distance"] = self.metersToMiles(self.distance)
-                currLoc["speed"] = self.speed
-                currLoc["pace"] = self.pace
-                currLoc["duration"] = self.stringFromSeconds(self.duration)
-                currLoc["time"] = Date()
-                currLoc.saveInBackground()
+            } else {
+                if let currLoc = currLoc { // no error and valid currLoc
+                    let prevLoc = (currLoc)["location"] as! PFGeoPoint
+                    currLoc["prevLocLat"] = prevLoc.latitude
+                    currLoc["prevLocLon"] = prevLoc.longitude
+                    currLoc["location"] = geoPoint
+                    currLoc["user"] = PFUser.current()
+                    currLoc["distance"] = self.metersToMiles(self.distance)
+                    currLoc["speed"] = self.speed
+                    currLoc["pace"] = self.pace
+                    currLoc["duration"] = self.stringFromSeconds(self.duration)
+                    currLoc["time"] = Date()
+                    currLoc.saveInBackground()
+                }
             }
         }
     }
@@ -365,6 +371,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserLocation() {
+        // TODO: see above in runner implementation for comments
         let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
         let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
         
