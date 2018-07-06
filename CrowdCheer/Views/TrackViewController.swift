@@ -197,8 +197,10 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getRunnerProfile() {
-        // TODO: handle nil of getRunner
-        trackedRunner = contextPrimer.getRunner()
+        // TODO: handle nil of getRunner - done
+        if (contextPrimer.getRunner().username != nil) {
+            trackedRunner = contextPrimer.getRunner()
+        }
         let name = (trackedRunner.value(forKey: "name"))!
         let bib = (trackedRunner.value(forKey: "bibNumber"))!
         let cheer = (trackedRunner.value(forKey: "cheer"))!

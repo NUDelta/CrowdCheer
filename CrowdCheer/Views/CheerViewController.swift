@@ -137,8 +137,10 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func getRunnerProfile() {
-        // TODO: handle nil of getRunner
-        runner = contextPrimer.getRunner()
+        // TODO: handle nil of getRunner - done
+        if(contextPrimer.getRunner().username != nil) {
+            runner = contextPrimer.getRunner()
+        }
             //update runner name, bib #, picture, outfit, and cheer
             runnerName = (runner.value(forKey: "name"))! as! String
             let runnerBib = (runner.value(forKey: "bibNumber"))!
