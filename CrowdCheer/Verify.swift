@@ -77,7 +77,6 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         query.whereKey("runner", equalTo: runner)
         query.whereKey("spectator", equalTo: user)
         query.order(byDescending: "updatedAt")
-        // TODO: handle cases where cheer object couldnt be found
         query.getFirstObjectInBackground {
             (cheer: PFObject?, error: Error?) -> Void in
             if error == nil {
