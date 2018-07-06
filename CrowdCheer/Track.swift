@@ -86,7 +86,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             runner = PFUser()
         }
 
-        // TODO: move up into DO and handle default PFUser value user case whereever getRunner is called
+        // [done] TODO: move up into DO and handle default PFUser value user case wherever getRunner is called
         return runner
     }
     
