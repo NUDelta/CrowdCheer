@@ -119,20 +119,20 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         let showTime = Date()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
-            print("skipping coordinate")
-        }
-        else {
-            runnerPath.append(runnerLastLoc)
-            let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-            let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
-            var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
-            if distanceCalc < 0 {
-                distanceCalc = 0.01
+        //[done] TODO: handle possible nil location consistently
+        if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
+            if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
+                runnerPath.append(runnerLastLoc)
+                let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+                let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
+                var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+                if distanceCalc < 0 {
+                    distanceCalc = 0.01
+                }
+                
+                updateBanner(runnerCLLoc)
+                distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
             }
-            
-            updateBanner(runnerCLLoc)
-            distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
         }
     }
     

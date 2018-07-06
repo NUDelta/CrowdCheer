@@ -94,8 +94,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
             }
         }
     }
-
-    // TODO: remove this :)
+    
     func saveSpectatorCheer() {
         
     }

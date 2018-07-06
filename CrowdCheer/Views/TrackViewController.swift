@@ -118,37 +118,39 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let showTime = Date()
         let latencyData = contextPrimer.handleLatency(trackedRunner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        if (runnerLastLoc.latitude == 0.0 && runnerLastLoc.longitude == 0.0) {
-            print("skipping coordinate")
-        }
-        else {
-            runnerPath.append(runnerLastLoc)
-            let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-            let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
-            var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
-            if distanceCalc < 0 {
-                distanceCalc = 0.01
-            }
-            ETA.text = String(format: " %d", Int(distanceCalc)) + "m away"
-            ETA.isHidden = false
-            
-            if (distanceCalc >= 100 && distanceCalc <= 150) {
-                sendLocalNotification(runnerName)
-                ETA.textColor = redLabel.textColor
-            }
-            
-            else if distanceCalc<100 {
-                runnerTrackerTimer.invalidate()
-                userMonitorTimer.invalidate()
+        //[done] TODO: handle possible nil location consistently
+        
+        if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
+            if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
+                runnerPath.append(runnerLastLoc)
+                let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+                let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
+                var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+                if distanceCalc < 0 {
+                    distanceCalc = 0.01
+                }
+                ETA.text = String(format: " %d", Int(distanceCalc)) + "m away"
+                ETA.isHidden = false
                 
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "CheerViewController") as UIViewController
-                navigationController?.pushViewController(vc, animated: true)
+                if (distanceCalc >= 100 && distanceCalc <= 150) {
+                    sendLocalNotification(runnerName)
+                    ETA.textColor = redLabel.textColor
+                }
+                    
+                else if distanceCalc<100 {
+                    runnerTrackerTimer.invalidate()
+                    userMonitorTimer.invalidate()
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "CheerViewController") as UIViewController
+                    navigationController?.pushViewController(vc, animated: true)
+                }
+                
+                updateRunnerInfo()
             }
         }
         
-        updateRunnerInfo()
-
+        //updateRunnerInfo()
     }
     
     func updateNearbyRunners() {

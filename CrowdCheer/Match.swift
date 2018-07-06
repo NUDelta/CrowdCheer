@@ -76,15 +76,16 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     func checkProximityZone(_ result:@escaping (_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
         //query & return runners' locations from parse (recently updated & near me)
-        if locationMgr.location != nil {
+        // [done] TODO: handle possible nil location in consistent way
+        if CLLocationCoordinate2DIsValid(locationMgr.location!.coordinate) {
             let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: crashes here - breakpoint crash (x4) - fixed with condiitonal?
             var runnerUpdates = [PFUser: PFGeoPoint]()
             var runnerLocs:Array<AnyObject> = []
             let now = Date()
             let seconds:TimeInterval = -60
             let xSecondsAgo = now.addingTimeInterval(seconds)
-            let query = PFQuery(className: "CurrRunnerLocation")
             
+            let query = PFQuery(className: "CurrRunnerLocation")
             query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 10 seconds
             query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 45.0) //runners within 45 km (~27mi) of me
             query.order(byDescending: "updatedAt")
@@ -94,26 +95,24 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                 var runner: PFUser = PFUser()
 
                 if error == nil {
-                    // Found at least one runner
+                    // Found at least one object
                     print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
 
-                    // TODO: check if runnerObjects actually has runners in it, not just no error -> might be ok, but make sure
+                    // [done] - TODO: check if runnerObjects actually has runners in it, not just no error -> seems safe, but verify @kapil
                     if let runnerObjects = runnerObjects {
                         for object in runnerObjects {
-                            
-                            let runnerObj = (object )["user"] as! PFUser
+                            let runnerObj = (object)["user"] as! PFUser
                             do {
                                 runner = try PFQuery.getUserObject(withId: runnerObj.objectId!) //NOTE: crashed here (on query) - crash
+                                // [done] TODO: move up into DO incase there is an error with getting a runner
+                                let location = (object )["location"] as! PFGeoPoint
+                                runnerUpdates[runner] = location
+                                runnerLocs.append(location)
+                                self.possibleRunners[runner.objectId!] = runner.username
                             }
                             catch {
                                 print("ERROR: unable to get runner")
                             }
-                            // TODO: move up into DO incase there is an error with getting a runner
-                            let location = (object )["location"] as! PFGeoPoint
-                            runnerUpdates[runner] = location
-                            runnerLocs.append(location)
-                            self.possibleRunners[runner.objectId!] = runner.username
-                            
                         }
                     }
 
@@ -144,36 +143,34 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         
         do {
             runner = try PFQuery.getUserObject(withId: runnerObjID)
+            
+            // [done] TODO: put this in the DO above
+            let name = (runner.value(forKey: "name"))!
+            runnerProfile["objectID"] = runnerObjID as AnyObject
+            runnerProfile["name"] = name as AnyObject
+            
+            let userImageFile = runner["profilePic"] as? PFFile
+            userImageFile!.getDataInBackground {
+                (imageData: Data?, error: Error?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        let fileManager = FileManager.default
+                        self.imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("\(String(describing: runner.username)).jpg")
+                        runnerProfile["profilePicPath"] = self.imagePath as AnyObject
+                        fileManager.createFile(atPath: self.imagePath as String, contents: imageData, attributes: nil)
+                    }
+                }
+                result(runnerProfile)
+            }
         }
         catch {
             print("ERROR: unable to get runner")
         }
-
-        // TODO: put this in the DO above
-        let name = (runner.value(forKey: "name"))!
-        runnerProfile["objectID"] = runnerObjID as AnyObject
-        runnerProfile["name"] = name as AnyObject
-        
-        let userImageFile = runner["profilePic"] as? PFFile
-        userImageFile!.getDataInBackground {
-            (imageData: Data?, error: Error?) -> Void in
-            if error == nil {
-                if let imageData = imageData {
-                    let fileManager = FileManager.default
-                    self.imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("\(String(describing: runner.username)).jpg")
-                    runnerProfile["profilePicPath"] = self.imagePath as AnyObject
-                    fileManager.createFile(atPath: self.imagePath as String, contents: imageData, attributes: nil)
-                }
-            }
-            result(runnerProfile)
-        }
     }
 }
 
-
 class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
     //This class handles how a spectator monitors any runners around them
-    
     
     var user: PFUser = PFUser.current()!
     var locationMgr: CLLocationManager
@@ -207,62 +204,64 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         //create dictionary of spectators + their locations
         
         //query & return spectators' locations from parse (recently updated & near me)
-        let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: nil here
-        var spectatorUpdates = [PFUser: PFGeoPoint]()
-        var spectatorLocs:Array<AnyObject> = []
-        let now = Date()
-        let seconds:TimeInterval = -60 //1 min
-        let xSecondsAgo = now.addingTimeInterval(seconds)
-
-
-        // TODO: consistent logic with other checkProximityZone
-        let query = PFQuery(className: "CurrSpectatorLocation")
-        
-        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
-        query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
-        query.order(byDescending: "updatedAt")
-        query.findObjectsInBackground {
-            (spectatorObjects: [PFObject]?, error: Error?) -> Void in
+        // [done] TODO: handle nil loc
+        if CLLocationCoordinate2DIsValid(locationMgr.location!.coordinate) {
+            let geoPoint = PFGeoPoint(location: locationMgr.location!) //NOTE: nil here
+            var spectatorUpdates = [PFUser: PFGeoPoint]()
+            var spectatorLocs:Array<AnyObject> = []
+            let now = Date()
+            let seconds:TimeInterval = -60 //1 min
+            let xSecondsAgo = now.addingTimeInterval(seconds)
             
-            if error == nil {
-                // Found at least one runner
-                print("Successfully retrieved \(spectatorObjects!.count) spectators nearby.")
+            
+            // [done] TODO: consistent logic with other checkProximityZone
+            let query = PFQuery(className: "CurrSpectatorLocation")
+            query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
+            query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
+            query.order(byDescending: "updatedAt")
+            query.findObjectsInBackground {
+                (spectatorObjects: [PFObject]?, error: Error?) -> Void in
                 
-                if let spectatorObjects = spectatorObjects {
-                    var spectator: PFUser = PFUser()
+                if error == nil {
+                    // Found at least one runner
+                    print("Successfully retrieved \(spectatorObjects!.count) spectators nearby.")
                     
-                    for object in spectatorObjects {
+                    if let spectatorObjects = spectatorObjects {
+                        var spectator: PFUser = PFUser()
                         
-                        let spectatorObj = (object )["user"] as! PFUser
-                        do {
-                            spectator = try PFQuery.getUserObject(withId: spectatorObj.objectId!)
+                        for object in spectatorObjects {
+                            
+                            let spectatorObj = (object )["user"] as! PFUser
+                            do {
+                                spectator = try PFQuery.getUserObject(withId: spectatorObj.objectId!)
+                                
+                                // [done] TODO: move into DO above
+                                let location = (object)["location"] as! PFGeoPoint
+                                spectatorUpdates[spectator] = location //NOTE: crashes here - Seg Fault, Kernel Invalid Address (x2)
+                                spectatorLocs.append(location)
+                            }
+                            catch {
+                                print("ERROR: unable to get spectator")
+                            }
                         }
-                        catch {
-                            print("ERROR: unable to get spectator")
-                        }
-
-                        // TODO: move into DO above
-                        let location = (object)["location"] as! PFGeoPoint
-                        spectatorUpdates[spectator] = location //NOTE: crashes here - Seg Fault, Kernel Invalid Address (x2)
-                        spectatorLocs.append(location)
                     }
-                }
-                
-                if spectatorLocs.isEmpty != true {
-                    print("spectatorLocs has a spectator")
-                    self.areUsersNearby = true
+                    
+                    if spectatorLocs.isEmpty != true {
+                        print("spectatorLocs has a spectator")
+                        self.areUsersNearby = true
+                    }
+                    else {
+                        print("spectatorLocs is empty")
+                        self.areUsersNearby = false
+                    }
+                    
+                    result(spectatorUpdates)
                 }
                 else {
-                    print("spectatorLocs is empty")
-                    self.areUsersNearby = false
+                    // Query failed, load error
+                    print("ERROR: \(error!) \((error! as NSError).userInfo)")
+                    result(spectatorUpdates)
                 }
-                
-                result(spectatorUpdates)
-            }
-            else {
-                // Query failed, load error
-                print("ERROR: \(error!) \((error! as NSError).userInfo)")
-                result(spectatorUpdates)
             }
         }
     }
@@ -336,7 +335,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             query.findObjectsInBackground{
                 (cheerObjects: [PFObject]?, error: Error?) -> Void in
                 if error == nil {
-                    // TODO: check if cheerObjects is not nil before proceeding -- DONE
+                    // [done] TODO: check if cheerObjects is not nil before proceeding
                     // Found at least one cheer
                     if let cheerObjects = cheerObjects {
                         print("Successfully retrieved \(cheerObjects.count) cheers.")
@@ -353,6 +352,7 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
     }
 
     func considerAffinity(_ userLocations: Dictionary<PFUser, PFGeoPoint>, result:@escaping(_ affinities: Dictionary<PFUser, Int>) -> Void) {
+        
         var affinities = [PFUser: Int]()
         
         if user.value(forKey: "targetRunnerBib") == nil {
@@ -365,13 +365,12 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             let targetRunnerBibArr = targetRunnerBibString.components(separatedBy: " ")
             print("bib array: \(targetRunnerBibArr)")
             
+            // [done] TODO: targetRunners param should be something like targetRunners: [PFObject]?
+            // [done] TODO: make like the above PFQuery(className: "Cheers")
             let query = PFUser.query()
             query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
-
-            // TODO: targetRunners param should be something like targetRunners: [PFObject]?
-            // TODO: make like the above PFQuery(className: "Cheers")
-            // TODO: try PFUser.currentUser and see if data is stored there rather than querying
-            query!.findObjectsInBackground(block: { (targetRunners, error: Error?) in
+            query!.findObjectsInBackground(block: {
+                (targetRunners: [PFObject]?, error: Error?) in
                 for (runner, location) in userLocations {
                     // TODO: check if targetRunners is optional
                     for targetRunner in targetRunners! {

@@ -133,13 +133,17 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         time.text = "Time: " + timeString + " s"
         pace.text = "Pace: " + (runnerMonitor.pace as String)
         
-        if (runnerMonitor.locationMgr.location!.coordinate.latitude == 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude == 0.0) {  //NOTE: nil here
-            print("skipping coordinate")
+        //[done] TODO: handle possible nil location consistently -- probably don't need to handle in VC anymore if handled in model
+        
+        if let currLoc = runnerMonitor.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                if (runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
+                    
+                    runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
+//                    drawPath()
+                }
+            }
         }
-        else {
-            runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
-        }
-        //        drawPath()
     }
     
     func updateNearbySpectators() {
