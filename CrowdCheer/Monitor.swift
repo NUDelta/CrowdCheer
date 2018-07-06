@@ -231,7 +231,7 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func updateUserPath(_ interval: Int){
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
         if let currLoc = self.locationMgr.location {
-            CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let loc:CLLocationCoordinate2D =  currLoc.coordinate
                 let geoPoint = PFGeoPoint(latitude: loc.latitude, longitude: loc.longitude)
                 self.duration += interval
