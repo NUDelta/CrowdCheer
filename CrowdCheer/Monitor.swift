@@ -163,10 +163,12 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func monitorUserLocation() {
         
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            print(self.locationMgr.location!.coordinate)
-            let currentLoc:CLLocationCoordinate2D =  (self.locationMgr.location!.coordinate)
-            print("current location is: ", currentLoc)
+        if let currLoc = self.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                print(currLoc.coordinate)
+                let currentLoc:CLLocationCoordinate2D =  (currLoc.coordinate)
+                print("current location is: ", currentLoc)
+            }
         }
         
         // track & register changes in audio output routes
@@ -177,47 +179,49 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func updateUserLocation() {
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
-            let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-            self.speed = self.distance/Double(self.duration)
-            self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime:self.duration)
-            
-            let query = PFQuery(className: "CurrRunnerLocation")
-            query.whereKey("user", equalTo: self.user)
-            // [done] TODO: check if currLoc is valid before trying to create a new parse object. --> this might be ok actually, check with above TODO
-            // cases: currLoc is valid with no error, currLoc is not valid (doesn't exist) with no error, currLoc is not valid with error
-            query.getFirstObjectInBackground {
-                (currLoc: PFObject?, error: Error?) -> Void in
-                // error exists -> create a new item
-                if error != nil {
-                    print(error!)
-                    //add runner
-                    let newCurrLoc = PFObject(className: "CurrRunnerLocation")
-                    newCurrLoc["prevLocLat"] = geoPoint.latitude
-                    newCurrLoc["prevLocLon"] = geoPoint.longitude
-                    newCurrLoc["location"] = geoPoint
-                    newCurrLoc["user"] = PFUser.current()
-                    newCurrLoc["distance"] = self.metersToMiles(self.distance)
-                    newCurrLoc["speed"] = self.speed
-                    newCurrLoc["pace"] = self.pace
-                    newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
-                    newCurrLoc["time"] = Date()
-                    newCurrLoc.saveInBackground()
-                    
-                } else {
-                    if let currLoc = currLoc { // no error and valid currLoc
-                        let prevLoc = (currLoc)["location"] as! PFGeoPoint
-                        currLoc["prevLocLat"] = prevLoc.latitude
-                        currLoc["prevLocLon"] = prevLoc.longitude
-                        currLoc["location"] = geoPoint
-                        currLoc["user"] = PFUser.current()
-                        currLoc["distance"] = self.metersToMiles(self.distance)
-                        currLoc["speed"] = self.speed
-                        currLoc["pace"] = self.pace
-                        currLoc["duration"] = self.stringFromSeconds(self.duration)
-                        currLoc["time"] = Date()
-                        currLoc.saveInBackground()
+        if let currLoc = self.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                let loc:CLLocationCoordinate2D =  currLoc.coordinate
+                let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+                self.speed = self.distance/Double(self.duration)
+                self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime:self.duration)
+                
+                let query = PFQuery(className: "CurrRunnerLocation")
+                query.whereKey("user", equalTo: self.user)
+                // [done] TODO: check if currLoc is valid before trying to create a new parse object. --> this might be ok actually, check with above TODO
+                // cases: currLoc is valid with no error, currLoc is not valid (doesn't exist) with no error, currLoc is not valid with error
+                query.getFirstObjectInBackground {
+                    (currLoc: PFObject?, error: Error?) -> Void in
+                    // error exists -> create a new item
+                    if error != nil {
+                        print(error!)
+                        //add runner
+                        let newCurrLoc = PFObject(className: "CurrRunnerLocation")
+                        newCurrLoc["prevLocLat"] = geoPoint.latitude
+                        newCurrLoc["prevLocLon"] = geoPoint.longitude
+                        newCurrLoc["location"] = geoPoint
+                        newCurrLoc["user"] = PFUser.current()
+                        newCurrLoc["distance"] = self.metersToMiles(self.distance)
+                        newCurrLoc["speed"] = self.speed
+                        newCurrLoc["pace"] = self.pace
+                        newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
+                        newCurrLoc["time"] = Date()
+                        newCurrLoc.saveInBackground()
+                        
+                    } else {
+                        if let currLoc = currLoc { // no error and valid currLoc
+                            let prevLoc = (currLoc)["location"] as! PFGeoPoint
+                            currLoc["prevLocLat"] = prevLoc.latitude
+                            currLoc["prevLocLon"] = prevLoc.longitude
+                            currLoc["location"] = geoPoint
+                            currLoc["user"] = PFUser.current()
+                            currLoc["distance"] = self.metersToMiles(self.distance)
+                            currLoc["speed"] = self.speed
+                            currLoc["pace"] = self.pace
+                            currLoc["duration"] = self.stringFromSeconds(self.duration)
+                            currLoc["time"] = Date()
+                            currLoc.saveInBackground()
+                        }
                     }
                 }
             }
@@ -226,36 +230,38 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func updateUserPath(_ interval: Int){
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
-            let geoPoint = PFGeoPoint(latitude: loc.latitude, longitude: loc.longitude)
-            self.duration += interval
-            self.speed = self.distance/(Double(self.duration) + 0.000001) //no nan
-            self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime: duration)
-            
-            let object = PFObject(className:"RunnerLocations")
-            print(geoPoint)
-            print (user.objectId!)
-            print(self.distance)
-            print(self.duration)
-            print(self.pace)
-            print(self.speed)
-            print(Date())
-            object["location"] = geoPoint
-            object["user"] = PFUser.current()
-            object["distance"] = self.metersToMiles(self.distance)
-            object["speed"] = self.speed
-            object["pace"] = self.pace
-            object["duration"] = self.stringFromSeconds(self.duration)
-            object["time"] = Date()
-            
-            object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
-                if _error == nil
-                {
-                    print("location saved")
-                }
-                else {
-                    print("err: \(String(describing: _error))")
+        if let currLoc = self.locationMgr.location {
+            CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                let loc:CLLocationCoordinate2D =  currLoc.coordinate
+                let geoPoint = PFGeoPoint(latitude: loc.latitude, longitude: loc.longitude)
+                self.duration += interval
+                self.speed = self.distance/(Double(self.duration) + 0.000001) //no nan
+                self.pace = MathController.stringifyAvgPace(fromDist: Float(self.distance), overTime: duration)
+                
+                let object = PFObject(className:"RunnerLocations")
+                print(geoPoint)
+                print (user.objectId!)
+                print(self.distance)
+                print(self.duration)
+                print(self.pace)
+                print(self.speed)
+                print(Date())
+                object["location"] = geoPoint
+                object["user"] = PFUser.current()
+                object["distance"] = self.metersToMiles(self.distance)
+                object["speed"] = self.speed
+                object["pace"] = self.pace
+                object["duration"] = self.stringFromSeconds(self.duration)
+                object["time"] = Date()
+                
+                object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
+                    if _error == nil
+                    {
+                        print("location saved")
+                    }
+                    else {
+                        print("err: \(String(describing: _error))")
+                    }
                 }
             }
         }
@@ -374,46 +380,50 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     func monitorUserLocation() {
         
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            let currentLoc:CLLocationCoordinate2D =  (self.locationMgr.location!.coordinate)
-            print("current location is: ", currentLoc)
+        if let currLoc = self.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                let currentLoc:CLLocationCoordinate2D =  (currLoc.coordinate)
+                print("current location is: ", currentLoc)
+            }
         }
     }
     
     func updateUserLocation() {
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
-            let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-            
-            let query = PFQuery(className: "CurrSpectatorLocation")
-            query.whereKey("user", equalTo: self.user)
-            query.getFirstObjectInBackground {
-                (currLoc: PFObject?, error: Error?) -> Void in
-                if error != nil {
-                    print(error!)
-                    //add runner
-                    let newCurrLoc = PFObject(className: "CurrSpectatorLocation")
-                    newCurrLoc["prevLocLat"] = geoPoint.latitude
-                    newCurrLoc["prevLocLon"] = geoPoint.longitude
-                    newCurrLoc["location"] = geoPoint
-                    newCurrLoc["user"] = PFUser.current()
-                    newCurrLoc["distance"] = self.metersToMiles(self.distance)
-                    newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
-                    newCurrLoc["time"] = Date()
-                    newCurrLoc.saveInBackground()
-                    
-                } else if let currLoc = currLoc {
-                    
-                    let prevLoc = (currLoc)["location"] as! PFGeoPoint
-                    currLoc["prevLocLat"] = prevLoc.latitude
-                    currLoc["prevLocLon"] = prevLoc.longitude
-                    currLoc["location"] = geoPoint
-                    currLoc["user"] = PFUser.current()
-                    currLoc["distance"] = self.metersToMiles(self.distance)
-                    currLoc["duration"] = self.stringFromSeconds(self.duration)
-                    currLoc["time"] = Date()
-                    currLoc.saveInBackground()
+        if let currLoc = self.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                let loc:CLLocationCoordinate2D =  currLoc.coordinate
+                let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+                
+                let query = PFQuery(className: "CurrSpectatorLocation")
+                query.whereKey("user", equalTo: self.user)
+                query.getFirstObjectInBackground {
+                    (currLoc: PFObject?, error: Error?) -> Void in
+                    if error != nil {
+                        print(error!)
+                        //add runner
+                        let newCurrLoc = PFObject(className: "CurrSpectatorLocation")
+                        newCurrLoc["prevLocLat"] = geoPoint.latitude
+                        newCurrLoc["prevLocLon"] = geoPoint.longitude
+                        newCurrLoc["location"] = geoPoint
+                        newCurrLoc["user"] = PFUser.current()
+                        newCurrLoc["distance"] = self.metersToMiles(self.distance)
+                        newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
+                        newCurrLoc["time"] = Date()
+                        newCurrLoc.saveInBackground()
+                        
+                    } else if let currLoc = currLoc {
+                        
+                        let prevLoc = (currLoc)["location"] as! PFGeoPoint
+                        currLoc["prevLocLat"] = prevLoc.latitude
+                        currLoc["prevLocLon"] = prevLoc.longitude
+                        currLoc["location"] = geoPoint
+                        currLoc["user"] = PFUser.current()
+                        currLoc["distance"] = self.metersToMiles(self.distance)
+                        currLoc["duration"] = self.stringFromSeconds(self.duration)
+                        currLoc["time"] = Date()
+                        currLoc.saveInBackground()
+                    }
                 }
             }
         }
@@ -421,23 +431,25 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func updateUserPath(_ interval: Int){
         // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
-        if CLLocationCoordinate2DIsValid(self.locationMgr.location!.coordinate) {
-            let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
-            let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
-            self.duration += interval
-            
-            let object = PFObject(className:"SpectatorLocations")
-            object["location"] = geoPoint
-            object["user"] = PFUser.current()
-            object["distance"] = self.metersToMiles(self.distance)
-            object["duration"] = self.stringFromSeconds(self.duration)
-            object["time"] = Date()
-            
-            
-            object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
-                if _error == nil
-                {
-                    print("location saved")
+        if let currLoc = self.locationMgr.location {
+            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
+                let geoPoint = PFGeoPoint(latitude:loc.latitude,longitude:loc.longitude)
+                self.duration += interval
+                
+                let object = PFObject(className:"SpectatorLocations")
+                object["location"] = geoPoint
+                object["user"] = PFUser.current()
+                object["distance"] = self.metersToMiles(self.distance)
+                object["duration"] = self.stringFromSeconds(self.duration)
+                object["time"] = Date()
+                
+                
+                object.saveInBackground { (_success:Bool, _error:Error?) -> Void in
+                    if _error == nil
+                    {
+                        print("location saved")
+                    }
                 }
             }
         }
