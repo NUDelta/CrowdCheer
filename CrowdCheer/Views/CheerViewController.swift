@@ -137,7 +137,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func getRunnerProfile() {
-        // TODO: handle nil of getRunner - done
+        // [done] TODO: handle nil of getRunner
         if(contextPrimer.getRunner().username != nil) {
             runner = contextPrimer.getRunner()
         }
