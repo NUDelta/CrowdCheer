@@ -374,32 +374,34 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
             query!.findObjectsInBackground(block: {
                 (targetRunners: [PFObject]?, error: Error?) in
-                for (runner, location) in userLocations {
-                    // TODO: check if targetRunners is optional
-                    for targetRunner in targetRunners! {
-                        
-                        self.targetRunners[targetRunner.objectId!] = false
-                        
-                        //if runner = target runner, +10 affinity
-                        if runner.objectId == targetRunner.objectId {
-                            affinities[runner] = 10
-                            self.targetRunners[targetRunner.objectId!] = true
-                            break
-                        }
-                        else {
-                            affinities[runner] = 0
-                            if self.generalRunners.contains(runner.objectId!) {
-                                //do nothing
+                if error == nil {
+                    for (runner, location) in userLocations {
+                        // [done] TODO: check if targetRunners is optional - verify with @kapil
+                        for targetRunner in targetRunners! {
+                            
+                            self.targetRunners[targetRunner.objectId!] = false
+                            
+                            //if runner = target runner, +10 affinity
+                            if runner.objectId == targetRunner.objectId {
+                                affinities[runner] = 10
+                                self.targetRunners[targetRunner.objectId!] = true
+                                break
                             }
                             else {
-                                self.generalRunners.append(runner.objectId!)
+                                affinities[runner] = 0
+                                if self.generalRunners.contains(runner.objectId!) {
+                                    //do nothing
+                                }
+                                else {
+                                    self.generalRunners.append(runner.objectId!)
+                                }
+                                
                             }
-                            
+                            print("generalRunners within considerAffinity: \(self.generalRunners)")
                         }
-                        print("generalRunners within considerAffinity: \(self.generalRunners)")
                     }
+                    result(affinities)
                 }
-                result(affinities)
             })
         }
     }
