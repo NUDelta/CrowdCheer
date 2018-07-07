@@ -19,7 +19,7 @@
 			<key>metadata</key>
 			<dict>
 				<key>bundle-identifier</key>
-				<string>edu.northwestern.delta.crowdcheer</string>
+				<string>edu.northwestern.delta.C</string>
 				<key>bundle-version</key>
 				<string>1.0</string>
 				<key>kind</key>
