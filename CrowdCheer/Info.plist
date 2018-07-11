@@ -54,6 +54,8 @@
 	<string>$(PRODUCT_NAME) camera use</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>CrowdCheer needs your location information to continue.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>CrowdCheer needs your location information to continue.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>CrowdCheer needs your location information to continue.</string>
 	<key>NSMicrophoneUsageDescription</key>
