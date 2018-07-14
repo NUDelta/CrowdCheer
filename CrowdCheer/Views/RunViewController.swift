@@ -28,6 +28,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var pace: UILabel!
+    @IBOutlet weak var start: UIButton!
     @IBOutlet weak var pause: UIButton!
     @IBOutlet weak var resume: UIButton!
     @IBOutlet weak var stop: UIButton!
@@ -90,6 +91,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
             monitorUser()
             congrats.isHidden = true
+            start.isHidden = true
             distance.isHidden = false
             time.isHidden = false
             pace.isHidden = false
@@ -100,6 +102,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         if runnerMonitor.startRegionState == "exited" {
             resetTracking()
             congrats.isHidden = true
+            start.isHidden = true
             distance.isHidden = false
             time.isHidden = false
             pace.isHidden = false
@@ -206,6 +209,23 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
     }
 
+    @IBAction func start(_ sender: UIButton) {
+        //allow runner to manually start if automatic tracking does not work
+        
+        runnerMonitor = RunnerMonitor()
+        runnerMonitor.startRegionState = "monitoring" //NOTE: not great to modify model from VC
+        userMonitorTimer.invalidate()
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        
+        congrats.isHidden = true
+        start.isHidden = true
+        distance.isHidden = false
+        time.isHidden = false
+        pace.isHidden = false
+        pause.isHidden = false
+        stop.isHidden = false
+        
+    }
     
     @IBAction func stop(_ sender: UIButton) {
         //suspend runner monitor when you hit stop
