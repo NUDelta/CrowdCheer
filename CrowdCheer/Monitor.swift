@@ -99,14 +99,14 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     
     func createStartRegion(_ startLine: CLLocationCoordinate2D) -> CLCircularRegion {
-        let region = CLCircularRegion(center: startLine, radius: 100.0, identifier: "startRegion")
+        let region = CLCircularRegion(center: startLine, radius: 150.0, identifier: "startRegion")
         region.notifyOnEntry = true
         return region
         
     }
     
     func createFinishRegion(_ finishLine: CLLocationCoordinate2D) -> CLCircularRegion {
-        let region = CLCircularRegion(center: finishLine, radius: 100.0, identifier: "finishRegion")
+        let region = CLCircularRegion(center: finishLine, radius: 150.0, identifier: "finishRegion")
         region.notifyOnEntry = true
         region.notifyOnExit = true
         return region
