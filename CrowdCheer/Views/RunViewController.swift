@@ -88,6 +88,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     func monitorUserLoop() {
         
+        if UIApplication.shared.applicationState == .background {
+            print("app status: \(UIApplication.shared.applicationState)")
+            runnerMonitor.enableBackgroundLoc()
+        }
+        
         if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
             monitorUser()
             congrats.isHidden = true
