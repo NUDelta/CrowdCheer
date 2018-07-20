@@ -119,7 +119,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         let showTime = Date()
         let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        //[done] TODO: handle possible nil location consistently
         if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
             if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
                 runnerPath.append(runnerLastLoc)
@@ -137,7 +136,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func getRunnerProfile() {
-        // [done] TODO: handle nil of getRunner
         if(contextPrimer.getRunner().username != nil) {
             runner = contextPrimer.getRunner()
         }

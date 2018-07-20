@@ -169,7 +169,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // Flow 3.1 - remove R* pins from map and reset nearbyRunners
         removeRunnerPins()
-        var nearbyRunnersDisplayed: [PFUser] = []
+        var nearbyRunnersDisplayed: [PFUser] = [] //TODO: ALSO SAVE IF SYS THINKS THEY ARE GENERAL/FAVORITE RUNNER
         
         
         // Flow 3.2 - checkProximityZone for runners at the race
@@ -785,6 +785,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func sendLocalNotification_target() {
+        
+        // TODO: use didReceive:withCompletion to handle event of opening a sent notification, not just receiving it
         
         if areTargetRunnersNearby {
             

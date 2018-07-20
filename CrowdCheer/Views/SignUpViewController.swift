@@ -54,6 +54,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
+    
     
     //Interaction 1 - Check fields, Log In, and segue to next VC
     @IBAction func logIn(_ sender: UIButton) {

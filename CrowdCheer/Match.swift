@@ -75,11 +75,9 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
     
     func checkProximityZone(_ result:@escaping (_ userLocations: Dictionary<PFUser, PFGeoPoint>?) -> Void) {
         
-        //query & return runners' locations from parse (recently updated & near me)
-        // [done] TODO: handle possible nil location in consistent way
         if let currLoc = locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
-                let geoPoint = PFGeoPoint(location: currLoc) //NOTE: crashes here - breakpoint crash (x4) - fixed with condiitonal?
+                let geoPoint = PFGeoPoint(location: currLoc)
                 var runnerUpdates = [PFUser: PFGeoPoint]()
                 var runnerLocs:Array<AnyObject> = []
                 let now = Date()
@@ -99,13 +97,12 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                         // Found at least one object
                         print("Successfully retrieved \(runnerObjects!.count) runners nearby.")
                         
-                        // [done] - TODO: check if runnerObjects actually has runners in it, not just no error -> seems safe, but verify @kapil
+                        // [done] check if runnerObjects actually has runners in it, not just no error -> seems safe, but verify @kapil
                         if let runnerObjects = runnerObjects {
                             for object in runnerObjects {
                                 let runnerObj = (object)["user"] as! PFUser
                                 do {
-                                    runner = try PFQuery.getUserObject(withId: runnerObj.objectId!) //NOTE: crashed here (on query) - crash
-                                    // [done] TODO: move up into DO incase there is an error with getting a runner
+                                    runner = try PFQuery.getUserObject(withId: runnerObj.objectId!)
                                     let location = (object )["location"] as! PFGeoPoint
                                     runnerUpdates[runner] = location
                                     runnerLocs.append(location)
@@ -146,7 +143,6 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
         do {
             runner = try PFQuery.getUserObject(withId: runnerObjID)
             
-            // [done] TODO: put this in the DO above
             let name = (runner.value(forKey: "name"))!
             runnerProfile["objectID"] = runnerObjID as AnyObject
             runnerProfile["name"] = name as AnyObject
@@ -206,7 +202,6 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
         //create dictionary of spectators + their locations
         
         //query & return spectators' locations from parse (recently updated & near me)
-        // [done] TODO: handle nil loc
         if let currLoc = locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let geoPoint = PFGeoPoint(location: currLoc) //NOTE: nil here
@@ -216,7 +211,6 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                 let seconds:TimeInterval = -60 //1 min
                 let xSecondsAgo = now.addingTimeInterval(seconds)
                 
-                // [done] TODO: consistent logic with other checkProximityZone
                 let query = PFQuery(className: "CurrSpectatorLocation")
                 query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //spectators updated in the last 10 seconds
                 query.whereKey("location", nearGeoPoint: geoPoint, withinKilometers: 0.50) //spectators within 500m of me
@@ -237,9 +231,8 @@ class NearbySpectators: NSObject, Trigger, CLLocationManagerDelegate {
                                 do {
                                     spectator = try PFQuery.getUserObject(withId: spectatorObj.objectId!)
                                     
-                                    // [done] TODO: move into DO above
                                     let location = (object)["location"] as! PFGeoPoint
-                                    spectatorUpdates[spectator] = location //NOTE: crashes here - Seg Fault, Kernel Invalid Address (x2)
+                                    spectatorUpdates[spectator] = location
                                     spectatorLocs.append(location)
                                 }
                                 catch {
@@ -338,7 +331,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             query.findObjectsInBackground{
                 (cheerObjects: [PFObject]?, error: Error?) -> Void in
                 if error == nil {
-                    // [done] TODO: check if cheerObjects is not nil before proceeding
                     // Found at least one cheer
                     if let cheerObjects = cheerObjects {
                         print("Successfully retrieved \(cheerObjects.count) cheers.")
@@ -368,15 +360,13 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
             let targetRunnerBibArr = targetRunnerBibString.components(separatedBy: " ")
             print("bib array: \(targetRunnerBibArr)")
             
-            // [done] TODO: targetRunners param should be something like targetRunners: [PFObject]?
-            // [done] TODO: make like the above PFQuery(className: "Cheers")
             let query = PFUser.query()
             query!.whereKey("bibNumber", containedIn: targetRunnerBibArr)
             query!.findObjectsInBackground(block: {
                 (targetRunners: [PFObject]?, error: Error?) in
                 if error == nil {
                     for (runner, location) in userLocations {
-                        // [done] TODO: check if targetRunners is optional - verify with @kapil
+                        // [done] check if targetRunners is optional - verify with @kapil
                         for targetRunner in targetRunners! {
                             
                             self.targetRunners[targetRunner.objectId!] = false

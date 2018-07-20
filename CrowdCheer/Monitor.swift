@@ -162,7 +162,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
         
     func monitorUserLocation() {
         
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 print(currLoc.coordinate)
@@ -178,7 +177,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserLocation() {
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let loc:CLLocationCoordinate2D =  currLoc.coordinate
@@ -188,8 +186,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                 
                 let query = PFQuery(className: "CurrRunnerLocation")
                 query.whereKey("user", equalTo: self.user)
-                // [done] TODO: check if currLoc is valid before trying to create a new parse object. --> this might be ok actually, check with above TODO
-                // cases: currLoc is valid with no error, currLoc is not valid (doesn't exist) with no error, currLoc is not valid with error
                 query.getFirstObjectInBackground {
                     (currLoc: PFObject?, error: Error?) -> Void in
                     // error exists -> create a new item
@@ -229,7 +225,6 @@ class RunnerMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserPath(_ interval: Int){
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let loc:CLLocationCoordinate2D =  currLoc.coordinate
@@ -379,7 +374,6 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     
     func monitorUserLocation() {
         
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let currentLoc:CLLocationCoordinate2D =  (currLoc.coordinate)
@@ -389,7 +383,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserLocation() {
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
+
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let loc:CLLocationCoordinate2D =  currLoc.coordinate
@@ -430,7 +424,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
     }
     
     func updateUserPath(_ interval: Int){
-        // [done] TODO: check if location manager has a valid location before creating geopoint, else skip
+        
         if let currLoc = self.locationMgr.location {
             if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
                 let loc:CLLocationCoordinate2D =  self.locationMgr.location!.coordinate
