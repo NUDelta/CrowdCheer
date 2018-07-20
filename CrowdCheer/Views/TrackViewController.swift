@@ -44,8 +44,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     let appDel = UserDefaults()
     var viewWindowID: String = ""
     var vcName = "TrackVC"
-    
-    //TODO: add view event logging
+
     override func viewDidAppear(_ animated: Bool) {
         
         viewWindowID = String(arc4random_uniform(10000000))

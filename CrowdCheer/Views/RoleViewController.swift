@@ -23,7 +23,6 @@ class RoleViewController: UIViewController {
     var viewWindowID: String = ""
     var vcName = "RoleVC"
     
-    //TODO: add view event logging
     override func viewDidAppear(_ animated: Bool) {
         
         viewWindowID = String(arc4random_uniform(10000000))

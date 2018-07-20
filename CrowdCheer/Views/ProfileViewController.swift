@@ -29,7 +29,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     var viewWindowID: String = ""
     var vcName = "ProfileVC"
     
-    //TODO: add view event logging
     override func viewDidAppear(_ animated: Bool) {
         
         viewWindowID = String(arc4random_uniform(10000000))
