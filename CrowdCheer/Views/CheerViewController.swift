@@ -50,13 +50,58 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     var verifiedReceival: VerifiedReceival = VerifiedReceival()
     
+    let appDel = UserDefaults()
+    var viewWindowID: String = ""
+    var vcName = "CheerVC"
+    
     //TODO: add view event logging
     override func viewDidAppear(_ animated: Bool) {
         
+        viewWindowID = String(arc4random_uniform(10000000))
+        
+        let newViewWindowEvent = PFObject(className: "ViewWindows")
+        newViewWindowEvent["userID"] = PFUser.current()!.objectId as AnyObject
+        newViewWindowEvent["vcName"] = vcName as AnyObject
+        newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
+        newViewWindowEvent["viewWindowEvent"] = "segued to" as AnyObject
+        newViewWindowEvent["viewWindowTimestamp"] = Date() as AnyObject
+        newViewWindowEvent.saveInBackground(block: (
+            {(success: Bool, error: Error?) -> Void in
+                if (!success) {
+                    print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
+                    newViewWindowEvent.saveEventually()
+                }
+        })
+        )
+        
+        var viewWindowDict = [String: String]()
+        viewWindowDict["vcName"] = vcName
+        viewWindowDict["viewWindowID"] = viewWindowID
+        appDel.set(viewWindowDict, forKey: viewWindowDictKey)
+        appDel.synchronize()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
+        print("viewWillDisappear")
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        verifyCheersTimer.invalidate()
+        
+        let newViewWindow = PFObject(className: "ViewWindows")
+        newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
+        newViewWindow["vcName"] = vcName as AnyObject
+        newViewWindow["viewWindowID"] = viewWindowID as AnyObject
+        newViewWindow["viewWindowEvent"] = "segued away" as AnyObject
+        newViewWindow["viewWindowTimestamp"] = Date() as AnyObject
+        newViewWindow.saveInBackground(block: (
+            {(success: Bool, error: Error?) -> Void in
+                if (!success) {
+                    print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
+                    newViewWindow.saveEventually()
+                }
+        })
+        )
     }
     
     override func viewDidLoad() {
@@ -85,14 +130,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         //begin recording audio
         startRecordingSpectatorAudio(runnerName, spectatorName: spectatorName)
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        print("viewWillDisappear")
-        userMonitorTimer.invalidate()
-        nearbyRunnersTimer.invalidate()
-        verifyCheersTimer.invalidate()
         
     }
     
