@@ -64,6 +64,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var contextPrimer: ContextPrimer = ContextPrimer()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
+    //TODO: add view event logging
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -708,6 +717,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         let notificationID = arc4random_uniform(10000000)
         
         
+        
         var spectatorInfo = [String: AnyObject]()
         spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
         spectatorInfo["source"] = "dash_generalRunnerNotification" as AnyObject
@@ -741,7 +751,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         if timeSinceLastNotification == 0 {
             timeSinceLastNotification = Double(interval)
         }
-        }
+    }
     
     
     func sendLocalNotification_general_targetCheckin(_ name: String, _ ETA: String) {

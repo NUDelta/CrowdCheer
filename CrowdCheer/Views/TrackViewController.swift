@@ -41,7 +41,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var verifiedReceival: VerifiedReceival = VerifiedReceival()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
+    //TODO: add view event logging
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

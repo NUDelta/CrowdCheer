@@ -21,6 +21,14 @@ class AffinityViewController: UIViewController {
     var prestartDate: Date = Date()
     var prestartTimer: Timer = Timer()
     
+    //TODO: add view event logging
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

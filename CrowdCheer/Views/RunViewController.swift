@@ -36,6 +36,15 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var home: UIBarButtonItem!
     
+    //TODO: add view event logging
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

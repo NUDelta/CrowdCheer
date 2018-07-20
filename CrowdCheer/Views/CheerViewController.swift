@@ -50,7 +50,14 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     var verifiedReceival: VerifiedReceival = VerifiedReceival()
     
+    //TODO: add view event logging
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

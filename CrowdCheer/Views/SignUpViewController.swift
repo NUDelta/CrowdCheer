@@ -23,7 +23,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         usernameField.delegate = self
         emailField.delegate = self
         passwordField.delegate = self
@@ -53,15 +52,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             self.performSegue(withIdentifier: "intro", sender: nil)
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        
-    }
-    
+
     
     //Interaction 1 - Check fields, Log In, and segue to next VC
     @IBAction func logIn(_ sender: UIButton) {
