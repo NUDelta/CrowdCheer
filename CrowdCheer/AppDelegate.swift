@@ -11,7 +11,7 @@ import Parse
 
 let dictKey = "key"
 let viewWindowDictKey = "viewKey"
-let setupDateString = "2018-06-20T13:32:00-05:00" // 1 hr before race
+let setupDateString = "2018-07-22T05:30:00-05:00" // 1 hr before race
 var nearbyTargetRunnersTimer: Timer = Timer()
 
 

@@ -778,7 +778,7 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a921867a-2afe-4f8d-a8d3-2a6b7d31d44e";
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab";
@@ -809,7 +809,7 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "adcbc83e-e0ee-43ef-9d89-41a81b8cd287";
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab C";
