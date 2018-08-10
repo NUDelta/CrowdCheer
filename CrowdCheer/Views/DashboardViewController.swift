@@ -94,6 +94,13 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         viewWindowDict["viewWindowID"] = viewWindowID
         appDel.set(viewWindowDict, forKey: viewWindowDictKey)
         appDel.synchronize()
+        
+        //if view reloads, reset timers
+        
+//        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
+//        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -561,45 +568,67 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         var generalRunners = self.nearbyGeneralRunners
         print("generalRunners in dashboardVC: \(generalRunners)")
         
-        //check if the nearby target runners are ones we already cheered for
-        
-        if targetRunner.objectId != nil {
-            var didSpectatorCheerRecently = false
-//            verifiedDelivery = VerifiedDelivery()
-            self.verifiedDelivery.didSpectatorCheerRecently(targetRunner) { (didCheerRecently) -> Void in
-                
-                didSpectatorCheerRecently = didCheerRecently
-                
-                print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH \(didSpectatorCheerRecently) ++++++++")
-                print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH return val \(didCheerRecently) ++++++++")
-                print("++++++++ ARE RUNNERS NEARBY \(self.areRunnersNearby) ++++++++")
-                print("++++++++ NO GENERAL RUNNERS? \(self.nearbyGeneralRunners.isEmpty) ++++++++")
-                print("++++++++ ARE TARGET RUNNERS NEARBY? \(self.areTargetRunnersNearby) ++++++++")
-                if self.areRunnersNearby && didSpectatorCheerRecently {
-                    self.general1RunnerETA.textColor = self.redLabel.textColor
-                    self.general2RunnerETA.textColor = self.redLabel.textColor
-                    self.general3RunnerETA.textColor = self.redLabel.textColor
+        if areTargetRunnersNearby {
+            //check if the nearby target runners are ones we already cheered for
+            if targetRunner.objectId != nil {
+                var didSpectatorCheerRecently = false
+                //            verifiedDelivery = VerifiedDelivery()
+                self.verifiedDelivery.didSpectatorCheerRecently(targetRunner) { (didCheerRecently) -> Void in
                     
-                    //IDLE
-                    self.idleTimeBanner.isHidden = false
-                    //            nonIdleTimeBanner.isHidden = true
+                    didSpectatorCheerRecently = didCheerRecently
                     
-                    let newNotification = PFObject(className: "SpectatorNotifications")
-                    let notificationID = arc4random_uniform(10000000)
-                    newNotification["spectator"] = PFUser.current()?.objectId
-                    newNotification["source"] = "dash_idleBannerShown"
-                    newNotification["notificationID"] = notificationID
-                    newNotification["sentNotification"] = true
-                    newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-                    newNotification.saveInBackground()
+                    print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH \(didSpectatorCheerRecently) ++++++++")
+                    print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH return val \(didCheerRecently) ++++++++")
+                    print("++++++++ ARE RUNNERS NEARBY \(self.areRunnersNearby) ++++++++")
+                    print("++++++++ NO GENERAL RUNNERS? \(self.nearbyGeneralRunners.isEmpty) ++++++++")
+                    print("++++++++ ARE TARGET RUNNERS NEARBY? \(self.areTargetRunnersNearby) ++++++++")
+                    if self.areRunnersNearby && didSpectatorCheerRecently {
+                        self.general1RunnerETA.textColor = self.redLabel.textColor
+                        self.general2RunnerETA.textColor = self.redLabel.textColor
+                        self.general3RunnerETA.textColor = self.redLabel.textColor
+                        
+                        //IDLE
+                        self.idleTimeBanner.isHidden = false
+                        //            nonIdleTimeBanner.isHidden = true
+                        
+                        let newNotification = PFObject(className: "SpectatorNotifications")
+                        let notificationID = arc4random_uniform(10000000)
+                        newNotification["spectator"] = PFUser.current()?.objectId
+                        newNotification["source"] = "dash_idleBannerShown"
+                        newNotification["notificationID"] = notificationID
+                        newNotification["sentNotification"] = true
+                        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                        newNotification.saveInBackground()
+                    }
+                        
+                    else if self.areTargetRunnersNearby && !didSpectatorCheerRecently {
+                        self.disableGeneralRunners()
+                    }
+                    
                 }
-                    
-                else if self.areTargetRunnersNearby && !didSpectatorCheerRecently {
-                    self.disableGeneralRunners()
-                }
-                
             }
         }
+        
+        else if !areTargetRunnersNearby {
+            self.general1RunnerETA.textColor = self.redLabel.textColor
+            self.general2RunnerETA.textColor = self.redLabel.textColor
+            self.general3RunnerETA.textColor = self.redLabel.textColor
+            
+            //IDLE
+            self.idleTimeBanner.isHidden = false
+            //            nonIdleTimeBanner.isHidden = true
+            
+            let newNotification = PFObject(className: "SpectatorNotifications")
+            let notificationID = arc4random_uniform(10000000)
+            newNotification["spectator"] = PFUser.current()?.objectId
+            newNotification["source"] = "dash_idleBannerShown"
+            newNotification["notificationID"] = notificationID
+            newNotification["sentNotification"] = true
+            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+            newNotification.saveInBackground()
+        }
+        
+        
         
         if generalRunners.count == 1 {
             updateGeneral1RunnerStatus((generalRunners.popFirst()?.key)!)
