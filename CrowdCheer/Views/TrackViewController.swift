@@ -42,7 +42,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var nearbyRunners: NearbyRunners = NearbyRunners()
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var contextPrimer: ContextPrimer = ContextPrimer()
-    var verifiedReceival: VerifiedReceival = VerifiedReceival()
+    var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     let appDel = UserDefaults()
@@ -129,6 +129,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
         spectatorMonitor = SpectatorMonitor()
+        verifiedDelivery = VerifiedDelivery()
         
     }
     
@@ -208,6 +209,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             if ((runnerLocations?.isEmpty) != true) {
                 self.runnerLocations = runnerLocations!
+                self.verifiedDelivery = VerifiedDelivery()
                 
                 self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
                     print("affinities \(affinities)")
@@ -222,14 +224,22 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                         
                         //for each runner, find closeby target runners
                         for affinity in affinities {
-                            
+                            var didSpectatorCheerRecently = false
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist <= 500 { //if runner is less than 500m away (demo: 250)
+                                if dist <= 250 { //if runner is less than 500m away (demo: 250)
                                     if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
-                                        //notify
-                                        let name = (runner.value(forKey: "name"))!
-                                        self.sendLocalNotification_target(name as! String)
+                                        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+                                            
+                                            didSpectatorCheerRecently = didCheerRecently
+                                            
+                                        }
+                                        
+                                        if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
+                                            //notify
+                                            let name = (runner.value(forKey: "name"))!
+                                            self.sendLocalNotification_target(name as! String)
+                                        }
                                     }
                                 }
                             }

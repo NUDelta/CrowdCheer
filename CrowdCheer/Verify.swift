@@ -18,6 +18,7 @@ protocol Deliver: Any {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func spectatorDidCheer(_ runner: PFUser, didCheer: Bool, audioFilePath: NSURL, audioFileName: String)
+    func didSpectatorCheerRecently(_ runner: PFUser, result:@escaping(_ didCheerRecently: Bool) -> Void)
     func saveSpectatorCheer()
 }
 
@@ -91,6 +92,43 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
             } else {
                 print(error!)
             }
+        }
+    }
+    
+    func didSpectatorCheerRecently(_ runner: PFUser, result:@escaping (_ didCheerRecently: Bool) -> Void) {
+        //query Cheer object using spectatorID, runnerID
+        //if spectator cheered for runner (didCheer=true) in last 15 min, return true
+        
+        let now = Date()
+        let seconds:TimeInterval = -60*3 //demo: 3 min, regularly, 15 min
+        let xSecondsAgo = now.addingTimeInterval(seconds)
+        var didSpectatorCheer = false
+        var didSpectatorCheerRecently = false
+        
+        let query = PFQuery(className: "Cheers")
+        
+        query.whereKey("runner", equalTo: runner)
+        query.whereKey("spectator", equalTo: user)
+        query.whereKey("updatedAt", greaterThanOrEqualTo: xSecondsAgo) //runners updated in the last 15 min
+        query.getFirstObjectInBackground {
+            (cheer: PFObject?, error: Error?) -> Void in
+            if error == nil {
+                if let cheer = cheer {
+                    didSpectatorCheer = (cheer.value(forKey: "didCheer") != nil)
+                    if didSpectatorCheer {
+                        didSpectatorCheerRecently = true
+                        print("____________I ALREADY CHEERED FOR YOUUUUUUUUUUUUUUUU___________")
+                    }
+                    else {
+                        didSpectatorCheerRecently = false
+                        print("____________I DID NOT CHEER FOR YOUUUUUUUUUUUUUUUU___________")
+                    }
+                }
+            } else {
+                print(error!)
+                print("____________(NO CHEER OBJECT YET) I DID NOT CHEER FOR YOUUUUUUUUUUUUUUUU___________")
+            }
+            result(didSpectatorCheerRecently)
         }
     }
     

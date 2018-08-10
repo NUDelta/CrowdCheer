@@ -63,6 +63,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var optimizedRunners: OptimizedRunners = OptimizedRunners()
     var selectedRunners: SelectedRunners = SelectedRunners()
     var contextPrimer: ContextPrimer = ContextPrimer()
+    var verifiedDelivery: VerifiedDelivery = VerifiedDelivery()
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     let appDel = UserDefaults()
@@ -152,6 +153,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
+        verifiedDelivery = VerifiedDelivery()
         areTargetRunnersNearby = false
         areRunnersNearby = false
         interval = 30
@@ -292,7 +294,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         
                         // Flow 3.2.1.6.2 - for each runner, determine if target or general, and handle separately based on distance
                         for affinity in affinities {
-                            
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
                                 if dist > 400 { //if runner is more than 2km away (demo: 400m)
@@ -471,6 +472,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateNearbyRunnerStatus() {
+        
         if !self.nearbyGeneralRunners.isEmpty {
             self.areRunnersNearby = true
         }
@@ -491,6 +493,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         self.updateNearbyRunnerStatus()
         
+        //check if we just cheered for a favorite runner so as not to notify again as runner is still nearby but moves away
+        var didSpectatorCheerRecently = false
+        verifiedDelivery = VerifiedDelivery()  
+        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+            
+            didSpectatorCheerRecently = didCheerRecently
+            
+        }
+        
         let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
 //        let (cheers, cheersColor) = getRunnerCheers(runner)
@@ -501,16 +512,18 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
-        if ETA <= 1 {
+        if ETA <= 1 && !didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
             targetRunnerETA.text = "<1 mi away"
             targetRunnerETA.textColor = redLabel.textColor
             targetRunnerTrack.isHidden = false
             targetRunnerTrack.backgroundColor = redLabel.textColor
+            nonIdleTimeBanner.isHidden = false
         }
         else {
             targetRunnerETA.text = String(format: "%d mi away", ETA)
             targetRunnerETA.textColor = targetRunnerName.textColor
             targetRunnerTrack.backgroundColor = general1RunnerTrack.backgroundColor
+            nonIdleTimeBanner.isHidden = true
         }
         
         targetRunnerName.isHidden = false
