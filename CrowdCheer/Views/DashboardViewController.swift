@@ -343,7 +343,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.targetRunnerTrack.isEnabled = true
                                         self.nearbyTargetRunners[runner.objectId!] = true
-                                        self.disableGeneralRunners()
+//                                        self.disableGeneralRunners()
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
@@ -554,34 +554,51 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         targetRunnerPic.isHidden = false
     }
     
-    func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
+    func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) { //TODO: logic needs verifying
     
         self.updateNearbyRunnerStatus()
         
         var generalRunners = self.nearbyGeneralRunners
         print("generalRunners in dashboardVC: \(generalRunners)")
         
-        if areRunnersNearby && !areTargetRunnersNearby {
-            general1RunnerETA.textColor = redLabel.textColor
-            general2RunnerETA.textColor = redLabel.textColor
-            general3RunnerETA.textColor = redLabel.textColor
-            
-            //IDLE
-            idleTimeBanner.isHidden = false
-//            nonIdleTimeBanner.isHidden = true
-            
-            let newNotification = PFObject(className: "SpectatorNotifications")
-            let notificationID = arc4random_uniform(10000000)
-            newNotification["spectator"] = PFUser.current()?.objectId
-            newNotification["source"] = "dash_idleBannerShown"
-            newNotification["notificationID"] = notificationID
-            newNotification["sentNotification"] = true
-            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-            newNotification.saveInBackground()
-        }
+        //check if the nearby target runners are ones we already cheered for
         
-        else if areTargetRunnersNearby {
-            disableGeneralRunners()
+        if targetRunner.objectId != nil {
+            var didSpectatorCheerRecently = false
+            verifiedDelivery = VerifiedDelivery()
+            self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+                
+                didSpectatorCheerRecently = didCheerRecently
+                
+                print("++++++++ DID SPECTATOR CHEER RECENTLY \(didSpectatorCheerRecently) ++++++++")
+                print("++++++++ DID SPECTATOR CHEER RECENTLY \(didCheerRecently) ++++++++")
+                print("++++++++ ARE RUNNERS NEARBY \(self.areRunnersNearby) ++++++++")
+                print("++++++++ NO GENERAL RUNNERS? \(generalRunners.isEmpty) ++++++++")
+                print("++++++++ ARE TARGET RUNNERS NEARBY? \(self.areTargetRunnersNearby) ++++++++")
+                if self.areRunnersNearby && didSpectatorCheerRecently {
+                    self.general1RunnerETA.textColor = self.redLabel.textColor
+                    self.general2RunnerETA.textColor = self.redLabel.textColor
+                    self.general3RunnerETA.textColor = self.redLabel.textColor
+                    
+                    //IDLE
+                    self.idleTimeBanner.isHidden = false
+                    //            nonIdleTimeBanner.isHidden = true
+                    
+                    let newNotification = PFObject(className: "SpectatorNotifications")
+                    let notificationID = arc4random_uniform(10000000)
+                    newNotification["spectator"] = PFUser.current()?.objectId
+                    newNotification["source"] = "dash_idleBannerShown"
+                    newNotification["notificationID"] = notificationID
+                    newNotification["sentNotification"] = true
+                    newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                    newNotification.saveInBackground()
+                }
+                    
+                else if self.areTargetRunnersNearby && !didSpectatorCheerRecently {
+                    self.disableGeneralRunners()
+                }
+                
+            }
         }
         
         if generalRunners.count == 1 {
