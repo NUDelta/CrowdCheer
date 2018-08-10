@@ -565,15 +565,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if targetRunner.objectId != nil {
             var didSpectatorCheerRecently = false
-            verifiedDelivery = VerifiedDelivery()
-            self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+//            verifiedDelivery = VerifiedDelivery()
+            self.verifiedDelivery.didSpectatorCheerRecently(targetRunner) { (didCheerRecently) -> Void in
                 
                 didSpectatorCheerRecently = didCheerRecently
                 
-                print("++++++++ DID SPECTATOR CHEER RECENTLY \(didSpectatorCheerRecently) ++++++++")
-                print("++++++++ DID SPECTATOR CHEER RECENTLY \(didCheerRecently) ++++++++")
+                print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH \(didSpectatorCheerRecently) ++++++++")
+                print("++++++++ DID SPECTATOR CHEER RECENTLY -- DASH return val \(didCheerRecently) ++++++++")
                 print("++++++++ ARE RUNNERS NEARBY \(self.areRunnersNearby) ++++++++")
-                print("++++++++ NO GENERAL RUNNERS? \(generalRunners.isEmpty) ++++++++")
+                print("++++++++ NO GENERAL RUNNERS? \(self.nearbyGeneralRunners.isEmpty) ++++++++")
                 print("++++++++ ARE TARGET RUNNERS NEARBY? \(self.areTargetRunnersNearby) ++++++++")
                 if self.areRunnersNearby && didSpectatorCheerRecently {
                     self.general1RunnerETA.textColor = self.redLabel.textColor

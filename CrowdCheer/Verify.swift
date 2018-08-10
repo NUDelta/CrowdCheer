@@ -100,7 +100,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         //if spectator cheered for runner (didCheer=true) in last 15 min, return true
         
         let now = Date()
-        let seconds:TimeInterval = -60*15 //demo: 3 min, regularly, 15 min
+        let seconds:TimeInterval = -60*10 //demo: 10 min, regularly, 20 min
         let xSecondsAgo = now.addingTimeInterval(seconds)
         var didSpectatorCheer = false
         var didSpectatorCheerRecently = false
@@ -117,13 +117,16 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
                     didSpectatorCheer = (cheer.value(forKey: "didCheer") != nil)
                     if didSpectatorCheer {
                         didSpectatorCheerRecently = true
+                        print("++++++++ DID SPECTATOR CHEER RECENTLY -- yes \(didSpectatorCheerRecently) ++++++++")
                     }
                     else {
                         didSpectatorCheerRecently = false
+                        print("++++++++ DID SPECTATOR CHEER RECENTLY -- no \(didSpectatorCheerRecently) ++++++++")
                     }
                 }
             } else {
                 print(error!)
+                print("++++++++ DID SPECTATOR CHEER RECENTLY -- not yet \(didSpectatorCheerRecently) ++++++++")
             }
             result(didSpectatorCheerRecently)
         }
