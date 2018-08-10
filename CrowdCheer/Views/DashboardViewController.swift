@@ -518,12 +518,30 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.targetRunnerTrack.backgroundColor = self.redLabel.textColor
                 self.nonIdleTimeBanner.isHidden = false
                 self.idleTimeBanner.isHidden = true
+                
+                let newNotification = PFObject(className: "SpectatorNotifications")
+                let notificationID = arc4random_uniform(10000000)
+                newNotification["spectator"] = PFUser.current()
+                newNotification["source"] = "dash_nonIdleBannerShown"
+                newNotification["notificationID"] = notificationID
+                newNotification["sentNotification"] = true
+                newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                newNotification.saveInBackground()
             }
             else {
                 self.targetRunnerETA.text = String(format: "%d mi away", ETA)
                 self.targetRunnerETA.textColor = self.targetRunnerName.textColor
                 self.targetRunnerTrack.backgroundColor = self.general1RunnerTrack.backgroundColor
                 self.nonIdleTimeBanner.isHidden = true
+                
+                let newNotification = PFObject(className: "SpectatorNotifications")
+                let notificationID = arc4random_uniform(10000000)
+                newNotification["spectator"] = PFUser.current()
+                newNotification["source"] = "dash_nonIdleBannerHidden"
+                newNotification["notificationID"] = notificationID
+                newNotification["sentNotification"] = true
+                newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                newNotification.saveInBackground()
             }
         }
         
@@ -546,6 +564,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             //HAVE IDLE TIME
             idleTimeBanner.isHidden = false
             nonIdleTimeBanner.isHidden = true
+            
+            let newNotification = PFObject(className: "SpectatorNotifications")
+            let notificationID = arc4random_uniform(10000000)
+            newNotification["spectator"] = PFUser.current()
+            newNotification["source"] = "dash_idleBannerShown"
+            newNotification["notificationID"] = notificationID
+            newNotification["sentNotification"] = true
+            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+            newNotification.saveInBackground()
         }
         
         else if areTargetRunnersNearby {
@@ -657,6 +684,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         //NON-IDLE TIME
         idleTimeBanner.isHidden = true
+        
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        let notificationID = arc4random_uniform(10000000)
+        newNotification["spectator"] = PFUser.current()
+        newNotification["source"] = "dash_idleBannerHidden"
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+        newNotification.saveInBackground()
         
     }
     

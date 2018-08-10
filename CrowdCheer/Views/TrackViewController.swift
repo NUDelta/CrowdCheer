@@ -425,7 +425,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             let alertTitle = name + " is nearby!"
             let alertController = UIAlertController(title: alertTitle, message: "View their status so you don't miss them!", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "View " + name, style: UIAlertActionStyle.default, handler: cheerForTarget))
-            alertController.addAction(UIAlertAction(title: "Keep cheering for " + runnerName, style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+            alertController.addAction(UIAlertAction(title: "Keep cheering for " + runnerName, style: UIAlertActionStyle.default, handler: cheerForGeneral))
             
             self.present(alertController, animated: true, completion: nil)
         }
@@ -433,13 +433,33 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func cheerForTarget(_ alert: UIAlertAction!) {
         
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        let notificationID = arc4random_uniform(10000000)
+        newNotification["spectator"] = PFUser.current()
+        newNotification["source"] = "track_cheerForTarget"
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["receivedNotification"] = true
+        newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
+        newNotification.saveInBackground()
+        
         nearbyRunnersTimer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func dismissCheerTarget(_ alert: UIAlertAction!) {
+    func cheerForGeneral(_ alert: UIAlertAction!) {
+        
+        let newNotification = PFObject(className: "SpectatorNotifications")
+        let notificationID = arc4random_uniform(10000000)
+        newNotification["spectator"] = PFUser.current()
+        newNotification["source"] = "track_cheerForGeneral"
+        newNotification["notificationID"] = notificationID
+        newNotification["sentNotification"] = true
+        newNotification["receivedNotification"] = true
+        newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
+        newNotification.saveInBackground()
         
         nearbyRunnersTimer.invalidate()
     }
