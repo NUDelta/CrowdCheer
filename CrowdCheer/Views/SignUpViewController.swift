@@ -174,7 +174,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func sendLocalNotification_setup() {
         let localNotification = UILocalNotification()
-        localNotification.alertBody = "The race will start soon. Don't forget to make sure your app is set up to track the race!"
+        if #available(iOS 8.2, *) {
+            localNotification.alertTitle = "Check CrowdCheer setup before race"
+            localNotification.alertBody = "\nRunners: \nCheck if you're tracking your run before you start \nSpectators: \nMake sure you get bib numbers from runners to track them"
+        } else {
+            localNotification.alertBody = "Make sure CrowdCheer is set up to track the race before it starts!"
+        }
+
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.timeZone = TimeZone.current
         localNotification.fireDate = setupDate
