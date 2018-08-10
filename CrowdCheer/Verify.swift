@@ -117,16 +117,13 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
                     didSpectatorCheer = (cheer.value(forKey: "didCheer") != nil)
                     if didSpectatorCheer {
                         didSpectatorCheerRecently = true
-                        print("____________I ALREADY CHEERED FOR YOUUUUUUUUUUUUUUUU___________")
                     }
                     else {
                         didSpectatorCheerRecently = false
-                        print("____________I DID NOT CHEER FOR YOUUUUUUUUUUUUUUUU___________")
                     }
                 }
             } else {
                 print(error!)
-                print("____________(NO CHEER OBJECT YET) I DID NOT CHEER FOR YOUUUUUUUUUUUUUUUU___________")
             }
             result(didSpectatorCheerRecently)
         }

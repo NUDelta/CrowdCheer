@@ -232,7 +232,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                                         self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
                                             
                                             didSpectatorCheerRecently = didCheerRecently
-                                            print("++++++++++++++++++ DID I CHEER FOR YOU? YOUUUUUUUUUUUU (TRACK) +++++++++++++++++++++++\(didSpectatorCheerRecently)")
                                             if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
                                                 //notify
                                                 let name = (runner.value(forKey: "name"))!

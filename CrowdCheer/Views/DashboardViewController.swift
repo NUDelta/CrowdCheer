@@ -511,8 +511,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             
             didSpectatorCheerRecently = didCheerRecently
             
-            print("++++++++++++++++++ DID I CHEER FOR YOU? YOUUUUUUUUUUUU (DASH) +++++++++++++++++++++++\(didSpectatorCheerRecently)")
-            
             if ETA <= 1 && !didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
                 self.targetRunnerETA.text = "<1 mi away"
                 self.targetRunnerETA.textColor = self.redLabel.textColor
