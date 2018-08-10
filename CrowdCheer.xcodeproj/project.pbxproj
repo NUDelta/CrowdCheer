@@ -778,9 +778,9 @@
 				INFOPLIST_FILE = CrowdCheer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.crowdcheer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a921867a-2afe-4f8d-a8d3-2a6b7d31d44e";
+				PROVISIONING_PROFILE = "537c37bc-a627-4d6e-b5bc-9e7b2b057d0d";
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -811,7 +811,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.delta.C;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "adcbc83e-e0ee-43ef-9d89-41a81b8cd287";
+				PROVISIONING_PROFILE = "9f1cab7c-9cc3-4d5b-bfba-2ff524d6db91";
 				PROVISIONING_PROFILE_SPECIFIER = "Delta Lab C";
 				SWIFT_OBJC_BRIDGING_HEADER = "CrowdCheer/CrowdCheer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

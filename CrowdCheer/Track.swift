@@ -22,6 +22,7 @@ protocol Prime: Any {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func getRunner() -> PFUser
     func getRunnerLocation(_ trackedRunner: PFUser, result:@escaping(_ runnerLoc: CLLocationCoordinate2D) -> Void)
+    func spectatorChoseToSupport(_ runner: PFUser, didChooseToCheer: Bool)
     
 }
 
@@ -136,6 +137,29 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
                 // Query failed, load error
                 print("ERROR: \(error!) \((error! as NSError).userInfo)")
                 result(runnerUpdate)
+            }
+        }
+    }
+    
+    
+    func spectatorChoseToSupport(_ runner: PFUser, didChooseToCheer: Bool) {
+            
+        //query Cheer object using spectatorID, runnerID
+        //update object with field didCheer & corresponding value
+        let query = PFQuery(className: "Cheers")
+        
+        query.whereKey("runner", equalTo: runner)
+        query.whereKey("spectator", equalTo: user)
+        query.order(byDescending: "updatedAt")
+        query.getFirstObjectInBackground {
+            (cheer: PFObject?, error: Error?) -> Void in
+            if error == nil {
+                if let cheer = cheer {
+                    cheer["didChooseToCheer"] = didChooseToCheer
+                    cheer.saveInBackground()
+                }
+            } else {
+                print(error!)
             }
         }
     }

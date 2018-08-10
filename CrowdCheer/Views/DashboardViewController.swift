@@ -38,6 +38,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var general3Runner: PFUser = PFUser()
     
     @IBOutlet weak var idleTimeBanner: UILabel!
+    @IBOutlet weak var nonIdleTimeBanner: UILabel!
     
     @IBOutlet weak var redLabel: UILabel!
 
@@ -146,6 +147,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general3RunnerTrack.isHidden = true
         
         idleTimeBanner.isHidden = true
+        nonIdleTimeBanner.isHidden = true
         
         spectatorMonitor = SpectatorMonitor()
         optimizedRunners = OptimizedRunners()
@@ -248,6 +250,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.general3RunnerTrack.isHidden = true
                 
                 self.idleTimeBanner.isHidden = true
+                self.nonIdleTimeBanner.isHidden = true
             }
                 
             // Flow 3.2.1  - if there are runners at the race, update their info
@@ -292,7 +295,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist > 2000 { //if runner is more than 2km away (demo: 400m)
+                                if dist > 400 { //if runner is more than 2km away (demo: 400m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
@@ -302,7 +305,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: Show all runners near me, including target runners
-                                else if dist > 1000 && dist <= 2000 { //if runner is between 1-2km away (demo: 300-400m)
+                                else if dist > 300 && dist <= 400 { //if runner is between 1-2km away (demo: 300-400m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -317,7 +320,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: if target runner is close, disable general runners & only show targets.
-                                else if dist > 500 && dist <= 1000 { //if runner is between 500m - 1k away (demo: 250-300m)
+                                else if dist > 250 && dist <= 300 { //if runner is between 500m - 1k away (demo: 250-300m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -331,7 +334,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: If target runner is close, only show them. If not, then continue to show all runners
-                                else if dist <= 500 { //if runner is less than 500m away (demo: 250m)
+                                else if dist <= 250 { //if runner is less than 500m away (demo: 250m)
                                     if affinity.1 == 10 { //if target runner, display runner & notify
                                         
                                         self.nearbyRunnersTimer.invalidate()
@@ -527,6 +530,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             general2RunnerETA.textColor = redLabel.textColor
             general3RunnerETA.textColor = redLabel.textColor
             idleTimeBanner.isHidden = false
+            nonIdleTimeBanner.isHidden = true
         }
         
         else if areTargetRunnersNearby {
@@ -636,7 +640,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerETA.textColor = general1RunnerName.textColor
         general3RunnerETA.textColor = general1RunnerName.textColor
         
-        idleTimeBanner.isHidden = true
+        idleTimeBanner.isHidden = false
+        nonIdleTimeBanner.isHidden = true
         
     }
     
@@ -696,7 +701,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func notifyForGeneralRunners() {
         
         if UIApplication.shared.applicationState == .background {
-            let random = arc4random_uniform(2)
+            //let random = arc4random_uniform(2) //TODO: determine if we want to randomize the general notification + my runner info
+            let random = 1
+            
             print("random: \(random)")
             print("time since last R notification: \(timeSinceLastNotification)s")
             print("areRunnersNearby: \(areRunnersNearby)")
@@ -729,7 +736,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                     }
                     
-                    if timeSinceLastNotification >= 60*10 {
+                    if timeSinceLastNotification >= 60*1 { //demo: 60*1, regularly = 60*5
                         if random == 0 {
                             sendLocalNotification_general()
                         }
@@ -855,7 +862,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         spectatorInfo["receivedNotification"] = true as AnyObject
                         spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
                         
-                        localNotification.alertBody =  name + " is nearby, get ready to support them!"
+                        localNotification.alertBody =  name + " is nearby, view their status!"
                         localNotification.soundName = UILocalNotificationDefaultSoundName
                         localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
                         

@@ -18,12 +18,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var outfit: UILabel!
     @IBOutlet weak var ETA: UILabel!
     @IBOutlet weak var redLabel: UILabel!
+    @IBOutlet weak var supportRunner: UIButton!
+    @IBOutlet weak var waitToCheer: UILabel!
+    
     
     var runnerTrackerTimer: Timer = Timer()
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var interval: Int = Int()
     var trackedRunner: PFUser = PFUser()
+    var didChooseToCheer: Bool = Bool()
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
@@ -45,6 +49,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var viewWindowID: String = ""
     var vcName = "TrackVC"
 
+    
     override func viewDidAppear(_ animated: Bool) {
         
         viewWindowID = String(arc4random_uniform(10000000))
@@ -109,6 +114,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         getRunnerProfile()
         ETA.text = "Loading location..."
+        supportRunner.isHidden = false
+        waitToCheer.isHidden = true
         myLocation = contextPrimer.locationMgr.location!
         interval = 5
         
@@ -385,7 +392,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             spectatorInfo["receivedNotification"] = true as AnyObject
             spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
             
-            localNotification.alertBody =  name + " is nearby, get ready to support them!"
+            localNotification.alertBody =  name + " is nearby, view their status now!"
             localNotification.soundName = UILocalNotificationDefaultSoundName
             localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
             
@@ -407,9 +414,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         else if UIApplication.shared.applicationState == .active {
             
             let alertTitle = name + " is nearby!"
-            let alertController = UIAlertController(title: alertTitle, message: "Get ready to support them!", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Cheer", style: UIAlertActionStyle.default, handler: cheerForTarget))
-            alertController.addAction(UIAlertAction(title: "Not now", style: UIAlertActionStyle.default, handler: dismissCheerTarget))
+            let alertController = UIAlertController(title: alertTitle, message: "View their status so you don't miss them!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "View " + name, style: UIAlertActionStyle.default, handler: cheerForTarget))
+            alertController.addAction(UIAlertAction(title: "Keep cheering for " + runnerName, style: UIAlertActionStyle.default, handler: dismissCheerTarget))
             
             self.present(alertController, animated: true, completion: nil)
         }
@@ -426,6 +433,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     func dismissCheerTarget(_ alert: UIAlertAction!) {
         
         nearbyRunnersTimer.invalidate()
+    }
+    
+    @IBAction func supportRunner(_ sender: UIButton) {
+        //update "cheer" object -- the runner:spectator pairing -- indicating that spectator wants to support runner
+        
+        contextPrimer.spectatorChoseToSupport(trackedRunner, didChooseToCheer: didChooseToCheer)
+        supportRunner.isHidden = true
+        waitToCheer.isHidden = false
     }
 
 }
