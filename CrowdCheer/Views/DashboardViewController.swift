@@ -179,8 +179,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         
         // Flow 2 - check once for any nearby runners on view load
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: false)
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: false)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: false)
         nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: false)
         nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: false)
         
@@ -493,15 +493,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         self.updateNearbyRunnerStatus()
         
-        //check if we just cheered for a favorite runner so as not to notify again as runner is still nearby but moves away
-        var didSpectatorCheerRecently = false
-        verifiedDelivery = VerifiedDelivery()  
-        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
-            
-            didSpectatorCheerRecently = didCheerRecently
-            
-        }
-        
         let targetPic = getRunnerImage(runner.objectId!, runnerProfiles: self.runnerProfiles)
         targetRunnerNameText = getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
 //        let (cheers, cheersColor) = getRunnerCheers(runner)
@@ -512,18 +503,30 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         targetRunnerPic.image = targetPic
         targetRunnerName.text = targetRunnerNameText
-        if ETA <= 1 && !didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
-            targetRunnerETA.text = "<1 mi away"
-            targetRunnerETA.textColor = redLabel.textColor
-            targetRunnerTrack.isHidden = false
-            targetRunnerTrack.backgroundColor = redLabel.textColor
-            nonIdleTimeBanner.isHidden = false
-        }
-        else {
-            targetRunnerETA.text = String(format: "%d mi away", ETA)
-            targetRunnerETA.textColor = targetRunnerName.textColor
-            targetRunnerTrack.backgroundColor = general1RunnerTrack.backgroundColor
-            nonIdleTimeBanner.isHidden = true
+        
+        //check if we just cheered for a favorite runner so as not to notify again as runner is still nearby but moves away
+        var didSpectatorCheerRecently = false
+        verifiedDelivery = VerifiedDelivery()
+        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+            
+            didSpectatorCheerRecently = didCheerRecently
+            
+            print("++++++++++++++++++ DID I CHEER FOR YOU? YOUUUUUUUUUUUU (DASH) +++++++++++++++++++++++\(didSpectatorCheerRecently)")
+            
+            if ETA <= 1 && !didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
+                self.targetRunnerETA.text = "<1 mi away"
+                self.targetRunnerETA.textColor = self.redLabel.textColor
+                self.targetRunnerTrack.isHidden = false
+                self.targetRunnerTrack.backgroundColor = self.redLabel.textColor
+                self.nonIdleTimeBanner.isHidden = false
+                self.idleTimeBanner.isHidden = true
+            }
+            else {
+                self.targetRunnerETA.text = String(format: "%d mi away", ETA)
+                self.targetRunnerETA.textColor = self.targetRunnerName.textColor
+                self.targetRunnerTrack.backgroundColor = self.general1RunnerTrack.backgroundColor
+                self.nonIdleTimeBanner.isHidden = true
+            }
         }
         
         targetRunnerName.isHidden = false
@@ -656,7 +659,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         //NON-IDLE TIME
         idleTimeBanner.isHidden = true
-        nonIdleTimeBanner.isHidden = false
         
     }
     
