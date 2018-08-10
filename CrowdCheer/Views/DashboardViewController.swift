@@ -516,8 +516,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.targetRunnerETA.textColor = self.redLabel.textColor
                 self.targetRunnerTrack.isHidden = false
                 self.targetRunnerTrack.backgroundColor = self.redLabel.textColor
+                
+                //NON-IDLE
                 self.nonIdleTimeBanner.isHidden = false
-                self.idleTimeBanner.isHidden = true
+//                self.idleTimeBanner.isHidden = true
                 
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 let notificationID = arc4random_uniform(10000000)
@@ -532,6 +534,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.targetRunnerETA.text = String(format: "%d mi away", ETA)
                 self.targetRunnerETA.textColor = self.targetRunnerName.textColor
                 self.targetRunnerTrack.backgroundColor = self.general1RunnerTrack.backgroundColor
+                
+                //IDLE
                 self.nonIdleTimeBanner.isHidden = true
                 
                 let newNotification = PFObject(className: "SpectatorNotifications")
@@ -561,9 +565,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             general1RunnerETA.textColor = redLabel.textColor
             general2RunnerETA.textColor = redLabel.textColor
             general3RunnerETA.textColor = redLabel.textColor
-            //HAVE IDLE TIME
+            
+            //IDLE
             idleTimeBanner.isHidden = false
-            nonIdleTimeBanner.isHidden = true
+//            nonIdleTimeBanner.isHidden = true
             
             let newNotification = PFObject(className: "SpectatorNotifications")
             let notificationID = arc4random_uniform(10000000)
@@ -682,7 +687,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerETA.textColor = general1RunnerName.textColor
         general3RunnerETA.textColor = general1RunnerName.textColor
         
-        //NON-IDLE TIME
+        //NON-IDLE
         idleTimeBanner.isHidden = true
         
         let newNotification = PFObject(className: "SpectatorNotifications")
