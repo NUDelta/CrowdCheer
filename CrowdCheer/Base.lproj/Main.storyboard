@@ -370,7 +370,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault.png" translatesAutoresizingMaskIntoConstraints="NO" id="vBD-cI-dt0">
                                 <rect key="frame" x="66" y="215" width="243" height="309"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update your name &amp; take a photo in your race day outfit so people can spot you &amp; cheer during the race." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKc-J3-sup">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update your name &amp; take a photo in your *race day outfit* so people can spot you &amp; cheer during the race." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKc-J3-sup">
                                 <rect key="frame" x="20" y="89" width="335" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="sBO-Fu-wxW"/>
@@ -1607,7 +1607,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault.png" translatesAutoresizingMaskIntoConstraints="NO" id="VqF-8s-yDV">
                                 <rect key="frame" x="245" y="102" width="114" height="110"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View my runner now!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVN-34-a68">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View your runner's status now!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVN-34-a68">
                                 <rect key="frame" x="0.0" y="63" width="375" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.83921568629999999" green="0.2666666667" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

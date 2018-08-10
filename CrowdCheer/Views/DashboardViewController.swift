@@ -529,6 +529,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             general1RunnerETA.textColor = redLabel.textColor
             general2RunnerETA.textColor = redLabel.textColor
             general3RunnerETA.textColor = redLabel.textColor
+            //HAVE IDLE TIME
             idleTimeBanner.isHidden = false
             nonIdleTimeBanner.isHidden = true
         }
@@ -640,8 +641,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         general2RunnerETA.textColor = general1RunnerName.textColor
         general3RunnerETA.textColor = general1RunnerName.textColor
         
-        idleTimeBanner.isHidden = false
-        nonIdleTimeBanner.isHidden = true
+        //NON-IDLE TIME
+        idleTimeBanner.isHidden = true
+        nonIdleTimeBanner.isHidden = false
         
     }
     
