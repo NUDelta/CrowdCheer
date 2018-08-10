@@ -176,7 +176,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let localNotification = UILocalNotification()
         if #available(iOS 8.2, *) {
             localNotification.alertTitle = "Check CrowdCheer setup before race"
-            localNotification.alertBody = "\nRunners: \nCheck if you're tracking your run before you start \nSpectators: \nMake sure you get bib numbers from runners to track them"
+            localNotification.alertBody = "Runners: check if you're tracking your run before you start \nSpectators: make sure you get bib numbers from runners to track them"
         } else {
             localNotification.alertBody = "Make sure CrowdCheer is set up to track the race before it starts!"
         }
