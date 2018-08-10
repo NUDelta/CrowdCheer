@@ -311,7 +311,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         for affinity in affinities {
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist > 400 { //if runner is more than 2km away (demo: 400m)
+                                if dist > 1000 { //if runner is more than 2km away (halve values for 5/10k) (demo: 400m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
@@ -321,7 +321,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: Show all runners near me, including target runners
-                                else if dist > 300 && dist <= 400 { //if runner is between 1-2km away (demo: 300-400m)
+                                else if dist > 500 && dist <= 1000 { //if runner is between 1-2km away (halve values for 5/10k) (demo: 300-400m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -336,7 +336,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: if target runner is close, display target runners.
-                                else if dist > 250 && dist <= 300 { //if runner is between 500m - 1k away (demo: 250-300m)
+                                else if dist > 300 && dist <= 500 { //if runner is between 500m - 1k away (300-500 for 5/10k) (demo: 250-300m)
                                     if affinity.1 == 10 { //if target runner, display runner
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
@@ -350,7 +350,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                 }
                                     
                                     //Goal: If target runner is close, show target runner & ramp up monitoring.
-                                else if dist <= 250 { //if runner is less than 500m away (demo: 250m)
+                                else if dist <= 300 { //if runner is less than 500m away (300 for 5/10k) (demo: 250m)
                                     if affinity.1 == 10 { //if target runner, display runner & notify
                                         
                                         self.nearbyRunnersTimer.invalidate()
@@ -835,7 +835,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                     }
                     
-                    if timeSinceLastNotification >= 60*1 { //demo: 60*1, regularly = 60*5
+                    if timeSinceLastNotification >= 60*5 { //demo: 60*1, regularly = 60*5
                         if random == 0 {
                             sendLocalNotification_general()
                         }

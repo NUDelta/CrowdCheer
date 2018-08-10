@@ -100,7 +100,7 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
         //if spectator cheered for runner (didCheer=true) in last 15 min, return true
         
         let now = Date()
-        let seconds:TimeInterval = -60*10 //demo: 10 min, regularly, 20 min
+        let seconds:TimeInterval = -60*15 //demo: 10 min, regularly, 15 min
         let xSecondsAgo = now.addingTimeInterval(seconds)
         var didSpectatorCheer = false
         var didSpectatorCheerRecently = false
