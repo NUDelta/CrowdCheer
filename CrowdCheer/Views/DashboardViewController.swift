@@ -716,7 +716,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func notifyForGeneralRunners() {
         
         if UIApplication.shared.applicationState == .background {
-            //let random = arc4random_uniform(2) //TODO: determine if we want to randomize the general notification + my runner info
+            //let random = arc4random_uniform(2) //(done -- just using general + target): determine if we want to randomize the general notification + my runner info
             let random = 1
             
             print("random: \(random)")
@@ -854,7 +854,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func sendLocalNotification_target() {
         
-        // TODO: use didReceive:withCompletion to handle event of opening a sent notification, not just receiving it
+        // done -- seems to log correct events in DB: use didReceive:withCompletion to handle event of opening a sent notification, not just receiving it
         
         if areTargetRunnersNearby {
             
