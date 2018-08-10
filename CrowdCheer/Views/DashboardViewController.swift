@@ -95,12 +95,18 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         appDel.set(viewWindowDict, forKey: viewWindowDictKey)
         appDel.synchronize()
         
-        //if view reloads, reset timers
+        //if view reappears (non-segue, e.g. if user navigates back), reset timers
         
-//        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
-//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-//        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
-//        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
+        interval = 30
+        userMonitorTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        nearbyGeneralRunnersTimer.invalidate()
+        nearbyRunnersTimer.invalidate()
+        
+        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.monitorUser), userInfo: nil, repeats: true)
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyGeneralRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.notifyForGeneralRunners), userInfo: nil, repeats: true)
+        nearbyTargetRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(DashboardViewController.sendLocalNotification_target), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
