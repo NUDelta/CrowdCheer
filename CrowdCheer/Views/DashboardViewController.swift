@@ -521,7 +521,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 let notificationID = arc4random_uniform(10000000)
-                newNotification["spectator"] = PFUser.current()
+                newNotification["spectator"] = PFUser.current()?.objectId
                 newNotification["source"] = "dash_nonIdleBannerShown"
                 newNotification["notificationID"] = notificationID
                 newNotification["sentNotification"] = true
@@ -536,7 +536,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 let notificationID = arc4random_uniform(10000000)
-                newNotification["spectator"] = PFUser.current()
+                newNotification["spectator"] = PFUser.current()?.objectId
                 newNotification["source"] = "dash_nonIdleBannerHidden"
                 newNotification["notificationID"] = notificationID
                 newNotification["sentNotification"] = true
@@ -567,7 +567,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             
             let newNotification = PFObject(className: "SpectatorNotifications")
             let notificationID = arc4random_uniform(10000000)
-            newNotification["spectator"] = PFUser.current()
+            newNotification["spectator"] = PFUser.current()?.objectId
             newNotification["source"] = "dash_idleBannerShown"
             newNotification["notificationID"] = notificationID
             newNotification["sentNotification"] = true
@@ -687,7 +687,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         let newNotification = PFObject(className: "SpectatorNotifications")
         let notificationID = arc4random_uniform(10000000)
-        newNotification["spectator"] = PFUser.current()
+        newNotification["spectator"] = PFUser.current()?.objectId
         newNotification["source"] = "dash_idleBannerHidden"
         newNotification["notificationID"] = notificationID
         newNotification["sentNotification"] = true

@@ -435,7 +435,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         let newNotification = PFObject(className: "SpectatorNotifications")
         let notificationID = arc4random_uniform(10000000)
-        newNotification["spectator"] = PFUser.current()
+        newNotification["spectator"] = PFUser.current()?.objectId
         newNotification["source"] = "track_cheerForTarget"
         newNotification["notificationID"] = notificationID
         newNotification["sentNotification"] = true
@@ -453,7 +453,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         let newNotification = PFObject(className: "SpectatorNotifications")
         let notificationID = arc4random_uniform(10000000)
-        newNotification["spectator"] = PFUser.current()
+        newNotification["spectator"] = PFUser.current()?.objectId
         newNotification["source"] = "track_cheerForGeneral"
         newNotification["notificationID"] = notificationID
         newNotification["sentNotification"] = true
