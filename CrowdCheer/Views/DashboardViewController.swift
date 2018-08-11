@@ -329,7 +329,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     }
                                     else if affinity.1 != 10 { //if general runner, display runner
                                         self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
+                                        self.updateGeneralRunnerStatus()
                                         nearbyRunnersDisplayed.append(runner)
                                         
                                     }
@@ -344,7 +344,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     }
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
+                                        self.updateGeneralRunnerStatus()
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                 }
@@ -364,7 +364,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     else if affinity.1 != 10 { //if general runner, check if target runner is nearby
                                         
                                         self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus(runner, runnerType: "general")
+                                        self.updateGeneralRunnerStatus()
                                         nearbyRunnersDisplayed.append(runner)
                                     }
                                 }
@@ -535,6 +535,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 //NON-IDLE
                 self.isSpectatorIdle = false
                 self.nonIdleTimeBanner.isHidden = false
+                self.updateGeneralRunnerStatus()
+                
                 
                 let newNotification = PFObject(className: "SpectatorNotifications")
                 let notificationID = arc4random_uniform(10000000)
@@ -547,7 +549,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 newNotification.saveInBackground()
             }
             else if ETA <= 1 && didSpectatorCheerRecently  {
-                self.targetRunnerETA.text = String(format: "%s passed by", self.targetRunnerName)
+                self.targetRunnerETA.text = "just ran by"
                 self.targetRunnerETA.textColor = self.targetRunnerName.textColor
                 self.targetRunnerTrack.backgroundColor = self.general1RunnerTrack.backgroundColor
                 
@@ -592,7 +594,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         targetRunnerPic.isHidden = false
     }
     
-    func updateGeneralRunnerStatus(_ runner: PFUser, runnerType: String) {
+    func updateGeneralRunnerStatus() {
     
         self.updateNearbyRunnerStatus()
         
