@@ -467,6 +467,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBAction func supportRunner(_ sender: UIButton) {
         //update "cheer" object -- the runner:spectator pairing -- indicating that spectator wants to support runner
         
+        didChooseToCheer = true
         contextPrimer.spectatorChoseToSupport(trackedRunner, didChooseToCheer: didChooseToCheer)
         supportRunner.isHidden = true
         waitToCheer.isHidden = false
