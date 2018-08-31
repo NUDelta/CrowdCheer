@@ -52,6 +52,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var nearbyGeneralRunnersTimer: Timer = Timer()
     var lastGeneralRunnerNotificationTime = NSDate()
     var timeSinceLastNotification: Double = Double()
+    var sendLocalNotification_targetCount: Int = Int()
     var areRunnersNearby: Bool = Bool()
     var areTargetRunnersNearby: Bool = Bool()
     var isSpectatorIdle: Bool = Bool()
@@ -99,6 +100,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         //if view reappears (non-segue, e.g. if user navigates back), reset timers
         
         interval = 30
+        sendLocalNotification_targetCount = 0
+        timeSinceLastNotification = 0.0
+        
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
         nearbyGeneralRunnersTimer.invalidate()
@@ -174,6 +178,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         interval = 30
         lastGeneralRunnerNotificationTime = NSDate()
         timeSinceLastNotification = 0.0
+        sendLocalNotification_targetCount = 0
         
         
         //initialize mapview
@@ -970,16 +975,20 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
                         localNotification.userInfo = spectatorInfo
                         
-                        UIApplication.shared.presentLocalNotificationNow(localNotification)
-                        
-                        let newNotification = PFObject(className: "SpectatorNotifications")
-                        newNotification["spectator"] = localNotification.userInfo!["spectator"]
-                        newNotification["source"] = localNotification.userInfo!["source"]
-                        newNotification["notificationID"] = notificationID
-                        newNotification["sentNotification"] = true
-                        newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-                        newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
-                        newNotification.saveInBackground()
+                        sendLocalNotification_targetCount += 1
+                        if sendLocalNotification_targetCount<=3 {
+                            
+                            UIApplication.shared.presentLocalNotificationNow(localNotification)
+                            
+                            let newNotification = PFObject(className: "SpectatorNotifications")
+                            newNotification["spectator"] = localNotification.userInfo!["spectator"]
+                            newNotification["source"] = localNotification.userInfo!["source"]
+                            newNotification["notificationID"] = notificationID
+                            newNotification["sentNotification"] = true
+                            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+                            newNotification.saveInBackground()
+                        }
                     }
                 }
             }

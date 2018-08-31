@@ -96,7 +96,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
 //        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
 //        let startLine = CLLocationCoordinate2DMake(42.058175, -87.683502) //noyes el
 //        let startLine = CLLocationCoordinate2DMake(42.051169, -87.677232) //arch
-        let startLine = CLLocationCoordinate2DMake(41.859896, -87.613899) //race
+        let startLine = CLLocationCoordinate2DMake(42.171761, -87.971222) //race
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
@@ -223,7 +223,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     func locationTrackingAlert() {
         let alertTitle = "Automatic Runner Tracking"
-        let alertController = UIAlertController(title: alertTitle, message: "You're all set! We will automatically activate runner tracking when you arrive on race day.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: alertTitle, message: "We will automatically activate runner tracking when you arrive on race day. Before you start the race, check to see if tracking has started.", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
