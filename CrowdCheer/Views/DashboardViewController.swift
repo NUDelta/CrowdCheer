@@ -819,7 +819,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             print("areRunnersNearby: \(areRunnersNearby)")
             print("areTargetRunnersNearby: \(areTargetRunnersNearby)")
             
-            if areRunnersNearby && !areTargetRunnersNearby {
+            if isSpectatorIdle {
                 if timeSinceLastNotification < Double(interval) {
                     if random == 0 {
                         sendLocalNotification_general()
@@ -854,7 +854,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                 }
-
             }
         }
     }
