@@ -101,7 +101,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         interval = 30
         sendLocalNotification_targetCount = 0
-        timeSinceLastNotification = 0.0
         
         userMonitorTimer.invalidate()
         nearbyRunnersTimer.invalidate()
