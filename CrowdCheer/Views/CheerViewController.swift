@@ -311,7 +311,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                             
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+                                if dist <= 400 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
                                     if affinity.1 == 10 { //if target runner, notify spectator
                                         //notify
                                         let name = (runner.value(forKey: "name"))!

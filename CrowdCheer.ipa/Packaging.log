@@ -1,525 +1,530 @@
-2018-08-31 19:25:46 +0000 [MT] Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7fd15d824d00; archive(resolved)='<IDEArchive: 0x7fd158027f00>', distributionTask(resolved)='2', distributionMethod(resolved)='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team(resolved)='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
+2018-08-31 22:41:14 +0000 [MT] Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7fcc2b685ca0; archive(resolved)='<IDEArchive: 0x7fcc2b3a7310>', distributionTask(resolved)='2', distributionMethod(resolved)='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team(resolved)='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
 	Chain (11, self inclusive):
-	<IDEDistributionProcessingPipelineContext: 0x7fd15d824d00; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionProcessingPipelineContext: 0x7fd15d81daf0; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15d814bb0; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15d808bd0; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15d807220; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15d805f10; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15d800090; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15befae40; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd1567e74e0; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='<IDEProvisioningBasicTeam: 0x7fd15bd2dfa0; teamID='823S57WQK3', teamName='(null)'>'>
-	<IDEDistributionContext: 0x7fd15bbd0d40; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fd15840b370>', team='(null)'>
-	<IDEDistributionContext: 0x7fd1580382c0; archive = '<IDEArchive: 0x7fd158027f00>', distributionMethod='(null)', team='(null)'>
-</IDEDistributionProcessingPipelineContext: 0x7fd15d824d00>
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionCreateDestRootStep
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionCopyItemStep
-2018-08-31 19:25:46 +0000 [MT] Running /usr/bin/ditto '-V' '/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app'
-2018-08-31 19:25:46 +0000  >>> Copying /Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app 
-2018-08-31 19:25:46 +0000  copying file ./_CodeSignature/CodeResources ... 
-2018-08-31 19:25:46 +0000  30636 bytes for ./_CodeSignature/CodeResources
-2018-08-31 19:25:46 +0000  copying file ./gps.png ... 
-2018-08-31 19:25:46 +0000  2100 bytes for ./gps.png
-2018-08-31 19:25:46 +0000  copying file ./CrowdCheer ... 
-2018-08-31 19:25:46 +0000  1480032 bytes for ./CrowdCheer
-copying file ./silence.mp3 ... 
-2018-08-31 19:25:46 +0000  3951744 bytes for ./silence.mp3
-2018-08-31 19:25:46 +0000  copying file ./settings.png ... 
+	<IDEDistributionProcessingPipelineContext: 0x7fcc2b685ca0; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionProcessingPipelineContext: 0x7fcc2b677fd0; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc2b67d380; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc24fe9150; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc24fe7930; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc24fe2c70; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc2b728f20; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc2b723e00; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc2b516cb0; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='<IDEProvisioningBasicTeam: 0x7fcc2b4f3b70; teamID='823S57WQK3', teamName='(null)'>'>
+	<IDEDistributionContext: 0x7fcc275dc190; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='<IDEDistributionMethodiOSEnterprise: 0x7fcc27601b10>', team='(null)'>
+	<IDEDistributionContext: 0x7fcc2b4fa6a0; archive = '<IDEArchive: 0x7fcc2b3a7310>', distributionMethod='(null)', team='(null)'>
+</IDEDistributionProcessingPipelineContext: 0x7fcc2b685ca0>
+2018-08-31 22:41:14 +0000 [MT] Processing step: IDEDistributionCreateDestRootStep
+2018-08-31 22:41:14 +0000 [MT] Processing step: IDEDistributionCopyItemStep
+2018-08-31 22:41:14 +0000 [MT] Running /usr/bin/ditto '-V' '/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app'
+2018-08-31 22:41:14 +0000  >>> Copying /Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app 
+2018-08-31 22:41:14 +0000  copying file ./_CodeSignature/CodeResources ... 
+2018-08-31 22:41:14 +0000  30636 bytes for ./_CodeSignature/CodeResources
+2018-08-31 22:41:14 +0000  copying file ./gps.png ... 
+2018-08-31 22:41:14 +0000  2100 bytes for ./gps.png
+2018-08-31 22:41:14 +0000  copying file ./CrowdCheer ... 
+2018-08-31 22:41:14 +0000  1480032 bytes for ./CrowdCheer
+2018-08-31 22:41:14 +0000  copying file ./silence.mp3 ... 
+2018-08-31 22:41:14 +0000  3951744 bytes for ./silence.mp3
+2018-08-31 22:41:14 +0000  copying file ./settings.png ... 
 3728 bytes for ./settings.png
 copying file ./apple-icon.png ... 
 13415 bytes for ./apple-icon.png
 copying file ./apple-icon-144x144.png ... 
-8444 bytes for ./apple-icon-144x144.png
-copying file ./apple-icon-precomposed.png ... 
-2018-08-31 19:25:46 +0000  13415 bytes for ./apple-icon-precomposed.png
+2018-08-31 22:41:14 +0000  8444 bytes for ./apple-icon-144x144.png
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-precomposed.png ... 
+2018-08-31 22:41:14 +0000  13415 bytes for ./apple-icon-precomposed.png
 copying file ./profileDefault.png ... 
-2018-08-31 19:25:46 +0000  5057 bytes for ./profileDefault.png
-2018-08-31 19:25:46 +0000  copying file ./apple-icon-114x114.png ... 
-2018-08-31 19:25:46 +0000  5863 bytes for ./apple-icon-114x114.png
-copying file ./AppIcon60x60@2x.png ... 
-2018-08-31 19:25:46 +0000  6814 bytes for ./AppIcon60x60@2x.png
-2018-08-31 19:25:46 +0000  copying file ./map.png ... 
-2018-08-31 19:25:46 +0000  1941 bytes for ./map.png
-2018-08-31 19:25:46 +0000  copying file ./AppIcon40x40@3x.png ... 
-2018-08-31 19:25:46 +0000  6814 bytes for ./AppIcon40x40@3x.png
-2018-08-31 19:25:46 +0000  copying file ./smartphone.png ... 
-2018-08-31 19:25:46 +0000  2345 bytes for ./smartphone.png
-2018-08-31 19:25:46 +0000  copying file ./AppIcon60x60@3x.png ... 
-2018-08-31 19:25:46 +0000  12715 bytes for ./AppIcon60x60@3x.png
-2018-08-31 19:25:46 +0000  copying file ./tracking.png ... 
-2018-08-31 19:25:46 +0000  12468 bytes for ./tracking.png
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/LaunchScreen.nib ... 
-2018-08-31 19:25:46 +0000  4285 bytes for ./Base.lproj/LaunchScreen.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib ... 
-2018-08-31 19:25:46 +0000  6938 bytes for ./Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib
-copying file ./Base.lproj/Main.storyboardc/prerunViewController.nib ... 
-2018-08-31 19:25:46 +0000  2074 bytes for ./Base.lproj/Main.storyboardc/prerunViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib ... 
-2018-08-31 19:25:46 +0000  7963 bytes for ./Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib ... 
-2018-08-31 19:25:46 +0000  6361 bytes for ./Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/affinityViewController.nib ... 
-2018-08-31 19:25:46 +0000  2180 bytes for ./Base.lproj/Main.storyboardc/affinityViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib ... 
-2018-08-31 19:25:46 +0000  9920 bytes for ./Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib ... 
-2018-08-31 19:25:46 +0000  8407 bytes for ./Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/ProfileViewController.nib ... 
-2018-08-31 19:25:46 +0000  2043 bytes for ./Base.lproj/Main.storyboardc/ProfileViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/CheerViewController.nib ... 
-2018-08-31 19:25:46 +0000  1313 bytes for ./Base.lproj/Main.storyboardc/CheerViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib ... 
-2018-08-31 19:25:46 +0000  14648 bytes for ./Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib
-copying file ./Base.lproj/Main.storyboardc/navController.nib ... 
-2018-08-31 19:25:46 +0000  2232 bytes for ./Base.lproj/Main.storyboardc/navController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib ... 
-2018-08-31 19:25:46 +0000  1355 bytes for ./Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib
-copying file ./Base.lproj/Main.storyboardc/runViewController.nib ... 
-2018-08-31 19:25:46 +0000  1313 bytes for ./Base.lproj/Main.storyboardc/runViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/DashboardViewController.nib ... 
-2018-08-31 19:25:46 +0000  1747 bytes for ./Base.lproj/Main.storyboardc/DashboardViewController.nib
-copying file ./Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib ... 
-2018-08-31 19:25:46 +0000  1712 bytes for ./Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib ... 
-2018-08-31 19:25:46 +0000  8081 bytes for ./Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/roleViewController.nib ... 
-2018-08-31 19:25:46 +0000  2095 bytes for ./Base.lproj/Main.storyboardc/roleViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/runInstructionViewController.nib ... 
-2018-08-31 19:25:46 +0000  1421 bytes for ./Base.lproj/Main.storyboardc/runInstructionViewController.nib
-copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
-2018-08-31 19:25:46 +0000  819 bytes for ./Base.lproj/Main.storyboardc/Info.plist
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib ... 
-2018-08-31 19:25:46 +0000  7274 bytes for ./Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib ... 
-2018-08-31 19:25:46 +0000  8229 bytes for ./Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib ... 
-2018-08-31 19:25:46 +0000  5220 bytes for ./Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib ... 
-2018-08-31 19:25:46 +0000  5385 bytes for ./Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib
-2018-08-31 19:25:46 +0000  copying file ./Base.lproj/Main.storyboardc/signUpViewController.nib ... 
-2018-08-31 19:25:46 +0000  1524 bytes for ./Base.lproj/Main.storyboardc/signUpViewController.nib
-2018-08-31 19:25:46 +0000  copying file ./megaphone.png ... 
-2018-08-31 19:25:46 +0000  2646 bytes for ./megaphone.png
-2018-08-31 19:25:46 +0000  copying file ./apple-icon-57x57.png ... 
-2018-08-31 19:25:46 +0000  2402 bytes for ./apple-icon-57x57.png
-2018-08-31 19:25:46 +0000  copying file ./heart.png ... 
-2018-08-31 19:25:46 +0000  2511 bytes for ./heart.png
-copying file ./apple-icon-152x152.png ... 
-2018-08-31 19:25:46 +0000  9294 bytes for ./apple-icon-152x152.png
-2018-08-31 19:25:46 +0000  copying file ./Assets.car ... 
-2018-08-31 19:25:46 +0000  47400 bytes for ./Assets.car
-copying file ./apple-icon-180x180.png ... 
-2018-08-31 19:25:46 +0000  12231 bytes for ./apple-icon-180x180.png
-2018-08-31 19:25:46 +0000  copying file ./profile.png ... 
-2018-08-31 19:25:46 +0000  3095 bytes for ./profile.png
-copying file ./location.png ... 
-2018-08-31 19:25:46 +0000  3155 bytes for ./location.png
-2018-08-31 19:25:46 +0000  copying file ./apple-icon-76x76.png ... 
-2018-08-31 19:25:46 +0000  3565 bytes for ./apple-icon-76x76.png
+2018-08-31 22:41:14 +0000  5057 bytes for ./profileDefault.png
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-114x114.png ... 
+2018-08-31 22:41:14 +0000  5863 bytes for ./apple-icon-114x114.png
+2018-08-31 22:41:14 +0000  copying file ./AppIcon60x60@2x.png ... 
+2018-08-31 22:41:14 +0000  6814 bytes for ./AppIcon60x60@2x.png
+2018-08-31 22:41:14 +0000  copying file ./map.png ... 
+2018-08-31 22:41:14 +0000  1941 bytes for ./map.png
+2018-08-31 22:41:14 +0000  copying file ./AppIcon40x40@3x.png ... 
+2018-08-31 22:41:14 +0000  6814 bytes for ./AppIcon40x40@3x.png
+2018-08-31 22:41:14 +0000  copying file ./smartphone.png ... 
+2018-08-31 22:41:14 +0000  2345 bytes for ./smartphone.png
+2018-08-31 22:41:14 +0000  copying file ./AppIcon60x60@3x.png ... 
+2018-08-31 22:41:14 +0000  12715 bytes for ./AppIcon60x60@3x.png
+2018-08-31 22:41:14 +0000  copying file ./tracking.png ... 
+2018-08-31 22:41:14 +0000  12468 bytes for ./tracking.png
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/LaunchScreen.nib ... 
+2018-08-31 22:41:14 +0000  4276 bytes for ./Base.lproj/LaunchScreen.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib ... 
+2018-08-31 22:41:14 +0000  6944 bytes for ./Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/prerunViewController.nib ... 
+2018-08-31 22:41:14 +0000  2074 bytes for ./Base.lproj/Main.storyboardc/prerunViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib ... 
+2018-08-31 22:41:14 +0000  7958 bytes for ./Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib ... 
+2018-08-31 22:41:14 +0000  6359 bytes for ./Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/affinityViewController.nib ... 
+2018-08-31 22:41:14 +0000  2180 bytes for ./Base.lproj/Main.storyboardc/affinityViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib ... 
+2018-08-31 22:41:14 +0000  9918 bytes for ./Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib ... 
+2018-08-31 22:41:14 +0000  8411 bytes for ./Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/ProfileViewController.nib ... 
+2018-08-31 22:41:14 +0000  2043 bytes for ./Base.lproj/Main.storyboardc/ProfileViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/CheerViewController.nib ... 
+2018-08-31 22:41:14 +0000  1313 bytes for ./Base.lproj/Main.storyboardc/CheerViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib ... 
+2018-08-31 22:41:14 +0000  14651 bytes for ./Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/navController.nib ... 
+2018-08-31 22:41:14 +0000  2232 bytes for ./Base.lproj/Main.storyboardc/navController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib ... 
+2018-08-31 22:41:14 +0000  1355 bytes for ./Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/runViewController.nib ... 
+2018-08-31 22:41:14 +0000  1313 bytes for ./Base.lproj/Main.storyboardc/runViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/DashboardViewController.nib ... 
+2018-08-31 22:41:14 +0000  1747 bytes for ./Base.lproj/Main.storyboardc/DashboardViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib ... 
+2018-08-31 22:41:14 +0000  1712 bytes for ./Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib ... 
+2018-08-31 22:41:14 +0000  8084 bytes for ./Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/roleViewController.nib ... 
+2018-08-31 22:41:14 +0000  2095 bytes for ./Base.lproj/Main.storyboardc/roleViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/runInstructionViewController.nib ... 
+2018-08-31 22:41:14 +0000  1421 bytes for ./Base.lproj/Main.storyboardc/runInstructionViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
+2018-08-31 22:41:14 +0000  819 bytes for ./Base.lproj/Main.storyboardc/Info.plist
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib ... 
+2018-08-31 22:41:14 +0000  7280 bytes for ./Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib ... 
+2018-08-31 22:41:14 +0000  8228 bytes for ./Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib ... 
+2018-08-31 22:41:14 +0000  5218 bytes for ./Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib ... 
+2018-08-31 22:41:14 +0000  5376 bytes for ./Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib
+2018-08-31 22:41:14 +0000  copying file ./Base.lproj/Main.storyboardc/signUpViewController.nib ... 
+2018-08-31 22:41:14 +0000  1524 bytes for ./Base.lproj/Main.storyboardc/signUpViewController.nib
+2018-08-31 22:41:14 +0000  copying file ./megaphone.png ... 
+2018-08-31 22:41:14 +0000  2646 bytes for ./megaphone.png
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-57x57.png ... 
+2018-08-31 22:41:14 +0000  2402 bytes for ./apple-icon-57x57.png
+2018-08-31 22:41:14 +0000  copying file ./heart.png ... 
+2018-08-31 22:41:14 +0000  2511 bytes for ./heart.png
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-152x152.png ... 
+2018-08-31 22:41:14 +0000  9294 bytes for ./apple-icon-152x152.png
+2018-08-31 22:41:14 +0000  copying file ./Assets.car ... 
+2018-08-31 22:41:14 +0000  47400 bytes for ./Assets.car
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-180x180.png ... 
+2018-08-31 22:41:14 +0000  12231 bytes for ./apple-icon-180x180.png
+2018-08-31 22:41:14 +0000  copying file ./profile.png ... 
+2018-08-31 22:41:14 +0000  3095 bytes for ./profile.png
+2018-08-31 22:41:14 +0000  copying file ./location.png ... 
+2018-08-31 22:41:14 +0000  3155 bytes for ./location.png
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-76x76.png ... 
+2018-08-31 22:41:14 +0000  3565 bytes for ./apple-icon-76x76.png
 copying file ./clock.png ... 
-2018-08-31 19:25:46 +0000  3924 bytes for ./clock.png
-2018-08-31 19:25:46 +0000  copying file ./Ford.gpx ... 
-2018-08-31 19:25:46 +0000  138 bytes for ./Ford.gpx
-2018-08-31 19:25:46 +0000  copying file ./apple-icon-60x60.png ... 
-2018-08-31 19:25:46 +0000  2564 bytes for ./apple-icon-60x60.png
-copying file ./myrunner.png ... 
-2018-08-31 19:25:46 +0000  983 bytes for ./myrunner.png
-2018-08-31 19:25:46 +0000  copying file ./running.png ... 
-2018-08-31 19:25:46 +0000  3425 bytes for ./running.png
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftMapKit.dylib ... 
-2018-08-31 19:25:46 +0000  253888 bytes for ./Frameworks/libswiftMapKit.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftCoreImage.dylib ... 
-2018-08-31 19:25:46 +0000  250688 bytes for ./Frameworks/libswiftCoreImage.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftObjectiveC.dylib ... 
-2018-08-31 19:25:46 +0000  299712 bytes for ./Frameworks/libswiftObjectiveC.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftCore.dylib ... 
-2018-08-31 19:25:46 +0000  18072496 bytes for ./Frameworks/libswiftCore.dylib
+2018-08-31 22:41:14 +0000  3924 bytes for ./clock.png
+2018-08-31 22:41:14 +0000  copying file ./Ford.gpx ... 
+2018-08-31 22:41:14 +0000  138 bytes for ./Ford.gpx
+2018-08-31 22:41:14 +0000  copying file ./apple-icon-60x60.png ... 
+2018-08-31 22:41:14 +0000  2564 bytes for ./apple-icon-60x60.png
+2018-08-31 22:41:14 +0000  copying file ./myrunner.png ... 
+2018-08-31 22:41:14 +0000  983 bytes for ./myrunner.png
+2018-08-31 22:41:14 +0000  copying file ./running.png ... 
+2018-08-31 22:41:14 +0000  3425 bytes for ./running.png
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftMapKit.dylib ... 
+2018-08-31 22:41:14 +0000  253888 bytes for ./Frameworks/libswiftMapKit.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftCoreImage.dylib ... 
+2018-08-31 22:41:14 +0000  250688 bytes for ./Frameworks/libswiftCoreImage.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftObjectiveC.dylib ... 
+2018-08-31 22:41:14 +0000  299712 bytes for ./Frameworks/libswiftObjectiveC.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftCore.dylib ... 
+2018-08-31 22:41:14 +0000  18072496 bytes for ./Frameworks/libswiftCore.dylib
 copying file ./Frameworks/libswiftCoreGraphics.dylib ... 
-2018-08-31 19:25:46 +0000  650368 bytes for ./Frameworks/libswiftCoreGraphics.dylib
+2018-08-31 22:41:14 +0000  650368 bytes for ./Frameworks/libswiftCoreGraphics.dylib
 copying file ./Frameworks/Parse.framework/_CodeSignature/CodeResources ... 
 2951 bytes for ./Frameworks/Parse.framework/_CodeSignature/CodeResources
 copying file ./Frameworks/Parse.framework/Parse ... 
-2018-08-31 19:25:46 +0000  16394624 bytes for ./Frameworks/Parse.framework/Parse
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings ... 
+2018-08-31 22:41:14 +0000  16394624 bytes for ./Frameworks/Parse.framework/Parse
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings ... 
 122 bytes for ./Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings
 copying file ./Frameworks/Parse.framework/Parse.bundle/Info.plist ... 
 709 bytes for ./Frameworks/Parse.framework/Parse.bundle/Info.plist
 copying file ./Frameworks/Parse.framework/Info.plist ... 
-734 bytes for ./Frameworks/Parse.framework/Info.plist
-copying file ./Frameworks/libswiftUIKit.dylib ... 
-459712 bytes for ./Frameworks/libswiftUIKit.dylib
-copying file ./Frameworks/libswiftMetal.dylib ... 
-2018-08-31 19:25:46 +0000  260464 bytes for ./Frameworks/libswiftMetal.dylib
-copying file ./Frameworks/libswiftDispatch.dylib ... 
-2018-08-31 19:25:46 +0000  987120 bytes for ./Frameworks/libswiftDispatch.dylib
-copying file ./Frameworks/libswiftos.dylib ... 
-2018-08-31 19:25:46 +0000  259360 bytes for ./Frameworks/libswiftos.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftCoreFoundation.dylib ... 
-2018-08-31 19:25:46 +0000  250160 bytes for ./Frameworks/libswiftCoreFoundation.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftDarwin.dylib ... 
-2018-08-31 19:25:46 +0000  403504 bytes for ./Frameworks/libswiftDarwin.dylib
-copying file ./Frameworks/libswiftQuartzCore.dylib ... 
-2018-08-31 19:25:46 +0000  253664 bytes for ./Frameworks/libswiftQuartzCore.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/Bolts.framework/_CodeSignature/CodeResources ... 
-2018-08-31 19:25:46 +0000  2202 bytes for ./Frameworks/Bolts.framework/_CodeSignature/CodeResources
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/Bolts.framework/Bolts ... 
-2018-08-31 19:25:46 +0000  831376 bytes for ./Frameworks/Bolts.framework/Bolts
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/Bolts.framework/Info.plist ... 
-2018-08-31 19:25:46 +0000  733 bytes for ./Frameworks/Bolts.framework/Info.plist
-copying file ./Frameworks/libswiftCoreAudio.dylib ... 
-2018-08-31 19:25:46 +0000  340016 bytes for ./Frameworks/libswiftCoreAudio.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftAVFoundation.dylib ... 
-2018-08-31 19:25:46 +0000  546048 bytes for ./Frameworks/libswiftAVFoundation.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftFoundation.dylib ... 
-2018-08-31 19:25:46 +0000  8570544 bytes for ./Frameworks/libswiftFoundation.dylib
-2018-08-31 19:25:46 +0000  copying file ./Frameworks/libswiftCoreMedia.dylib ... 
-262432 bytes for ./Frameworks/libswiftCoreMedia.dylib
+2018-08-31 22:41:14 +0000  734 bytes for ./Frameworks/Parse.framework/Info.plist
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftUIKit.dylib ... 
+2018-08-31 22:41:14 +0000  459712 bytes for ./Frameworks/libswiftUIKit.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftMetal.dylib ... 
+2018-08-31 22:41:14 +0000  260464 bytes for ./Frameworks/libswiftMetal.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftDispatch.dylib ... 
+2018-08-31 22:41:14 +0000  987120 bytes for ./Frameworks/libswiftDispatch.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftos.dylib ... 
+2018-08-31 22:41:14 +0000  259360 bytes for ./Frameworks/libswiftos.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftCoreFoundation.dylib ... 
+2018-08-31 22:41:14 +0000  250160 bytes for ./Frameworks/libswiftCoreFoundation.dylib
+2018-08-31 22:41:14 +0000  copying file ./Frameworks/libswiftDarwin.dylib ... 
+2018-08-31 22:41:15 +0000  403504 bytes for ./Frameworks/libswiftDarwin.dylib
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/libswiftQuartzCore.dylib ... 
+2018-08-31 22:41:15 +0000  253664 bytes for ./Frameworks/libswiftQuartzCore.dylib
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/Bolts.framework/_CodeSignature/CodeResources ... 
+2018-08-31 22:41:15 +0000  2202 bytes for ./Frameworks/Bolts.framework/_CodeSignature/CodeResources
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/Bolts.framework/Bolts ... 
+2018-08-31 22:41:15 +0000  831376 bytes for ./Frameworks/Bolts.framework/Bolts
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/Bolts.framework/Info.plist ... 
+2018-08-31 22:41:15 +0000  733 bytes for ./Frameworks/Bolts.framework/Info.plist
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/libswiftCoreAudio.dylib ... 
+2018-08-31 22:41:15 +0000  340016 bytes for ./Frameworks/libswiftCoreAudio.dylib
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/libswiftAVFoundation.dylib ... 
+2018-08-31 22:41:15 +0000  546048 bytes for ./Frameworks/libswiftAVFoundation.dylib
+2018-08-31 22:41:15 +0000  copying file ./Frameworks/libswiftFoundation.dylib ... 
+2018-08-31 22:41:15 +0000  8570544 bytes for ./Frameworks/libswiftFoundation.dylib
+copying file ./Frameworks/libswiftCoreMedia.dylib ... 
+2018-08-31 22:41:15 +0000  262432 bytes for ./Frameworks/libswiftCoreMedia.dylib
 copying file ./Frameworks/libswiftCoreLocation.dylib ... 
 262752 bytes for ./Frameworks/libswiftCoreLocation.dylib
 copying file ./Frameworks/libswiftsimd.dylib ... 
-1887840 bytes for ./Frameworks/libswiftsimd.dylib
-copying file ./embedded.mobileprovision ... 
-8109 bytes for ./embedded.mobileprovision
+2018-08-31 22:41:15 +0000  1887840 bytes for ./Frameworks/libswiftsimd.dylib
+2018-08-31 22:41:15 +0000  copying file ./embedded.mobileprovision ... 
+2018-08-31 22:41:15 +0000  8109 bytes for ./embedded.mobileprovision
 copying file ./success.wav ... 
-2018-08-31 19:25:46 +0000  270524 bytes for ./success.wav
-copying file ./CrowdCheer.momd/VersionInfo.plist ... 
-2018-08-31 19:25:46 +0000  157 bytes for ./CrowdCheer.momd/VersionInfo.plist
-copying file ./CrowdCheer.momd/CrowdCheer.omo ... 
-2018-08-31 19:25:46 +0000  696 bytes for ./CrowdCheer.momd/CrowdCheer.omo
-2018-08-31 19:25:46 +0000  copying file ./CrowdCheer.momd/CrowdCheer.mom ... 
-2018-08-31 19:25:46 +0000  513 bytes for ./CrowdCheer.momd/CrowdCheer.mom
-copying file ./apple-icon-72x72.png ... 
-2018-08-31 19:25:46 +0000  3377 bytes for ./apple-icon-72x72.png
-2018-08-31 19:25:46 +0000  copying file ./Info.plist ... 
-2018-08-31 19:25:46 +0000  1981 bytes for ./Info.plist
+2018-08-31 22:41:15 +0000  270524 bytes for ./success.wav
+2018-08-31 22:41:15 +0000  copying file ./CrowdCheer.momd/VersionInfo.plist ... 
+2018-08-31 22:41:15 +0000  157 bytes for ./CrowdCheer.momd/VersionInfo.plist
+2018-08-31 22:41:15 +0000  copying file ./CrowdCheer.momd/CrowdCheer.omo ... 
+2018-08-31 22:41:15 +0000  696 bytes for ./CrowdCheer.momd/CrowdCheer.omo
+2018-08-31 22:41:15 +0000  copying file ./CrowdCheer.momd/CrowdCheer.mom ... 
+2018-08-31 22:41:15 +0000  513 bytes for ./CrowdCheer.momd/CrowdCheer.mom
+2018-08-31 22:41:15 +0000  copying file ./apple-icon-72x72.png ... 
+2018-08-31 22:41:15 +0000  3377 bytes for ./apple-icon-72x72.png
+2018-08-31 22:41:15 +0000  copying file ./Info.plist ... 
+2018-08-31 22:41:15 +0000  1981 bytes for ./Info.plist
 copying file ./apple-icon-120x120.png ... 
-2018-08-31 19:25:46 +0000  6330 bytes for ./apple-icon-120x120.png
-2018-08-31 19:25:46 +0000  copying file ./runner.png ... 
-2018-08-31 19:25:46 +0000  1318 bytes for ./runner.png
+2018-08-31 22:41:15 +0000  6330 bytes for ./apple-icon-120x120.png
+2018-08-31 22:41:15 +0000  copying file ./runner.png ... 
+2018-08-31 22:41:15 +0000  1318 bytes for ./runner.png
 copying file ./PkgInfo ... 
-2018-08-31 19:25:46 +0000  8 bytes for ./PkgInfo
-2018-08-31 19:25:46 +0000  
-2018-08-31 19:25:46 +0000  
-2018-08-31 19:25:46 +0000 [MT] /usr/bin/ditto exited with 02018-08-31 19:25:46 +0000  
-2018-08-31 19:25:46 +0000  
+2018-08-31 22:41:15 +0000  8 bytes for ./PkgInfo
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000  
 
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionEmbedProfileStep
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bee88d0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fd15bea3d20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bbefe80 'org.cocoapods.Parse' '<DVTFilePath:0x7fd15b802db0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bbf1570 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fd15beaa0a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bef3f30 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fd15b90e250:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd1580abf20 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fd15bea8640:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15b92e7a0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fd15bea0420:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bece200 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fd158076bf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bec7d60 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fd15be987b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bee8e80 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fd15bead7c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bbe1bb0 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fd15beac5a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bedb970 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fd15bea1940:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bf11660 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fd15be9e070:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15650ef50 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fd15beab360:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15b921760 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fd15be99b50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15809e940 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fd15be9ce60:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15650fe60 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fd15be96b40:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd1587c7340 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fd15bea2b20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15becf930 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fd15be9bd10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bec3020 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fd15be9f590:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fd15bf05c50 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fd15beaf8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionAppThinningPlistStep
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionAppThinningPlistStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionCompileBitcodeStep
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCompileBitcodeStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionCodeSlimmingStep
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionCopyBCSymbolMapsStep
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionSymbolsStep
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionAppThinningStep
-2018-08-31 19:25:46 +0000 [MT] Skipping step: IDEDistributionAppThinningStep because it said so
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionODRStep
-2018-08-31 19:25:46 +0000 [MT] Processing step: IDEDistributionStripXattrsStep
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bee88d0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fd15bea3d20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bbefe80 'org.cocoapods.Parse' '<DVTFilePath:0x7fd15b802db0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bbf1570 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fd15beaa0a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bef3f30 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fd15b90e250:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd1580abf20 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fd15bea8640:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15b92e7a0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fd15bea0420:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bece200 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fd158076bf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bec7d60 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fd15be987b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bee8e80 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fd15bead7c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bbe1bb0 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fd15beac5a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bedb970 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fd15bea1940:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bf11660 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fd15be9e070:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15650ef50 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fd15beab360:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15b921760 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fd15be99b50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15809e940 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fd15be9ce60:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15650fe60 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fd15be96b40:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd1587c7340 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fd15bea2b20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15becf930 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fd15be9bd10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bec3020 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fd15be9f590:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fd15bf05c50 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fd15beaf8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>
-2018-08-31 19:25:46 +0000 [MT] Running /usr/bin/xattr '-crs' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app'
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/xattr exited with 0
-2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] /usr/bin/ditto exited with 02018-08-31 22:41:15 +0000  
 
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Processing step: IDEDistributionCodesignStep
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bee88d0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fd15bea3d20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>: {
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionEmbedProfileStep
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b1549b0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fcc24fd31b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b5809a0 'org.cocoapods.Parse' '<DVTFilePath:0x7fcc2b711370:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b643520 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fcc24fda300:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b60b100 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fcc2b142340:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b641780 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fcc24fd7b10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b6203c0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fcc24fcf990:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b601e90 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fcc2b710130:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b65cce0 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fcc2b145730:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b157cb0 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fcc24fdccf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b628b00 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fcc24fdbb00:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b655e00 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fcc24fc6f90:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc24fe0bc0 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fcc2b716020:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b6569a0 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fcc24fda8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b57f820 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fcc2b146ad0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b6443c0 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fcc2b714de0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b14e6a0 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fcc2b144430:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b717f50 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fcc24fd1fa0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc24e9f080 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fcc2b713cc0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b14a8d0 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fcc2b717540:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x7fcc2b14cbc0 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fcc24fdee20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionAppThinningPlistStep
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionCompileBitcodeStep
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionCodeSlimmingStep
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionCopyBCSymbolMapsStep
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionSymbolsStep
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionAppThinningStep
+2018-08-31 22:41:15 +0000 [MT] Skipping step: IDEDistributionAppThinningStep because it said so
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionODRStep
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionStripXattrsStep
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b1549b0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fcc24fd31b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b5809a0 'org.cocoapods.Parse' '<DVTFilePath:0x7fcc2b711370:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b643520 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fcc24fda300:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b60b100 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fcc2b142340:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b641780 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fcc24fd7b10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b6203c0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fcc24fcf990:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b601e90 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fcc2b710130:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b65cce0 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fcc2b145730:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b157cb0 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fcc24fdccf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b628b00 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fcc24fdbb00:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b655e00 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fcc24fc6f90:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc24fe0bc0 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fcc2b716020:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b6569a0 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fcc24fda8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b57f820 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fcc2b146ad0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b6443c0 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fcc2b714de0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b14e6a0 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fcc2b144430:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b717f50 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fcc24fd1fa0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc24e9f080 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fcc2b713cc0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b14a8d0 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fcc2b717540:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fcc2b14cbc0 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fcc24fdee20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/xattr '-crs' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app'
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000 [MT] /usr/bin/xattr exited with 0
+
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Processing step: IDEDistributionCodesignStep
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b1549b0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fcc24fd31b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bee88d0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fd15bea3d20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementslGo0FI
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementslGo0FI' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/Bolts.framework'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/Bolts.framework: signed bundle with Mach-O universal (armv7 arm64) [org.cocoapods.Bolts]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b1549b0 'org.cocoapods.Bolts' '<DVTFilePath:0x7fcc24fd31b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Bolts.framework'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementskrzm3M
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementskrzm3M' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/Bolts.framework'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/Bolts.framework: signed bundle with Mach-O universal (armv7 arm64) [org.cocoapods.Bolts]
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000  
 
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bbefe80 'org.cocoapods.Parse' '<DVTFilePath:0x7fd15b802db0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>: {
+2018-08-31 22:41:15 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b5809a0 'org.cocoapods.Parse' '<DVTFilePath:0x7fcc2b711370:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bbefe80 'org.cocoapods.Parse' '<DVTFilePath:0x7fd15b802db0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsWwsKfP
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsWwsKfP' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/Parse.framework'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/Parse.framework: signed bundle with Mach-O universal (armv7 arm64) [org.cocoapods.Parse]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b5809a0 'org.cocoapods.Parse' '<DVTFilePath:0x7fcc2b711370:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/Parse.framework'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsjMjdQs
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsjMjdQs' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/Parse.framework'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/Parse.framework: signed bundle with Mach-O universal (armv7 arm64) [org.cocoapods.Parse]
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000  
 
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bbf1570 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fd15beaa0a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>: {
+2018-08-31 22:41:15 +0000 [MT] /usr/bin/codesign exited with 02018-08-31 22:41:15 +0000  
+
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b643520 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fcc24fda300:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bbf1570 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fd15beaa0a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementszyDOHV
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementszyDOHV' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib: replacing existing signature
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftAVFoundation]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b643520 'com.apple.dt.runtime.swiftAVFoundation' '<DVTFilePath:0x7fcc24fda300:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsM8OZFt
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsM8OZFt' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib: replacing existing signature
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftAVFoundation]
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000 [MT] /usr/bin/codesign exited with 0
 
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bef3f30 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fd15b90e250:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>: {
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b60b100 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fcc2b142340:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bef3f30 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fd15b90e250:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements8Rs6YX
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements8Rs6YX' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib: replacing existing signature
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCore]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b60b100 'com.apple.dt.runtime.swiftCore' '<DVTFilePath:0x7fcc2b142340:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCore.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsdkDV5L
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsdkDV5L' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib: replacing existing signature
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCore]
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000 [MT] /usr/bin/codesign exited with 0
 
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd1580abf20 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fd15bea8640:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>: {
+2018-08-31 22:41:15 +0000  
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b641780 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fcc24fd7b10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd1580abf20 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fd15bea8640:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementssqYimj
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementssqYimj' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib: replacing existing signature
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreAudio]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b641780 'com.apple.dt.runtime.swiftCoreAudio' '<DVTFilePath:0x7fcc24fd7b10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements3so2GN
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements3so2GN' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib: replacing existing signature
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreAudio]
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000  
 
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15b92e7a0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fd15bea0420:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>: {
+2018-08-31 22:41:15 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:15 +0000  2018-08-31 22:41:15 +0000  
+
+2018-08-31 22:41:15 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b6203c0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fcc24fcf990:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15b92e7a0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fd15bea0420:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements4F0wHV
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements4F0wHV' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib: replacing existing signature
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreFoundation]
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:15 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b6203c0 'com.apple.dt.runtime.swiftCoreFoundation' '<DVTFilePath:0x7fcc24fcf990:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsF8YJIo
+2018-08-31 22:41:15 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsF8YJIo' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib'
+2018-08-31 22:41:15 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreFoundation]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bece200 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fd158076bf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
+
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b601e90 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fcc2b710130:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bece200 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fd158076bf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementscyUWfU
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementscyUWfU' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib: replacing existing signature
-2018-08-31 19:25:47 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreGraphics]
-2018-08-31 19:25:47 +0000  2018-08-31 19:25:47 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b601e90 'com.apple.dt.runtime.swiftCoreGraphics' '<DVTFilePath:0x7fcc2b710130:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsKzR7qQ
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsKzR7qQ' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreGraphics]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:47 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000  
-2018-08-31 19:25:47 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bec7d60 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fd15be987b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
+
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b65cce0 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fcc2b145730:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'>: {
 }
-2018-08-31 19:25:47 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bec7d60 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fd15be987b0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementswmQhMC
-2018-08-31 19:25:47 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementswmQhMC' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreImage]
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b65cce0 'com.apple.dt.runtime.swiftCoreImage' '<DVTFilePath:0x7fcc2b145730:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsiwDYEm
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsiwDYEm' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreImage]
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bee8e80 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fd15bead7c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>: {
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b157cb0 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fcc24fdccf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bee8e80 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fd15bead7c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsAf4Q02
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsAf4Q02' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreLocation]
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b157cb0 'com.apple.dt.runtime.swiftCoreLocation' '<DVTFilePath:0x7fcc24fdccf0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsf8dSs3
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsf8dSs3' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreLocation]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
 
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bbe1bb0 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fd15beac5a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>: {
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b628b00 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fcc24fdbb00:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bbe1bb0 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fd15beac5a0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsuzyKKa
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsuzyKKa' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreMedia]
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b628b00 'com.apple.dt.runtime.swiftCoreMedia' '<DVTFilePath:0x7fcc24fdbb00:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsiC9vIA
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsiC9vIA' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftCoreMedia]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 02018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
 
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bedb970 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fd15bea1940:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>: {
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b655e00 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fcc24fc6f90:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bedb970 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fd15bea1940:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsj7EraB
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsj7EraB' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftDarwin]
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b655e00 'com.apple.dt.runtime.swiftDarwin' '<DVTFilePath:0x7fcc24fc6f90:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsyycqqw
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsyycqqw' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftDarwin]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bf11660 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fd15be9e070:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc24fe0bc0 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fcc2b716020:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bf11660 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fd15be9e070:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsOzWqYf
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsOzWqYf' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftDispatch]
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc24fe0bc0 'com.apple.dt.runtime.swiftDispatch' '<DVTFilePath:0x7fcc2b716020:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsmSSDuP
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsmSSDuP' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftDispatch]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15650ef50 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fd15beab360:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b6569a0 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fcc24fda8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15650ef50 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fd15beab360:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsaEmD5a
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsaEmD5a' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftFoundation]
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15b921760 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fd15be99b50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b6569a0 'com.apple.dt.runtime.swiftFoundation' '<DVTFilePath:0x7fcc24fda8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsnlRK2z
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsnlRK2z' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftFoundation]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
+
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
+
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b57f820 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fcc2b146ad0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15b921760 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fd15be99b50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsET1VyT
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsET1VyT' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftMapKit]
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 02018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b57f820 'com.apple.dt.runtime.swiftMapKit' '<DVTFilePath:0x7fcc2b146ad0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementstjI1hP
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementstjI1hP' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftMapKit]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15809e940 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fd15be9ce60:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b6443c0 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fcc2b714de0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15809e940 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fd15be9ce60:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsrVpoyq
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsrVpoyq' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftMetal]
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 02018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b6443c0 'com.apple.dt.runtime.swiftMetal' '<DVTFilePath:0x7fcc2b714de0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftMetal.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsQFrR4u
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsQFrR4u' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib'
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib: replacing existing signature
+2018-08-31 22:41:16 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftMetal]
+2018-08-31 22:41:16 +0000  2018-08-31 22:41:16 +0000  
 
-
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15650fe60 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fd15be96b40:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>: {
+2018-08-31 22:41:16 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000  
+2018-08-31 22:41:16 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b14e6a0 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fcc2b144430:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15650fe60 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fd15be96b40:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsvaAAi0
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsvaAAi0' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib: replacing existing signature
-2018-08-31 19:25:48 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftObjectiveC]
-2018-08-31 19:25:48 +0000  2018-08-31 19:25:48 +0000  
+2018-08-31 22:41:16 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b14e6a0 'com.apple.dt.runtime.swiftObjectiveC' '<DVTFilePath:0x7fcc2b144430:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsx3P2HA
+2018-08-31 22:41:16 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsx3P2HA' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftObjectiveC]
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 0
 
-2018-08-31 19:25:48 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:48 +0000  
-2018-08-31 19:25:48 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd1587c7340 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fd15bea2b20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>: {
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b717f50 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fcc24fd1fa0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'>: {
 }
-2018-08-31 19:25:48 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd1587c7340 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fd15bea2b20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsuOvXQw
-2018-08-31 19:25:48 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsuOvXQw' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib: replacing existing signature
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftQuartzCore]
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000  
+2018-08-31 22:41:17 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b717f50 'com.apple.dt.runtime.swiftQuartzCore' '<DVTFilePath:0x7fcc24fd1fa0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements8Zzid0
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements8Zzid0' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftQuartzCore]
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15becf930 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fd15be9bd10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>: {
+2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc24e9f080 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fcc2b713cc0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'>: {
 }
-2018-08-31 19:25:49 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15becf930 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fd15be9bd10:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsg17yKU
-2018-08-31 19:25:49 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsg17yKU' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib: replacing existing signature
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftUIKit]
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000  
+2018-08-31 22:41:17 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc24e9f080 'com.apple.dt.runtime.swiftUIKit' '<DVTFilePath:0x7fcc2b713cc0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements1PCTwV
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlements1PCTwV' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftUIKit]
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bec3020 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fd15be9f590:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>: {
+2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b14a8d0 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fcc2b717540:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'>: {
 }
-2018-08-31 19:25:49 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bec3020 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fd15be9f590:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements6MRdOr
-2018-08-31 19:25:49 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlements6MRdOr' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib'
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib: replacing existing signature
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftos]
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000  
+2018-08-31 22:41:17 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b14a8d0 'com.apple.dt.runtime.swiftos' '<DVTFilePath:0x7fcc2b717540:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftos.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsL8rmQR
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsL8rmQR' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftos.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftos]
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bf05c50 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fd15beaf8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>: {
+2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b14cbc0 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fcc24fdee20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'>: {
 }
-2018-08-31 19:25:49 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bf05c50 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fd15beaf8f0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsvrmVZ5
-2018-08-31 19:25:49 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsvrmVZ5' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib'
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib: replacing existing signature
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftsimd]
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:17 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b14cbc0 'com.apple.dt.runtime.swiftsimd' '<DVTFilePath:0x7fcc24fdee20:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app/Frameworks/libswiftsimd.dylib'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsbzjYYK
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsbzjYYK' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib: signed Mach-O universal (armv7 armv7s arm64) [com.apple.dt.runtime.swiftsimd]
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fd15bd2bdc0 'edu.northwestern.delta.C' '<DVTFilePath:0x7fd15802fc50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app'>'>: {
+2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 0
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
+
+2018-08-31 22:41:17 +0000 [MT] Entitlements for <IDEDistributionItem: 0x7fcc2b161290 'edu.northwestern.delta.C' '<DVTFilePath:0x7fcc2b4832c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app'>'>: {
     "application-identifier" = "823S57WQK3.edu.northwestern.delta.C";
     "com.apple.developer.team-identifier" = 823S57WQK3;
     "get-task-allow" = 0;
@@ -527,225 +532,228 @@ copying file ./PkgInfo ...
         "823S57WQK3.edu.northwestern.delta.C"
     );
 }
-2018-08-31 19:25:49 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fd15bd2bdc0 'edu.northwestern.delta.C' '<DVTFilePath:0x7fd15802fc50:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsrm1OQJ
-2018-08-31 19:25:49 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/entitlementsrm1OQJ' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app'
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app: replacing existing signature
-2018-08-31 19:25:49 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root/Payload/CrowdCheer.app: signed app bundle with Mach-O universal (armv7 arm64) [edu.northwestern.delta.C]
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000  
+2018-08-31 22:41:17 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x7fcc2b161290 'edu.northwestern.delta.C' '<DVTFilePath:0x7fcc2b4832c0:'/Users/leesha/Dropbox/EECS/Delta Lab/CrowdCheer/CrowdCheer/build/CrowdCheer.xcarchive/Products/Applications/CrowdCheer.app'>'> to: /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsAhaX40
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/codesign '-vvv' '--force' '--sign' 'D0AF524183625F06F0B8238136E6044EE4A109EE' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/entitlementsAhaX40' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app'
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app: replacing existing signature
+2018-08-31 22:41:17 +0000  /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root/Payload/CrowdCheer.app: signed app bundle with Mach-O universal (armv7 arm64) [edu.northwestern.delta.C]
+2018-08-31 22:41:17 +0000  2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] /usr/bin/codesign exited with 0
-2018-08-31 19:25:49 +0000  
-2018-08-31 19:25:49 +0000  2018-08-31 19:25:49 +0000 [MT] Processing step: IDEDistributionStreamingZipItemStep
+2018-08-31 22:41:17 +0000 [MT] /usr/bin/codesign exited with 02018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
+2018-08-31 22:41:17 +0000  
 
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
-2018-08-31 19:25:49 +0000 [MT] Processing step: IDEDistributionCreateIPAStep
-2018-08-31 19:25:49 +0000 [MT] Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Packages/CrowdCheer.ipa'
-2018-08-31 19:25:49 +0000  >>> Copying /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.hXt/Root 
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/_CodeSignature/CodeResources ... 
-2018-08-31 19:25:49 +0000  30636 bytes for ./Payload/CrowdCheer.app/_CodeSignature/CodeResources
+2018-08-31 22:41:17 +0000 [MT] Processing step: IDEDistributionStreamingZipItemStep
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-08-31 22:41:17 +0000 [MT] Processing step: IDEDistributionCreateIPAStep
+2018-08-31 22:41:17 +0000 [MT] Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root' '/var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Packages/CrowdCheer.ipa'
+2018-08-31 22:41:17 +0000  >>> Copying /var/folders/8l/80ycd7n15lb47bn2f9dmz6tr0000gn/T/XcodeDistPipeline.H7x/Root 
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/_CodeSignature/CodeResources ... 
+2018-08-31 22:41:17 +0000  30636 bytes for ./Payload/CrowdCheer.app/_CodeSignature/CodeResources
 copying file ./Payload/CrowdCheer.app/gps.png ... 
-2018-08-31 19:25:49 +0000  2100 bytes for ./Payload/CrowdCheer.app/gps.png
-copying file ./Payload/CrowdCheer.app/CrowdCheer ... 
-2018-08-31 19:25:49 +0000  1480032 bytes for ./Payload/CrowdCheer.app/CrowdCheer
+2018-08-31 22:41:17 +0000  2100 bytes for ./Payload/CrowdCheer.app/gps.png
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/CrowdCheer ... 
+2018-08-31 22:41:17 +0000  1480032 bytes for ./Payload/CrowdCheer.app/CrowdCheer
 copying file ./Payload/CrowdCheer.app/silence.mp3 ... 
-2018-08-31 19:25:49 +0000  3951744 bytes for ./Payload/CrowdCheer.app/silence.mp3
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/settings.png ... 
-3728 bytes for ./Payload/CrowdCheer.app/settings.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/apple-icon.png ... 
-2018-08-31 19:25:49 +0000  13415 bytes for ./Payload/CrowdCheer.app/apple-icon.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/apple-icon-144x144.png ... 
-2018-08-31 19:25:49 +0000  8444 bytes for ./Payload/CrowdCheer.app/apple-icon-144x144.png
+2018-08-31 22:41:17 +0000  3951744 bytes for ./Payload/CrowdCheer.app/silence.mp3
+copying file ./Payload/CrowdCheer.app/settings.png ... 
+2018-08-31 22:41:17 +0000  3728 bytes for ./Payload/CrowdCheer.app/settings.png
+copying file ./Payload/CrowdCheer.app/apple-icon.png ... 
+2018-08-31 22:41:17 +0000  13415 bytes for ./Payload/CrowdCheer.app/apple-icon.png
+copying file ./Payload/CrowdCheer.app/apple-icon-144x144.png ... 
+2018-08-31 22:41:17 +0000  8444 bytes for ./Payload/CrowdCheer.app/apple-icon-144x144.png
 copying file ./Payload/CrowdCheer.app/apple-icon-precomposed.png ... 
-2018-08-31 19:25:49 +0000  13415 bytes for ./Payload/CrowdCheer.app/apple-icon-precomposed.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/profileDefault.png ... 
-2018-08-31 19:25:49 +0000  5057 bytes for ./Payload/CrowdCheer.app/profileDefault.png
+2018-08-31 22:41:17 +0000  13415 bytes for ./Payload/CrowdCheer.app/apple-icon-precomposed.png
+copying file ./Payload/CrowdCheer.app/profileDefault.png ... 
+2018-08-31 22:41:17 +0000  5057 bytes for ./Payload/CrowdCheer.app/profileDefault.png
 copying file ./Payload/CrowdCheer.app/apple-icon-114x114.png ... 
-2018-08-31 19:25:49 +0000  5863 bytes for ./Payload/CrowdCheer.app/apple-icon-114x114.png
+2018-08-31 22:41:17 +0000  5863 bytes for ./Payload/CrowdCheer.app/apple-icon-114x114.png
 copying file ./Payload/CrowdCheer.app/AppIcon60x60@2x.png ... 
-2018-08-31 19:25:49 +0000  6814 bytes for ./Payload/CrowdCheer.app/AppIcon60x60@2x.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/map.png ... 
-2018-08-31 19:25:49 +0000  1941 bytes for ./Payload/CrowdCheer.app/map.png
+2018-08-31 22:41:17 +0000  6814 bytes for ./Payload/CrowdCheer.app/AppIcon60x60@2x.png
+copying file ./Payload/CrowdCheer.app/map.png ... 
+2018-08-31 22:41:17 +0000  1941 bytes for ./Payload/CrowdCheer.app/map.png
 copying file ./Payload/CrowdCheer.app/AppIcon40x40@3x.png ... 
-2018-08-31 19:25:49 +0000  6814 bytes for ./Payload/CrowdCheer.app/AppIcon40x40@3x.png
-copying file ./Payload/CrowdCheer.app/smartphone.png ... 
-2018-08-31 19:25:49 +0000  2345 bytes for ./Payload/CrowdCheer.app/smartphone.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/AppIcon60x60@3x.png ... 
-2018-08-31 19:25:49 +0000  12715 bytes for ./Payload/CrowdCheer.app/AppIcon60x60@3x.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/tracking.png ... 
-2018-08-31 19:25:49 +0000  12468 bytes for ./Payload/CrowdCheer.app/tracking.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/LaunchScreen.nib ... 
-2018-08-31 19:25:49 +0000  4285 bytes for ./Payload/CrowdCheer.app/Base.lproj/LaunchScreen.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib ... 
-2018-08-31 19:25:49 +0000  6938 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/prerunViewController.nib ... 
-2018-08-31 19:25:49 +0000  2074 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/prerunViewController.nib
+2018-08-31 22:41:17 +0000  6814 bytes for ./Payload/CrowdCheer.app/AppIcon40x40@3x.png
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/smartphone.png ... 
+2018-08-31 22:41:17 +0000  2345 bytes for ./Payload/CrowdCheer.app/smartphone.png
+copying file ./Payload/CrowdCheer.app/AppIcon60x60@3x.png ... 
+2018-08-31 22:41:17 +0000  12715 bytes for ./Payload/CrowdCheer.app/AppIcon60x60@3x.png
+copying file ./Payload/CrowdCheer.app/tracking.png ... 
+2018-08-31 22:41:17 +0000  12468 bytes for ./Payload/CrowdCheer.app/tracking.png
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/LaunchScreen.nib ... 
+2018-08-31 22:41:17 +0000  4276 bytes for ./Payload/CrowdCheer.app/Base.lproj/LaunchScreen.nib
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib ... 
+2018-08-31 22:41:17 +0000  6944 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/dMm-wU-aXA-view-M2r-0L-aHZ.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/prerunViewController.nib ... 
+2018-08-31 22:41:17 +0000  2074 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/prerunViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib ... 
-2018-08-31 19:25:49 +0000  7963 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib ... 
-2018-08-31 19:25:49 +0000  6361 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/affinityViewController.nib ... 
-2018-08-31 19:25:49 +0000  2180 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/affinityViewController.nib
+2018-08-31 22:41:17 +0000  7958 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/HAW-fB-p8Q-view-pv5-8p-hIk.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib ... 
+2018-08-31 22:41:17 +0000  6359 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/uDh-vD-uKF-view-blk-JG-yrS.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/affinityViewController.nib ... 
+2018-08-31 22:41:17 +0000  2180 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/affinityViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib ... 
-2018-08-31 19:25:49 +0000  9920 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib ... 
-2018-08-31 19:25:49 +0000  8407 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/ProfileViewController.nib ... 
-2018-08-31 19:25:49 +0000  2043 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/ProfileViewController.nib
+2018-08-31 22:41:17 +0000  9918 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/x3m-YV-U7c-view-1hl-1W-6rS.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib ... 
+2018-08-31 22:41:17 +0000  8411 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/zUr-da-CH6-view-Mgt-DS-SeI.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/ProfileViewController.nib ... 
+2018-08-31 22:41:17 +0000  2043 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/ProfileViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/CheerViewController.nib ... 
-2018-08-31 19:25:49 +0000  1313 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/CheerViewController.nib
-copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib ... 
-2018-08-31 19:25:49 +0000  14648 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/navController.nib ... 
-2018-08-31 19:25:49 +0000  2232 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/navController.nib
+2018-08-31 22:41:17 +0000  1313 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/CheerViewController.nib
+2018-08-31 22:41:17 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib ... 
+2018-08-31 22:41:17 +0000  14651 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/COo-W5-esK-view-DBs-kW-t24.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/navController.nib ... 
+2018-08-31 22:41:17 +0000  2232 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/navController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib ... 
-2018-08-31 19:25:49 +0000  1355 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib
+2018-08-31 22:41:17 +0000  1355 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-SL2-bs-2Nj.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runViewController.nib ... 
-2018-08-31 19:25:49 +0000  1313 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runViewController.nib
+2018-08-31 22:41:17 +0000  1313 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/DashboardViewController.nib ... 
-2018-08-31 19:25:49 +0000  1747 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/DashboardViewController.nib
+1747 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/DashboardViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib ... 
-2018-08-31 19:25:49 +0000  1712 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib
+2018-08-31 22:41:17 +0000  1712 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/UIViewController-x3m-YV-U7c.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib ... 
-2018-08-31 19:25:49 +0000  8081 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/roleViewController.nib ... 
-2018-08-31 19:25:49 +0000  2095 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/roleViewController.nib
+2018-08-31 22:41:17 +0000  8084 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pm9-0g-7IT-view-UWT-8N-XTP.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/roleViewController.nib ... 
+2018-08-31 22:41:17 +0000  2095 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/roleViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runInstructionViewController.nib ... 
-2018-08-31 19:25:49 +0000  1421 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runInstructionViewController.nib
+2018-08-31 22:41:17 +0000  1421 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/runInstructionViewController.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Info.plist ... 
 819 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Info.plist
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib ... 
-2018-08-31 19:25:49 +0000  7274 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib ... 
-2018-08-31 19:25:49 +0000  8229 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib ... 
-2018-08-31 19:25:49 +0000  5220 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib ... 
-2018-08-31 19:25:49 +0000  5385 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib
+2018-08-31 22:41:17 +0000  7280 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/3xr-dc-zTt-view-eXg-WL-2uq.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib ... 
+2018-08-31 22:41:17 +0000  8228 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Pwj-he-eYY-view-0QU-e6-HVJ.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib ... 
+2018-08-31 22:41:17 +0000  5218 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/Ixl-Xt-fBa-view-gW7-rc-Kew.nib
+copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib ... 
+2018-08-31 22:41:17 +0000  5376 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/SL2-bs-2Nj-view-Bu9-43-O8i.nib
 copying file ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/signUpViewController.nib ... 
-2018-08-31 19:25:49 +0000  1524 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/signUpViewController.nib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/megaphone.png ... 
-2018-08-31 19:25:49 +0000  2646 bytes for ./Payload/CrowdCheer.app/megaphone.png
+2018-08-31 22:41:17 +0000  1524 bytes for ./Payload/CrowdCheer.app/Base.lproj/Main.storyboardc/signUpViewController.nib
+copying file ./Payload/CrowdCheer.app/megaphone.png ... 
+2018-08-31 22:41:17 +0000  2646 bytes for ./Payload/CrowdCheer.app/megaphone.png
 copying file ./Payload/CrowdCheer.app/apple-icon-57x57.png ... 
-2018-08-31 19:25:49 +0000  2402 bytes for ./Payload/CrowdCheer.app/apple-icon-57x57.png
+2018-08-31 22:41:17 +0000  2402 bytes for ./Payload/CrowdCheer.app/apple-icon-57x57.png
 copying file ./Payload/CrowdCheer.app/heart.png ... 
-2018-08-31 19:25:49 +0000  2511 bytes for ./Payload/CrowdCheer.app/heart.png
+2018-08-31 22:41:17 +0000  2511 bytes for ./Payload/CrowdCheer.app/heart.png
 copying file ./Payload/CrowdCheer.app/apple-icon-152x152.png ... 
-2018-08-31 19:25:49 +0000  9294 bytes for ./Payload/CrowdCheer.app/apple-icon-152x152.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Assets.car ... 
-2018-08-31 19:25:49 +0000  47400 bytes for ./Payload/CrowdCheer.app/Assets.car
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/apple-icon-180x180.png ... 
-2018-08-31 19:25:49 +0000  12231 bytes for ./Payload/CrowdCheer.app/apple-icon-180x180.png
+2018-08-31 22:41:17 +0000  9294 bytes for ./Payload/CrowdCheer.app/apple-icon-152x152.png
+copying file ./Payload/CrowdCheer.app/Assets.car ... 
+2018-08-31 22:41:17 +0000  47400 bytes for ./Payload/CrowdCheer.app/Assets.car
+copying file ./Payload/CrowdCheer.app/apple-icon-180x180.png ... 
+2018-08-31 22:41:17 +0000  12231 bytes for ./Payload/CrowdCheer.app/apple-icon-180x180.png
 copying file ./Payload/CrowdCheer.app/profile.png ... 
-2018-08-31 19:25:49 +0000  3095 bytes for ./Payload/CrowdCheer.app/profile.png
+2018-08-31 22:41:17 +0000  3095 bytes for ./Payload/CrowdCheer.app/profile.png
 copying file ./Payload/CrowdCheer.app/location.png ... 
-2018-08-31 19:25:49 +0000  3155 bytes for ./Payload/CrowdCheer.app/location.png
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/apple-icon-76x76.png ... 
-3565 bytes for ./Payload/CrowdCheer.app/apple-icon-76x76.png
+2018-08-31 22:41:17 +0000  3155 bytes for ./Payload/CrowdCheer.app/location.png
+copying file ./Payload/CrowdCheer.app/apple-icon-76x76.png ... 
+2018-08-31 22:41:17 +0000  3565 bytes for ./Payload/CrowdCheer.app/apple-icon-76x76.png
 copying file ./Payload/CrowdCheer.app/clock.png ... 
-2018-08-31 19:25:49 +0000  3924 bytes for ./Payload/CrowdCheer.app/clock.png
+2018-08-31 22:41:17 +0000  3924 bytes for ./Payload/CrowdCheer.app/clock.png
 copying file ./Payload/CrowdCheer.app/Ford.gpx ... 
-2018-08-31 19:25:49 +0000  138 bytes for ./Payload/CrowdCheer.app/Ford.gpx
+138 bytes for ./Payload/CrowdCheer.app/Ford.gpx
 copying file ./Payload/CrowdCheer.app/apple-icon-60x60.png ... 
-2018-08-31 19:25:49 +0000  2564 bytes for ./Payload/CrowdCheer.app/apple-icon-60x60.png
+2018-08-31 22:41:17 +0000  2564 bytes for ./Payload/CrowdCheer.app/apple-icon-60x60.png
 copying file ./Payload/CrowdCheer.app/myrunner.png ... 
-2018-08-31 19:25:49 +0000  983 bytes for ./Payload/CrowdCheer.app/myrunner.png
+2018-08-31 22:41:17 +0000  983 bytes for ./Payload/CrowdCheer.app/myrunner.png
 copying file ./Payload/CrowdCheer.app/running.png ... 
-2018-08-31 19:25:49 +0000  3425 bytes for ./Payload/CrowdCheer.app/running.png
+2018-08-31 22:41:17 +0000  3425 bytes for ./Payload/CrowdCheer.app/running.png
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib ... 
-2018-08-31 19:25:49 +0000  254240 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib ... 
-2018-08-31 19:25:49 +0000  251040 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib ... 
-2018-08-31 19:25:49 +0000  300064 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib
-2018-08-31 19:25:49 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib ... 
-2018-08-31 19:25:50 +0000  18072864 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib
+2018-08-31 22:41:17 +0000  254240 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftMapKit.dylib
+copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib ... 
+2018-08-31 22:41:17 +0000  251040 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreImage.dylib
+copying file ./Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib ... 
+2018-08-31 22:41:17 +0000  300064 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftObjectiveC.dylib
+copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib ... 
+2018-08-31 22:41:18 +0000  18072864 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCore.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib ... 
-2018-08-31 19:25:50 +0000  650720 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib
-2018-08-31 19:25:50 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/_CodeSignature/CodeResources ... 
+2018-08-31 22:41:18 +0000  650720 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreGraphics.dylib
+2018-08-31 22:41:18 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/_CodeSignature/CodeResources ... 
 2951 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/_CodeSignature/CodeResources
 copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse ... 
-2018-08-31 19:25:50 +0000  4259968 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse
-2018-08-31 19:25:50 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings ... 
+2018-08-31 22:41:18 +0000  4259968 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse
+2018-08-31 22:41:18 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings ... 
 122 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/en.lproj/Parse.strings
 copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/Info.plist ... 
-2018-08-31 19:25:50 +0000  709 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/Info.plist
+2018-08-31 22:41:18 +0000  709 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Parse.bundle/Info.plist
 copying file ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Info.plist ... 
 734 bytes for ./Payload/CrowdCheer.app/Frameworks/Parse.framework/Info.plist
-2018-08-31 19:25:50 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib ... 
-2018-08-31 19:25:50 +0000  460064 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib
+copying file ./Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib ... 
+2018-08-31 22:41:18 +0000  460064 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftUIKit.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib ... 
-2018-08-31 19:25:50 +0000  260816 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib
+2018-08-31 22:41:18 +0000  260816 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftMetal.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib ... 
-2018-08-31 19:25:50 +0000  987472 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib
+2018-08-31 22:41:18 +0000  987472 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftDispatch.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftos.dylib ... 
-2018-08-31 19:25:50 +0000  259712 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftos.dylib
+2018-08-31 22:41:18 +0000  259712 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftos.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib ... 
-2018-08-31 19:25:50 +0000  250512 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib
+2018-08-31 22:41:18 +0000  250512 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreFoundation.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib ... 
-2018-08-31 19:25:50 +0000  403856 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib
+2018-08-31 22:41:18 +0000  403856 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftDarwin.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib ... 
-2018-08-31 19:25:50 +0000  254032 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib
-2018-08-31 19:25:50 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/_CodeSignature/CodeResources ... 
-2018-08-31 19:25:50 +0000  2202 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/_CodeSignature/CodeResources
+2018-08-31 22:41:18 +0000  254032 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftQuartzCore.dylib
+2018-08-31 22:41:18 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/_CodeSignature/CodeResources ... 
+2202 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/_CodeSignature/CodeResources
 copying file ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Bolts ... 
-2018-08-31 19:25:50 +0000  320640 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Bolts
+2018-08-31 22:41:18 +0000  320640 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Bolts
 copying file ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Info.plist ... 
-2018-08-31 19:25:50 +0000  733 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Info.plist
+2018-08-31 22:41:18 +0000  733 bytes for ./Payload/CrowdCheer.app/Frameworks/Bolts.framework/Info.plist
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib ... 
-2018-08-31 19:25:50 +0000  340368 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib
+2018-08-31 22:41:18 +0000  340368 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreAudio.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib ... 
-2018-08-31 19:25:50 +0000  546400 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib
+2018-08-31 22:41:18 +0000  546400 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftAVFoundation.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib ... 
-2018-08-31 19:25:50 +0000  8570896 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib
-2018-08-31 19:25:50 +0000  copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib ... 
-2018-08-31 19:25:50 +0000  262784 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib
+2018-08-31 22:41:19 +0000  8570896 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftFoundation.dylib
+copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib ... 
+2018-08-31 22:41:19 +0000  262784 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreMedia.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib ... 
-2018-08-31 19:25:50 +0000  295888 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib
+2018-08-31 22:41:19 +0000  295888 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftCoreLocation.dylib
 copying file ./Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib ... 
-2018-08-31 19:25:51 +0000  1888192 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib
-2018-08-31 19:25:51 +0000  copying file ./Payload/CrowdCheer.app/embedded.mobileprovision ... 
-2018-08-31 19:25:51 +0000  8109 bytes for ./Payload/CrowdCheer.app/embedded.mobileprovision
+2018-08-31 22:41:19 +0000  1888192 bytes for ./Payload/CrowdCheer.app/Frameworks/libswiftsimd.dylib
+2018-08-31 22:41:19 +0000  copying file ./Payload/CrowdCheer.app/embedded.mobileprovision ... 
+2018-08-31 22:41:19 +0000  8109 bytes for ./Payload/CrowdCheer.app/embedded.mobileprovision
 copying file ./Payload/CrowdCheer.app/success.wav ... 
-2018-08-31 19:25:51 +0000  270524 bytes for ./Payload/CrowdCheer.app/success.wav
-2018-08-31 19:25:51 +0000  copying file ./Payload/CrowdCheer.app/CrowdCheer.momd/VersionInfo.plist ... 
+2018-08-31 22:41:19 +0000  270524 bytes for ./Payload/CrowdCheer.app/success.wav
+2018-08-31 22:41:19 +0000  copying file ./Payload/CrowdCheer.app/CrowdCheer.momd/VersionInfo.plist ... 
 157 bytes for ./Payload/CrowdCheer.app/CrowdCheer.momd/VersionInfo.plist
 copying file ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.omo ... 
-696 bytes for ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.omo
+2018-08-31 22:41:19 +0000  696 bytes for ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.omo
 copying file ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.mom ... 
-2018-08-31 19:25:51 +0000  513 bytes for ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.mom
+2018-08-31 22:41:19 +0000  513 bytes for ./Payload/CrowdCheer.app/CrowdCheer.momd/CrowdCheer.mom
 copying file ./Payload/CrowdCheer.app/apple-icon-72x72.png ... 
-2018-08-31 19:25:51 +0000  3377 bytes for ./Payload/CrowdCheer.app/apple-icon-72x72.png
+2018-08-31 22:41:19 +0000  3377 bytes for ./Payload/CrowdCheer.app/apple-icon-72x72.png
 copying file ./Payload/CrowdCheer.app/Info.plist ... 
-1981 bytes for ./Payload/CrowdCheer.app/Info.plist
+2018-08-31 22:41:19 +0000  1981 bytes for ./Payload/CrowdCheer.app/Info.plist
 copying file ./Payload/CrowdCheer.app/apple-icon-120x120.png ... 
-2018-08-31 19:25:51 +0000  6330 bytes for ./Payload/CrowdCheer.app/apple-icon-120x120.png
+2018-08-31 22:41:19 +0000  6330 bytes for ./Payload/CrowdCheer.app/apple-icon-120x120.png
 copying file ./Payload/CrowdCheer.app/runner.png ... 
-2018-08-31 19:25:51 +0000  1318 bytes for ./Payload/CrowdCheer.app/runner.png
+2018-08-31 22:41:19 +0000  1318 bytes for ./Payload/CrowdCheer.app/runner.png
 copying file ./Payload/CrowdCheer.app/PkgInfo ... 
-8 bytes for ./Payload/CrowdCheer.app/PkgInfo
-2018-08-31 19:25:51 +0000  
-2018-08-31 19:25:51 +0000  
-2018-08-31 19:25:51 +0000 [MT] /usr/bin/ditto exited with 0
-2018-08-31 19:25:51 +0000  
-2018-08-31 19:25:51 +0000  
-2018-08-31 19:25:51 +0000 [MT] Processing step: IDEDistributionCreateManifestStep
+2018-08-31 22:41:19 +0000  8 bytes for ./Payload/CrowdCheer.app/PkgInfo
+2018-08-31 22:41:19 +0000  
+2018-08-31 22:41:19 +0000  
+2018-08-31 22:41:19 +0000 [MT] /usr/bin/ditto exited with 02018-08-31 22:41:19 +0000  
+2018-08-31 22:41:19 +0000  
+
+2018-08-31 22:41:19 +0000  
+2018-08-31 22:41:19 +0000  2018-08-31 22:41:19 +0000 [MT] Processing step: IDEDistributionCreateManifestStep
+
