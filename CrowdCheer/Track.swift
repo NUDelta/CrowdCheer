@@ -39,6 +39,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     var currLoc = PFGeoPoint()
     var prevLocLat = 0.0
     var prevLocLon = 0.0
+    var prevLocActualTime = Date()
     var actualTime = Date()
     var setTime = Date()
     var getTime = Date()
@@ -136,6 +137,12 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             else {
                 // Query failed, load error
                 print("ERROR: \(error!) \((error! as NSError).userInfo)")
+//
+//                //simulate runner loc if we can't get a successful query
+//                let now = Date()
+//                let latencyData = self.handleLatency(trackedRunner, actualTime: self.actualTime, setTime: self.setTime, getTime: self.getTime, showTime: now)
+//
+//                runnerUpdate = latencyData.calculatedRunnerLoc
                 result(runnerUpdate)
             }
         }

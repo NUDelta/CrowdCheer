@@ -172,10 +172,23 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
             if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
+                
+                //append to runner path
                 runnerPath.append(runnerLastLoc)
+                
+                //convert to CLLocation
                 let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+                
+                //store last known distance between spectator & runner
                 let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
-                var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+                
+                //calculate the simulated distance traveled during the delay (based on speed + delay)
+                let distanceTraveledinLatency = contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+                
+                //subtract the simulated distance traveled during the delay (based on speed + delay) from the last known distance from spectator to give us an updated distance from spectator
+                var distanceCalc = distanceLast -  distanceTraveledinLatency
+                
+                //use calculated distance between spectator and runner now
                 if distanceCalc < 0 {
                     distanceCalc = 0.01
                 }
