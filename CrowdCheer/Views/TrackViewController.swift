@@ -37,6 +37,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerCheer: String = ""
     var runnerOutfit: String = ""
     var myLocation = CLLocation()
+    var runnerPrevLoc = CLLocationCoordinate2D()
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var runnerLocations = [PFUser: PFGeoPoint]()
@@ -118,6 +119,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItem = headingBtn
         
         getRunnerProfile()
+        distanceCalc = 400.0 //runner is at most 2km away (5/10k: 1000) (demo: 400m)
         ETA.text = "Loading location..."
         supportRunner.isHidden = false
         waitToCheer.isHidden = true
@@ -154,8 +156,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.trackRunner_UI), userInfo: nil, repeats: true)
         
         //monitoring spectators -- data + UI timers
-//        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
-//        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
         //finding nearby R* runners -- data + UI timers
 //        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
@@ -196,7 +198,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             print("Tracking runner - data")
             
-            //1. get most recent runner location
+            //1. get most recent runner locations
             if self.contextPrimer.locationMgr.location != nil {
                 self.myLocation = self.contextPrimer.locationMgr.location!
             }
@@ -206,8 +208,15 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             self.contextPrimer.getRunnerLocation(self.trackedRunner) { (runnerLoc) -> Void in
 
-                print("getrunnerloc callback running")
+                print("getrunnerloc callback running") // TODO: maybe need to wrap this in background queue as well
                 self.runnerLastLoc = runnerLoc
+            }
+            
+            if (self.runnerLastLoc.latitude == 0.0 && self.runnerLastLoc.longitude == 0.0) {
+                let runnerPrevLocLat = self.contextPrimer.prevLocLat
+                let runnerPrevLocLon = self.contextPrimer.prevLocLon
+                self.runnerPrevLoc = CLLocationCoordinate2DMake(runnerPrevLocLat, runnerPrevLocLon)
+                self.runnerLastLoc = self.runnerPrevLoc
             }
             
             print(" runnerlastloc: \(self.runnerLastLoc) \n ")
