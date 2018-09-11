@@ -404,7 +404,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                         newCurrLoc["distance"] = self.metersToMiles(self.distance)
                         newCurrLoc["duration"] =  self.stringFromSeconds(self.duration)
                         newCurrLoc["time"] = Date()
-                        newCurrLoc.saveInBackground()
+                        newCurrLoc.saveEventually()
                         
                     } else if let currLoc = currLoc {
                         
@@ -416,7 +416,7 @@ class SpectatorMonitor: NSObject, Monitor, CLLocationManagerDelegate {
                         currLoc["distance"] = self.metersToMiles(self.distance)
                         currLoc["duration"] = self.stringFromSeconds(self.duration)
                         currLoc["time"] = Date()
-                        currLoc.saveInBackground()
+                        currLoc.saveEventually()
                     }
                 }
             }
