@@ -109,7 +109,7 @@ class NearbyRunners: NSObject, Trigger, CLLocationManagerDelegate {
                                     self.possibleRunners[runner.objectId!] = runner.username
                                 }
                                 catch {
-                                    print("ERROR: unable to get runner")
+                                    print("ERROR: unable to get runner - match")
                                 }
                             }
                         }

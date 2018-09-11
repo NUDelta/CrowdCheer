@@ -122,7 +122,29 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+        
+        DispatchQueue.global(qos: .background).async {
+            self.runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+            let runLoop = RunLoop.current
+            runLoop.add(self.runnerTrackerTimer, forMode: .defaultRunLoopMode)
+            runLoop.run()
+        }
+        
+//        DispatchQueue.global(qos: .background).async {
+//            self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
+//            let runLoop = RunLoop.current
+//            runLoop.add(self.userMonitorTimer, forMode: .defaultRunLoopMode)
+//            runLoop.run()
+//        }
+        
+//        DispatchQueue.global(qos: .background).async {
+//            self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//            let runLoop = RunLoop.current
+//            runLoop.add(self.nearbyRunnersTimer, forMode: .defaultRunLoopMode)
+//            runLoop.run()
+//        }
+        
+//        runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
         userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
         nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
@@ -161,8 +183,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         contextPrimer.getRunnerLocation(trackedRunner) { (runnerLoc) -> Void in
 
+            print("#####################")
+            print("getrunnerloc callback running")
             self.runnerLastLoc = runnerLoc
         }
+        
+        //this logic should go in callback
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print(" runnerlastloc: \(self.runnerLastLoc) \n ")
         
         let actualTime = contextPrimer.actualTime
         let setTime = contextPrimer.setTime
@@ -170,14 +198,14 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let showTime = Date()
         let latencyData = contextPrimer.handleLatency(trackedRunner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
         
-        if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
-            if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
+        if(CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
+            if (self.runnerLastLoc.latitude != 0.0 && self.runnerLastLoc.longitude != 0.0) {
                 
                 //append to runner path
-                runnerPath.append(runnerLastLoc)
+                runnerPath.append(self.runnerLastLoc)
                 
                 //convert to CLLocation
-                let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+                let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
                 
                 //store last known distance between spectator & runner
                 let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
@@ -187,6 +215,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 
                 //subtract the simulated distance traveled during the delay (based on speed + delay) from the last known distance from spectator to give us an updated distance from spectator
                 var distanceCalc = distanceLast -  distanceTraveledinLatency
+                
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print(" distfromMeCalc: \(distanceCalc) \n distLast: \(distanceLast) \n distTraveled: \(distanceTraveledinLatency)")
                 
                 //use calculated distance between spectator and runner now
                 if distanceCalc < 0 {
@@ -240,7 +271,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                             var didSpectatorCheerRecently = false
                             if runner == affinity.0 {
                                 //Goal: Show target runners throughout the race
-                                if dist <= 400 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
                                     if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                         self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
                                             

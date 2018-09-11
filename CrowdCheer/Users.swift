@@ -33,7 +33,7 @@ class Runner: NSObject, User {
             user = try PFQuery.getUserObject(withId: objectID)
         }
         catch {
-            print("ERROR: unable to get runner")
+            print("ERROR: unable to get runner - users")
         }
         return user
     }

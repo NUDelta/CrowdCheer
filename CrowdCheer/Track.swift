@@ -84,7 +84,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             runner = try PFQuery.getUserObject(withId: runnerObjID)
         }
         catch {
-            print("ERROR: unable to get runner")
+            print("ERROR: unable to get runner - track")
             runner = PFUser()
         }
         
@@ -99,6 +99,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     }
     
     func getRunnerLocation(_ trackedRunner: PFUser, result:@escaping (_ runnerLoc: CLLocationCoordinate2D) -> Void) {
+        print("#####################")
+        print("getrunnerloc running")
         
         var runnerUpdate = CLLocationCoordinate2D()
         let now = Date()
