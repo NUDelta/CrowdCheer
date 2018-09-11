@@ -142,7 +142,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
         //finding nearby R* runners -- data + UI timers
-//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -153,7 +153,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func monitorUser_data() {
     
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .utility).async {
         
             //start cheerer tracker
             self.spectatorMonitor.monitorUserLocation()
@@ -176,7 +176,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func trackRunner_data() {
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .utility).async {
             
             print("Tracking runner - data")
             
@@ -190,7 +190,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             self.contextPrimer.getRunnerLocation(self.trackedRunner) { (runnerLoc) -> Void in
 
-                DispatchQueue.global(qos: .background).async {
+                DispatchQueue.global(qos: .utility).async {
                     print("getrunnerloc callback running")
                     self.runnerLastLoc = runnerLoc
                 }
