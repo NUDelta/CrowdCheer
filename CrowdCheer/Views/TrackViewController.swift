@@ -26,7 +26,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerTrackerTimer_UI: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
     var userMonitorTimer_UI: Timer = Timer()
-    var nearbyRunnersTimer: Timer = Timer()
+    var nearbyRunnersTimer_data: Timer = Timer()
+    var nearbyRunnersTimer_UI: Timer = Timer()
     var intervalData: Int = Int()
     var intervalUI: Int = Int()
     var trackedRunner: PFUser = PFUser()
@@ -89,7 +90,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI.invalidate()
         runnerTrackerTimer_data.invalidate()
         runnerTrackerTimer_UI.invalidate()
-        nearbyRunnersTimer.invalidate()
+        nearbyRunnersTimer_data.invalidate()
+        nearbyRunnersTimer_UI.invalidate()
 
         
         let newViewWindow = PFObject(className: "ViewWindows")
@@ -142,7 +144,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
         //finding nearby R* runners -- data + UI timers
-//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -275,49 +278,62 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func updateNearbyRunners_data() {
+        
+    }
+    
+    func updateNearbyRunners_UI() {
+        
+    }
+    
     func updateNearbyRunners() {
-        //find nearby favorite runners and notify if close by
-        nearbyRunners = NearbyRunners()
-        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
-            if ((runnerLocations?.isEmpty) != true) {
-                self.runnerLocations = runnerLocations!
-                self.verifiedDelivery = VerifiedDelivery()
-                
-                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
-                    print("affinities \(affinities)")
+        
+        DispatchQueue.global(qos: .utility).async {
+            //find nearby favorite runners and notify if close by
+            self.nearbyRunners = NearbyRunners()
+            self.nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+                if ((runnerLocations?.isEmpty) != true) {
+                    self.runnerLocations = runnerLocations!
+                    self.verifiedDelivery = VerifiedDelivery()
                     
-                    for (runner, runnerLoc) in runnerLocations! {
+                    self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
+                        print("affinities \(affinities)")
                         
-                        //calculate the distance between spectator and a runner
-                        
-                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
-                        print(runner.username!, dist)
-                        
-                        //for each runner, find closeby target runners
-                        for affinity in affinities {
-                            var didSpectatorCheerRecently = false
-                            if runner == affinity.0 {
-                                //Goal: Show target runners throughout the race
-                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
-                                    if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
-                                        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
-                                            
-                                            didSpectatorCheerRecently = didCheerRecently
-                                            if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
-                                                //notify
-                                                let name = (runner.value(forKey: "name"))!
-                                                self.sendLocalNotification_target(name as! String)
+                        for (runner, runnerLoc) in runnerLocations! {
+                            
+                            //calculate the distance between spectator and a runner
+                            
+                            let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                            let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+                            print(runner.username!, dist)
+                            
+                            //for each runner, find closeby target runners
+                            for affinity in affinities {
+                                var didSpectatorCheerRecently = false
+                                if runner == affinity.0 {
+                                    //Goal: Show target runners throughout the race
+                                    if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+                                        if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
+                                            self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+                                                
+                                                didSpectatorCheerRecently = didCheerRecently
+                                                if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
+                                                    DispatchQueue.main.async {
+                                                        //notify
+                                                        let name = (runner.value(forKey: "name"))!
+                                                        self.sendLocalNotification_target(name as! String)
+                                                    }
+                                                }
+                                                
                                             }
-                                            
                                         }
                                     }
                                 }
                             }
                         }
+                        
+                        self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     }
-                    
-                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                 }
             }
         }
@@ -515,7 +531,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer.invalidate()
+        nearbyRunnersTimer_data.invalidate()
+        nearbyRunnersTimer_UI.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
@@ -533,7 +550,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer.invalidate()
+        nearbyRunnersTimer_data.invalidate()
+        nearbyRunnersTimer_UI.invalidate()
     }
     
     @IBAction func supportRunner(_ sender: UIButton) {
