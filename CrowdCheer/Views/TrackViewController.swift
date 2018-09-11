@@ -23,7 +23,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     
     var runnerTrackerTimer: Timer = Timer()
-    var userMonitorTimer: Timer = Timer()
+    var userMonitorTimer_data: Timer = Timer()
+    var userMonitorTimer_UI: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var interval: Int = Int()
     var trackedRunner: PFUser = PFUser()
@@ -79,7 +80,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         
         print("viewWillDisappear")
-        userMonitorTimer.invalidate()
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
         runnerTrackerTimer.invalidate()
         nearbyRunnersTimer.invalidate()
 
@@ -123,12 +125,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
-        DispatchQueue.global(qos: .background).async {
-            self.runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
-            let runLoop = RunLoop.current
-            runLoop.add(self.runnerTrackerTimer, forMode: .defaultRunLoopMode)
-            runLoop.run()
-        }
+//        DispatchQueue.global(qos: .background).async {
+//            self.runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
+//            let runLoop = RunLoop.current
+//            runLoop.add(self.runnerTrackerTimer, forMode: .defaultRunLoopMode)
+//            runLoop.run()
+//        }
         
 //        DispatchQueue.global(qos: .background).async {
 //            self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
@@ -144,9 +146,15 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
 //            runLoop.run()
 //        }
         
+       //tracking runner -- data + UI timers
 //        runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.trackRunner), userInfo: nil, repeats: true)
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser), userInfo: nil, repeats: true)
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        
+        //monitoring spectators -- data + UI timers
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
+        
+        //finding nearby R* runners -- data + UI timers
+//        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -155,17 +163,26 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    func monitorUser() {
+    func monitorUser_data() {
         
-        //start cheerer tracker
-        spectatorMonitor.monitorUserLocation()
-        spectatorMonitor.updateUserLocation()
-        spectatorMonitor.updateUserPath(interval)
+        DispatchQueue.global(qos: .background).async {
         
-        if UIApplication.shared.applicationState == .background {
-            print("app status: \(UIApplication.shared.applicationState))")
-            
-            spectatorMonitor.enableBackgroundLoc()
+            //start cheerer tracker
+            self.spectatorMonitor.monitorUserLocation()
+            self.spectatorMonitor.updateUserLocation()
+            self.spectatorMonitor.updateUserPath(self.interval)
+        }
+    }
+    
+    func monitorUser_UI() {
+        
+        DispatchQueue.main.async {
+
+            if UIApplication.shared.applicationState == .background {
+                print("app status: \(UIApplication.shared.applicationState))")
+                
+                self.spectatorMonitor.enableBackgroundLoc()
+            }
         }
     }
     
@@ -233,7 +250,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     
                 else if distanceCalc<100 {
                     runnerTrackerTimer.invalidate()
-                    userMonitorTimer.invalidate()
+                    userMonitorTimer_data.invalidate()
+                    userMonitorTimer_UI.invalidate()
                     
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "CheerViewController") as UIViewController
