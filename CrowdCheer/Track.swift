@@ -37,6 +37,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     //for Latency handling
     var currLoc = PFGeoPoint()
+    var calcRunnerLoc = CLLocationCoordinate2D()
     var prevLocLat = 0.0
     var prevLocLon = 0.0
     var prevLocActualTime = Date()
@@ -175,17 +176,18 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     func handleLatency(_ runner: PFUser, actualTime: Date, setTime: Date, getTime: Date, showTime: Date) -> (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) {
     
+        print("handling latency - track")
         let latency = PFObject(className:"Latency")
         
         let now = Date()
         let delay = now.timeIntervalSince(actualTime)
         let previousLoc = CLLocationCoordinate2DMake(self.prevLocLat, self.prevLocLon)
         let currentLoc = CLLocationCoordinate2DMake(self.currLoc.latitude, self.currLoc.longitude)
-        var calcRunnerLoc: CLLocationCoordinate2D = currentLoc
+        self.calcRunnerLoc = currentLoc
         
         let distTraveled = calculateDistTraveled(delay, speed: self.speed)
         let bearing = calculateBearing(previousLoc, coorB: currentLoc)
-        calcRunnerLoc = calculateLocation(currentLoc, bearing: bearing, distance: distTraveled)
+        self.calcRunnerLoc = calculateLocation(currentLoc, bearing: bearing, distance: distTraveled)
         
         
         latency["spectator"] = self.user
@@ -195,13 +197,7 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         latency["getTime"] = getTime
         latency["showTime"] = now
         latency["totalDelay"] = delay
-        
-        do {
-            try latency.save()
-        }
-        catch {
-            print("ERROR: unable to save latency data")
-        }
+        latency.saveEventually()
         
         return (delay, calcRunnerLoc)
     }
