@@ -179,7 +179,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         DispatchQueue.global(qos: .utility).async {
             
-            print("Tracking runner - data")
+            print("Tracking runner - data - trackVC")
             
             //1. get most recent runner locations
             if self.contextPrimer.locationMgr.location != nil {
@@ -192,12 +192,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             self.contextPrimer.getRunnerLocation(self.trackedRunner) { (runnerLoc) -> Void in
 
                 DispatchQueue.global(qos: .utility).async {
-                    print("getrunnerloc callback running")
+                    print("getrunnerloc callback running - trackVC")
                     self.runnerLastLoc = runnerLoc
                 }
             }
             
-            print(" runnerlastloc: \(self.runnerLastLoc) \n ")
+            print(" runnerlastloc - trackVC: \(self.runnerLastLoc) \n ")
             
             //2. calculate latency data
             let actualTime = self.contextPrimer.actualTime
@@ -218,8 +218,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
                     
                     //store last known distance between spectator & runner
-                    print("spectator location from myLocation: \(self.myLocation) \n")
-                    print("spectator location from contextPrimer: \(self.contextPrimer.locationMgr.location!) \n")
                     let distanceLast = (self.myLocation.distance(from: runnerCLLoc))
                     
                     //calculate the simulated distance traveled during the delay (based on speed + delay)
@@ -228,7 +226,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     //subtract the simulated distance traveled during the delay (based on speed + delay) from the last known distance from spectator to give us an updated distance from spectator
                     self.distanceCalc = distanceLast -  distanceTraveledinLatency
                     
-                    print(" distfromMeCalc: \(self.distanceCalc) \n distLast: \(distanceLast) \n distTraveled: \(distanceTraveledinLatency)")
+                    print(" trackVC: \n distfromMeCalc: \(self.distanceCalc) \n distLast: \(distanceLast) \n distTraveled: \(distanceTraveledinLatency)")
                     
                     if self.distanceCalc < 0 {
                         self.distanceCalc = 0.01

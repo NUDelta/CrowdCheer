@@ -28,17 +28,21 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     var userMonitorTimer_data: Timer = Timer()
     var userMonitorTimer_UI: Timer = Timer()
-    var runnerTrackerTimer: Timer = Timer()
+    var runnerTrackerTimer_data: Timer = Timer()
+    var runnerTrackerTimer_UI: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var verifyCheersTimer: Timer = Timer()
     
     var interval: Int = Int()
     var spectator: PFUser = PFUser.current()!
     var spectatorName: String = ""
+    var myLocation = CLLocation()
     var runner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
+    var latencyData: (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) = (0.0, CLLocationCoordinate2D())
+    var distanceCalc: Double = Double()
     var audioRecorder: AVAudioRecorder!
     var audioFilePath: NSURL = NSURL()
     var audioFileName: String = ""
@@ -86,6 +90,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         print("viewWillDisappear")
         userMonitorTimer_data.invalidate()
         userMonitorTimer_UI.invalidate()
+        runnerTrackerTimer_data.invalidate()
+        runnerTrackerTimer_UI.invalidate()
         nearbyRunnersTimer.invalidate()
         verifyCheersTimer.invalidate()
         
@@ -116,10 +122,12 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         //update the runner profile info & notify
         getRunnerProfile()
+        distanceCalc = -1
         interval = 1
         
         //tracking runner -- data + UI timers
-        runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
+        runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner_data), userInfo: nil, repeats: true)
+        runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner_UI), userInfo: nil, repeats: true)
         
         //monitoring spectator -- data + UI timers
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser_data), userInfo: nil, repeats: true)
@@ -158,37 +166,102 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    func trackRunner() {
-        //get latest loc and update map and distance label
-        
-        print("Tracking runner")
-    
-        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+    func trackRunner_data() {
+        DispatchQueue.global(qos: .utility).async {
+            print("Tracking runner - data - cheerVC")
             
-            self.runnerLastLoc = runnerLoc
-        }
-        
-        let actualTime = contextPrimer.actualTime
-        let setTime = contextPrimer.setTime
-        let getTime = contextPrimer.getTime
-        let showTime = Date()
-        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
-        
-        if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
-            if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
-                runnerPath.append(runnerLastLoc)
-                let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
-                let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
-                var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
-                if distanceCalc < 0 {
-                    distanceCalc = 0.01
-                }
+            //1. get most recent runner locations
+            if self.contextPrimer.locationMgr.location != nil {
+                self.myLocation = self.contextPrimer.locationMgr.location!
+            }
+            else {
+                //do nothing
+            }
+            
+            self.contextPrimer.getRunnerLocation(self.runner) { (runnerLoc) -> Void in
                 
-                updateBanner(runnerCLLoc)
-                distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
+                DispatchQueue.global(qos: .utility).async {
+                    print("getrunnerloc callback running - cheerVC")
+                    self.runnerLastLoc = runnerLoc
+                }
+            }
+            print(" runnerlastloc - cheerVC: \(self.runnerLastLoc) \n ")
+            
+            //2. calculate latency data
+            let actualTime = self.contextPrimer.actualTime
+            let setTime = self.contextPrimer.setTime
+            let getTime = self.contextPrimer.getTime
+            let showTime = Date()
+            self.latencyData = self.contextPrimer.handleLatency(self.runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+            
+            //3. calculate distance between spectator & runner using current latency
+            if(CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
+                if (self.runnerLastLoc.latitude != 0.0 && self.runnerLastLoc.longitude != 0.0) {
+                    
+                    //append to runner path
+                    self.runnerPath.append(self.runnerLastLoc)
+                    
+                    //convert to CLLocation
+                    let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
+                    
+                    //store last known distance between spectator & runner
+                    let distanceLast = (self.myLocation.distance(from: runnerCLLoc))
+                    
+                    //calculate the simulated distance traveled during the delay (based on speed + delay)
+                    let distanceTraveledinLatency = self.contextPrimer.calculateDistTraveled(self.latencyData.delay, speed: self.contextPrimer.speed)
+                    
+                    //subtract the simulated distance traveled during the delay (based on speed + delay) from the last known distance from spectator to give us an updated distance from spectator
+                    self.distanceCalc = distanceLast -  distanceTraveledinLatency
+                    
+                    print(" cheerVC: \n distfromMeCalc: \(self.distanceCalc) \n distLast: \(distanceLast) \n distTraveled: \(distanceTraveledinLatency)")
+                    
+                    if self.distanceCalc < 0 {
+                        self.distanceCalc = 0.01
+                    }
+                }
             }
         }
     }
+    
+    func trackRunner_UI() {
+        DispatchQueue.main.async {
+            let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
+            self.updateBanner(runnerCLLoc)
+            self.distanceLabel.text = String(format: " %.02f", self.distanceCalc) + "m away"
+        }
+    }
+    
+//    func trackRunner() {
+//        //get latest loc and update map and distance label
+//
+//        print("Tracking runner")
+//
+//        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
+//
+//            self.runnerLastLoc = runnerLoc
+//        }
+//
+//        let actualTime = contextPrimer.actualTime
+//        let setTime = contextPrimer.setTime
+//        let getTime = contextPrimer.getTime
+//        let showTime = Date()
+//        let latencyData = contextPrimer.handleLatency(runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+//
+//        if(CLLocationCoordinate2DIsValid(runnerLastLoc)) {
+//            if (runnerLastLoc.latitude != 0.0 && runnerLastLoc.longitude != 0.0) {
+//                runnerPath.append(runnerLastLoc)
+//                let runnerCLLoc = CLLocation(latitude: runnerLastLoc.latitude, longitude: runnerLastLoc.longitude)
+//                let distanceLast = (contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
+//                var distanceCalc = distanceLast - contextPrimer.calculateDistTraveled(latencyData.delay, speed: contextPrimer.speed)
+//                if distanceCalc < 0 {
+//                    distanceCalc = 0.01
+//                }
+//
+//                updateBanner(runnerCLLoc)
+//                distanceLabel.text = String(format: " %.02f", distanceCalc) + "m away"
+//            }
+//        }
+//    }
     
     func getRunnerProfile() {
         if(contextPrimer.getRunner().username != nil) {
@@ -218,11 +291,11 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func updateBanner(_ location: CLLocation) {
         
-        let distanceCurr = (contextPrimer.locationMgr.location!.distance(from: location))
+        let distanceCurr = (self.myLocation.distance(from: location))
         if runnerPath.count > 1 {
             let coordinatePrev = runnerPath[runnerPath.count-2]
             let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
-            let distancePrev = (contextPrimer.locationMgr.location!.distance(from: locationPrev))
+            let distancePrev = (self.myLocation.distance(from: locationPrev))
             
             if distancePrev >= distanceCurr {
                 //running is moving towards
@@ -275,7 +348,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     lookBanner.isHidden = true
                     cheerBanner.isHidden = true
                     
-                    runnerTrackerTimer.invalidate()
+                    runnerTrackerTimer_data.invalidate()
+                    runnerTrackerTimer_UI.invalidate()
                     userMonitorTimer_data.invalidate()
                     userMonitorTimer_UI.invalidate()
                     verifyCheeringAlert()
