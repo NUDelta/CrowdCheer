@@ -40,7 +40,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var runner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
-    var runnerPath: Array<CLLocationCoordinate2D> = []
+    var runnerDistances: Array<Double> = []
     var latencyData: (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) = (0.0, CLLocationCoordinate2D())
     var distanceCalc: Double = Double()
     var audioRecorder: AVAudioRecorder!
@@ -198,9 +198,6 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             if(CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
                 if (self.runnerLastLoc.latitude != 0.0 && self.runnerLastLoc.longitude != 0.0) {
                     
-                    //append to runner path
-                    self.runnerPath.append(self.runnerLastLoc)
-                    
                     //convert to CLLocation
                     let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
                     
@@ -216,8 +213,11 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     print(" cheerVC: \n distfromMeCalc: \(self.distanceCalc) \n distLast: \(distanceLast) \n distTraveled: \(distanceTraveledinLatency)")
                     
                     if self.distanceCalc < 0 {
-                        self.distanceCalc = 0.01
+                        self.distanceCalc = self.distanceCalc * -1
                     }
+                    
+                    //append to runner distances
+                    self.runnerDistances.append(self.distanceCalc)
                 }
             }
         }
@@ -225,8 +225,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func trackRunner_UI() {
         DispatchQueue.main.async {
-            let runnerCLLoc = CLLocation(latitude: self.runnerLastLoc.latitude, longitude: self.runnerLastLoc.longitude)
-            self.updateBanner(runnerCLLoc)
+            self.updateBanner(self.distanceCalc)
             self.distanceLabel.text = String(format: " %.02f", self.distanceCalc) + "m away"
         }
     }
@@ -289,13 +288,14 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             nearBanner.text = runnerName + " is nearby!"
     }
     
-    func updateBanner(_ location: CLLocation) {
+    func updateBanner(_ distanceCurr: Double) {
         
-        let distanceCurr = (self.myLocation.distance(from: location))
-        if runnerPath.count > 1 {
-            let coordinatePrev = runnerPath[runnerPath.count-2]
-            let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
-            let distancePrev = (self.myLocation.distance(from: locationPrev))
+        if runnerDistances.count > 2 {
+            let distancePrev = runnerDistances[runnerDistances.count-3]
+            
+            print("distPrev: \(distancePrev)")
+            print("distCurr: \(distanceCurr)")
+            
             
             if distancePrev >= distanceCurr {
                 //running is moving towards
@@ -309,7 +309,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     
                 else if distanceCurr<=75 && distanceCurr>40 {
                     lookBanner.text = "LOOK FOR " + runnerName.uppercased() + "!"
-//                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                    //                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                     nearBanner.isHidden = true
                     lookBanner.isHidden = false
                     cheerBanner.isHidden = true
@@ -341,8 +341,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     lookBanner.isHidden = true
                     cheerBanner.isHidden = false
                 }
-                
-                else if distanceCurr>50 {
+                    
+                else if distanceCurr >= 50  {
                     nearBanner.text = runnerName + " has passed by."
                     nearBanner.isHidden = false
                     lookBanner.isHidden = true
@@ -364,9 +364,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                 lookBanner.isHidden = true
                 cheerBanner.isHidden = true
             }
-
+            
         }
-        
+            
         else {
             nearBanner.text = runnerName + " is nearby!"
             nearBanner.isHidden = false
@@ -375,45 +375,131 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    func updateNearbyRunners() {
-        //find nearby favorite runners and notify if close by
-        nearbyRunners = NearbyRunners()
-        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
-            if ((runnerLocations?.isEmpty) != true) {
-                self.runnerLocations = runnerLocations!
-                
-                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
-                    print("affinities \(affinities)")
-                    
-                    for (runner, runnerLoc) in runnerLocations! {
-                        
-                        //calculate the distance between spectator and a runner
-                        
-                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
-                        print(runner.username!, dist)
-                        
-                        //for each runner, find closeby target runners
-                        for affinity in affinities {
-                            
-                            if runner == affinity.0 {
-                                //Goal: Show target runners throughout the race
-                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
-                                    if affinity.1 == 10 { //if target runner, notify spectator
-                                        //notify
-                                        let name = (runner.value(forKey: "name"))!
-                                        self.sendLocalNotification_target(name as! String)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
-                }
-            }
-        }
-    }
+//    func updateBanner(_ location: CLLocation) { //using CLLocation array
+//
+//        let distanceCurr = (self.myLocation.distance(from: location))
+//        if runnerPath.count > 1 {
+//            let coordinatePrev = runnerPath[runnerPath.count-2]
+//            let locationPrev = CLLocation(latitude: coordinatePrev.latitude, longitude: coordinatePrev.longitude)
+//            let distancePrev = (self.myLocation.distance(from: locationPrev))
+//
+//            if distancePrev >= distanceCurr {
+//                //running is moving towards
+//
+//                if distanceCurr>75 {
+//                    nearBanner.text = runnerName + " is nearby!"
+//                    nearBanner.isHidden = false
+//                    lookBanner.isHidden = true
+//                    cheerBanner.isHidden = true
+//                }
+//
+//                else if distanceCurr<=75 && distanceCurr>40 {
+//                    lookBanner.text = "LOOK FOR " + runnerName.uppercased() + "!"
+////                    AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+//                    nearBanner.isHidden = true
+//                    lookBanner.isHidden = false
+//                    cheerBanner.isHidden = true
+//                }
+//
+//                else if distanceCurr<=40 {
+//                    cheerBanner.text = "CHEER FOR " + runnerName.uppercased() + "!"
+//                    nearBanner.isHidden = true
+//                    lookBanner.isHidden = true
+//                    cheerBanner.isHidden = false
+//
+//                }
+//
+//                else {
+//                    nearBanner.text = runnerName + " is nearby!"
+//                    nearBanner.isHidden = false
+//                    lookBanner.isHidden = true
+//                    cheerBanner.isHidden = true
+//                }
+//            }
+//
+//            else if distancePrev < distanceCurr {
+//                //runner is moving away
+//
+//                if distanceCurr <= 20 {
+//                    //if error in location, add 20m buffer for cheering
+//                    cheerBanner.text = "CHEER FOR " + runnerName.uppercased() + "!"
+//                    nearBanner.isHidden = true
+//                    lookBanner.isHidden = true
+//                    cheerBanner.isHidden = false
+//                }
+//
+//                else if distanceCurr>50 {
+//                    nearBanner.text = runnerName + " has passed by."
+//                    nearBanner.isHidden = false
+//                    lookBanner.isHidden = true
+//                    cheerBanner.isHidden = true
+//
+//                    runnerTrackerTimer_data.invalidate()
+//                    runnerTrackerTimer_UI.invalidate()
+//                    userMonitorTimer_data.invalidate()
+//                    userMonitorTimer_UI.invalidate()
+//                    verifyCheeringAlert()
+//                    verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: false)
+//                    nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+//
+//                }
+//            }
+//
+//            else {
+//                nearBanner.isHidden = true
+//                lookBanner.isHidden = true
+//                cheerBanner.isHidden = true
+//            }
+//
+//        }
+//
+//        else {
+//            nearBanner.text = runnerName + " is nearby!"
+//            nearBanner.isHidden = false
+//            lookBanner.isHidden = true
+//            cheerBanner.isHidden = true
+//        }
+//    }
+    
+//    func updateNearbyRunners() {
+//        //find nearby favorite runners and notify if close by
+//        nearbyRunners = NearbyRunners()
+//        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+//            if ((runnerLocations?.isEmpty) != true) {
+//                self.runnerLocations = runnerLocations!
+//
+//                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
+//                    print("affinities \(affinities)")
+//
+//                    for (runner, runnerLoc) in runnerLocations! {
+//
+//                        //calculate the distance between spectator and a runner
+//
+//                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+//                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+//                        print(runner.username!, dist)
+//
+//                        //for each runner, find closeby target runners
+//                        for affinity in affinities {
+//
+//                            if runner == affinity.0 {
+//                                //Goal: Show target runners throughout the race
+//                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+//                                    if affinity.1 == 10 { //if target runner, notify spectator
+//                                        //notify
+//                                        let name = (runner.value(forKey: "name"))!
+//                                        self.sendLocalNotification_target(name as! String)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
+//                }
+//            }
+//        }
+//    }
     
     func startRecordingSpectatorAudio(_ runnerName: String, spectatorName: String) {
         
