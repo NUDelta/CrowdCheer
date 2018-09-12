@@ -31,6 +31,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var intervalData: Int = Int()
     var intervalUI: Int = Int()
     var trackedRunner: PFUser = PFUser()
+    var calculateRunnerLocation: Bool = Bool()
     var latencyData: (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) = (0.0, CLLocationCoordinate2D())
     var distanceCalc: Double = Double()
     var didChooseToCheer: Bool = Bool()
@@ -124,6 +125,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         getRunnerProfile()
         distanceCalc = -1
+        calculateRunnerLocation = false
         ETA.text = "Loading location..."
         supportRunner.isHidden = false
         waitToCheer.isHidden = true
@@ -222,7 +224,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     //store last known distance between spectator & runner
                     print("spectator location from myLocation: \(self.myLocation) \n")
                     print("spectator location from contextPrimer: \(self.contextPrimer.locationMgr.location!) \n")
-                    let distanceLast = (self.contextPrimer.locationMgr.location!.distance(from: runnerCLLoc))
+                    let distanceLast = (self.myLocation.distance(from: runnerCLLoc))
                     
                     //calculate the simulated distance traveled during the delay (based on speed + delay)
                     let distanceTraveledinLatency = self.contextPrimer.calculateDistTraveled(self.latencyData.delay, speed: self.contextPrimer.speed)
@@ -234,6 +236,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     
                     if self.distanceCalc < 0 {
                         self.distanceCalc = 0.01
+                    }
+                    
+                    //if latency is worse than 10s, calculate runnerLoc for pin, else use last known location of runner
+                    if self.latencyData.delay > 20 {
+                        self.calculateRunnerLocation = true
+                        print("simulating runner loc")
+                    }
+                    else {
+                        self.calculateRunnerLocation = false
+                        print("NOT simulating runner loc - using last known loc")
                     }
                 }
             }
@@ -247,7 +259,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             print("Tracking runner - UI updates")
             
             //1. update distance label & runner pin
-            self.updateRunnerInfo() //TODO: probably want pin to use calculated location (now under contextPrimer.calcRunnerLoc as Coord2D)
+            self.updateRunnerInfo()
             self.ETA.isHidden = false
             if self.distanceCalc <= 0 {
                 self.ETA.text = "Loading location..."
@@ -386,7 +398,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func updateRunnerPin() {
         
-        let coordinate = runnerLastLoc
+        var coordinate = self.runnerLastLoc
+        if self.calculateRunnerLocation {
+            coordinate = self.latencyData.calculatedRunnerLoc //TODO: simulated location trajectory isn't great based on 2 loc points, also doesn't reflect race course direction, fine for now assuming they will not have NO connection to update the actual runner location
+        }
+        
         let title = runnerName
         let type = RunnerType(rawValue: 0) //type would be 1 if it's my runner
         let subtitle = ("Bib #:" + runnerBib)
