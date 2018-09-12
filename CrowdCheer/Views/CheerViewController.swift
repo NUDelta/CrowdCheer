@@ -26,7 +26,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var cheerBanner: UILabel!
     @IBOutlet weak var nearBanner: UILabel!
     
-    var userMonitorTimer: Timer = Timer()
+    var userMonitorTimer_data: Timer = Timer()
+    var userMonitorTimer_UI: Timer = Timer()
     var runnerTrackerTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var verifyCheersTimer: Timer = Timer()
@@ -83,7 +84,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         
         print("viewWillDisappear")
-        userMonitorTimer.invalidate()
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
         nearbyRunnersTimer.invalidate()
         verifyCheersTimer.invalidate()
         
@@ -116,9 +118,12 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         getRunnerProfile()
         interval = 1
         
-        //every second, update the distance and map with the runner's location
+        //tracking runner -- data + UI timers
         runnerTrackerTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner), userInfo: nil, repeats: true)
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser), userInfo: nil, repeats: true)
+        
+        //monitoring spectator -- data + UI timers
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -132,17 +137,24 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
     }
     
-    func monitorUser() {
+    func monitorUser_data() {
         
-        //start spectator tracker
-        spectatorMonitor.monitorUserLocation()
-        spectatorMonitor.updateUserLocation()
-        spectatorMonitor.updateUserPath(interval)
-        
-        if UIApplication.shared.applicationState == .background {
-            print("app status: \(UIApplication.shared.applicationState)")
+        DispatchQueue.global(qos: .utility).async {
+            //start spectator tracker
+            self.spectatorMonitor.monitorUserLocation()
+            self.spectatorMonitor.updateUserLocation()
+            self.spectatorMonitor.updateUserPath(self.interval)
+        }
+    }
+    
+    func monitorUser_UI() {
+        DispatchQueue.main.async {
             
-            spectatorMonitor.enableBackgroundLoc()
+            if UIApplication.shared.applicationState == .background {
+                print("app status: \(UIApplication.shared.applicationState))")
+                
+                self.spectatorMonitor.enableBackgroundLoc()
+            }
         }
     }
     
@@ -264,7 +276,8 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     cheerBanner.isHidden = true
                     
                     runnerTrackerTimer.invalidate()
-                    userMonitorTimer.invalidate()
+                    userMonitorTimer_data.invalidate()
+                    userMonitorTimer_UI.invalidate()
                     verifyCheeringAlert()
                     verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: false)
                     nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)

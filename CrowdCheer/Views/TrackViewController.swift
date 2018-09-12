@@ -138,7 +138,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.trackRunner_data), userInfo: nil, repeats: true)
         runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.trackRunner_UI), userInfo: nil, repeats: true)
         
-        //monitoring spectators -- data + UI timers
+        //monitoring spectator -- data + UI timers
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
@@ -156,7 +156,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
         DispatchQueue.global(qos: .utility).async {
         
-            //start cheerer tracker
+            //start spectator tracker
             self.spectatorMonitor.monitorUserLocation()
             self.spectatorMonitor.updateUserLocation()
             self.spectatorMonitor.updateUserPath(self.intervalData)
