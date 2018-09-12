@@ -26,8 +26,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerTrackerTimer_UI: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
     var userMonitorTimer_UI: Timer = Timer()
-    var nearbyRunnersTimer_data: Timer = Timer()
-    var nearbyRunnersTimer_UI: Timer = Timer()
+    var nearbyRunnersTimer: Timer = Timer()
     var intervalData: Int = Int()
     var intervalUI: Int = Int()
     var trackedRunner: PFUser = PFUser()
@@ -91,9 +90,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI.invalidate()
         runnerTrackerTimer_data.invalidate()
         runnerTrackerTimer_UI.invalidate()
-        nearbyRunnersTimer_data.invalidate()
-        nearbyRunnersTimer_UI.invalidate()
-
+        nearbyRunnersTimer.invalidate()
         
         let newViewWindow = PFObject(className: "ViewWindows")
         newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
@@ -145,9 +142,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
-        //finding nearby R* runners -- data + UI timers
-        nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        //finding nearby R* runners -- data + UI timer
+        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -547,8 +543,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer_data.invalidate()
-        nearbyRunnersTimer_UI.invalidate()
+        nearbyRunnersTimer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
@@ -566,8 +561,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer_data.invalidate()
-        nearbyRunnersTimer_UI.invalidate()
+        nearbyRunnersTimer.invalidate()
     }
     
     @IBAction func supportRunner(_ sender: UIButton) {
