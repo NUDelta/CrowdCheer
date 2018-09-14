@@ -110,6 +110,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view did load - trackVC")
         //initialize map
         //update the runner profile info
         //every 5 seconds, update the distance label and map with the runner's location
@@ -351,31 +352,33 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getRunnerProfile() {
-        if (contextPrimer.getRunner().username != nil) {
+        if (contextPrimer.getRunner().username != nil) { //TODO: should not try and load if we don't have runner info -- catch condition and have default values be "Loading runner"
             trackedRunner = contextPrimer.getRunner()
-        }
-        let name = (trackedRunner.value(forKey: "name"))!
-        let bib = (trackedRunner.value(forKey: "bibNumber"))!
-        let cheer = (trackedRunner.value(forKey: "cheer"))!
-        let outfit = (trackedRunner.value(forKey: "outfit"))!
-        let userImageFile = trackedRunner["profilePic"] as? PFFile
-        userImageFile!.getDataInBackground {
-            (imageData: Data?, error: Error?) -> Void in
-            if error == nil {
-                if let imageData = imageData {
-                    let image = UIImage(data:imageData)
-                    self.runnerPic = image!
+            print("inside getRunnerProfile")
+            
+            let name = (trackedRunner.value(forKey: "name"))!
+            let bib = (trackedRunner.value(forKey: "bibNumber"))!
+            let cheer = (trackedRunner.value(forKey: "cheer"))!
+            let outfit = (trackedRunner.value(forKey: "outfit"))!
+            let userImageFile = trackedRunner["profilePic"] as? PFFile
+            userImageFile!.getDataInBackground {
+                (imageData: Data?, error: Error?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        let image = UIImage(data:imageData)
+                        self.runnerPic = image!
+                    }
                 }
             }
+            runnerName = (name as? String)!
+            runnerBib = (bib as? String)!
+            runnerCheer = (cheer as? String)!
+            runnerOutfit = (outfit as? String)!
+            
+            self.cheer.text = "\(runnerName) wants you to cheer: \n\(runnerCheer)"
+            self.outfit.text = "\(runnerName) is wearing: \n\(runnerOutfit)"
+            self.cheerForBanner.text = "Cheer for \(runnerName)"
         }
-        runnerName = (name as? String)!
-        runnerBib = (bib as? String)!
-        runnerCheer = (cheer as? String)!
-        runnerOutfit = (outfit as? String)!
-        
-        self.cheer.text = "\(runnerName) wants you to cheer: \n\(runnerCheer)"
-        self.outfit.text = "\(runnerName) is wearing: \n\(runnerOutfit)"
-        self.cheerForBanner.text = "Cheer for \(runnerName)"
         
         
     }

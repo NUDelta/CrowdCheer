@@ -82,7 +82,6 @@ class VerifiedDelivery: NSObject, Deliver, CLLocationManagerDelegate {
             (cheer: PFObject?, error: Error?) -> Void in
             if error == nil {
                 if let cheer = cheer {
-                    //TODO: audio file not saving -- corrupted? always empty/28bits
                     let audioFileData: Data = try! Data(contentsOf: audioFilePath as URL)
                     let audioFile = PFFile(name: audioFileName, data: audioFileData)
                     cheer["cheerAudio"] = audioFile

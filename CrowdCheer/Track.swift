@@ -79,6 +79,8 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
     
     func getRunner() -> PFUser {
         
+        print("inside getRunner")
+        
         let pairDict = appDel.dictionary(forKey: dictKey)
         runnerObjID = pairDict![PFUser.current()!.objectId!] as! String
         do {
@@ -89,6 +91,39 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
             runner = PFUser()
         }
         
+        let runnerObj = PFUser(withoutDataWithObjectId: runnerObjID)
+        runnerObj.fetchFromLocalDatastoreInBackground().continueWith { (task) -> Any? in
+            if task.error != nil {
+                print("ERROR: cannot find runner object in local data store")
+                self.runner = PFUser()
+                return task
+            }
+            self.runner = task.result as! PFUser
+            return task
+        }
+        
+//        let query = PFUser.query()
+//        query?.fromLocalDatastore()
+//
+//        do {
+//            runner = try query?.getObjectWithId(runnerObjID) as! PFUser
+//        }
+//
+//        catch {
+//            print("ERROR: cannot find runner object in local data store")
+//            runner = PFUser()
+//        }
+        
+//        query?.getObjectInBackground(withId: runnerObjID).continueWith(block: { (task) -> Any? in
+//            if task.error != nil {
+//                print("ERROR: cannot find runner object in local data store")
+//                self.runner = PFUser()
+//                return task
+//            }
+//            self.runner = task.result as! PFUser
+//            return task
+//        })
+        
         return runner
     }
     
@@ -97,6 +132,15 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         cheerPair[PFUser.current()!.objectId!] = ""
         appDel.set(cheerPair, forKey: dictKey)
         appDel.synchronize()
+        
+        do {
+            try runner.unpin(withName: "trackedRunner")
+            print("did unpin trackedRunner")
+        }
+        catch {
+            print("ERROR: could not unpin trackedRunner")
+        }
+        
     }
     
     func getRunnerLocation(_ trackedRunner: PFUser, result:@escaping (_ runnerLoc: CLLocationCoordinate2D) -> Void) {

@@ -182,7 +182,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                 
                 DispatchQueue.global(qos: .utility).async {
                     print("getrunnerloc callback running - cheerVC")
-                    self.runnerLastLoc = runnerLoc
+                    self.runnerLastLoc = runnerLoc //TODO: when no data as you transition from TrackVC to CheerVC, runnerLastLoc is 0,0 and the calc dist traveled is 0.0, so Cheer stages don't progress
                 }
             }
             print(" runnerlastloc - cheerVC: \(self.runnerLastLoc) \n ")

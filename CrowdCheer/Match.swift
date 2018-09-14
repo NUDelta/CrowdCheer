@@ -457,11 +457,21 @@ class SelectedRunners: NSObject, Select, CLLocationManagerDelegate {
     func selectRunner(_ runner: PFUser, _ source: String, result:@escaping (_ cheerSaved: Bool) -> Void ) {
         
         
-        //save runner/spectator pair to global dictionary
+        //save runner/spectator objectIDs to global dictionary
         var cheerPair = [String: String]()
         cheerPair[PFUser.current()!.objectId!] = runner.objectId
         appDel.set(cheerPair, forKey: dictKey)
         appDel.synchronize()
+        
+        //save runner object to local datastore
+        do {
+            try runner.pin(withName: "trackedRunner")
+            print("did pin trackedRunner")
+            
+        }
+        catch {
+            print("ERROR: could not pin trackedRunner")
+        }
         
         
         //save runner/spectator pair as a cheer object to parse

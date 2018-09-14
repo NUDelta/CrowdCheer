@@ -28,9 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Parse.enableLocalDatastore()
       
         // Initialize Parse
         let configuration = ParseClientConfiguration {
+            $0.isLocalDatastoreEnabled = true
             $0.applicationId = "QXRTROGsVaRn4a3kw4gaFnHGNOsZxXoZ8ULxwZmf"
             $0.clientKey = "gINJkaTkxsafobZ0QFZ0HAT32tjdx06aoF6b2VNQ"
             $0.server = "https://crowdcheerdb.herokuapp.com/parse"
