@@ -22,6 +22,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var waitToCheer: UILabel!
     
     
+    var getRunnerProfileDelay: Timer = Timer()
     var runnerTrackerTimer_data: Timer = Timer()
     var runnerTrackerTimer_UI: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
@@ -121,23 +122,29 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
-        getRunnerProfile()
         distanceCalc = -1
         calculateRunnerLocation = false
         ETA.text = "Loading location..."
-        supportRunner.isHidden = false
+        supportRunner.isHidden = true
         waitToCheer.isHidden = true
         myLocation = contextPrimer.locationMgr.location!
         intervalData = 4
         intervalUI = 6
+    
         
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
-       //tracking runner -- data + UI timers
-        runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.trackRunner_data), userInfo: nil, repeats: true)
-        runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.trackRunner_UI), userInfo: nil, repeats: true)
+       //get runner profile after 4s
+//        getRunnerProfileDelay = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.getRunnerProfile), userInfo: nil, repeats: false)
+        
+        //tracking runner -- data + UI timers
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(intervalData)) {
+            self.getRunnerProfile()
+            self.runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(TrackViewController.trackRunner_data), userInfo: nil, repeats: true)
+            self.runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(TrackViewController.trackRunner_UI), userInfo: nil, repeats: true)
+        }
         
         //monitoring spectator -- data + UI timers
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
@@ -233,7 +240,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                         self.distanceCalc = 0.01
                     }
                     
-                    //if latency is worse than 10s, calculate runnerLoc for pin, else use last known location of runner
+                    //if latency is worse than 20s, calculate runnerLoc for pin, else use last known location of runner
                     if self.latencyData.delay > 20 {
                         self.calculateRunnerLocation = true
                         print("simulating runner loc")
@@ -248,20 +255,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     }
     
     func trackRunner_UI() {
+        print("Tracking runner - UI updates")
         
         DispatchQueue.main.async {
-        
-            print("Tracking runner - UI updates")
-            
             //1. update distance label & runner pin
             self.updateRunnerInfo()
-            self.ETA.isHidden = false
-            if self.distanceCalc <= 0 {
-                self.ETA.text = "Loading location..."
-            }
-            else {
-                self.ETA.text = String(format: " %d", Int(self.distanceCalc)) + "m away"
-            }
         }
         
         DispatchQueue.main.async {
@@ -283,14 +281,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-    }
-    
-    func updateNearbyRunners_data() {
-        
-    }
-    
-    func updateNearbyRunners_UI() {
-        
     }
     
     func updateNearbyRunners() {
@@ -348,13 +338,33 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     func updateRunnerInfo() {
 //        drawPath()
+        
+        self.ETA.isHidden = false
+        if self.distanceCalc <= 0 {
+            self.ETA.text = "Loading location..."
+        }
+        else {
+            self.ETA.text = String(format: " %d", Int(self.distanceCalc)) + "m away"
+        }
+        
         updateRunnerPin()
+        
+        if didChooseToCheer {
+            self.supportRunner.isHidden = true
+            waitToCheer.isHidden = false
+        }
+        else {
+            self.supportRunner.isHidden = false
+            waitToCheer.isHidden = true
+        }
     }
+
     
     func getRunnerProfile() {
         if (contextPrimer.getRunner().username != nil) { //TODO: should not try and load if we don't have runner info -- catch condition and have default values be "Loading runner"
             trackedRunner = contextPrimer.getRunner()
             print("inside getRunnerProfile")
+            print ("trackedRunner retrieved: \(trackedRunner)")
             
             let name = (trackedRunner.value(forKey: "name"))!
             let bib = (trackedRunner.value(forKey: "bibNumber"))!
@@ -379,7 +389,10 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             self.outfit.text = "\(runnerName) is wearing: \n\(runnerOutfit)"
             self.cheerForBanner.text = "Cheer for \(runnerName)"
         }
-        
+    
+        else {
+            print("could not get runner for getRunnerProfile")
+        }
         
     }
     

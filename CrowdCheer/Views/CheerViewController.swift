@@ -37,7 +37,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     var spectator: PFUser = PFUser.current()!
     var spectatorName: String = ""
     var myLocation = CLLocation()
-    var runner: PFUser = PFUser()
+    var trackedRunner: PFUser = PFUser()
     var runnerName: String = ""
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerDistances: Array<Double> = []
@@ -178,7 +178,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                 //do nothing
             }
             
-            self.contextPrimer.getRunnerLocation(self.runner) { (runnerLoc) -> Void in
+            self.contextPrimer.getRunnerLocation(self.trackedRunner) { (runnerLoc) -> Void in
                 
                 DispatchQueue.global(qos: .utility).async {
                     print("getrunnerloc callback running - cheerVC")
@@ -192,7 +192,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             let setTime = self.contextPrimer.setTime
             let getTime = self.contextPrimer.getTime
             let showTime = Date()
-            self.latencyData = self.contextPrimer.handleLatency(self.runner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
+            self.latencyData = self.contextPrimer.handleLatency(self.trackedRunner, actualTime: actualTime, setTime: setTime, getTime: getTime, showTime: showTime)
             
             //3. calculate distance between spectator & runner using current latency
             if(CLLocationCoordinate2DIsValid(self.runnerLastLoc)) {
@@ -232,14 +232,14 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func getRunnerProfile() {
         if(contextPrimer.getRunner().username != nil) {
-            runner = contextPrimer.getRunner()
+            trackedRunner = contextPrimer.getRunner()
         }
             //update runner name, bib #, picture, outfit, and cheer
-            runnerName = (runner.value(forKey: "name"))! as! String
-            let runnerBib = (runner.value(forKey: "bibNumber"))!
-            let runnerOutfit = (runner.value(forKey: "outfit"))!
-            let runnerCheer = (runner.value(forKey: "cheer"))!
-            let userImageFile = runner["profilePic"] as? PFFile
+            runnerName = (trackedRunner.value(forKey: "name"))! as! String
+            let runnerBib = (trackedRunner.value(forKey: "bibNumber"))!
+            let runnerOutfit = (trackedRunner.value(forKey: "outfit"))!
+            let runnerCheer = (trackedRunner.value(forKey: "cheer"))!
+            let userImageFile = trackedRunner["profilePic"] as? PFFile
             userImageFile!.getDataInBackground {
                 (imageData: Data?, error: Error?) -> Void in
                 if error == nil {
@@ -322,7 +322,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
                     userMonitorTimer_UI.invalidate()
                     verifyCheeringAlert()
                     verifyCheersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(verifyCheeringAlert), userInfo: nil, repeats: false)
-                    nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+                    nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(CheerViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                     
                 }
             }
@@ -340,6 +340,59 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             nearBanner.isHidden = false
             lookBanner.isHidden = true
             cheerBanner.isHidden = true
+        }
+    }
+    
+    func updateNearbyRunners() {
+        
+        DispatchQueue.global(qos: .utility).async {
+            
+        //find nearby favorite runners and notify if close by
+        self.nearbyRunners = NearbyRunners()
+        self.nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+            if ((runnerLocations?.isEmpty) != true) {
+                self.runnerLocations = runnerLocations!
+                
+                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
+                    print("affinities \(affinities)")
+                    
+                    for (runner, runnerLoc) in runnerLocations! {
+                        
+                        //calculate the distance between spectator and a runner
+                        
+                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+                        print(runner.username!, dist)
+                        
+                        //for each runner, find closeby target runners
+                        for affinity in affinities {
+                            var didSpectatorCheerRecently = false
+                            if runner == affinity.0 {
+                                //Goal: Show target runners throughout the race
+                                if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+                                    if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
+                                        self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
+                                            
+                                            didSpectatorCheerRecently = didCheerRecently
+                                            if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
+                                                DispatchQueue.main.async {
+                                                    //notify
+                                                    let name = (runner.value(forKey: "name"))!
+                                                    self.sendLocalNotification_target(name as! String)
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.nearbyTargetRunners = self.optimizedRunners.targetRunners
+                }
+            }
+        }
         }
     }
     
@@ -417,7 +470,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         
         //verify cheer & reset pair
-        verifiedDelivery.spectatorDidCheer(runner, didCheer: true, audioFilePath: audioFilePath, audioFileName: audioFileName)
+        verifiedDelivery.spectatorDidCheer(trackedRunner, didCheer: true, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -433,7 +486,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         nearbyRunnersTimer.invalidate()
         
         //verify cheer & reset pair
-        verifiedDelivery.spectatorDidCheer(runner, didCheer: false, audioFilePath: audioFilePath, audioFileName: audioFileName)
+        verifiedDelivery.spectatorDidCheer(trackedRunner, didCheer: false, audioFilePath: audioFilePath, audioFileName: audioFileName)
         contextPrimer.resetRunner()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

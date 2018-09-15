@@ -94,9 +94,12 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         let runnerObj = PFUser(withoutDataWithObjectId: runnerObjID)
         runnerObj.fetchFromLocalDatastoreInBackground().continueWith { (task) -> Any? in
             if task.error != nil {
-                print("ERROR: cannot find runner object in local data store")
+                print("ERROR: found runner object in local data store")
                 self.runner = PFUser()
                 return task
+            }
+            else {
+                print("ERROR: found runner object in local data store")
             }
             self.runner = task.result as! PFUser
             return task
