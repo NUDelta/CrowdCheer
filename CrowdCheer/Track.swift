@@ -83,51 +83,18 @@ class ContextPrimer: NSObject, Prime, CLLocationManagerDelegate {
         
         let pairDict = appDel.dictionary(forKey: dictKey)
         runnerObjID = pairDict![PFUser.current()!.objectId!] as! String
-//        do {
-//            runner = try PFQuery.getUserObject(withId: runnerObjID)
-//        }
-//        catch {
-//            print("ERROR: unable to get runner - track")
-//            runner = PFUser()
-//        }
         
-        let runnerObj = PFUser(withoutDataWithObjectId: runnerObjID)
-        runnerObj.fetchFromLocalDatastoreInBackground().continueWith { (task) -> Any? in
-            if task.error != nil {
-                print("found runner object in local data store")
-                self.runner = task.result as! PFUser
-                return task
-            }
-            else {
-                print("ERROR: did not find runner object in local data store")
-                print(task.error)
-                self.runner = PFUser()
-                return task
-            }
+        let query = PFUser.query()
+        query?.fromLocalDatastore()
+
+        do {
+            runner = try query?.getObjectWithId(runnerObjID) as! PFUser
         }
-        
-//        let query = PFUser.query()
-//        query?.fromLocalDatastore()
-//
-//        do {
-//            runner = try query?.getObjectWithId(runnerObjID) as! PFUser
-//        }
-//
-//        catch {
-//            print("ERROR: cannot find runner object in local data store")
-//            runner = PFUser()
-//        }
-        
-//        query?.getObjectInBackground(withId: runnerObjID).continueWith(block: { (task) -> Any? in
-//            if task.error != nil {
-//                print("ERROR: cannot find runner object in local data store")
-//                self.runner = PFUser()
-//                return task
-//            }
-//            self.runner = task.result as! PFUser
-//            return task
-//        })
-        
+
+        catch {
+            print("ERROR: cannot find runner object in local data store")
+            runner = PFUser()
+        }
         return runner
     }
     
