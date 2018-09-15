@@ -237,7 +237,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // Flow 3.1 - remove R* pins from map and reset nearbyRunners
         removeRunnerPins()
-        var nearbyRunnersDisplayed: [PFUser] = [] //TODO: ALSO SAVE IF SYS THINKS THEY ARE GENERAL/FAVORITE RUNNER
+        var nearbyRunnersDisplayed: [PFUser] = []
         
         
         // Flow 3.2 - checkProximityZone for runners at the race

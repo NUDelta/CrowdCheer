@@ -357,7 +357,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
 
     
     func getRunnerProfile() {
-        if (contextPrimer.getRunner().username != nil) { //TODO: should not try and load if we don't have runner info -- catch condition and have default values be "Loading runner"
+        if (contextPrimer.getRunner().username != nil) {
             trackedRunner = contextPrimer.getRunner()
             print("inside getRunnerProfile - cheerVC")
             print ("trackedRunner retrieved - cheerVC: \(trackedRunner)")
