@@ -136,7 +136,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         //get runner profile after 4s
         //tracking runner -- data + UI timers
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(intervalData)) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(intervalData)*10) {
             self.getRunnerProfile()
             self.runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(TrackViewController.trackRunner_data), userInfo: nil, repeats: true)
             self.runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(TrackViewController.trackRunner_UI), userInfo: nil, repeats: true)
@@ -387,7 +387,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     
         else {
-            print("could not get runner for getRunnerProfile")
+            print("could not get runner for getRunnerProfile - trackVC")
         }
         
     }

@@ -264,7 +264,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         }
             
         else {
-            print("could not get runner for getRunnerProfile")
+            print("could not get runner for getRunnerProfile - cheerVC")
         }
     }
     
