@@ -125,9 +125,14 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         distanceCalc = -1
         interval = 1
         
+        //get runner profile after 2s
         //tracking runner -- data + UI timers
-        runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner_data), userInfo: nil, repeats: true)
-        runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.trackRunner_UI), userInfo: nil, repeats: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(self.interval) + 1 ) {
+            self.getRunnerProfile()
+            self.runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(CheerViewController.trackRunner_data), userInfo: nil, repeats: true)
+            self.runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(CheerViewController.trackRunner_UI), userInfo: nil, repeats: true)
+        }
+        
         
         //monitoring spectator -- data + UI timers
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(CheerViewController.monitorUser_data), userInfo: nil, repeats: true)
@@ -233,7 +238,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     func getRunnerProfile() {
         if(contextPrimer.getRunner().username != nil) {
             trackedRunner = contextPrimer.getRunner()
-        }
+            print("inside getRunnerProfile - cheerVC")
+            print ("trackedRunner retrieved - cheerVC \(trackedRunner)")
+        
             //update runner name, bib #, picture, outfit, and cheer
             runnerName = (trackedRunner.value(forKey: "name"))! as! String
             let runnerBib = (trackedRunner.value(forKey: "bibNumber"))!
@@ -254,6 +261,11 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
             outfit.text = "Wearing: " + (runnerOutfit as! String)
             cheer.text = "Cheer: '" + (runnerCheer as! String) + "'"
             nearBanner.text = runnerName + " is nearby!"
+        }
+            
+        else {
+            print("could not get runner for getRunnerProfile")
+        }
     }
     
     func updateBanner(_ distanceCurr: Double) {

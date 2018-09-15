@@ -21,8 +21,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var supportRunner: UIButton!
     @IBOutlet weak var waitToCheer: UILabel!
     
-    
-    var getRunnerProfileDelay: Timer = Timer()
     var runnerTrackerTimer_data: Timer = Timer()
     var runnerTrackerTimer_UI: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
@@ -136,9 +134,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
-       //get runner profile after 4s
-//        getRunnerProfileDelay = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.getRunnerProfile), userInfo: nil, repeats: false)
-        
+        //get runner profile after 4s
         //tracking runner -- data + UI timers
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(intervalData)) {
             self.getRunnerProfile()
@@ -363,8 +359,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     func getRunnerProfile() {
         if (contextPrimer.getRunner().username != nil) { //TODO: should not try and load if we don't have runner info -- catch condition and have default values be "Loading runner"
             trackedRunner = contextPrimer.getRunner()
-            print("inside getRunnerProfile")
-            print ("trackedRunner retrieved: \(trackedRunner)")
+            print("inside getRunnerProfile - cheerVC")
+            print ("trackedRunner retrieved - cheerVC: \(trackedRunner)")
             
             let name = (trackedRunner.value(forKey: "name"))!
             let bib = (trackedRunner.value(forKey: "bibNumber"))!
