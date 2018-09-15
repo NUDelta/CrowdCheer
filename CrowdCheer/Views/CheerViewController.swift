@@ -127,7 +127,7 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         //get runner profile after 2s
         //tracking runner -- data + UI timers
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(self.interval) + 1 ) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(self.interval)*2) {
             self.getRunnerProfile()
             self.runnerTrackerTimer_data = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(CheerViewController.trackRunner_data), userInfo: nil, repeats: true)
             self.runnerTrackerTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(CheerViewController.trackRunner_UI), userInfo: nil, repeats: true)
