@@ -14,7 +14,9 @@ import Parse
 class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
-    var userMonitorTimer: Timer = Timer()
+    var startRegionMonitorTimer: Timer = Timer()
+    var userMonitorTimer_data: Timer = Timer()
+    var userMonitorTimer_UI: Timer = Timer()
     var startDate: Date = Date()
     var startsRegionMonitoringWithinRegion: Bool = Bool()
     var runnerMonitor: RunnerMonitor = RunnerMonitor()
@@ -68,7 +70,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        userMonitorTimer.invalidate()
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
         
         let newViewWindow = PFObject(className: "ViewWindows")
         newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
@@ -129,18 +132,19 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.isHidden = true
         stop.isHidden = true
         
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        startRegionMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorStartRegion), userInfo: nil, repeats: true)
     }
     
-    func monitorUserLoop() {
-        
+    func monitorStartRegion() { //TODO: must be a better way to check region state changes
+
         if UIApplication.shared.applicationState == .background {
             print("app status: \(UIApplication.shared.applicationState)")
             runnerMonitor.enableBackgroundLoc()
         }
         
         if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
-            monitorUser()
+            monitorUser_data()
+            monitorUser_UI()
             congrats.isHidden = true
             start.isHidden = true
             distance.isHidden = false
@@ -163,9 +167,9 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func monitorUser() {
+    func monitorUser_data() {
         //monitor runner
-        print("monitoring runner...")
+        print("monitoring runner -- data loop")
         
         //start runner monitor
         runnerMonitor.monitorUserLocation()
@@ -174,6 +178,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         //check for nearby spectators
         updateNearbySpectators()
+    }
+    
+    func monitorUser_UI() {
+        //monitor runner
+        print("monitoring runner -- UI loop")
         
         if UIApplication.shared.applicationState == .background {
             print("app status: \(UIApplication.shared.applicationState)")
@@ -190,7 +199,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 if (runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
                     
                     runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
-//                    drawPath()
+                    //                    drawPath()
                 }
             }
         }
