@@ -14,7 +14,6 @@ import Parse
 class RunViewController: UIViewController, MKMapViewDelegate {
     
     var runner: PFUser = PFUser()
-    var startRegionMonitorTimer: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
     var userMonitorTimer_UI: Timer = Timer()
     var startDate: Date = Date()
@@ -132,74 +131,55 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.isHidden = true
         stop.isHidden = true
         
-        startRegionMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorStartRegion), userInfo: nil, repeats: true)
-    }
-    
-    func monitorStartRegion() { //TODO: must be a better way to check region state changes
-
-        if UIApplication.shared.applicationState == .background {
-            print("app status: \(UIApplication.shared.applicationState)")
-            runnerMonitor.enableBackgroundLoc()
-        }
-        
-        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
-            monitorUser_data()
-            monitorUser_UI()
-            congrats.isHidden = true
-            start.isHidden = true
-            distance.isHidden = false
-            time.isHidden = false
-            pace.isHidden = false
-            pause.isHidden = false
-            stop.isHidden = false
-        }
-        
-        if runnerMonitor.startRegionState == "exited" {
-            resetTracking()
-            congrats.isHidden = true
-            start.isHidden = true
-            distance.isHidden = false
-            time.isHidden = false
-            pace.isHidden = false
-            pause.isHidden = false
-            stop.isHidden = false
-            runnerMonitor.startRegionState = "monitoring"
-        }
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true) //TODO: avoid race condition with timers -- set UI timer slower or data faster
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
     }
     
     func monitorUser_data() {
         //monitor runner
         print("monitoring runner -- data loop")
         
-        //start runner monitor
-        runnerMonitor.monitorUserLocation()
-        runnerMonitor.updateUserPath(interval)
-        runnerMonitor.updateUserLocation()
+        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
+            
+            //start runner monitor
+            runnerMonitor.monitorUserLocation()
+            runnerMonitor.updateUserPath(interval)
+            runnerMonitor.updateUserLocation()
         
-        //check for nearby spectators
-        updateNearbySpectators()
+            //check for nearby spectators
+            updateNearbySpectators()
+        }
+        
+        if runnerMonitor.startRegionState == "exited" {
+            resetTracking()
+            runnerMonitor.startRegionState = "monitoring"
+        }
     }
     
     func monitorUser_UI() {
         //monitor runner
         print("monitoring runner -- UI loop")
         
-        if UIApplication.shared.applicationState == .background {
-            print("app status: \(UIApplication.shared.applicationState)")
-            runnerMonitor.enableBackgroundLoc()
-        }
-        
-        distance.text = "Distance: " + String(format: " %.02f", runnerMonitor.metersToMiles(runnerMonitor.distance)) + "mi"
-        let timeString = runnerMonitor.stringFromSeconds(runnerMonitor.duration)
-        time.text = "Time: " + timeString + " s"
-        pace.text = "Pace: " + (runnerMonitor.pace as String)
-        
-        if let currLoc = runnerMonitor.locationMgr.location {
-            if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
-                if (runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
-                    
-                    runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
-                    //                    drawPath()
+        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
+            
+            if UIApplication.shared.applicationState == .background {
+                print("app status: \(UIApplication.shared.applicationState)")
+                runnerMonitor.enableBackgroundLoc()
+            }
+            
+            //update runner UI
+            distance.text = "Distance: " + String(format: " %.02f", runnerMonitor.metersToMiles(runnerMonitor.distance)) + "mi"
+            let timeString = runnerMonitor.stringFromSeconds(runnerMonitor.duration)
+            time.text = "Time: " + timeString + " s"
+            pace.text = "Pace: " + (runnerMonitor.pace as String)
+            
+            if let currLoc = runnerMonitor.locationMgr.location {
+                if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                    if (runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
+                        
+                        runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
+                        //                    drawPath()
+                    }
                 }
             }
         }
@@ -213,26 +193,30 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             
             if ((spectatorLocations?.isEmpty) == true) {
                 self.areSpectatorsNearby = false
-                if self.userMonitorTimer.timeInterval < 30 {
-                    self.userMonitorTimer.invalidate()
+                if self.userMonitorTimer_data.timeInterval < 30 {
+                    self.userMonitorTimer_data.invalidate()
+                    self.userMonitorTimer_UI.invalidate()
                     self.interval = 30
-                    self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+                    self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+                    self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
                     self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
                 }
             }
             else {
                 self.areSpectatorsNearby = true
-                self.userMonitorTimer.invalidate()
-                self.interval = 3
-                self.userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+                self.userMonitorTimer_data.invalidate()
+                self.userMonitorTimer_UI.invalidate()
+                self.interval = 3 //TODO: check if this is too frequent based on checkProximityZone for spectators
+                self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+                self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.interval), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
                 self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
     }
     
     func locationTrackingAlert() {
-        let alertTitle = "Automatic Runner Tracking"
-        let alertController = UIAlertController(title: alertTitle, message: "We will automatically activate runner tracking when you arrive on race day. Before you start the race, check to see if tracking has started.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertTitle = "Runner Tracking"
+        let alertController = UIAlertController(title: alertTitle, message: "Before you start the race, check to see if tracking has started. Tracking should automatically start when you arrive on race day.", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
@@ -242,8 +226,10 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         print("Reset tracking")
         runnerMonitor = RunnerMonitor()
         runnerMonitor.startRegionState = "exited" //NOTE: not great to modify model from VC
-        userMonitorTimer.invalidate()
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
     }
     
     func drawPath() {
@@ -272,8 +258,10 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         
         runnerMonitor = RunnerMonitor()
         runnerMonitor.startRegionState = "monitoring" //NOTE: not great to modify model from VC
-        userMonitorTimer.invalidate()
-        userMonitorTimer = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUserLoop), userInfo: nil, repeats: true)
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(interval), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         congrats.isHidden = true
         start.isHidden = true
@@ -288,7 +276,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBAction func stop(_ sender: UIButton) {
         //suspend runner monitor when you hit stop
         
-        userMonitorTimer.invalidate()
+        userMonitorTimer_data.invalidate()
+        userMonitorTimer_UI.invalidate()
         pause.isHidden = true
         stop.isHidden = true
         congrats.text = "Congrats! You did it!"
@@ -309,7 +298,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     @IBAction func resume(_ sender: UIButton) {
         //resume runner monitor when you hit resume
         
-        userMonitorTimer.fire()
+        userMonitorTimer_data.fire()
+        userMonitorTimer_UI.fire()
         pause.isHidden = false
         resume.isHidden = true
     }
