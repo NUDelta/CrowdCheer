@@ -133,56 +133,67 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.isHidden = true
         stop.isHidden = true
         
-        //TODO: do an initial update before 30s delay
+        // do an initial update after 3s delay
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: false)
+            self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: false)
+        }
         
-        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true) //TODO: avoid race condition with timers -- set UI timer slower or data faster
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
     }
     
     func monitorUser_data() {
-        //monitor runner
-        print("monitoring runner -- data loop")
         
-        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
+        DispatchQueue.global(qos: .utility).async {
+            //monitor runner
+            print("monitoring runner -- data loop")
             
-            //start runner monitor
-            runnerMonitor.monitorUserLocation()
-            runnerMonitor.updateUserPath(intervalData)
-            runnerMonitor.updateUserLocation()
-        
-            //check for nearby spectators
-            updateNearbySpectators()
-        }
-        
-        if runnerMonitor.startRegionState == "exited" {
-            resetTracking()
-            runnerMonitor.startRegionState = "monitoring"
+            if (self.runnerMonitor.startRegionState == "inside" || self.runnerMonitor.startRegionState == "exited" || self.runnerMonitor.startRegionState == "monitoring") {
+                
+                //start runner monitor
+                self.runnerMonitor.monitorUserLocation()
+                self.runnerMonitor.updateUserPath(self.intervalData)
+                self.runnerMonitor.updateUserLocation()
+            
+                //check for nearby spectators
+                self.updateNearbySpectators()
+            }
+            
+            if self.runnerMonitor.startRegionState == "exited" {
+                self.resetTracking()
+                self.runnerMonitor.startRegionState = "monitoring"
+            }
         }
     }
     
     func monitorUser_UI() {
-        //monitor runner
-        print("monitoring runner -- UI loop")
+       
+        DispatchQueue.main.async {
         
-        if (runnerMonitor.startRegionState == "inside" || runnerMonitor.startRegionState == "exited" || runnerMonitor.startRegionState == "monitoring") {
+            //monitor runner
+            print("monitoring runner -- UI loop")
             
-            if UIApplication.shared.applicationState == .background {
-                print("app status: \(UIApplication.shared.applicationState)")
-                runnerMonitor.enableBackgroundLoc()
-            }
-            
-            //update runner UI
-            distance.text = "Distance: " + String(format: " %.02f", runnerMonitor.metersToMiles(runnerMonitor.distance)) + "mi"
-            let timeString = runnerMonitor.stringFromSeconds(runnerMonitor.duration)
-            time.text = "Time: " + timeString + " s"
-            pace.text = "Pace: " + (runnerMonitor.pace as String)
-            
-            if let currLoc = runnerMonitor.locationMgr.location {
-                if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
-                    if (runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
-                        
-                        runnerPath.append((runnerMonitor.locationMgr.location?.coordinate)!)
-                        //                    drawPath()
+            if (self.runnerMonitor.startRegionState == "inside" || self.runnerMonitor.startRegionState == "exited" || self.runnerMonitor.startRegionState == "monitoring") {
+                
+                if UIApplication.shared.applicationState == .background {
+                    print("app status: \(UIApplication.shared.applicationState)")
+                    self.runnerMonitor.enableBackgroundLoc()
+                }
+                
+                //update runner UI
+                self.distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
+                let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
+                self.time.text = "Time: " + timeString + " s"
+                self.pace.text = "Pace: " + (self.runnerMonitor.pace as String)
+                
+                if let currLoc = self.runnerMonitor.locationMgr.location {
+                    if CLLocationCoordinate2DIsValid(currLoc.coordinate) {
+                        if (self.runnerMonitor.locationMgr.location!.coordinate.latitude != 0.0 && self.runnerMonitor.locationMgr.location!.coordinate.longitude != 0.0) {  //NOTE: nil here
+                            
+                            self.runnerPath.append((self.runnerMonitor.locationMgr.location?.coordinate)!)
+                            // drawPath()
+                        }
                     }
                 }
             }
@@ -192,30 +203,31 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     func updateNearbySpectators() {
         //every x seconds, update array of nearby spectators and change location frequency accordingly
         
-        nearbySpectators = NearbySpectators()
-        nearbySpectators.checkProximityZone(){ (spectatorLocations) -> Void in
-            
-            if ((spectatorLocations?.isEmpty) == true) {
-                self.areSpectatorsNearby = false
-                if self.userMonitorTimer_data.timeInterval < 30 {
+        DispatchQueue.global(qos: .utility).async { // TODO: double check if queueing makes sense here
+            self.nearbySpectators = NearbySpectators()
+            self.nearbySpectators.checkProximityZone(){ (spectatorLocations) -> Void in
+                if ((spectatorLocations?.isEmpty) == true) {
+                    self.areSpectatorsNearby = false
+                    if self.userMonitorTimer_data.timeInterval < 30 {
+                        self.userMonitorTimer_data.invalidate()
+                        self.userMonitorTimer_UI.invalidate()
+                        self.intervalData = 29
+                        self.intervalUI = 31
+                        self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+                        self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
+                        self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
+                    }
+                }
+                else {
+                    self.areSpectatorsNearby = true
                     self.userMonitorTimer_data.invalidate()
                     self.userMonitorTimer_UI.invalidate()
-                    self.intervalData = 29
-                    self.intervalUI = 31
+                    self.intervalData = 4 //TODO: check if this is too frequent based on checkProximityZone for spectators
+                    self.intervalUI = 6
                     self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
                     self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
-                    self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
+                    self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
                 }
-            }
-            else {
-                self.areSpectatorsNearby = true
-                self.userMonitorTimer_data.invalidate()
-                self.userMonitorTimer_UI.invalidate()
-                self.intervalData = 4 //TODO: check if this is too frequent based on checkProximityZone for spectators
-                self.intervalUI = 6
-                self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
-                self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
-                self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
             }
         }
     }
