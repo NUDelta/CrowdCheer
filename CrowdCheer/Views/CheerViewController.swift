@@ -357,10 +357,13 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
     
     func updateNearbyRunners() {
         
+        DispatchQueue.main.async {
+            self.nearbyRunners = NearbyRunners()
+        }
+        
         DispatchQueue.global(qos: .utility).async {
             
         //find nearby favorite runners and notify if close by
-        self.nearbyRunners = NearbyRunners()
         self.nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             if ((runnerLocations?.isEmpty) != true) {
                 self.runnerLocations = runnerLocations!

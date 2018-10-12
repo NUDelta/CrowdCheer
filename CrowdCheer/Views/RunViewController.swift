@@ -93,8 +93,19 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //runner tracking reminder
         locationTrackingAlert()
+        
+        //initialize vars
         runnerMonitor = RunnerMonitor()
+        areSpectatorsNearby = false
+        intervalData = 29
+        intervalUI = 31
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
+        })
+        
+        //set up start region monitoring
 //        let startLine = CLLocationCoordinate2DMake(42.059182, -87.673772) //garage
 //        let startLine = CLLocationCoordinate2DMake(42.057102, -87.676943) //ford
 //        let startLine = CLLocationCoordinate2DMake(42.058175, -87.683502) //noyes el
@@ -103,38 +114,25 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         let startRegion = runnerMonitor.createStartRegion(startLine)
         runnerMonitor.startMonitoringRegion(startRegion)
         
-        
-        areSpectatorsNearby = false
-        intervalData = 29
-        intervalUI = 31
-        
-        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
-        })
-        
         //initialize map
-        //update the runner profile info
-        //every 3 seconds, update the distance label and map with the runner's location if they are within the start region or have exited
-        
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true);
         let headingBtn = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.rightBarButtonItem = headingBtn
         
+        //set labels & buttons until tracking starts
         resume.isHidden = true
         pause.isEnabled = true
-        
-        //hide labels & buttons until tracking starts
-        congrats.text = "Tracking starts automatically."
+        congrats.text = "Start tracking at the race."
         distance.isHidden = true
         time.isHidden = true
         pace.isHidden = true
         pause.isHidden = true
         stop.isHidden = true
         
-        // do an initial update after 3s delay
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+        // do an initial monitor update after 2s delay
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
             self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: false)
             self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: false)
         }
@@ -152,6 +150,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             if (self.runnerMonitor.startRegionState == "inside" || self.runnerMonitor.startRegionState == "exited" || self.runnerMonitor.startRegionState == "monitoring") {
                 
                 //start runner monitor
+                print("regionState if we start monitoring: \(self.runnerMonitor.startRegionState)")
                 self.runnerMonitor.monitorUserLocation()
                 self.runnerMonitor.updateUserPath(self.intervalData)
                 self.runnerMonitor.updateUserLocation()
@@ -161,6 +160,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             }
             
             if self.runnerMonitor.startRegionState == "exited" {
+                print("regionState if we reset monitoring: \(self.runnerMonitor.startRegionState)")
                 self.resetTracking()
                 self.runnerMonitor.startRegionState = "monitoring"
             }
@@ -203,8 +203,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     func updateNearbySpectators() {
         //every x seconds, update array of nearby spectators and change location frequency accordingly
         
-        DispatchQueue.global(qos: .utility).async { // TODO: double check if queueing makes sense here
+        DispatchQueue.main.async {
             self.nearbySpectators = NearbySpectators()
+        }
+        
+        DispatchQueue.global(qos: .utility).async {
             self.nearbySpectators.checkProximityZone(){ (spectatorLocations) -> Void in
                 if ((spectatorLocations?.isEmpty) == true) {
                     self.areSpectatorsNearby = false
@@ -222,7 +225,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                     self.areSpectatorsNearby = true
                     self.userMonitorTimer_data.invalidate()
                     self.userMonitorTimer_UI.invalidate()
-                    self.intervalData = 4 //TODO: check if this is too frequent based on checkProximityZone for spectators
+                    self.intervalData = 4
                     self.intervalUI = 6
                     self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
                     self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
