@@ -113,6 +113,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         user.saveInBackground()
+        
+        //it's okay to save on field edit but don't save back to parse until
+        // basically we just want to require fields before enabling the next button
+        // think about how we might do this without editing and saving constantly
+        
     }
     
     func getProfileInfo() {

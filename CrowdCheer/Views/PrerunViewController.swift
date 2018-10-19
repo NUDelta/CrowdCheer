@@ -179,6 +179,10 @@ class PrerunViewController: UIViewController {
     }
     
     func textFieldDidChange(_ textField: UITextField) {
+        //it's okay to save on field edit but don't save back to parse until
+        // basically we just want to require fields before enabling the next button
+        // think about how we might do this without editing and saving constantly
+        
         //save profile info to Parse
         if (textField == targetPace){
             currUser["targetPace"] = targetPace.text
