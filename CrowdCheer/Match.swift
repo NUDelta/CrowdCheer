@@ -408,8 +408,6 @@ class OptimizedRunners: NSObject, Optimize, CLLocationManagerDelegate {
         newRunnerCount["nearbyRunners"] = displayedRunners
         newRunnerCount["nearbyRunnerCount"] = displayedRunners.count
         
-        user["nearbyRunnerCount"] = displayedRunners.count
-        user.saveInBackground()
         newRunnerCount.saveInBackground()
     }
     
