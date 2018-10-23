@@ -79,21 +79,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         //Initialize user, profile info
         user = PFUser.current()!
         getProfileInfo()
+        saveButton.isEnabled = true
         
         //Prompt user to take new photo & add listener for changes in name field
-        nameField.addTarget(self, action: #selector(ProfileViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        nameField.addTarget(self, action: #selector(ProfileViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        
-        //Ensure profile pic and name are saved before enabling segue
-        if (user.value(forKey: "name")==nil) || (user.value(forKey: "profilePic")==nil )  {
-            saveButton.isEnabled = false
-        }
-        else {
-            saveButton.isEnabled = true
-        }
     }
     
     //keyboard behavior
@@ -106,7 +99,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         return true
     }
     
-    func textFieldDidChange(_ textField: UITextField) {
+    func textFieldShouldEndEditing(_ textField: UITextField) {
         //save profile info to Parse
         if (textField == nameField){
             user["name"] = nameField.text
@@ -174,6 +167,24 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         if user.value(forKey: "profilePic") != nil {
             saveButton.isEnabled = true
+        }
+    }
+    
+    func profileInfoMissingAlert() {
+        let alertTitle = "Missing Info"
+        let alertController = UIAlertController(title: alertTitle, message: "You must save a name and photo to continue.", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func saveProfile(_ sender: UIButton) {
+
+        if (user.value(forKey: "name")==nil) || (user.value(forKey: "profilePic")==nil )  {
+            profileInfoMissingAlert()
+        }
+        else {
+            performSegue(withIdentifier: "saveProfile", sender: nil)
         }
     }
     
