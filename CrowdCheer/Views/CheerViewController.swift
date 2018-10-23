@@ -65,6 +65,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         let newViewWindowEvent = PFObject(className: "ViewWindows")
         newViewWindowEvent["userID"] = PFUser.current()!.objectId as AnyObject
+        if trackedRunner.objectId != nil {
+            newViewWindowEvent["runnerID"] = trackedRunner.objectId as AnyObject
+        }
         newViewWindowEvent["vcName"] = vcName as AnyObject
         newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
         newViewWindowEvent["viewWindowEvent"] = "segued to" as AnyObject
@@ -97,6 +100,9 @@ class CheerViewController: UIViewController, AVAudioRecorderDelegate {
         
         let newViewWindow = PFObject(className: "ViewWindows")
         newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
+        if trackedRunner.objectId != nil {
+            newViewWindow["runnerID"] = trackedRunner.objectId as AnyObject
+        }
         newViewWindow["vcName"] = vcName as AnyObject
         newViewWindow["viewWindowID"] = viewWindowID as AnyObject
         newViewWindow["viewWindowEvent"] = "segued away" as AnyObject
