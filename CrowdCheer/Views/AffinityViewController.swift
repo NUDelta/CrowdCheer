@@ -73,7 +73,7 @@ class AffinityViewController: UIViewController {
         super.viewDidLoad()
     
         //set up rules for keyboard
-        bibNo.addTarget(self, action: #selector(AffinityViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        bibNo.addTarget(self, action: #selector(AffinityViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AffinityViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -98,7 +98,7 @@ class AffinityViewController: UIViewController {
         return true
     }
     
-    func textFieldDidChange(_ textField: UITextField) {
+    func textFieldShouldEndEditing(_ textField: UITextField) {
         //save profile info to Parse
         let currUser = PFUser.current()
         if (textField == bibNo){
