@@ -106,11 +106,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         user.saveInBackground()
-        
-        //it's okay to save on field edit but don't save back to parse until
-        // basically we just want to require fields before enabling the next button
-        // think about how we might do this without editing and saving constantly
-        
     }
     
     func getProfileInfo() {
@@ -172,7 +167,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     func profileInfoMissingAlert() {
         let alertTitle = "Missing Info"
-        let alertController = UIAlertController(title: alertTitle, message: "You must save a name and photo to continue.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: alertTitle, message: "You must enter a name and photo to continue.", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)

@@ -168,7 +168,7 @@
                         <barButtonItem title="Next" id="rIP-Ye-sVF">
                             <color key="tintColor" red="0.2274509804" green="0.65098039220000004" blue="0.54117647059999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <segue destination="Pm9-0g-7IT" kind="push" identifier="start" id="bEu-F7-3ei"/>
+                                <action selector="saveRaceInfo:" destination="Pwj-he-eYY" id="QDs-Lc-a2R"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -183,6 +183,7 @@
                         <outlet property="saveButton" destination="rIP-Ye-sVF" id="yA4-n6-gQy"/>
                         <outlet property="scrollView" destination="Qg2-cz-TRI" id="nC8-aU-qvQ"/>
                         <outlet property="targetPace" destination="u1E-Eo-ThP" id="ka6-6g-4fX"/>
+                        <segue destination="Pm9-0g-7IT" kind="push" identifier="saveRaceInfo" id="oaq-hV-hrC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gau-40-1Eu" userLabel="First Responder" sceneMemberID="firstResponder"/>

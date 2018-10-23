@@ -79,13 +79,13 @@ class PrerunViewController: UIViewController {
         super.viewDidLoad()
         
         //set up view
-        saveButton.isEnabled = false
+        saveButton.isEnabled = true
         
-        targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        cheer.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        outfit.addTarget(self, action: #selector(PrerunViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        targetPace.addTarget(self, action: #selector(PrerunViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
+        raceTimeGoal.addTarget(self, action: #selector(PrerunViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
+        bibNo.addTarget(self, action: #selector(PrerunViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
+        cheer.addTarget(self, action: #selector(PrerunViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
+        outfit.addTarget(self, action: #selector(PrerunViewController.textFieldShouldEndEditing(_:)), for: UIControlEvents.editingDidEnd)
         
         //set up rules for keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PrerunViewController.dismissKeyboard))
@@ -95,23 +95,8 @@ class PrerunViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PrerunViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        if (targetPace.text != "" || raceTimeGoal.text != "" || bibNo.text != "" || outfit.text != "" || cheer.text != "") {
-            saveButton.isEnabled = true
-        }
-        
         runnerMonitor = RunnerMonitor()
         getPrerunInfo()
-        
-        if (currUser.value(forKey: "targetPace")==nil ||
-            currUser.value(forKey: "raceTimeGoal")==nil ||
-            currUser.value(forKey: "bibNumber")==nil ||
-            currUser.value(forKey: "cheer")==nil ||
-            currUser.value(forKey: "outfit")==nil){
-            saveButton.isEnabled = false
-        }
-        else {
-            saveButton.isEnabled = true
-        }
     }
     
     func getPrerunInfo() {
@@ -170,52 +155,64 @@ class PrerunViewController: UIViewController {
     
     //keyboard behavior
     func dismissKeyboard() {
-        view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+        dismissKeyboard()
+        return false
     }
     
-    func textFieldDidChange(_ textField: UITextField) {
-        //it's okay to save on field edit but don't save back to parse until
-        // basically we just want to require fields before enabling the next button
-        // think about how we might do this without editing and saving constantly
+    func textFieldShouldEndEditing(_ textField: UITextField) {
         
         //save profile info to Parse
         if (textField == targetPace){
             currUser["targetPace"] = targetPace.text
+            currUser.saveInBackground()
         }
             
         else if (textField == raceTimeGoal){
             currUser["raceTimeGoal"] = raceTimeGoal.text
+            currUser.saveInBackground()
         }
             
         else if (textField == bibNo){
             currUser["bibNumber"] = bibNo.text
+            currUser.saveInBackground()
         }
             
         else if (textField == outfit){
             currUser["outfit"] = outfit.text
+            currUser.saveInBackground()
         }
         
         else if (textField == cheer){
             currUser["cheer"] = cheer.text
+            currUser.saveInBackground()
         }
-        
-        currUser.saveInBackground()
-        
+    }
+    
+    @IBAction func saveRaceInfo(_ sender: UIButton) {
         if (currUser.value(forKey: "targetPace")==nil ||
             currUser.value(forKey: "raceTimeGoal")==nil ||
             currUser.value(forKey: "bibNumber")==nil ||
             currUser.value(forKey: "outfit")==nil ||
             currUser.value(forKey: "cheer")==nil) {
-            saveButton.isEnabled = false
+            
+            profileInfoMissingAlert()
         }
         else {
-            saveButton.isEnabled = true
+            performSegue(withIdentifier: "saveRaceInfo", sender: nil)
         }
+    }
+    
+    
+    func profileInfoMissingAlert() {
+        let alertTitle = "Missing Info"
+        let alertController = UIAlertController(title: alertTitle, message: "You must enter all race info to continue.", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func keyboardWillShow(_ notification:Notification){
