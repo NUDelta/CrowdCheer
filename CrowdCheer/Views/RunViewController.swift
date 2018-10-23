@@ -99,8 +99,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //initialize vars
         runnerMonitor = RunnerMonitor()
         areSpectatorsNearby = false
-        intervalData = 29
-        intervalUI = 31
+        intervalData = 2
+        intervalUI = 4
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
@@ -182,6 +182,13 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                 }
                 
                 //update runner UI
+                self.congrats.isHidden = true
+                self.start.isHidden = true
+                self.distance.isHidden = false
+                self.time.isHidden = false
+                self.pace.isHidden = false
+                self.pause.isHidden = false
+                self.stop.isHidden = false
                 self.distance.text = "Distance: " + String(format: " %.02f", self.runnerMonitor.metersToMiles(self.runnerMonitor.distance)) + "mi"
                 let timeString = self.runnerMonitor.stringFromSeconds(self.runnerMonitor.duration)
                 self.time.text = "Time: " + timeString + " s"
