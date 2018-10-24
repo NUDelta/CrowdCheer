@@ -99,8 +99,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         //initialize vars
         runnerMonitor = RunnerMonitor()
         areSpectatorsNearby = false
-        intervalData = 2
-        intervalUI = 4
+        intervalData = 30
+        intervalUI = 32
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
@@ -131,14 +131,13 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         pause.isHidden = true
         stop.isHidden = true
         
-        // do an initial monitor update after 2s delay
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: false)
-            self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: false)
-        }
+        // do an initial monitor update
+        monitorUser_data()
+        monitorUser_UI()
         
-        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
-        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
+        //start monitoring timers
+        self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+        self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
     }
     
     func monitorUser_data() {
@@ -218,11 +217,11 @@ class RunViewController: UIViewController, MKMapViewDelegate {
             self.nearbySpectators.checkProximityZone(){ (spectatorLocations) -> Void in
                 if ((spectatorLocations?.isEmpty) == true) {
                     self.areSpectatorsNearby = false
-                    if self.userMonitorTimer_data.timeInterval < 30 {
+                    if self.userMonitorTimer_data.timeInterval > 30 {
                         self.userMonitorTimer_data.invalidate()
                         self.userMonitorTimer_UI.invalidate()
-                        self.intervalData = 29
-                        self.intervalUI = 31
+                        self.intervalData = 30
+                        self.intervalUI = 32
                         self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
                         self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
                         self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -232,8 +231,8 @@ class RunViewController: UIViewController, MKMapViewDelegate {
                     self.areSpectatorsNearby = true
                     self.userMonitorTimer_data.invalidate()
                     self.userMonitorTimer_UI.invalidate()
-                    self.intervalData = 4
-                    self.intervalUI = 6
+                    self.intervalData = 5
+                    self.intervalUI = 7
                     self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
                     self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
                     self.nearbySpectators.locationMgr.desiredAccuracy = kCLLocationAccuracyBest
@@ -252,12 +251,15 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     func resetTracking() {
         print("Reset tracking")
-        runnerMonitor = RunnerMonitor()
-        runnerMonitor.startRegionState = "exited" //NOTE: not great to modify model from VC
-        userMonitorTimer_data.invalidate()
-        userMonitorTimer_UI.invalidate()
-        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
-        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
+        DispatchQueue.main.async {
+            self.runnerMonitor = RunnerMonitor()
+            self.runnerMonitor.startRegionState = "monitoring" //NOTE: not great to modify model from VC
+            self.userMonitorTimer_data.invalidate()
+            self.userMonitorTimer_UI.invalidate()
+            //set interval frequency to high
+            self.userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(self.intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
+            self.userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(self.intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
+        }
     }
     
     func drawPath() {
@@ -288,6 +290,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor.startRegionState = "monitoring" //NOTE: not great to modify model from VC
         userMonitorTimer_data.invalidate()
         userMonitorTimer_UI.invalidate()
+        //set interval frequency to high
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
