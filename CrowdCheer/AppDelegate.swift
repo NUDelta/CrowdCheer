@@ -42,7 +42,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
         
+        let viewDict = appDel.dictionary(forKey: viewWindowDictKey)
         
+        if let viewDict = viewDict {
+            let vcName = viewDict["vcName"] as! String
+            let viewWindowID = viewDict["viewWindowID"] as! String
+            
+            let newViewWindowEvent = PFObject(className: "ViewWindows")
+            if let currentUser = PFUser.current() {
+                newViewWindowEvent["userID"] = currentUser.objectId as AnyObject
+            }
+            newViewWindowEvent["vcName"] = vcName as AnyObject
+            newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
+            newViewWindowEvent["viewWindowEvent"] = "app did finish launching" as AnyObject
+            newViewWindowEvent["viewWindowTimestamp"] = Date() as AnyObject
+            newViewWindowEvent.saveInBackground(block: (
+                {(success: Bool, error: Error?) -> Void in
+                    if (!success) {
+                        print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
+                        newViewWindowEvent.saveEventually()
+                    }
+            })
+            )
+        }
+
         return true
     }
     
