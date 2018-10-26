@@ -21,7 +21,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var updatePicture: UIButton!
-    @IBOutlet weak var logOut: UIButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
@@ -181,13 +180,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         else {
             performSegue(withIdentifier: "saveProfile", sender: nil)
         }
-    }
-    
-    @IBAction func logOut(_ sender: UIButton) {
-        PFUser.logOut()
-        let sb = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let loginView = sb.instantiateViewController(withIdentifier: "signUpViewController")
-        self.present(loginView, animated: true, completion: nil)
     }
 }
 

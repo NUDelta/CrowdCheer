@@ -65,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             )
         }
+        
+        print("app did finish launching")
 
         return true
     }
@@ -97,12 +99,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 )
             }
         }
+        
+        print("app will resign active")
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        print("app entered background")
+        print("app did enter background")
         
         let viewDict = appDel.dictionary(forKey: viewWindowDictKey)
         
@@ -157,6 +161,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 )
             }
         }
+        
+        print("app will enter foreground")
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -186,6 +192,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 )
             }
         }
+        
+        print("app did become active")
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -215,6 +223,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+        print("app will terminate")
         
     }
     
