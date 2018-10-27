@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="HAW-fB-p8Q" kind="relationship" relationship="rootViewController" id="4i7-vv-W67"/>
+                        <segue destination="Ixl-Xt-fBa" kind="relationship" relationship="rootViewController" id="1eZ-Nt-UOF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eq9-QA-ai8" sceneMemberID="firstResponder"/>
@@ -331,12 +331,11 @@
                         <outlet property="scrollView" destination="wEL-of-2zw" id="Bov-vY-QXL"/>
                         <outlet property="signUpButton" destination="lDi-Ps-66o" id="VC4-j7-mDX"/>
                         <outlet property="usernameField" destination="mMJ-md-eZ8" id="mCi-IK-mMX"/>
-                        <segue destination="Ixl-Xt-fBa" kind="push" identifier="intro" id="zAt-6I-c33"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZTd-Zf-jQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6120" y="233.88305847076464"/>
+            <point key="canvasLocation" x="-5318" y="-723"/>
         </scene>
         <!--Runner Profile-->
         <scene sceneID="Ndf-c1-sWN">
@@ -1180,7 +1179,13 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="0Z8-sC-eKi"/>
+                    <navigationItem key="navigationItem" id="0Z8-sC-eKi">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="SKq-SD-8bh">
+                            <connections>
+                                <action selector="logOutCurrentUser:" destination="Ixl-Xt-fBa" id="rQX-hs-nVG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -1188,11 +1193,12 @@
                         <outlet property="roleButton" destination="KRE-iz-huF" id="d4j-A3-WSK"/>
                         <segue destination="dMm-wU-aXA" kind="push" identifier="run" id="kHg-vC-S5p"/>
                         <segue destination="SL2-bs-2Nj" kind="push" identifier="cheer" id="Qzi-vG-FF8"/>
+                        <segue destination="HAW-fB-p8Q" kind="modal" identifier="showLogIn" id="XUm-yj-gYO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qDE-f8-GBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5435.1999999999998" y="233.88305847076464"/>
+            <point key="canvasLocation" x="-6100" y="233"/>
         </scene>
         <!--Runner Instructions-->
         <scene sceneID="0E1-8L-J58">

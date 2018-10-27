@@ -17,7 +17,7 @@ class RoleViewController: UIViewController {
 
     
     let locationMgr: CLLocationManager = CLLocationManager()
-    var user: PFUser = PFUser.current()!
+    var user: PFUser?
     
     let appDel = UserDefaults()
     var viewWindowID: String = ""
@@ -47,6 +47,17 @@ class RoleViewController: UIViewController {
         viewWindowDict["viewWindowID"] = viewWindowID
         appDel.set(viewWindowDict, forKey: viewWindowDictKey)
         appDel.synchronize()
+        
+        user = PFUser.current()
+        
+        
+        if PFUser.current() == nil {
+            self.performSegue(withIdentifier: "showLogIn", sender: nil)
+        }
+    }
+    
+    @IBAction func logOutCurrentUser(_ sender: Any) {
+        PFUser.logOut()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,11 +122,11 @@ class RoleViewController: UIViewController {
         var role: String
         
         
-        if user.value(forKey: "role") == nil {
+        if user?.value(forKey: "role") == nil {
             //don't retrieve role
         }
         else {
-            role = (user.value(forKey: "role"))! as! String
+            role = (user?.value(forKey: "role"))! as! String
             if role == "runner" {
                 roleButton.selectedSegmentIndex = 0
             }
@@ -128,12 +139,12 @@ class RoleViewController: UIViewController {
     @IBAction func selectRole(_ sender:UISegmentedControl) {
         switch roleButton.selectedSegmentIndex {
         case 0:
-            user["role"] = "runner"
-            user.saveInBackground()
+            user?["role"] = "runner"
+            user?.saveInBackground()
             
         case 1:
-            user["role"] = "cheerer"
-            user.saveInBackground()
+            user?["role"] = "cheerer"
+            user?.saveInBackground()
             
         default:
             break

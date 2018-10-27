@@ -100,9 +100,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
         
         //Flow 3 - Segue if logged in already
-        if PFUser.current() != nil {
-            self.performSegue(withIdentifier: "intro", sender: nil)
-        }
+//        if PFUser.current() != nil {
+//            self.performSegue(withIdentifier: "intro", sender: nil)
+//        }
+    }
+    
+    func didLogIn() {
+        dismiss(animated: true, completion: nil)
     }
 
     
@@ -112,8 +116,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             (user: PFUser?, error: Error?) -> Void in
             if user != nil {
                 // Successful login
-                self.performSegue(withIdentifier: "intro", sender: nil)
-                
+//                self.performSegue(withIdentifier: "intro", sender: nil)
+                self.didLogIn()
             } else {
                 // failed login, error displayed to user
                 let errorString = (error! as NSError).userInfo["error"] as? String
@@ -157,7 +161,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     
                 } else {
                     //Successful signup
-                    self.performSegue(withIdentifier: "intro", sender: nil)
+//                    self.performSegue(withIdentifier: "intro", sender: nil)
+                    self.didLogIn()
                 }
             }
         }
