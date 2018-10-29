@@ -28,7 +28,9 @@ class RoleViewController: UIViewController {
         viewWindowID = String(arc4random_uniform(10000000))
         
         let newViewWindowEvent = PFObject(className: "ViewWindows")
-        newViewWindowEvent["userID"] = PFUser.current()!.objectId as AnyObject
+        if let currentUser = PFUser.current() {
+            newViewWindowEvent["userID"] = currentUser.objectId as AnyObject
+        }
         newViewWindowEvent["vcName"] = vcName as AnyObject
         newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
         newViewWindowEvent["viewWindowEvent"] = "segued to" as AnyObject
@@ -48,22 +50,28 @@ class RoleViewController: UIViewController {
         appDel.set(viewWindowDict, forKey: viewWindowDictKey)
         appDel.synchronize()
         
-        user = PFUser.current()
-        
-        
-        if PFUser.current() == nil {
-            self.performSegue(withIdentifier: "showLogIn", sender: nil)
+        if let currUser = PFUser.current() {
+            user = currUser
+            getProfileInfo()
+            
+        }
+        else {
+            self.performSegue(withIdentifier: "showLogin", sender: nil)
         }
     }
     
     @IBAction func logOutCurrentUser(_ sender: Any) {
         PFUser.logOut()
+        nextButton.isEnabled = false
+        self.performSegue(withIdentifier: "showLogin", sender: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         
         let newViewWindow = PFObject(className: "ViewWindows")
-        newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
+        if let currentUser = PFUser.current() {
+            newViewWindow["userID"] = currentUser.objectId as AnyObject
+        }
         newViewWindow["vcName"] = vcName as AnyObject
         newViewWindow["viewWindowID"] = viewWindowID as AnyObject
         newViewWindow["viewWindowEvent"] = "segued away" as AnyObject
@@ -104,16 +112,19 @@ class RoleViewController: UIViewController {
             print("ERROR: error initializing audio")
         }
 
+        if PFUser.current() == nil {
+            self.performSegue(withIdentifier: "showLogin", sender: nil)
+        }
         
-        
-        user = PFUser.current()!
-        getProfileInfo()
-        
-        let font = UIFont.systemFont(ofSize: 20)
-        roleButton.setTitleTextAttributes([NSFontAttributeName: font],
-                                          for: UIControlState())
-        roleButton.isSelected = false
-        
+        else {
+            user = PFUser.current()!
+            getProfileInfo()
+            
+            let font = UIFont.systemFont(ofSize: 20)
+            roleButton.setTitleTextAttributes([NSFontAttributeName: font],
+                                              for: UIControlState())
+            roleButton.isSelected = false
+        }
     }
     
     
@@ -124,13 +135,16 @@ class RoleViewController: UIViewController {
         
         if user?.value(forKey: "role") == nil {
             //don't retrieve role
+            nextButton.isEnabled = false
+            roleButton.selectedSegmentIndex = UISegmentedControlNoSegment
         }
         else {
+            nextButton.isEnabled = true
             role = (user?.value(forKey: "role"))! as! String
             if role == "runner" {
                 roleButton.selectedSegmentIndex = 0
             }
-            else {
+            else if role == "spectator" {
                 roleButton.selectedSegmentIndex = 1
             }
         }
@@ -149,6 +163,7 @@ class RoleViewController: UIViewController {
         default:
             break
         }
+        nextButton.isEnabled = true
     }
     
     @IBAction func saveRole(_ sender: UIBarButtonItem) {

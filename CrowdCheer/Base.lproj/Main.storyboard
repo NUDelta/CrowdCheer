@@ -1193,7 +1193,7 @@
                         <outlet property="roleButton" destination="KRE-iz-huF" id="d4j-A3-WSK"/>
                         <segue destination="dMm-wU-aXA" kind="push" identifier="run" id="kHg-vC-S5p"/>
                         <segue destination="SL2-bs-2Nj" kind="push" identifier="cheer" id="Qzi-vG-FF8"/>
-                        <segue destination="HAW-fB-p8Q" kind="modal" identifier="showLogIn" id="XUm-yj-gYO"/>
+                        <segue destination="HAW-fB-p8Q" kind="modal" identifier="showLogin" id="pyK-Uq-lT6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qDE-f8-GBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
