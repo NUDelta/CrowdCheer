@@ -119,11 +119,6 @@ class RoleViewController: UIViewController {
         else {
             user = PFUser.current()!
             getProfileInfo()
-            
-            let font = UIFont.systemFont(ofSize: 20)
-            roleButton.setTitleTextAttributes([NSFontAttributeName: font],
-                                              for: UIControlState())
-            roleButton.isSelected = false
         }
     }
     
@@ -132,6 +127,9 @@ class RoleViewController: UIViewController {
         
         var role: String
         
+        let font = UIFont.systemFont(ofSize: 20)
+        roleButton.setTitleTextAttributes([NSFontAttributeName: font],
+                                          for: UIControlState())
         
         if user?.value(forKey: "role") == nil {
             //don't retrieve role
