@@ -72,10 +72,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        let viewDict = appDel.dictionary(forKey: viewWindowDictKey)
+        if let viewDict = viewDict {
+            let vcName = viewDict["vcName"] as! String
+            let viewWindowID = viewDict["viewWindowID"] as! String
+            
+            let newViewWindowEvent = PFObject(className: "ViewWindows")
+            if let currentUser = PFUser.current() {
+                newViewWindowEvent["userID"] = currentUser.objectId as AnyObject
+            }
+            newViewWindowEvent["vcName"] = vcName as AnyObject
+            newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
+            newViewWindowEvent["viewWindowEvent"] = "should save app state" as AnyObject
+            newViewWindowEvent["viewWindowTimestamp"] = Date() as AnyObject
+            newViewWindowEvent.saveInBackground(block: (
+                {(success: Bool, error: Error?) -> Void in
+                    if (!success) {
+                        print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
+                        newViewWindowEvent.saveEventually()
+                    }
+            })
+            )
+        }
+        
+        print("should save app state")
+        
         return true
     }
     
     func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        let viewDict = appDel.dictionary(forKey: viewWindowDictKey)
+        if let viewDict = viewDict {
+            let vcName = viewDict["vcName"] as! String
+            let viewWindowID = viewDict["viewWindowID"] as! String
+            
+            let newViewWindowEvent = PFObject(className: "ViewWindows")
+            if let currentUser = PFUser.current() {
+                newViewWindowEvent["userID"] = currentUser.objectId as AnyObject
+            }
+            newViewWindowEvent["vcName"] = vcName as AnyObject
+            newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
+            newViewWindowEvent["viewWindowEvent"] = "should restore app state" as AnyObject
+            newViewWindowEvent["viewWindowTimestamp"] = Date() as AnyObject
+            newViewWindowEvent.saveInBackground(block: (
+                {(success: Bool, error: Error?) -> Void in
+                    if (!success) {
+                        print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
+                        newViewWindowEvent.saveEventually()
+                    }
+            })
+            )
+        }
+        
+        print("should restore app state")
         return true
     }
     
