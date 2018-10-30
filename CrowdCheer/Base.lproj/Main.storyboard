@@ -12,7 +12,7 @@
         <!--Master-->
         <scene sceneID="cUi-kZ-frf">
             <objects>
-                <navigationController storyboardIdentifier="navController" title="Master" toolbarHidden="NO" id="rS3-R9-Ivy" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavController" title="Master" toolbarHidden="NO" id="rS3-R9-Ivy" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="yXu-0R-QUA">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -193,7 +193,7 @@
         <!--Sign Up-->
         <scene sceneID="leH-dO-Rjs">
             <objects>
-                <viewController storyboardIdentifier="signUpViewController" title="Sign Up" id="HAW-fB-p8Q" customClass="SignUpViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" title="Sign Up" id="HAW-fB-p8Q" customClass="SignUpViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="955-gb-Lgv"/>
                         <viewControllerLayoutGuide type="bottom" id="OOq-Tp-ycm"/>
@@ -445,7 +445,7 @@
         <!--Track My Run-->
         <scene sceneID="ffh-gm-bon">
             <objects>
-                <viewController storyboardIdentifier="runViewController" title="Track My Run" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pm9-0g-7IT" customClass="RunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RunViewController" title="Track My Run" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pm9-0g-7IT" customClass="RunViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Cnx-KJ-Bew"/>
                         <viewControllerLayoutGuide type="bottom" id="hNl-2s-6JH"/>
@@ -949,7 +949,7 @@
         <!--Favorite Runners-->
         <scene sceneID="XU6-2J-1HT">
             <objects>
-                <viewController storyboardIdentifier="affinityViewController" title="Favorite Runners" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zUr-da-CH6" customClass="AffinityViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AffinityViewController" title="Favorite Runners" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zUr-da-CH6" customClass="AffinityViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mts-fl-F7G"/>
                         <viewControllerLayoutGuide type="bottom" id="036-xR-fDq"/>
@@ -1107,7 +1107,7 @@
         <!--Role-->
         <scene sceneID="n8R-Zt-ZGK">
             <objects>
-                <viewController storyboardIdentifier="roleViewController" title="Role" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ixl-Xt-fBa" customClass="RoleViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RoleViewController" title="Role" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ixl-Xt-fBa" customClass="RoleViewController" customModule="CrowdCheer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="S5L-u4-VMt"/>
                         <viewControllerLayoutGuide type="bottom" id="Yub-dl-Yew"/>
@@ -1203,7 +1203,7 @@
         <!--Runner Instructions-->
         <scene sceneID="0E1-8L-J58">
             <objects>
-                <viewController storyboardIdentifier="runInstructionViewController" title="Runner Instructions" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dMm-wU-aXA" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RunInstructionViewController" title="Runner Instructions" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dMm-wU-aXA" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O5A-LV-HO7"/>
                         <viewControllerLayoutGuide type="bottom" id="2ng-pE-bVx"/>
@@ -1321,7 +1321,7 @@
         <!--Cheer Instruction-->
         <scene sceneID="Yfb-5J-i3B">
             <objects>
-                <viewController storyboardIdentifier="cheerInstructionViewController" title="Cheer Instruction" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SL2-bs-2Nj" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheerInstructionViewController" title="Cheer Instruction" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SL2-bs-2Nj" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MdH-1L-sqc"/>
                         <viewControllerLayoutGuide type="bottom" id="5E0-l4-gV1"/>

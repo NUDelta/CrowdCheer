@@ -64,6 +64,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
             })
             )
+            
+            //load the last known VC if the user was logged in
+            if let currUser = PFUser.current() {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                var vc = storyboard.instantiateViewController(withIdentifier: "RoleViewController") as UIViewController //default to roles if logged in
+                let rootViewController = self.window!.rootViewController as! UINavigationController
+                
+                if vcName == "SignupVC" || vcName == "RoleVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "RoleViewController") as UIViewController
+                    
+                }
+                else if vcName == "ProfileVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as UIViewController
+                    
+                }
+                else if vcName == "PrerunVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "PrerunViewController") as UIViewController
+                }
+                else if vcName == "RunVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "RunViewController") as UIViewController
+                    
+                }
+                else if vcName == "AffinityVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "AffinityViewController") as UIViewController
+                    
+                }
+                else if vcName == "DashboardVC" {
+                    print("last known vc: \(vcName)")
+                    vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
+                    
+                }
+                else {
+                    vc = storyboard.instantiateViewController(withIdentifier: "RoleViewController") as UIViewController
+                }
+                
+                rootViewController.pushViewController(vc, animated: true)
+            }
         }
         
         print("app did finish launching")
