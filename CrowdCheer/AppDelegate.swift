@@ -156,14 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             newViewWindowEvent["viewWindowID"] = viewWindowID as AnyObject
             newViewWindowEvent["viewWindowEvent"] = "should restore app state" as AnyObject
             newViewWindowEvent["viewWindowTimestamp"] = Date() as AnyObject
-            newViewWindowEvent.saveInBackground(block: (
-                {(success: Bool, error: Error?) -> Void in
-                    if (!success) {
-                        print("Error in saving new location to Parse: \(String(describing: error)). Attempting eventually.")
-                        newViewWindowEvent.saveEventually()
-                    }
-            })
-            )
+            newViewWindowEvent.saveEventually()
         }
         
         print("should restore app state")
