@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     vc = storyboard.instantiateViewController(withIdentifier: "AffinityViewController") as UIViewController
                     
                 }
-                else if vcName == "DashboardVC" {
+                else if vcName == "DashboardVC" || vcName == "TrackVC" || vcName == "CheerVC" {
                     print("last known vc: \(vcName)")
                     vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
                     
