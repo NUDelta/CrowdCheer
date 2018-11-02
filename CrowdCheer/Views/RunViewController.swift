@@ -243,7 +243,7 @@ class RunViewController: UIViewController, MKMapViewDelegate {
     
     func locationTrackingAlert() {
         let alertTitle = "Runner Tracking"
-        let alertController = UIAlertController(title: alertTitle, message: "Before you start the race, check to see if tracking has started. Tracking should automatically start when you arrive on race day.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: alertTitle, message: "Before you start the race, check to see if tracking has started. You can put the app in the background, but don't swipe to quit the app.", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
@@ -290,6 +290,12 @@ class RunViewController: UIViewController, MKMapViewDelegate {
         runnerMonitor.startRegionState = "monitoring" //NOTE: not great to modify model from VC
         userMonitorTimer_data.invalidate()
         userMonitorTimer_UI.invalidate()
+        
+        //set interval frequency to low for first point
+        self.intervalData = 1
+        userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: false)
+        userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: false)
+        
         //set interval frequency to high
         userMonitorTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(RunViewController.monitorUser_data), userInfo: nil, repeats: true)
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(RunViewController.monitorUser_UI), userInfo: nil, repeats: true)
