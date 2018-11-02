@@ -1591,7 +1591,7 @@
                                     <action selector="targetTrack:" destination="COo-W5-esK" eventType="touchUpInside" id="mZH-qe-2li"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9S-VN-bR2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9S-VN-bR2">
                                 <rect key="frame" x="246" y="219.5" width="113" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="XHk-Zx-Zqp"/>

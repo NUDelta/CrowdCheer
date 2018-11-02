@@ -145,7 +145,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         // Flow 1 - Hide all runner information
         
         targetRunnerPic.isHidden = true
-        targetRunnerName.isHidden = true
+        targetRunnerName.isHidden = false //NOTE: loading label when no runner
         targetRunnerETA.isHidden = true
         targetRunnerTrack.isHidden = true
         
@@ -251,7 +251,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 self.areRunnersNearby = false
                 
                 self.targetRunnerPic.isHidden = true
-                self.targetRunnerName.isHidden = true
+                self.targetRunnerName.isHidden = false //NOTE: loading label when no runner
                 self.targetRunnerETA.isHidden = true
                 self.targetRunnerTrack.isHidden = true
                 
@@ -505,6 +505,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
         else {
             self.areTargetRunnersNearby = false
+            self.targetRunnerName.text = "no runner"
         }
     }
     
