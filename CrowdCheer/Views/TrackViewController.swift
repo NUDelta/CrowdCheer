@@ -12,6 +12,7 @@ import Parse
 
 class TrackViewController: UIViewController, MKMapViewDelegate {
     
+    @IBOutlet weak var myRunnerETA: UILabel!
     @IBOutlet weak var cheerForBanner: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cheer: UILabel!
@@ -25,14 +26,17 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerTrackerTimer_UI: Timer = Timer()
     var userMonitorTimer_data: Timer = Timer()
     var userMonitorTimer_UI: Timer = Timer()
-    var nearbyRunnersTimer: Timer = Timer()
+    var myRunnerTimer_data: Timer = Timer()
+    var myRunnerTimer_UI: Timer = Timer()
     var intervalData: Int = Int()
     var intervalUI: Int = Int()
     var trackedRunner: PFUser = PFUser()
+    var targetRunner: PFUser = PFUser()
     var calculateRunnerLocation: Bool = Bool()
     var latencyData: (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) = (0.0, CLLocationCoordinate2D())
     var distanceCalc: Double = Double()
     var didChooseToCheer: Bool = Bool()
+    var targetRunnerName: String = ""
     var runnerPic: UIImage = UIImage()
     var runnerName: String = ""
     var runnerBib: String = ""
@@ -43,6 +47,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerPath: Array<CLLocationCoordinate2D> = []
     var runnerLocations = [PFUser: PFGeoPoint]()
+    var runnerETAs = [PFUser: Int]()
     var nearbyTargetRunners = [String: Bool]()
     var spectatorMonitor: SpectatorMonitor = SpectatorMonitor()
     var nearbyRunners: NearbyRunners = NearbyRunners()
@@ -92,7 +97,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI.invalidate()
         runnerTrackerTimer_data.invalidate()
         runnerTrackerTimer_UI.invalidate()
-        nearbyRunnersTimer.invalidate()
+        myRunnerTimer_data.invalidate()
+        myRunnerTimer_UI.invalidate()
         
         let newViewWindow = PFObject(className: "ViewWindows")
         newViewWindow["userID"] = PFUser.current()!.objectId as AnyObject
@@ -153,7 +159,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.monitorUser_data), userInfo: nil, repeats: true)
         
         //finding nearby R* runners -- data + UI timer
-        nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateNearbyRunners), userInfo: nil, repeats: true)
+        myRunnerTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(TrackViewController.updateMyRunner_data), userInfo: nil, repeats: true)
+        myRunnerTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(TrackViewController.updateMyRunner_UI), userInfo: nil, repeats: true)
         
         optimizedRunners = OptimizedRunners()
         contextPrimer = ContextPrimer()
@@ -285,7 +292,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func updateNearbyRunners() {
+    func updateMyRunner_data() {
         
         DispatchQueue.main.async {
             self.nearbyRunners = NearbyRunners()
@@ -313,7 +320,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                             for affinity in affinities {
                                 var didSpectatorCheerRecently = false
                                 if runner == affinity.0 {
-                                    //Goal: Show target runners throughout the race
+                                    
+                                    if affinity.1 == 10 {
+                                        self.targetRunner = affinity.0
+                                        self.targetRunnerName = (runner.value(forKey: "name")) as! String
+                                    }
+                                    
                                     if dist <= 500 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
                                         if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                             self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
@@ -322,8 +334,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                                                 if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
                                                     DispatchQueue.main.async {
                                                         //notify
-                                                        let name = (runner.value(forKey: "name"))!
-                                                        self.sendLocalNotification_target(name as! String)
+                                                        self.sendLocalNotification_target(self.targetRunnerName)
                                                     }
                                                 }
                                                 
@@ -337,6 +348,23 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                         self.nearbyTargetRunners = self.optimizedRunners.targetRunners
                     }
                 }
+            }
+        }
+        
+        DispatchQueue.global(qos: .utility).async {
+            self.optimizedRunners.considerConvenience(self.runnerLocations, result: { (conveniences) -> Void in
+                self.runnerETAs = conveniences
+                print("ETAs: \(self.runnerETAs)")
+            })
+        }
+    }
+    
+    
+    func updateMyRunner_UI() {
+        DispatchQueue.main.async {
+            if self.targetRunner.objectId != nil {
+                let ETA = self.getRunnerETA(self.targetRunner)
+                self.myRunnerETA.text = self.targetRunnerName + String(format: " is %d", ETA) + "mi away"
             }
         }
     }
@@ -475,6 +503,19 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    func getRunnerETA(_ runner: PFUser) -> Int{
+        
+        var ETA: Int = Int()
+        
+        for user in runnerETAs {
+            if runner.objectId  == user.0.objectId {
+                ETA = user.1
+                print("ETA in getETA: \(String(describing: ETA))")
+            }
+        }
+        return ETA
+    }
+    
     func sendLocalNotification(_ name: String) {
         let localNotification = UILocalNotification()
         let notificationID = arc4random_uniform(10000000)
@@ -562,7 +603,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer.invalidate()
+        myRunnerTimer_data.invalidate()
+        myRunnerTimer_UI.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as UIViewController
         navigationController?.pushViewController(vc, animated: true)
@@ -580,7 +622,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         newNotification["receivedNotificationTimestamp"] = Date() as AnyObject
         newNotification.saveInBackground()
         
-        nearbyRunnersTimer.invalidate()
+        myRunnerTimer_data.invalidate()
+        myRunnerTimer_UI.invalidate()
     }
     
     @IBAction func supportRunner(_ sender: UIButton) {
