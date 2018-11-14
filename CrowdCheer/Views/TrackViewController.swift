@@ -32,6 +32,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var intervalUI: Int = Int()
     var trackedRunner: PFUser = PFUser()
     var targetRunner: PFUser = PFUser()
+    var didSpectatorCheerTargetRecently: Bool = Bool()
     var calculateRunnerLocation: Bool = Bool()
     var latencyData: (delay: TimeInterval, calculatedRunnerLoc: CLLocationCoordinate2D) = (0.0, CLLocationCoordinate2D())
     var distanceCalc: Double = Double()
@@ -318,7 +319,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                             
                             //for each runner, find closeby target runners
                             for affinity in affinities {
-                                var didSpectatorCheerRecently = false
+                                self.didSpectatorCheerTargetRecently = false
                                 if runner == affinity.0 {
                                     
                                     if affinity.1 == 10 {
@@ -330,8 +331,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                                         if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                             self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
                                                 
-                                                didSpectatorCheerRecently = didCheerRecently
-                                                if !didSpectatorCheerRecently { //if I did not just cheer for target runner (last 10 min)
+                                                self.didSpectatorCheerTargetRecently = didCheerRecently
+                                                if !self.didSpectatorCheerTargetRecently { //if I did not just cheer for target runner (last 10 min)
                                                     DispatchQueue.main.async {
                                                         //notify
                                                         self.sendLocalNotification_target(self.targetRunnerName)
@@ -364,7 +365,18 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         DispatchQueue.main.async {
             if self.targetRunner.objectId != nil {
                 let ETA = self.getRunnerETA(self.targetRunner)
-                self.myRunnerETA.text = self.targetRunnerName + String(format: " is %d", ETA) + "mi away"
+                
+                if ETA <= 1 && !self.didSpectatorCheerTargetRecently {
+                    self.myRunnerETA.text = self.targetRunnerName + " is <1 mi away"
+                }
+                    
+                else if ETA <= 1 && self.didSpectatorCheerTargetRecently {
+                    self.myRunnerETA.text = self.targetRunnerName + " just ran by"
+                }
+                    
+                else if ETA > 1 {
+                    self.myRunnerETA.text = self.targetRunnerName + String(format: " is %d", ETA) + "mi away"
+                }
             }
         }
     }
