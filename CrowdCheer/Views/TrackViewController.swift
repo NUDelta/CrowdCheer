@@ -332,13 +332,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                                             self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
                                                 
                                                 self.didSpectatorCheerTargetRecently = didCheerRecently
-                                                if !self.didSpectatorCheerTargetRecently { //if I did not just cheer for target runner (last 10 min)
-                                                    DispatchQueue.main.async {
-                                                        //notify
-                                                        self.sendLocalNotification_target(self.targetRunnerName)
-                                                    }
-                                                }
-                                                
                                             }
                                         }
                                     }
@@ -368,6 +361,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 
                 if ETA <= 1 && !self.didSpectatorCheerTargetRecently {
                     self.myRunnerETA.text = self.targetRunnerName + " is <1 mi away"
+                    self.myRunnerETA.textColor = self.redLabel.textColor
+                    //notify
+                    self.sendLocalNotification_target(self.targetRunnerName)
                 }
                     
                 else if ETA <= 1 && self.didSpectatorCheerTargetRecently {
