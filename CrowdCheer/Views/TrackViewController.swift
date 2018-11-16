@@ -327,7 +327,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                                         self.targetRunnerName = (runner.value(forKey: "name")) as! String
                                     }
                                     
-                                    if dist <= 250 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
+                                    if dist <= 500 { //if runner is less than 500m away (400 for 5/10k) (demo: 250)
                                         if affinity.1 == 10 && runner.objectId != self.trackedRunner.objectId { //if target runner and if runner is not the same
                                             self.verifiedDelivery.didSpectatorCheerRecently(runner) { (didCheerRecently) -> Void in
                                                 
