@@ -45,8 +45,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var runnerLastLoc = CLLocationCoordinate2D()
     var runnerLocations = [PFUser: PFGeoPoint]()
     var runnerProfiles = [String:[String:AnyObject]]()
-    var runnerCheers = [PFUser: Int]()
+    var runnerAffinities = [PFUser: Int]()
     var runnerETAs = [PFUser: Int]()
+    var runnerCheers = [PFUser: Int]()
     var userMonitorTimer: Timer = Timer()
     var nearbyRunnersTimer: Timer = Timer()
     var nearbyGeneralRunnersTimer: Timer = Timer()
@@ -231,148 +232,102 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func updateNearbyRunners() {
-        //find nearby runners and display those runners
+    func updateNearbyRunners_data() {
+        // find nearby runners
 
-        
-        // Flow 3.1 - remove R* pins from map and reset nearbyRunners
-        removeRunnerPins()
+        // reset nearbyRunners
         var nearbyRunnersDisplayed: [PFUser] = []
         
-        
-        // Flow 3.2 - checkProximityZone for runners at the race
+        // checkProximityZone for runners at the race
         nearbyRunners = NearbyRunners()
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
-            // Flow 3.2.1 - if there are no runners, don't display any
+            // if there are no runners, set nearbyRunner state vars
             
             if ((runnerLocations?.isEmpty) == true) {
-                self.areTargetRunnersNearby = false
+                self.areTargetRunnersNearby = false  //TODO: maybe update these in its own function
                 self.areRunnersNearby = false
-                
-                self.targetRunnerPic.isHidden = true
-                self.targetRunnerName.isHidden = false //NOTE: loading label when no runner
-                self.targetRunnerETA.isHidden = true
-                self.targetRunnerTrack.isHidden = true
-                
-                self.general1RunnerPic.isHidden = true
-                self.general1RunnerName.isHidden = true
-                self.general1RunnerETA.isHidden = true
-                self.general1RunnerTrack.isHidden = true
-                
-                self.general2RunnerPic.isHidden = true
-                self.general2RunnerName.isHidden = true
-                self.general2RunnerETA.isHidden = true
-                self.general2RunnerTrack.isHidden = true
-                
-                self.general3RunnerPic.isHidden = true
-                self.general3RunnerName.isHidden = true
-                self.general3RunnerETA.isHidden = true
-                self.general3RunnerTrack.isHidden = true
-                
-                self.idleTimeBanner.isHidden = true
-                self.nonIdleTimeBanner.isHidden = true
+                self.nearbyGeneralRunners = [:]
+                self.nearbyTargetRunners = [:]
             }
                 
-            // Flow 3.2.1  - if there are runners at the race, update their info
+            // else if there are runners at the race, update their info
             else {
                 self.runnerLocations = runnerLocations!
                 
-                // Flow 3.2.1.1 - if we don't have runner profiles, get them
-                self.updateRunnerProfiles(runnerLocations!)
+                self.updateRunnerProfiles(runnerLocations!) // update any profile info not yet stored
+                self.updateRunnerAffinities(runnerLocations!) // update affinities (my runner vs other runners) for each runner
+                self.updateRunnerETAs(runnerLocations!) // update latest ETA of each runner
+                self.updateRunnerCheers(runnerLocations!) // update latest number of cheers each runner received
                 
-                // Flow 3.2.1.2 - update areRunnersNearby and areTargetRunnersNearby
-                self.updateNearbyRunnerStatus()
+                self.updateNearbyRunnerStatus() //TODO: not sure we need this
                 
-                // Flow 3.2.1.3 - get cheer counts
-                self.updateRunnerCheers(runnerLocations!)
-                
-                // Flow 3.2.1.4 - get ETAs of runners
-                self.updateRunnerETAs(runnerLocations!)
-                
-                // Flow 3.2.1.5 - if target runner was already set, update its labels
-                if self.targetRunner.username != nil {
-                    self.updateTargetRunnerStatus(self.targetRunner)
-                }
-                
-                // Flow 3.2.1.6 - sort out target & general runners
-                self.optimizedRunners.considerAffinity(self.runnerLocations) { (affinities) -> Void in
-                    print("affinities \(affinities)")
-                    
-                    // Empty Nearby Runners and recheck
-                    self.nearbyGeneralRunners = [:]
-                    self.nearbyTargetRunners = [:]
-                    
-                    for (runner, runnerLoc) in runnerLocations! {
+                // empty nearby runners lists and recheck
+                self.nearbyGeneralRunners = [:]
+                self.nearbyTargetRunners = [:]
+            }
+        }
+        
+        // handle runners based on affinity and distance
+        for (runner, runnerLoc) in self.runnerLocations {
+            
+            // calculate the distance between spectator and a runner
+            let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+            let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+            print(runner.username!, dist)
+            
+            // for each runner, determine if target or general, and handle separately based on distance
+            for affinity in self.runnerAffinities {
+                if runner == affinity.0 {
+                    // target runner
+                    if affinity.1 == 10 {
+                        if dist > 1000 { // if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
+                            //display runner
+                            self.addRunnerPin(runner, runnerType: 1)
+                            nearbyRunnersDisplayed.append(runner)
+                        }
+                        else if dist > 700 && dist <= 1000 { // if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
+                            self.addRunnerPin(runner, runnerType: 1)
+                            self.nearbyTargetRunners[runner.objectId!] = true
+                            nearbyRunnersDisplayed.append(runner)
+                        }
+                        else if dist > 400 && dist <= 700 { // if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
+                            self.addRunnerPin(runner, runnerType: 1)
+                            self.nearbyTargetRunners[runner.objectId!] = true
+                            nearbyRunnersDisplayed.append(runner)
+                        }
                         
-                        // Flow 3.2.1.6.1 - calculate the distance between spectator and a runner
+                        else if dist <= 400 { // if runner is less than 500m away (5/10k: 400) (demo: 250m)
+                            self.nearbyRunnersTimer.invalidate()
+                            self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true) // ramp up monitoring
+                            self.addRunnerPin(runner, runnerType: 1)
+                            self.targetRunnerTrack.isEnabled = true
+                            self.nearbyTargetRunners[runner.objectId!] = true
+//                            self.disableGeneralRunners()
+                            nearbyRunnersDisplayed.append(runner)
+                        }
+                    }
                         
-                        let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-                        let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
-                        print(runner.username!, dist)
-                        
-                        // Flow 3.2.1.6.2 - for each runner, determine if target or general, and handle separately based on distance
-                        for affinity in affinities {
-                            if runner == affinity.0 {
-                                //Goal: Show target runners throughout the race
-                                if dist > 1000 { //if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
-                                    if affinity.1 == 10 { //if target runner, display runner
-                                        self.addRunnerPin(runner, runnerType: 1)
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                    else if affinity.1 != 10 { //if general runner, don't add them yet
-                                    }
-                                }
-                                    
-                                    //Goal: Show all runners near me, including target runners
-                                else if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
-                                    if affinity.1 == 10 { //if target runner, display runner
-                                        self.addRunnerPin(runner, runnerType: 1)
-                                        self.nearbyTargetRunners[runner.objectId!] = true
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                    else if affinity.1 != 10 { //if general runner, display runner
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                        
-                                    }
-                                }
-                                    
-                                    //Goal: if target runner is close, display target runners.
-                                else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
-                                    if affinity.1 == 10 { //if target runner, display runner
-                                        self.addRunnerPin(runner, runnerType: 1)
-                                        self.nearbyTargetRunners[runner.objectId!] = true
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                    else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                }
-                                    
-                                    //Goal: If target runner is close, show target runner & ramp up monitoring.
-                                else if dist <= 400 { //if runner is less than 500m away (5/10k: 400) (demo: 250m)
-                                    if affinity.1 == 10 { //if target runner, display runner & notify
-                                        
-                                        self.nearbyRunnersTimer.invalidate()
-                                        self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
-                                        self.addRunnerPin(runner, runnerType: 1)
-                                        self.targetRunnerTrack.isEnabled = true
-                                        self.nearbyTargetRunners[runner.objectId!] = true
-//                                        self.disableGeneralRunners()
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                    else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                        
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                }
-                            }
+                    // not target runner
+                    else if affinity.1 != 10 {
+                        if dist > 1000 { //if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
+                            // do not display runner
+                        }
+                        else if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
+                            self.nearbyGeneralRunners[runner] = true
+                            self.updateGeneralRunnerStatus()
+                            nearbyRunnersDisplayed.append(runner)
+                        }
+                        else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
+                            self.nearbyGeneralRunners[runner] = true
+                            self.updateGeneralRunnerStatus()
+                            nearbyRunnersDisplayed.append(runner)
+                        }
+                            
+                        else if dist <= 400 { //if runner is less than 500m away (5/10k: 400) (demo: 250m)
+                            self.nearbyGeneralRunners[runner] = true
+                            self.updateGeneralRunnerStatus()
+                            nearbyRunnersDisplayed.append(runner)
                         }
                     }
                     
@@ -382,7 +337,44 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // get the name and picture for each runner in runner Locations, store to runnerProfiles
+    func updateNearbyRunners_UI() {
+        
+        // Flow 3.1 - remove R* pins from map
+        removeRunnerPins()
+        
+        // if there are no runners nearby, hide all runner placeholders
+        if !self.areRunnersNearby && !self.areTargetRunnersNearby {
+            self.targetRunnerPic.isHidden = true
+            self.targetRunnerName.isHidden = false //NOTE: loading label when no runner
+            self.targetRunnerETA.isHidden = true
+            self.targetRunnerTrack.isHidden = true
+            
+            self.general1RunnerPic.isHidden = true
+            self.general1RunnerName.isHidden = true
+            self.general1RunnerETA.isHidden = true
+            self.general1RunnerTrack.isHidden = true
+            
+            self.general2RunnerPic.isHidden = true
+            self.general2RunnerName.isHidden = true
+            self.general2RunnerETA.isHidden = true
+            self.general2RunnerTrack.isHidden = true
+            
+            self.general3RunnerPic.isHidden = true
+            self.general3RunnerName.isHidden = true
+            self.general3RunnerETA.isHidden = true
+            self.general3RunnerTrack.isHidden = true
+            
+            self.idleTimeBanner.isHidden = true
+            self.nonIdleTimeBanner.isHidden = true
+        }
+        
+        // if target runner was already set, update its labels
+        if self.targetRunner.username != nil {
+            self.updateTargetRunnerStatus(self.targetRunner) //TODO: this function updates data & UI, should separate out
+        }
+    }
+    
+    // get the name and picture for each runner in runnerLocations, store to runnerProfiles
     func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
         
         for (runner, runnerLoc) in runnerLocations {
@@ -402,11 +394,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // get the cheer counts for each runner
-    func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
-        self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
-            self.runnerCheers = needs
-            print("needs: \(self.runnerCheers)")
+    // get the affinities for each runner
+    func updateRunnerAffinities(_ runnerLocations: [PFUser: PFGeoPoint]) {
+        self.optimizedRunners.considerAffinity(runnerLocations, result: { (affinities) -> Void in
+            self.runnerAffinities = affinities
+            print("affinities: \(self.runnerAffinities)")
         })
     }
     
@@ -415,6 +407,14 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         self.optimizedRunners.considerConvenience(runnerLocations, result: { (conveniences) -> Void in
             self.runnerETAs = conveniences
             print("ETAs: \(self.runnerETAs)")
+        })
+    }
+    
+    // get the cheer counts for each runner
+    func updateRunnerCheers(_ runnerLocations: [PFUser: PFGeoPoint]) {
+        self.optimizedRunners.considerNeed(runnerLocations, result: { (needs) -> Void in
+            self.runnerCheers = needs
+            print("needs: \(self.runnerCheers)")
         })
     }
     
