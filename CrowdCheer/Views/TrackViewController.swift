@@ -147,7 +147,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
         })
         
-        //get runner profile after 4s  TODO: check if these should repeat or not -- I think not?
+        //get runner profile after 4s
         //tracking runner -- data + UI timers
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(intervalData)) {
             self.getRunnerProfile()
