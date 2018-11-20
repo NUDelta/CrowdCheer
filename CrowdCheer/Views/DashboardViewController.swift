@@ -340,24 +340,15 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                     
                     // target runner
                     if affinity.1 == 10 {
-                        if dist > 1000 { // if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
-                            self.addRunnerPin(runner, runnerType: 1)
-                            nearbyRunnersDisplayed.append(runner)
-                        }
-                        else if dist > 400 && dist <= 1000 { // if runner is between 500m-1.5km away (5/10k: 400-1000) (demo: 250-400m)
-                            self.addRunnerPin(runner, runnerType: 1)
-                            self.nearbyTargetRunners[runner.objectId!] = true
-                            nearbyRunnersDisplayed.append(runner)
-                        }
-                        else if dist <= 400 { // if runner is less than 500m away (5/10k: 400) (demo: 250m)
-                            self.nearbyRunnersTimer_data.invalidate()
+                        self.addRunnerPin(runner, runnerType: 1) // TODO: should technically be in UI loop -- for now just pop to main thread
+                        nearbyRunnersDisplayed.append(runner)
+                        if dist <= 1000 { // if runner is less than 1.5k away (5/10k: 1000m) (demo: 300m)
+                            self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
                             self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
                             self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
                             self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
-                            self.addRunnerPin(runner, runnerType: 1)
                             self.targetRunnerTrack.isEnabled = true
                             self.nearbyTargetRunners[runner.objectId!] = true
-                            nearbyRunnersDisplayed.append(runner)
                         }
                     }
                         
@@ -380,8 +371,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
         
         for (runner, runnerLoc) in runnerLocations {
-            
-
+        
             if runnerProfiles[runner.objectId!] == nil {
                 nearbyRunners.getRunnerProfile(runner.objectId!) { (runnerProfile) -> Void in
                     
