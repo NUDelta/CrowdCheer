@@ -257,30 +257,23 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         // checkProximityZone for runners at the race
         nearbyRunners = NearbyRunners()
+        self.nearbyGeneralRunners = [:]
+        self.nearbyTargetRunners = [:]
         nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
             
+            // if there are runners at the race, update their info
             // if there are no runners, set nearbyRunner state vars
-            if ((runnerLocations?.isEmpty) == true) {
-                self.areTargetRunnersNearby = false  //TODO: maybe update these in its own function
-                self.areRunnersNearby = false
-            }
+            if ((runnerLocations?.isEmpty) == false) {
                 
-            // else if there are runners at the race, update their info
-            else {
                 self.runnerLocations = runnerLocations!
-                
                 self.updateRunnerProfiles(runnerLocations!) // update any profile info not yet stored
                 self.updateRunnerAffinities(runnerLocations!) // update affinities (my runner vs other runners) for each runner
                 self.updateRunnerETAs(runnerLocations!) // update latest ETA of each runner
                 self.updateRunnerCheers(runnerLocations!) // update latest number of cheers each runner received
-                
-                self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
-                
-                //TODO: not sure we need these or where they go
-                self.updateNearbyRunnerStatus()
-                self.nearbyGeneralRunners = [:]
-                self.nearbyTargetRunners = [:]
             }
+                
+            self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
+            self.updateNearbyRunnerStatus() // update nearby runner state variables
         }
     }
     
@@ -352,7 +345,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         }
                     }
                         
-                        // not target runner
+                    // not target runner
                     else if affinity.1 != 10 {
                         if dist <= 700 { //if runner is less than 1k away (5/10k: 700m) (demo: 300m)
                             self.nearbyGeneralRunners[runner] = true
