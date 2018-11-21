@@ -279,9 +279,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func updateNearbyRunners_UI() {
         
-        // remove R* pins from map
-        removeRunnerPins()
-        
         // if there are no runners nearby, hide all runner placeholders
         if !self.areRunnersNearby && !self.areTargetRunnersNearby {
             self.targetRunnerPic.isHidden = true
@@ -308,7 +305,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             self.nonIdleTimeBanner.isHidden = true
         }
         
-        // if target runner was already set, update its labels
+        // reset R* map
+        removeRunnerPins()
+        
+        // if R* was already set, update its labels
         if self.targetRunner.username != nil {
             self.updateTargetRunnerStatus(self.targetRunner) //TODO: this function updates data & UI, should separate out
         }
@@ -353,11 +353,10 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                             nearbyRunnersDisplayed.append(runner)
                         }
                     }
-                    
-                    self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
                 }
             }
         }
+        self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
     }
     
     // get the name and picture for each runner in runnerLocations, store to runnerProfiles
