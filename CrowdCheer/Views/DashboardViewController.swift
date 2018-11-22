@@ -381,6 +381,50 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             newNotification["sentNotification"] = true
             newNotification["sentNotificationTimestamp"] = Date() as AnyObject
             newNotification.saveInBackground()
+            
+            // if there are any targetRunners nearby, notify spectator
+            for (runnerObjId, isNearby) in nearbyTargetRunners {
+                
+                if isNearby == true {
+                    
+                    let name =  getRunnerName(runnerObjId, runnerProfiles: self.runnerProfiles)
+                    if UIApplication.shared.applicationState == .background {
+                        
+                        let localNotification = UILocalNotification()
+                        let notificationID = arc4random_uniform(10000000)
+                        
+                        var spectatorInfo = [String: AnyObject]()
+                        
+                        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
+                        spectatorInfo["source"] = "dash_targetRunnerNotification" as AnyObject
+                        spectatorInfo["notificationID"] = notificationID as AnyObject
+                        spectatorInfo["receivedNotification"] = true as AnyObject
+                        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
+                        
+                        localNotification.alertBody =  name + " is nearby, view their status!"
+                        localNotification.soundName = UILocalNotificationDefaultSoundName
+                        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+                        
+                        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
+                        localNotification.userInfo = spectatorInfo
+                        
+                        sendLocalNotification_targetCount += 1
+                        if sendLocalNotification_targetCount<=3 {
+                            
+                            UIApplication.shared.presentLocalNotificationNow(localNotification)
+                            
+                            let newNotification = PFObject(className: "SpectatorNotifications")
+                            newNotification["spectator"] = localNotification.userInfo!["spectator"]
+                            newNotification["source"] = localNotification.userInfo!["source"]
+                            newNotification["notificationID"] = notificationID
+                            newNotification["sentNotification"] = true
+                            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
+                            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
+                            newNotification.saveInBackground()
+                        }
+                    }
+                }
+            }
         }
         
         else if isSpectatorIdle && !didSpectatorCheerRecently {
@@ -401,6 +445,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             newNotification["sentNotification"] = true
             newNotification["sentNotificationTimestamp"] = Date() as AnyObject
             newNotification.saveInBackground()
+            
         }
             
         else if isSpectatorIdle && didSpectatorCheerRecently {
@@ -618,62 +663,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func sendLocalNotification_target() {
-        
-        // done -- seems to log correct events in DB: use didReceive:withCompletion to handle event of opening a sent notification, not just receiving it
-        
-        if !isSpectatorIdle {
-            
-            for (runnerObjId, isNearby) in nearbyTargetRunners {
-                
-                if isNearby == true {
-                    
-                    let name =  getRunnerName(runnerObjId, runnerProfiles: self.runnerProfiles)
-                    
-                    if UIApplication.shared.applicationState == .background {
-                        
-                        let localNotification = UILocalNotification()
-                        let notificationID = arc4random_uniform(10000000)
-                        
-                        var spectatorInfo = [String: AnyObject]()
-                        
-                        spectatorInfo["spectator"] = PFUser.current()!.objectId as AnyObject
-                        spectatorInfo["source"] = "dash_targetRunnerNotification" as AnyObject
-                        spectatorInfo["notificationID"] = notificationID as AnyObject
-                        spectatorInfo["receivedNotification"] = true as AnyObject
-                        spectatorInfo["receivedNotificationTimestamp"] = Date() as AnyObject
-                        
-                        localNotification.alertBody =  name + " is nearby, view their status!"
-                        localNotification.soundName = UILocalNotificationDefaultSoundName
-                        localNotification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-                        
-                        spectatorInfo["unreadNotificationCount"] = localNotification.applicationIconBadgeNumber as AnyObject
-                        localNotification.userInfo = spectatorInfo
-                        
-                        sendLocalNotification_targetCount += 1
-                        if sendLocalNotification_targetCount<=3 {
-                            
-                            UIApplication.shared.presentLocalNotificationNow(localNotification)
-                            
-                            let newNotification = PFObject(className: "SpectatorNotifications")
-                            newNotification["spectator"] = localNotification.userInfo!["spectator"]
-                            newNotification["source"] = localNotification.userInfo!["source"]
-                            newNotification["notificationID"] = notificationID
-                            newNotification["sentNotification"] = true
-                            newNotification["sentNotificationTimestamp"] = Date() as AnyObject
-                            newNotification["unreadNotificationCount"] = localNotification.userInfo!["unreadNotificationCount"]
-                            newNotification.saveInBackground()
-                        }
-                    }
-                }
-            }
-        }
-            
-        else {
-            print("local notification: no target runners nearby")
-        }
-    }
-    
     // get the name and picture for each runner in runnerLocations, store to runnerProfiles
     func updateRunnerProfiles(_ runnerLocations: [PFUser: PFGeoPoint]) {
         
@@ -878,15 +867,14 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             self.targetRunner = runner
         }
         
-        contextPrimer.getRunnerLocation(runner) { (runnerLoc) -> Void in
-            let name = self.getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
-            let coordinate = runnerLoc
-            let title = name
-            let runnerObjID = runner.objectId
-            let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
-            let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title, type: type!, runnerObjID: runnerObjID!)
-            self.mapView.addAnnotation(annotation)
-        }
+        var runnerLoc = runnerLocations[runner]
+        let name = self.getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
+        let coordinate = CLLocationCoordinate2DMake((runnerLoc?.latitude)!, (runnerLoc?.longitude)!)
+        let title = name
+        let runnerObjID = runner.objectId
+        let type = RunnerType(rawValue: runnerType) //type would be 0 if any runner and 1 if it's my runner
+        let annotation = PickRunnerAnnotation(coordinate: coordinate, title: title, type: type!, runnerObjID: runnerObjID!)
+        self.mapView.addAnnotation(annotation)
     }
     
     func removeRunnerPins() {
