@@ -314,63 +314,53 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         // Flow 3.2.1.6.2 - for each runner, determine if target or general, and handle separately based on distance
                         for affinity in affinities {
                             if runner == affinity.0 {
-                                //Goal: Show target runners throughout the race
-                                if dist > 1000 { //if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
-                                    if affinity.1 == 10 { //if target runner, display runner
+                                
+                                if affinity.1 == 10 { //if target runner, display runner
+                                    if dist > 1000 { //if runner is more than 1.5km away (5/10k: 1000) (demo: 400m)
                                         self.addRunnerPin(runner, runnerType: 1)
                                         nearbyRunnersDisplayed.append(runner)
                                     }
-                                    else if affinity.1 != 10 { //if general runner, don't add them yet
-                                    }
-                                }
                                     
-                                    //Goal: Show all runners near me, including target runners
-                                else if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
-                                    if affinity.1 == 10 { //if target runner, display runner
+                                    else if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
                                     }
-                                    else if affinity.1 != 10 { //if general runner, display runner
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                        
-                                    }
-                                }
                                     
-                                    //Goal: if target runner is close, display target runners.
-                                else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
-                                    if affinity.1 == 10 { //if target runner, display runner
+                                    else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.nearbyTargetRunners[runner.objectId!] = true
                                         nearbyRunnersDisplayed.append(runner)
                                     }
-                                    else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
-                                }
                                     
-                                    //Goal: If target runner is close, show target runner & ramp up monitoring.
-                                else if dist <= 400 { //if runner is less than 500m away (5/10k: 400) (demo: 250m)
-                                    if affinity.1 == 10 { //if target runner, display runner & notify
-                                        
+                                    else if dist <= 400 { //if runner is less than 500m away (5/10k: 400) (demo: 250m)
                                         self.nearbyRunnersTimer.invalidate()
                                         self.nearbyRunnersTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(DashboardViewController.updateNearbyRunners), userInfo: nil, repeats: true)
                                         self.addRunnerPin(runner, runnerType: 1)
                                         self.targetRunnerTrack.isEnabled = true
                                         self.nearbyTargetRunners[runner.objectId!] = true
-//                                        self.disableGeneralRunners()
                                         nearbyRunnersDisplayed.append(runner)
                                     }
-                                    else if affinity.1 != 10 { //if general runner, check if target runner is nearby
-                                        
+                                }
+                                else if affinity.1 != 10 { //if general runner, don't add them yet
+                                    if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
                                         self.nearbyGeneralRunners[runner] = true
                                         self.updateGeneralRunnerStatus()
                                         nearbyRunnersDisplayed.append(runner)
                                     }
+                                    
+                                    else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
+                                        self.nearbyGeneralRunners[runner] = true
+                                        self.updateGeneralRunnerStatus()
+                                        nearbyRunnersDisplayed.append(runner)
+                                    }
+                                    
+                                    else if dist <= 400 { //if runner is less than 500m away (5/10k: 400) (demo: 250m)
+                                        self.nearbyGeneralRunners[runner] = true
+                                        self.updateGeneralRunnerStatus()
+                                        nearbyRunnersDisplayed.append(runner)
+                                    }
+
                                 }
                             }
                         }
