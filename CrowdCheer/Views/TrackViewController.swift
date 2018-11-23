@@ -361,9 +361,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 
                 if ETA <= 1 && !self.didSpectatorCheerTargetRecently {
                     self.myRunnerETA.text = self.targetRunnerName + " is <1 mi away"
-                    self.myRunnerETA.textColor = self.redLabel.textColor
-                    //notify
-                    self.sendLocalNotification_target(self.targetRunnerName)
+                    if self.trackedRunner.objectId != self.targetRunner.objectId {
+                        self.myRunnerETA.textColor = self.redLabel.textColor
+                        //notify
+                        self.sendLocalNotification_target(self.targetRunnerName)
+                    }
                 }
                     
                 else if ETA <= 1 && self.didSpectatorCheerTargetRecently {
