@@ -343,13 +343,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                                     }
                                 }
                                 else if affinity.1 != 10 { //if general runner, don't add them yet
-                                    if dist > 700 && dist <= 1000 { //if runner is between 1-1.5km away (5/10k: 700-1000) (demo: 300-400m)
-                                        self.nearbyGeneralRunners[runner] = true
-                                        self.updateGeneralRunnerStatus()
-                                        nearbyRunnersDisplayed.append(runner)
-                                    }
                                     
-                                    else if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
+                                    if dist > 400 && dist <= 700 { //if runner is between 500m - 1k away 400-700 for 5/10k) (demo: 250-300m)
                                         self.nearbyGeneralRunners[runner] = true
                                         self.updateGeneralRunnerStatus()
                                         nearbyRunnersDisplayed.append(runner)
