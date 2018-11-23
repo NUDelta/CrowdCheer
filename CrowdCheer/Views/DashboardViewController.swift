@@ -116,7 +116,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true)
-//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
+        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,7 +187,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: false)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: false)
-//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: false)
+        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: false)
         
         
         // every interval, log spectator loc and update nearby runners
@@ -195,7 +195,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true)
-//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
+        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
         
     }
     
@@ -242,7 +242,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 }
                 
                 self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
-                self.updateNearbyRunnerStatus() // update nearby runner state variables
+//                self.updateNearbyRunnerStatus() // update nearby runner state variables
                 self.updateIdleTime() // update idle time state variables
             }
         }
@@ -252,8 +252,9 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func updateNearbyRunners_UI() {
         DispatchQueue.main.async {
             // if there are no runners nearby, hide all runner placeholders
+            self.updateNearbyRunnerStatus() // update nearby runner state variables
+            
             if !self.areRunnersNearby && !self.areTargetRunnersNearby {
-                
                 self.clearTargetDashboard()
                 self.clearGeneralDashboard()
             }
@@ -292,15 +293,18 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         
                         // target runner
                         if affinity.1 == 10 {
-                            self.addRunnerPin(runner, runnerType: 1) // TODO: should technically be in UI loop -- for now just pop to main thread
+                            DispatchQueue.main.async {
+                                self.addRunnerPin(runner, runnerType: 1)
+                            }
+                            
                             nearbyRunnersDisplayed.append(runner)
                             self.nearbyTargetRunners[runner.objectId!] = false
                             
                             if dist <= 300 { // if runner is less than 1.5k away (5/10k: 1000m) (demo: 300m)
-                                self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
-                                self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
-                                self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
-                                self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
+//                                self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
+//                                self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
+//                                self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
+//                                self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
                                 self.targetRunnerTrack.isEnabled = true
                                 self.nearbyTargetRunners[runner.objectId!] = true
                             }
@@ -370,6 +374,8 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         else {
             self.isSpectatorIdle = false // if we don't detect R* runners, then assume they are not idle
         }
+        
+        print("isSpectatorIdle? \(isSpectatorIdle)")
     }
     
     func updateTargetRunnerStatus(_ runner: PFUser) {
@@ -804,7 +810,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func clearTargetDashboard() {
         //hide all target runner labels + banners
-        print("clearning target from dash")
+        print("clearing target from dash")
         targetRunnerPic.isHidden = true
         targetRunnerName.isHidden = false //NOTE: loading label when no runner
         targetRunnerETA.isHidden = true
@@ -818,7 +824,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func clearGeneralDashboard() {
         //hide all general runner labels + banners
-        print("clearning general from dash")
+        print("clearing general from dash")
         general1RunnerPic.isHidden = true
         general1RunnerName.isHidden = true
         general1RunnerETA.isHidden = true
