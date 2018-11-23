@@ -495,7 +495,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         }
         else {
             self.areTargetRunnersNearby = false
-            self.targetRunnerName.text = "no runner"
+//            self.targetRunnerName.text = "no runner"
         }
     }
     
