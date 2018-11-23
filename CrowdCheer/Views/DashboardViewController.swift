@@ -60,7 +60,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     var isSpectatorIdle: Bool = Bool()
     var didSpectatorCheerRecently: Bool = Bool()
     var targetRunnerNameText: String = ""
-    var nearbyTargetRunners = [String: Bool]()
+    var nearbyTargetRunners = [PFUser: Bool]()
     var nearbyGeneralRunners = [PFUser: Bool]()
     var intervalData: Int = Int()
     var intervalUI: Int = Int()
@@ -151,7 +151,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         clearTargetDashboard()
         clearGeneralDashboard()
         
-        isSpectatorIdle = true // TODO: might want to just call updateIdleTime and updateNearbyRunnerStatus for these
+        isSpectatorIdle = true
         didSpectatorCheerRecently = false
         areTargetRunnersNearby = false
         areRunnersNearby = false
@@ -242,8 +242,6 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                 }
                 
                 self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
-//                self.updateNearbyRunnerStatus() // update nearby runner state variables
-                self.updateIdleTime() // update idle time state variables
             }
         }
         
@@ -253,6 +251,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         DispatchQueue.main.async {
             // if there are no runners nearby, hide all runner placeholders
             self.updateNearbyRunnerStatus() // update nearby runner state variables
+            self.updateIdleTime() // update idle time state variables
             
             if !self.areRunnersNearby && !self.areTargetRunnersNearby {
                 self.clearTargetDashboard()
@@ -294,19 +293,21 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         // target runner
                         if affinity.1 == 10 {
                             DispatchQueue.main.async {
+                                // reset R* map
+                                self.removeRunnerPins()
                                 self.addRunnerPin(runner, runnerType: 1)
                             }
                             
                             nearbyRunnersDisplayed.append(runner)
-                            self.nearbyTargetRunners[runner.objectId!] = false
+                            self.nearbyTargetRunners[runner] = false
                             
                             if dist <= 300 { // if runner is less than 1.5k away (5/10k: 1000m) (demo: 300m)
-//                                self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
-//                                self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
-//                                self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
-//                                self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
+                                self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
+                                self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
+                                self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
+                                self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
                                 self.targetRunnerTrack.isEnabled = true
-                                self.nearbyTargetRunners[runner.objectId!] = true
+                                self.nearbyTargetRunners[runner] = true
                             }
                         }
                             
@@ -354,25 +355,29 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         
         if (self.areRunnersNearby && self.areTargetRunnersNearby) || self.areTargetRunnersNearby {
             let ETA = getRunnerETA(self.targetRunner) // TODO: make sure passing target runner is safe (not empty, "right" target runner aka the one displayed or pass all target runners and loop through them later
+            
             verifiedDelivery = VerifiedDelivery()
-            self.verifiedDelivery.didSpectatorCheerRecently(self.targetRunner) { (didCheerRecently) -> Void in
-                
-                self.didSpectatorCheerRecently = didCheerRecently
-                
-                if ETA <= 1 && !self.didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
-                    self.isSpectatorIdle = false
-                }
-                else if ETA <= 1 && self.didSpectatorCheerRecently  {
-                    self.isSpectatorIdle = true
-                }
-                else if ETA > 1 {
-                    self.isSpectatorIdle = true
+            
+            DispatchQueue.global(qos: .utility).async {
+                self.verifiedDelivery.didSpectatorCheerRecently(self.targetRunner) { (didCheerRecently) -> Void in
+                    
+                    self.didSpectatorCheerRecently = didCheerRecently
+                    
+                    if ETA <= 1 && !self.didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
+                        self.isSpectatorIdle = false
+                    }
+                    else if ETA <= 1 && self.didSpectatorCheerRecently  {
+                        self.isSpectatorIdle = true
+                    }
+                    else if ETA > 1 {
+                        self.isSpectatorIdle = true
+                    }
                 }
             }
         }
         
         else {
-            self.isSpectatorIdle = false // if we don't detect R* runners, then assume they are not idle
+            self.isSpectatorIdle = true // if we don't detect runners, then assume they are idle
         }
         
         print("isSpectatorIdle? \(isSpectatorIdle)")
@@ -413,11 +418,11 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
             newNotification.saveInBackground()
             
             // if there are any targetRunners nearby, notify spectator
-            for (runnerObjId, isNearby) in nearbyTargetRunners {
+            for (runner, isNearby) in nearbyTargetRunners {
                 
                 if isNearby == true {
-                    
-                    let name =  getRunnerName(runnerObjId, runnerProfiles: self.runnerProfiles)
+
+                    let name =  getRunnerName(runner.objectId!, runnerProfiles: self.runnerProfiles)
                     if UIApplication.shared.applicationState == .background {
                         
                         let localNotification = UILocalNotification()
