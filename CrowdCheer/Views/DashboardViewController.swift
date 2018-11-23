@@ -116,7 +116,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true)
-        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,7 +187,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: false)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: false)
-        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: false)
+//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: false)
         
         
         // every interval, log spectator loc and update nearby runners
@@ -195,7 +195,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
         userMonitorTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.monitorUser_UI), userInfo: nil, repeats: true)
         
         nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: Double(intervalData), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true)
-        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
+//        nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: Double(intervalUI), target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true)
         
     }
     
@@ -223,93 +223,108 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     func updateNearbyRunners_data() {
         
         // checkProximityZone for runners at the race
-        nearbyRunners = NearbyRunners()
-        nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
-            
-            // if there are runners at the race, update their info
-            // if there are no runners, set nearbyRunner state vars
-            if ((runnerLocations?.isEmpty) == false) {
-                
-                self.runnerLocations = runnerLocations!
-                self.updateRunnerProfiles(runnerLocations!) // update any profile info not yet stored
-                self.updateRunnerAffinities(runnerLocations!) // update affinities (my runner vs other runners) for each runner
-                self.updateRunnerETAs(runnerLocations!) // update latest ETA of each runner
-                self.updateRunnerCheers(runnerLocations!) // update latest number of cheers each runner received
-            }
-            
-            self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
-            self.updateNearbyRunnerStatus() // update nearby runner state variables
-            self.updateIdleTime() // update idle time state variables
+        DispatchQueue.main.async {
+            self.nearbyRunners = NearbyRunners()
         }
+        
+        DispatchQueue.global(qos: .utility).async {
+            self.nearbyRunners.checkProximityZone(){ (runnerLocations) -> Void in
+                
+                // if there are runners at the race, update their info
+                // if there are no runners, set nearbyRunner state vars
+                if ((runnerLocations?.isEmpty) == false) {
+                    
+                    self.runnerLocations = runnerLocations!
+                    self.updateRunnerProfiles(runnerLocations!) // update any profile info not yet stored
+                    self.updateRunnerAffinities(runnerLocations!) // update affinities (my runner vs other runners) for each runner
+                    self.updateRunnerETAs(runnerLocations!) // update latest ETA of each runner
+                    self.updateRunnerCheers(runnerLocations!) // update latest number of cheers each runner received
+                }
+                
+                self.updateNearbyRunnerOpportunities(self.runnerLocations) // now that we have all the nearby runners and their data, update opportunities lists
+                self.updateNearbyRunnerStatus() // update nearby runner state variables
+                self.updateIdleTime() // update idle time state variables
+            }
+        }
+        
     }
     
     func updateNearbyRunners_UI() {
-        
-        // if there are no runners nearby, hide all runner placeholders
-        if !self.areRunnersNearby && !self.areTargetRunnersNearby {
+        DispatchQueue.main.async {
+            // if there are no runners nearby, hide all runner placeholders
+            if !self.areRunnersNearby && !self.areTargetRunnersNearby {
+                
+                self.clearTargetDashboard()
+                self.clearGeneralDashboard()
+            }
             
-            clearTargetDashboard()
-            clearGeneralDashboard()
-        }
-        
-        // if R* was already set, update its labels
-        if self.targetRunner.username != nil {
-            self.updateTargetRunnerStatus(self.targetRunner) //TODO: this function updates data & UI, should separate out -- for now we can just execute with UI on main thread
+            else {
+                self.updateGeneralRunnerStatus()
+                // if R* was already set, update its labels
+                if self.targetRunner.username != nil {
+                    self.updateTargetRunnerStatus(self.targetRunner)
+                }
+            }
         }
     }
 
     func updateNearbyRunnerOpportunities(_ runnerLocations: [PFUser: PFGeoPoint]) {
         // add nearby runners to R* and R opportunity lists
         
+        print("updateNearbyRunnerOpps: runnerLocations are \(runnerLocations)")
+        
         var nearbyRunnersDisplayed: [PFUser] = []
         self.nearbyGeneralRunners = [:]
         self.nearbyTargetRunners = [:]
         
         // handle runners based on affinity and distance
-        for (runner, runnerLoc) in self.runnerLocations {
-            
-            // calculate the distance between spectator and a runner
-            let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
-            let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
-            print(runner.username!, dist)
-            
-            // for each runner, determine if target or general, and handle separately based on distance
-            for affinity in self.runnerAffinities {
-                if runner == affinity.0 {
-                    
-                    // target runner
-                    if affinity.1 == 10 {
-                        self.addRunnerPin(runner, runnerType: 1) // TODO: should technically be in UI loop -- for now just pop to main thread
-                        nearbyRunnersDisplayed.append(runner)
-                        self.nearbyTargetRunners[runner.objectId!] = false
+        if !runnerLocations.isEmpty {
+            for (runner, runnerLoc) in runnerLocations {
+                
+                // calculate the distance between spectator and a runner
+                let runnerCLLoc = CLLocation(latitude: runnerLoc.latitude, longitude: runnerLoc.longitude)
+                let dist = runnerCLLoc.distance(from: self.optimizedRunners.locationMgr.location!)
+                print(runner.username!, dist)
+                
+                // for each runner, determine if target or general, and handle separately based on distance
+                for affinity in self.runnerAffinities {
+                    if runner == affinity.0 {
                         
-                        if dist <= 1000 { // if runner is less than 1.5k away (5/10k: 1000m) (demo: 300m)
-                            self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
-                            self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
-                            self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
-                            self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
-                            self.targetRunnerTrack.isEnabled = true
-                            self.nearbyTargetRunners[runner.objectId!] = true
-                        }
-                    }
-                        
-                    // not target runner
-                    else if affinity.1 != 10 {
-                        if dist <= 700 { //if runner is less than 1k away (5/10k: 700m) (demo: 300m)
-                            self.nearbyGeneralRunners[runner] = true
-                            self.updateGeneralRunnerStatus()
+                        // target runner
+                        if affinity.1 == 10 {
+                            self.addRunnerPin(runner, runnerType: 1) // TODO: should technically be in UI loop -- for now just pop to main thread
                             nearbyRunnersDisplayed.append(runner)
+                            self.nearbyTargetRunners[runner.objectId!] = false
+                            
+                            if dist <= 300 { // if runner is less than 1.5k away (5/10k: 1000m) (demo: 300m)
+                                self.nearbyRunnersTimer_data.invalidate() // TODO: think about ramping up notification timers too
+                                self.nearbyRunnersTimer_UI.invalidate() // TODO: are we resetting these back to the longer interval once the runner has passed by?
+                                self.nearbyRunnersTimer_data = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_data), userInfo: nil, repeats: true) // ramp up monitoring
+                                self.nearbyRunnersTimer_UI = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DashboardViewController.updateNearbyRunners_UI), userInfo: nil, repeats: true) // ramp up monitoring
+                                self.targetRunnerTrack.isEnabled = true
+                                self.nearbyTargetRunners[runner.objectId!] = true
+                            }
+                        }
+                            
+                            // not target runner
+                        else if affinity.1 != 10 {
+                            if dist <= 300 { //if runner is less than 1k away (5/10k: 700m) (demo: 300m)
+                                self.nearbyGeneralRunners[runner] = true
+                                nearbyRunnersDisplayed.append(runner)
+                            }
                         }
                     }
                 }
             }
+            
+            self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
         }
-        
-        self.optimizedRunners.saveDisplayedRunners(nearbyRunnersDisplayed)
     }
     
     func updateNearbyRunnerStatus() {
         // update state of nearby R and R* runners
+        
+        print("updateNearbyRunnerStatus")
         
         if !self.nearbyGeneralRunners.isEmpty {
             self.areRunnersNearby = true
@@ -330,21 +345,30 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateIdleTime() {
-        let ETA = getRunnerETA(self.targetRunner) // TODO: make sure passing target runner is safe (not empty, "right" target runner aka the one displayed or pass all target runners and loop through them later
-        verifiedDelivery = VerifiedDelivery()
-        self.verifiedDelivery.didSpectatorCheerRecently(self.targetRunner) { (didCheerRecently) -> Void in
-            
-            self.didSpectatorCheerRecently = didCheerRecently
-            
-            if ETA <= 1 && !self.didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
-                self.isSpectatorIdle = false
+        
+        print("updateIdleTime")
+        
+        if (self.areRunnersNearby && self.areTargetRunnersNearby) || self.areTargetRunnersNearby {
+            let ETA = getRunnerETA(self.targetRunner) // TODO: make sure passing target runner is safe (not empty, "right" target runner aka the one displayed or pass all target runners and loop through them later
+            verifiedDelivery = VerifiedDelivery()
+            self.verifiedDelivery.didSpectatorCheerRecently(self.targetRunner) { (didCheerRecently) -> Void in
+                
+                self.didSpectatorCheerRecently = didCheerRecently
+                
+                if ETA <= 1 && !self.didSpectatorCheerRecently { //if they are nearby and I did not just cheer for them
+                    self.isSpectatorIdle = false
+                }
+                else if ETA <= 1 && self.didSpectatorCheerRecently  {
+                    self.isSpectatorIdle = true
+                }
+                else if ETA > 1 {
+                    self.isSpectatorIdle = true
+                }
             }
-            else if ETA <= 1 && self.didSpectatorCheerRecently  {
-                self.isSpectatorIdle = true
-            }
-            else if ETA > 1 {
-                self.isSpectatorIdle = true
-            }
+        }
+        
+        else {
+            self.isSpectatorIdle = false // if we don't detect R* runners, then assume they are not idle
         }
     }
     
@@ -605,7 +629,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
                         timeSinceLastNotification = now.timeIntervalSince(lastGeneralRunnerNotificationTime as Date) + 2
                     }
                     
-                    if timeSinceLastNotification >= 60*10 { //demo: 60*1, regularly = 60*10
+                    if timeSinceLastNotification >= 60*1 { //demo: 60*1, regularly = 60*10
                         if self.targetRunner.username != nil {
                             let ETA = String(getRunnerETA(self.targetRunner))
                             let name = getRunnerName(self.targetRunner.objectId!, runnerProfiles: self.runnerProfiles)
@@ -780,6 +804,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func clearTargetDashboard() {
         //hide all target runner labels + banners
+        print("clearning target from dash")
         targetRunnerPic.isHidden = true
         targetRunnerName.isHidden = false //NOTE: loading label when no runner
         targetRunnerETA.isHidden = true
@@ -793,6 +818,7 @@ class DashboardViewController: UIViewController, MKMapViewDelegate {
     
     func clearGeneralDashboard() {
         //hide all general runner labels + banners
+        print("clearning general from dash")
         general1RunnerPic.isHidden = true
         general1RunnerName.isHidden = true
         general1RunnerETA.isHidden = true
